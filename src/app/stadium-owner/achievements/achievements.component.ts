@@ -21,7 +21,7 @@ export class AchievementsComponent {
   
 cards= [
   {
-   subtiitle : 'TOtal Achievements Unlocked',
+   subtiitle : 'Total Achievements Unlocked',
    value : 120,
    backgroundColor : '#F3A4A4',
   },

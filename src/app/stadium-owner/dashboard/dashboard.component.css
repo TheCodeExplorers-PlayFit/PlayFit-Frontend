@@ -13,6 +13,9 @@
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 15rem !important; /* Forces consistent width */
+    flex: 0 0 15rem; /* Prevents shrinking */
+    text-align: center;
   }
   
   .card h3 {
@@ -33,6 +36,19 @@
     margin-top: 0.5rem;
   }
   
+
+  .d-flex {
+    display: flex;
+    flex-wrap: nowrap;  /* Prevents wrapping */
+    overflow-x: auto;   /* Allows horizontal scrolling if needed */
+    gap: 1rem;
+}
+
+.card-container {
+    flex: 0 0 auto; /* Prevents cards from shrinking */
+    width: 15rem; /* Ensures all cards have a fixed width */
+}
+
   .red { background-color: #F3A4A4; }
   .blue { background-color: #C0C0DE; }
   .green { background-color: #CFEDC6; }
