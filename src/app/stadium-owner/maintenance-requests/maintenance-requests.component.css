@@ -1,0 +1,39 @@
+/* dashboard-cards.component.css */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card {
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h3 {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card p {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  .card .learn-more {
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+  
+  .red { background-color: #F3A4A4; }
+  .blue { background-color: #C0C0DE; }
+  .green { background-color: #CFEDC6; }
+  .pink { background-color: #F9C8F1; }

@@ -1,0 +1,24 @@
+<!-- cards -->
+<div class="d-flex justify-content-start gap-4 flex-nowrap " [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
+    <div class="card-container mx-3" *ngFor="let card of cards">
+        <div class="card" style="width: 15rem;" [style.backgroundColor]="card.backgroundColor">
+            <div class="card-body">
+              <h2 class="card-subtitle mb-2 text-muted">{{card.subtiitle}}</h2>
+              <hr>
+              <h2 class="card-title">{{card.value}}</h2>  
+      
+             <div class="d-flex justify-content-between align-items-center">
+              
+            
+    
+            </div>
+          
+            </div>
+          </div>
+    </div>
+
+    
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  
