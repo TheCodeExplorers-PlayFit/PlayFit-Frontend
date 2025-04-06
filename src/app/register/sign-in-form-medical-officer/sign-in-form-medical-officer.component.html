@@ -1,0 +1,67 @@
+<div class="signup-container">
+  <!-- Left Section: Image -->
+  <div class="left-section">
+    <img src="https://i.postimg.cc/FHdKFZmm/c14df25b7b8798e175fa54d794f18618.jpg" alt="Medical Officer Background" class="background-image">
+  </div>
+
+  <!-- Right Section: Form -->
+  <div class="right-section">
+    <h1 class="form-title">Medical Officer Information</h1>
+    <p class="subtitle">Provide the necessary details to register as a medical officer</p>
+
+    <!-- Mobile Number -->
+    <div class="form-group">
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" placeholder="Enter your mobile number" class="input-field">
+    </div>
+
+    <!-- Age -->
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="number" id="age" placeholder="Enter your age" class="input-field">
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select id="gender" class="input-field">
+        <option value="" disabled selected>Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <!-- NIC -->
+    <div class="form-group">
+      <label for="nic">NIC Number</label>
+      <input type="text" id="nic" placeholder="Enter your NIC number" class="input-field">
+    </div>
+
+    <!-- Medical Officer Verification -->
+    <div class="form-group">
+      <label>Medical Officer Verification</label>
+      <p class="hint-text">To verify your designation as a Medical Officer, please upload the necessary proof documents.</p>
+      <p class="hint-text warning">Only scanned copies of original documents can be uploaded.</p>
+      <div class="file-upload-box">
+        <div class="file-upload-content">
+          <span>Drag and drop or <a href="#" class="accent-link">browse</a> files</span>
+          <input type="file" class="hidden-file-input">
+        </div>
+      </div>
+      <textarea placeholder="Additional information (if any)" class="input-field textarea-field"></textarea>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <div class="form-group terms-group">
+      <input type="checkbox" id="terms">
+      <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
+    </div>
+
+    <!-- Submit Button -->
+    <button class="primary-btn">Sign Up</button>
+
+    <!-- Already Have an Account -->
+    <p class="account-text">Already have an account? <a routerLink="/signin" class="accent-link">Sign In</a></p>
+  </div>
+</div>
