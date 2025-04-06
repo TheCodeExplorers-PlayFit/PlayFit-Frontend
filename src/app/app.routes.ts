@@ -1,5 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
+import { DashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
+import { AppointmentsComponent } from './healthOfficer/sidebar/appointments/appointments.component';
+import { RecordInjuriesComponent } from './healthOfficer/sidebar/record-injuries/record-injuries.component';
+import { PlayersHealthRecordsComponent } from './healthOfficer/sidebar/players-health-records/players-health-records.component';
+import { BlogsComponent } from './healthOfficer/sidebar/blogs/blogs.component';
+import { SafetyAdviceComponent } from './healthOfficer/sidebar/safety-advice/safety-advice.component';
+import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.component';
+import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
+import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 import { HomeComponent } from './nav-bar/home/home.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
 import { SignInFormComponent } from './register/sign-in-form/sign-in-form.component';
@@ -11,13 +20,25 @@ import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-i
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'sign-in', component: SignInPageComponent},
-    { path: 'signin', component:SignInPageComponent},
-    { path: 'signup', component:RoleSelectionComponent},
+    { path: 'sign-in', component: SignInPageComponent },
+    { path: 'signin', component: SignInPageComponent },
+    { path: 'signup', component: RoleSelectionComponent },
     { path: 'sign-in-form-common', component: SignInFormCommonComponent },
     { path: 'sign-in-form', component: SignInFormComponent },
     { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
     { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
     { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
+
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'appointments', component: AppointmentsComponent },
+    { path: 'recordInjuries', component: RecordInjuriesComponent },
+    { path: 'playersHealthRecords', component: PlayersHealthRecordsComponent },
+    { path: 'blogs', component: BlogsComponent },
+    { path: 'safetyAdvice', component: SafetyAdviceComponent },
+    { path: 'safetyAdvice-create', component: SafetyAdviceCreateComponent },
+    { path: 'settings', component: SettingsComponent },
+    { path: 'signOut', component: SignOutComponent },
+
     { path: '**', redirectTo: '' } 
 ];
+

@@ -1,0 +1,63 @@
+<h1 [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">Add Safety Advice & Tips</h1>
+<h6 [style.marginLeft]="marginLeft">Share your expertise on sports health, recovery, and wellness.</h6>
+<br>
+
+<div class="blogpost container" >
+    <div class="bd-example" [style.marginLeft]="marginLeft">
+        <form>
+            <!-- blog title -->
+          <div class="form-group" [ngStyle]="{'width':contentWidth}">
+            <label for="inputTitle">Enter Blog Title</label> <br>  <br>
+            <input type="text" class="form-control" id="inputTitle" [placeholder]="placeholder1" [ngStyle]="{'background-color':bgColor}">
+          </div>
+          <br>
+          <!-- Category -->
+          <div class="form-group  position-relative" [ngStyle]="{'width':contentWidth}">
+            <label for="inputCategory">Category</label><br><br>
+            
+            <div class="dropdown-wrapper">
+            <select class="form-control" id="inputCategory" [ngStyle]="{'background-color':bgColor}"> 
+              <option *ngFor="let categories of categoryList">{{categories}}</option>
+            </select>
+            <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
+          </div>
+          </div>
+          <br>
+
+        <!-- blog content -->
+        <div class="form-group" [ngStyle]="{'width':contentWidth}">
+          <label for="inputcontent">Blog Content</label> <br>  <br>
+                <!-- Toolbar for Formatting -->
+      <div class="toolbar" [ngStyle]="{'width':contentWidth}">
+        <button type="button" (click)="formatText('bold')"><i class="bi bi-type-bold"></i></button>
+        <button type="button" (click)="formatText('italic')"><i class="bi bi-type-italic"></i></button>
+        <button type="button" (click)="formatText('underline')"><i class="bi bi-type-underline"></i></button>
+        <button type="button" (click)="formatText('insertOrderedList')"><i class="bi bi-list-ol"></i></button>
+        <button type="button" (click)="formatText('insertUnorderedList')"><i class="bi bi-list-ul"></i></button>
+        <button type="button" (click)="undo()"><i class="bi bi-arrow-counterclockwise"></i></button>
+        <button type="button" (click)="redo()"><i class="bi bi-arrow-clockwise"></i></button>
+      </div>
+      <div contenteditable="true" class="form-control" #editor [ngStyle]="{'background-color':bgColor,'height':marginLeft}" > 
+      </div> 
+         
+        </div>
+        <br>
+
+        <!-- feature image -->
+        <div class="form-group" [ngStyle]="{'width':contentWidth}">
+          <label for="inputImage">Featured Image</label> <br>  
+           <small class="form-text text-muted">Upload button to add a thumbnail image</small> <br><br>
+            <input class="form-control" type="file" id="inputImage" [ngStyle]="{'background-color':bgColor}" >
+            <small class="form-text" [ngStyle]="{'color':textred}">supports JPG, JPEG, PNG</small> 
+        </div>
+        <br>
+ 
+        <button type="submit" class="btn btn-primary " [ngStyle]="{'background-color': primaryColor, 'border-color': primaryColor,'width':buttonWidth}"><a  [routerLink]="'/safetyAdvice'" routerLinkActive="active" style="text-decoration: none;" [style.color]="pureWhite">Publish</a></button>
+        <button type="submit" class="btn btn-primary mx-2" [ngStyle]="{'background-color':pureWhite,'color': primaryColor, 'border-color': primaryColor,'width':buttonWidth}">Cancel</button>
+        </form>
+        </div>
+</div>
+
+<!-- bootstrap-icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<router-outlet></router-outlet>

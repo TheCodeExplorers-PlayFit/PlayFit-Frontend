@@ -1,0 +1,18 @@
+
+
+  .dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents interaction */
+    font-size: 16px;
+    color: #6c757d; /* Bootstrap default text color */
+  }
+  
