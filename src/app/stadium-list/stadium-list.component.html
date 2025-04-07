@@ -1,0 +1,13 @@
+<p>stadium-list works!</p>
+<div class="stadium-list-container">
+    <h2>Stadiums available in Moratuwa area</h2>
+    <div class="stadium-grid">
+      <div *ngFor="let stadium of stadiums" class="stadium-card">
+        <img [src]="stadium.images[0]" alt="{{stadium.name}}" width="300">
+        <h3>{{stadium.name}}</h3>
+        <p>{{stadium.description}}</p>
+         <a routerLink="/stadium-detail" routerLinkActive="active">Read more</a>
+      </div>
+    </div>
+  </div>
+  
