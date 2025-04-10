@@ -1,0 +1,107 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 80px;
+  }
+  
+  .content {
+    padding: 30px;
+    background: #fff;
+    width: 100%;
+    max-width: 500px; /* Adjust as needed for form width */
+  }
+  
+    
+    .sidebar {
+      width: 250px;
+      background: #f8f9fa;
+      padding: 20px;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar ul li {
+      padding: 10px;
+      cursor: pointer;
+    }
+    
+    .sidebar .active {
+      font-weight: bold;
+      color: #000080;
+    }
+    
+    .bottom-links {
+      margin-top: 50px;
+    }
+    
+    .content {
+      flex: 1;
+      padding: 30px;
+      background: #fff;
+    }
+    
+    h2 {
+      font-size: 24px;
+    }
+    
+    p {
+      font-size: 14px;
+      color: gray;
+    }
+    
+    form {
+      max-width: 500px;
+    }
+    
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    .upload-box {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      border: 2px dashed #ccc;
+      margin-top: 10px;
+    }
+    
+    .map-box img {
+      width: 100%;
+      margin-top: 10px;
+    }
+   
+    
+    .terms {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    
+    .terms input {
+      margin-right: 10px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #000080;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    

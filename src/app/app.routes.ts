@@ -1,16 +1,23 @@
 import { Routes } from '@angular/router';
 
-// ===== COACH (225011V) =====
+// ===== STADIUM OWNER =====
+import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
+import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.component';
+import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
+import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
+import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
+
+// ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
 import { ScheduleSelectorComponent } from './coach/schedule-selector/schedule-selector.component';
 import { StadiumListComponent } from './coach/stadium-list/stadium-list.component';
 import { StadiumDetailComponent } from './coach/stadium-detail/stadium-detail.component';
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
-import { ComplaintsComponent } from './coach/complaints/complaints.component';
+import { ComplaintsComponent as CoachComplaintsComponent } from './coach/complaints/complaints.component';
 
 // ===== HEALTH OFFICER =====
-import { DashboardComponent as HealthDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
+import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
 import { AppointmentsComponent } from './healthOfficer/sidebar/appointments/appointments.component';
 import { RecordInjuriesComponent } from './healthOfficer/sidebar/record-injuries/record-injuries.component';
 import { PlayersHealthRecordsComponent } from './healthOfficer/sidebar/players-health-records/players-health-records.component';
@@ -31,7 +38,6 @@ import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 
 export const routes: Routes = [
-
   // ===== COMMON ROUTES =====
   { path: '', component: HomeComponent },
   { path: 'sign-in', component: SignInPageComponent },
@@ -50,10 +56,17 @@ export const routes: Routes = [
   { path: 'coach/stadium-detail', component: StadiumDetailComponent },
   { path: 'coach/dashboard', component: CoachDashboardComponent },
   { path: 'coach/private-playing-requests', component: PrivateRequestsComponent },
-  { path: 'coach/complaints', component: ComplaintsComponent },
+  { path: 'coach/complaints', component: CoachComplaintsComponent },
+
+  // ===== STADIUM OWNER ROUTES =====
+  { path: 'stadium-owner/dashboard', component: StadiumOwnerDashboardComponent },
+  { path: 'stadium-owner/add-stadium', component: AddStadiumComponent },
+  { path: 'stadium-owner/complaints', component: ComplaintsComponent },
+  { path: 'stadium-owner/achievements', component: AchievementsComponent },
+  { path: 'stadium-owner/maintenance-requests', component: MaintenanceRequestsComponent },
 
   // ===== HEALTH OFFICER ROUTES =====
-  { path: 'health/dashboard', component: HealthDashboardComponent },
+  { path: 'health/dashboard', component: HealthOfficerDashboardComponent },
   { path: 'health/appointments', component: AppointmentsComponent },
   { path: 'health/record-injuries', component: RecordInjuriesComponent },
   { path: 'health/players-health-records', component: PlayersHealthRecordsComponent },
