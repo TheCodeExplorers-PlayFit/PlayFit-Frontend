@@ -1,0 +1,89 @@
+<div class="schedule-container">
+    <h2>Select your preferred dates and times for this week</h2>
+  
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <button
+              *ngFor="let timeSlot of mondaySlots"
+              (click)="selectSlot('Monday', timeSlot)"
+              [class.selected]="isSlotSelected('Monday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of tuesdaySlots"
+              (click)="selectSlot('Tuesday', timeSlot)"
+              [class.selected]="isSlotSelected('Tuesday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of wednesdaySlots"
+              (click)="selectSlot('Wednesday', timeSlot)"
+              [class.selected]="isSlotSelected('Wednesday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of thursdaySlots"
+              (click)="selectSlot('Thursday', timeSlot)"
+              [class.selected]="isSlotSelected('Thursday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of fridaySlots"
+              (click)="selectSlot('Friday', timeSlot)"
+              [class.selected]="isSlotSelected('Friday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of saturdaySlots"
+              (click)="selectSlot('Saturday', timeSlot)"
+              [class.selected]="isSlotSelected('Saturday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+          <td>
+            <button
+              *ngFor="let timeSlot of sundaySlots"
+              (click)="selectSlot('Sunday', timeSlot)"
+              [class.selected]="isSlotSelected('Sunday', timeSlot)"
+            >
+              {{ timeSlot }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="button-container">
+      <button class="select-button">Book another stadium</button>
+      <button class="another-button" (click)="navigateToBookingHistory()"><a routerLink="/booking" routerLinkActive="active">Done Booking</a></button>
+    </div>
+  </div>
