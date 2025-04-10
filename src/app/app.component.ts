@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { SidebarComponent } from "./healthOfficer/sidebar/sidebar.component";
-import { SignInFormComponent } from './healthOfficer/sign-in-form/sign-in-form.component';
-
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [SidebarComponent,SignInFormComponent],
+  standalone: true,
+  imports: [SidebarComponent, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'Sports-Management-System';
-  ifRegisted : boolean =true;
+  ifRegistered: boolean = true;
 }
