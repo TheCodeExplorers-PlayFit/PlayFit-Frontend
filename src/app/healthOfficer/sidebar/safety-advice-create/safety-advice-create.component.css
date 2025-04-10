@@ -1,0 +1,39 @@
+.dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents interaction */
+    font-size: 16px;
+    color: #6c757d; /* Bootstrap default text color */
+  }
+  
+  /* Toolbar Styling */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    background: #f8f8f8;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: fit-content;
+  }
+  
+  .toolbar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+  }
+  
+  .toolbar button:hover {
+    color: #000080;
+  }

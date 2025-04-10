@@ -1,0 +1,48 @@
+<div class="signup-container">
+  <!-- Left Section: Image -->
+  <div class="left-section">
+    <img src="https://i.postimg.cc/FHdKFZmm/c14df25b7b8798e175fa54d794f18618.jpg" alt="Sign Up Background" class="background-image">
+  </div>
+
+  <!-- Right Section: Form -->
+  <div class="right-section">
+    <h1 class="form-title">Create an Account</h1>
+
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" [(ngModel)]="userData.firstName" placeholder="Enter your first name" class="input-field">
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" [(ngModel)]="userData.lastName" placeholder="Enter your last name" class="input-field">
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" [(ngModel)]="userData.email" placeholder="Enter your email" class="input-field">
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" [(ngModel)]="userData.password" placeholder="Enter your password" class="input-field">
+      <p class="hint-text">Must contain at least 8 characters</p>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <div class="form-group terms-group">
+      <input type="checkbox" id="terms" [(ngModel)]="termsAccepted">
+      <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
+    </div>
+
+    <!-- Next Button -->
+    <button class="primary-btn" (click)="goToRoleSpecificForm()">Next</button>
+
+    <!-- Already Have an Account -->
+    <p class="account-text">Already have an account? <a routerLink="/signin" class="accent-link">Sign In</a></p>
+  </div>
+</div>
