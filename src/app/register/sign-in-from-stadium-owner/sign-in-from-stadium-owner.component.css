@@ -1,0 +1,51 @@
+/* Import common styles */
+@import '../sign-in-form-common/sign-in-form-common.component.css';
+
+/* Additional styles specific to stadium owner form */
+.file-upload-box {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.file-upload-box:hover {
+  border-color: #000080;
+}
+
+.file-upload-content {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.hidden-file-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.hint-text.warning {
+  color: #ff0000;
+}
+
+.textarea-field {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.3s ease;
+}
+
+.textarea-field:focus {
+  border-color: #000080;
+  box-shadow: 0 0 5px rgba(0, 0, 128, 0.3);
+}
