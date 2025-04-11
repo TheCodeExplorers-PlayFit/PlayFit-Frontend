@@ -1,0 +1,29 @@
+<div class="role-selection-container">
+  <div class="header">
+    <h1>Select your role</h1>
+    <p>Before the start we need to customize your preferences.</p>
+  </div>
+  <div class="role-cards">
+    <div class="role-card" (click)="selectRole('player')" [ngClass]="{'selected': selectedRole === 'player'}">
+      <h2>Player</h2>
+      <img src="https://i.postimg.cc/MTcJ47Cr/istockphoto-1447433766-612x612-removebg-preview-1.png" alt="Player">
+      <p>Track your performance, manage fitness goals, and access health resources.</p>
+    </div>
+    <div class="role-card" (click)="selectRole('coach')" [ngClass]="{'selected': selectedRole === 'coach'}">
+      <h2>Coach</h2>
+      <img src="https://i.postimg.cc/2yhRjz8Q/gym-coach-in-school-hallway-vector-removebg-preview-1.png" alt="Coach">
+      <p>Plan training schedules, manage team activities, and analyze player stats.</p>
+    </div>
+    <div class="role-card" (click)="selectRole('stadiumOwner')" [ngClass]="{'selected': selectedRole === 'stadiumOwner'}">
+      <h2>Stadium Owner</h2>
+      <img src="https://i.postimg.cc/66vNfhL8/businessman-sport-manager-executive-athletic-stadium-1034910-98925-removebg-preview-1-1.png" alt="Stadium Owner">
+      <p>Manage bookings, address complaints, and maintain your sports facilities.</p>
+    </div>
+    <div class="role-card" (click)="selectRole('medicalOfficer')" [ngClass]="{'selected': selectedRole === 'medicalOfficer'}">
+      <h2>Medical Officer</h2>
+      <img src="https://i.postimg.cc/jSs0KYVf/image.png" alt="Medical Officer">
+      <p>Manage bookings, address complaints, and maintain your sports facilities.</p>
+    </div>
+  </div>
+  <button class="next-button" [disabled]="!selectedRole" (click)="goToNextPage()">Next</button>
+</div>

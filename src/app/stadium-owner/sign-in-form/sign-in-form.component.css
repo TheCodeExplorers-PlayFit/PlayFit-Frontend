@@ -1,0 +1,196 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Prata', serif; /* Match the font family */
+  }
+  
+  /* Container */
+  .signup-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding-top: 180px;
+    overflow-x: hidden;
+  }
+  
+  /* Left Section: Image */
+
+  .left-section {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-left: 200px;
+    padding-top: 200px;
+  }
+  
+  .player-image {
+    width: 800px; /* Increased from 600px to 800px for a wider image */
+    max-height: 800px;
+    object-fit: contain;
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    padding-left: 180px; /* Adjusted padding to accommodate wider image */
+  }
+  
+  /* Right Section: Form */
+  .right-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    padding-left: 0px;
+    padding-right: 130px;
+    padding-top: 12px;
+  }
+  
+  .form-title {
+    font-size: 2.5rem; /* Match the font size */
+    margin-bottom: 0;
+    color: #333;
+    margin-left: 0px;
+    /* padding: top 20px;  */
+  }
+  
+  .form-title span {
+    color: #000080; /* Match the color */
+  }
+  
+  /* Form Groups */
+  .form-group {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 1.1rem; /* Match the font size */
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #000080; /* Match the focus color */
+    box-shadow: 0 0 5px rgba(0, 0, 128, 0.3); /* Match the focus shadow */
+  }
+  
+  /* Radio Buttons */
+  .radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Textarea */
+  .textarea-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    margin-top: 10px;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Spacer element to reserve space when textarea is hidden */
+  .textarea-spacer {
+    width: 100%;
+    height: 80px; /* Height of textarea (100px) + padding (10px top + 10px bottom) */
+    margin-top: 5px;
+  }
+  
+  .textarea-field:focus {
+    border-color: #000080; /* Match the focus color */
+    box-shadow: 0 0 5px rgba(0, 0, 128, 0.3); /* Match the focus shadow */
+  }
+  
+  /* Terms & Conditions */
+  .terms-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  
+  .terms-link {
+    color: #000080; /* Match the color */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .terms-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Sign Up Button */
+  .signup-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    background-color: #000080; /* Match the button color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-btn:hover {
+    background-color: #000066; /* Match the hover color */
+  }
+  
+  /* Sign In Link */
+  .signin-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  .signin-link {
+    color: #000080; /* Match the color */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .signin-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Hint Text */
+  .hint-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 4px;
+  }
