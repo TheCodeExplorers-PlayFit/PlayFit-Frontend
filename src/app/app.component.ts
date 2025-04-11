@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 // Import sidebars for different roles
+import { SidebarComponent as AdminSidebar } from "./Admin/sidebar/sidebar.component";
 import { SidebarComponent as StadiumOwnerSidebar } from "./stadium-owner/sidebar/sidebar.component";
 import { SidebarComponent as HealthOfficerSidebar } from "./healthOfficer/sidebar/sidebar.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, StadiumOwnerSidebar, HealthOfficerSidebar],
+  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -19,17 +20,23 @@ export class AppComponent {
   ifRegistered: boolean = true; // Set this based on your authentication logic
 
   // User's role, this can be dynamically set based on the logged-in user
-  currentRole: string = 'stadium-owner'; // Example: 'stadium-owner' or 'healthOfficer'
+  currentRole: string = 'stadium-owner'; // Example: 'admin', 'stadium-owner', 'healthOfficer'
 
   // Dynamically select the sidebar component based on the user's role
   get sidebarComponent() {
     if (this.ifRegistered) {
-      if (this.currentRole === 'stadium-owner') {
-        return StadiumOwnerSidebar;
-      } else if (this.currentRole === 'healthOfficer') {
-        return HealthOfficerSidebar;
+      switch (this.currentRole) {
+        case 'admin':
+          return AdminSidebar;
+        case 'stadium-owner':
+          return StadiumOwnerSidebar;
+        case 'healthOfficer':
+          return HealthOfficerSidebar;
+        default:
+          return null;
       }
     }
     return null; // Return null if user is not registered
   }
 }
+
