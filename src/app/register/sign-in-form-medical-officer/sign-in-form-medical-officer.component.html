@@ -9,22 +9,27 @@
     <h1 class="form-title">Medical Officer Information</h1>
     <p class="subtitle">Provide the necessary details to register as a medical officer</p>
 
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <!-- Mobile Number -->
     <div class="form-group">
       <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" placeholder="Enter your mobile number" class="input-field">
+      <input type="tel" id="mobile" [(ngModel)]="userData.mobileNumber" placeholder="Enter your mobile number" class="input-field">
     </div>
 
     <!-- Age -->
     <div class="form-group">
       <label for="age">Age</label>
-      <input type="number" id="age" placeholder="Enter your age" class="input-field">
+      <input type="number" id="age" [(ngModel)]="userData.age" placeholder="Enter your age" class="input-field">
     </div>
 
     <!-- Gender -->
     <div class="form-group">
       <label for="gender">Gender</label>
-      <select id="gender" class="input-field">
+      <select id="gender" [(ngModel)]="userData.gender" class="input-field">
         <option value="" disabled selected>Select gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
@@ -35,31 +40,36 @@
     <!-- NIC -->
     <div class="form-group">
       <label for="nic">NIC Number</label>
-      <input type="text" id="nic" placeholder="Enter your NIC number" class="input-field">
+      <input type="text" id="nic" [(ngModel)]="userData.nic" placeholder="Enter your NIC number" class="input-field">
+    </div>
+
+    <!-- Additional Information -->
+    <div class="form-group">
+      <label for="additionalInfo">Additional Information</label>
+      <textarea id="additionalInfo" [(ngModel)]="userData.additionalInfo" placeholder="Enter any additional details (e.g., qualifications)" class="input-field textarea-field"></textarea>
     </div>
 
     <!-- Medical Officer Verification -->
     <div class="form-group">
       <label>Medical Officer Verification</label>
       <p class="hint-text">To verify your designation as a Medical Officer, please upload the necessary proof documents.</p>
-      <p class="hint-text warning">Only scanned copies of original documents can be uploaded.</p>
+      <p class="hint-text warning">Only scanned copies of original documents can be uploaded (PDF only).</p>
       <div class="file-upload-box">
         <div class="file-upload-content">
-          <span>Drag and drop or <a href="#" class="accent-link">browse</a> files</span>
-          <input type="file" class="file-input" (change)="onFileSelected($event)">
+          <span>Drag and drop or <input type="file" (change)="onFileSelected($event)" accept=".pdf" class="file-input"> to select files</span>
+          <p *ngIf="selectedFileName">{{ selectedFileName }}</p>
         </div>
       </div>
-      <textarea placeholder="Additional information (if any)" class="input-field textarea-field"></textarea>
     </div>
 
     <!-- Terms & Conditions -->
     <div class="form-group terms-group">
-      <input type="checkbox" id="terms">
+      <input type="checkbox" id="terms" [(ngModel)]="termsAccepted">
       <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
     </div>
 
     <!-- Submit Button -->
-    <button class="primary-btn">Sign Up</button>
+    <button class="primary-btn" (click)="onSubmit()">Sign Up</button>
 
     <!-- Already Have an Account -->
     <p class="account-text">Already have an account? <a routerLink="/signin" class="accent-link">Sign In</a></p>
