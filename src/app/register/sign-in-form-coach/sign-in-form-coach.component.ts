@@ -3,6 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
+import { SportsService } from '../../services/sports/sports.service';
+
+interface Sport {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-sign-in-form-coach',
@@ -17,9 +23,9 @@ export class SignInFormCoachComponent implements OnInit {
     age: null,
     gender: '',
     nic: '',
-    sport1: '',
-    sport2: '',
-    sport3: '',
+    sport1: null,
+    sport2: null,
+    sport3: null,
     experience: null,
     documentPath: null,
     role: 'coach'
@@ -29,16 +35,17 @@ export class SignInFormCoachComponent implements OnInit {
   termsAccepted: boolean = false;
   selectedFile: File | null = null;
   selectedFileName: string = '';
+  sports: Sport[] = [];
 
   constructor(
     private authService: AuthService,
+    private sportsService: SportsService,
     private router: Router
   ) {}
 
   ngOnInit() {
     const state = history.state;
     console.log('State received in coach form:', state);
-
     if (state && state.commonData) {
       this.commonData = state.commonData;
       console.log('Common data received:', this.commonData);
@@ -46,6 +53,21 @@ export class SignInFormCoachComponent implements OnInit {
       console.error('No common data found, redirecting to common form');
       this.router.navigate(['/sign-in-form-common']);
     }
+
+    this.sportsService.getSports().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.sports = response.sports;
+          console.log('Sports fetched:', this.sports);
+        } else {
+          this.errorMessage = 'Failed to load sports';
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching sports:', error);
+        this.errorMessage = 'Failed to load sports';
+      }
+    });
   }
 
   onFileSelected(event: any) {
@@ -59,10 +81,27 @@ export class SignInFormCoachComponent implements OnInit {
     }
   }
 
+  getAvailableSports(exclude: (number | null)[]): Sport[] {
+    return this.sports.filter(sport => !exclude.includes(sport.id));
+  }
+
+  onSportChange() {
+    if (this.userData.sport2 && this.userData.sport2 === this.userData.sport1) {
+      this.userData.sport2 = null;
+    }
+    if (this.userData.sport3 && (this.userData.sport3 === this.userData.sport1 || this.userData.sport3 === this.userData.sport2)) {
+      this.userData.sport3 = null;
+    }
+    console.log('Sports updated:', {
+      sport1: this.userData.sport1,
+      sport2: this.userData.sport2,
+      sport3: this.userData.sport3
+    });
+  }
+
   async onSubmit() {
     console.log('Submit button clicked');
 
-    // Validate required fields
     if (!this.userData.mobileNumber || !this.userData.age || !this.userData.gender || 
         !this.userData.nic || !this.userData.sport1 || !this.userData.experience) {
       this.errorMessage = 'Please fill in all required fields (Sport 1 and Experience are mandatory)';
@@ -83,18 +122,17 @@ export class SignInFormCoachComponent implements OnInit {
     }
 
     try {
-      // Upload file to Cloudinary
       const formData = new FormData();
       formData.append('file', this.selectedFile);
-      formData.append('upload_preset', 'verificationDocuments'); // Replace with your Cloudinary upload preset
-      formData.append('resource_type', 'raw'); // Ensure PDF is treated as raw file
+      formData.append('upload_preset', 'verificationDocuments');
+      formData.append('resource_type', 'raw');
 
       const cloudinaryResponse = await fetch('https://api.cloudinary.com/v1_1/dych7ol8z/raw/upload', {
         method: 'POST',
         body: formData
       }).then(res => res.json());
 
-      console.log('Cloudinary response:', cloudinaryResponse); // Debug log
+      console.log('Cloudinary response:', cloudinaryResponse);
 
       if (cloudinaryResponse.secure_url) {
         this.userData.documentPath = cloudinaryResponse.secure_url;
@@ -103,7 +141,16 @@ export class SignInFormCoachComponent implements OnInit {
         throw new Error('Cloudinary upload failed: No secure_url returned');
       }
 
-      // Combine common data with coach-specific data
+      this.userData.sport1 = this.userData.sport1 || null;
+      this.userData.sport2 = this.userData.sport2 || null;
+      this.userData.sport3 = this.userData.sport3 || null;
+
+      console.log('Sports before submission:', {
+        sport1: this.userData.sport1,
+        sport2: this.userData.sport2,
+        sport3: this.userData.sport3
+      });
+
       const completeUserData = {
         ...this.commonData,
         ...this.userData
@@ -111,7 +158,6 @@ export class SignInFormCoachComponent implements OnInit {
 
       console.log('Submitting complete user data:', completeUserData);
 
-      // Call AuthService to register
       this.authService.register(completeUserData).subscribe({
         next: (response) => {
           console.log('Registration successful!', response);

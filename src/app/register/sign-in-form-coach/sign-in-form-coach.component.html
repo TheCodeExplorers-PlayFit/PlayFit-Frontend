@@ -47,35 +47,17 @@
     <div class="form-group">
       <label>Which sports can you coach?</label>
       <div class="sports-selection">
-        <select [(ngModel)]="userData.sport1" class="sport-field">
+        <select [(ngModel)]="userData.sport1" (change)="onSportChange()" class="sport-field">
           <option value="" disabled selected>Select Sport 1</option>
-          <option value="Football">Football</option>
-          <option value="Basketball">Basketball</option>
-          <option value="Tennis">Tennis</option>
-          <option value="Cricket">Cricket</option>
-          <option value="Swimming">Swimming</option>
-          <option value="Volleyball">Volleyball</option>
-          <option value="Badminton">Badminton</option>
+          <option *ngFor="let sport of sports" [value]="sport.id">{{ sport.name }}</option>
         </select>
-        <select [(ngModel)]="userData.sport2" class="sport-field">
+        <select [(ngModel)]="userData.sport2" (change)="onSportChange()" class="sport-field">
           <option value="" disabled selected>Select Sport 2 (Optional)</option>
-          <option value="Football">Football</option>
-          <option value="Basketball">Basketball</option>
-          <option value="Tennis">Tennis</option>
-          <option value="Cricket">Cricket</option>
-          <option value="Swimming">Swimming</option>
-          <option value="Volleyball">Volleyball</option>
-          <option value="Badminton">Badminton</option>
+          <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport3])" [value]="sport.id">{{ sport.name }}</option>
         </select>
-        <select [(ngModel)]="userData.sport3" class="sport-field">
+        <select [(ngModel)]="userData.sport3" (change)="onSportChange()" class="sport-field">
           <option value="" disabled selected>Select Sport 3 (Optional)</option>
-          <option value="Football">Football</option>
-          <option value="Basketball">Basketball</option>
-          <option value="Tennis">Tennis</option>
-          <option value="Cricket">Cricket</option>
-          <option value="Swimming">Swimming</option>
-          <option value="Volleyball">Volleyball</option>
-          <option value="Badminton">Badminton</option>
+          <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport2])" [value]="sport.id">{{ sport.name }}</option>
         </select>
       </div>
     </div>
