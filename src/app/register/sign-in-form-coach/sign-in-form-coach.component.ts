@@ -36,7 +36,6 @@ export class SignInFormCoachComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Retrieve common data from navigation state
     const state = history.state;
     console.log('State received in coach form:', state);
 
@@ -87,18 +86,21 @@ export class SignInFormCoachComponent implements OnInit {
       // Upload file to Cloudinary
       const formData = new FormData();
       formData.append('file', this.selectedFile);
-      formData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
+      formData.append('upload_preset', 'verificationDocuments'); // Replace with your Cloudinary upload preset
+      formData.append('resource_type', 'raw'); // Ensure PDF is treated as raw file
 
-      const cloudinaryResponse = await fetch('https://api.cloudinary.com/v1_1/dych7ol8z/upload', {
+      const cloudinaryResponse = await fetch('https://api.cloudinary.com/v1_1/dych7ol8z/raw/upload', {
         method: 'POST',
         body: formData
       }).then(res => res.json());
+
+      console.log('Cloudinary response:', cloudinaryResponse); // Debug log
 
       if (cloudinaryResponse.secure_url) {
         this.userData.documentPath = cloudinaryResponse.secure_url;
         console.log('File uploaded to Cloudinary:', this.userData.documentPath);
       } else {
-        throw new Error('Cloudinary upload failed');
+        throw new Error('Cloudinary upload failed: No secure_url returned');
       }
 
       // Combine common data with coach-specific data
@@ -117,12 +119,12 @@ export class SignInFormCoachComponent implements OnInit {
         },
         error: (error) => {
           console.error('Registration failed', error);
-          this.errorMessage = error.error?.message || 'Registration failed. Please try again.';
+          this.errorMessage = error.message || 'Registration failed. Please try again.';
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error during submission:', error);
-      this.errorMessage = 'An error occurred during registration. Please try again.';
+      this.errorMessage = error.message || 'An error occurred during registration. Please try again.';
     }
   }
 }
