@@ -1,28 +1,37 @@
 <div class="container">
-    <!-- Part 1: Left Rectangle with Image -->
-    <div class="left-section">
-      <img src="https://i.postimg.cc/k5ThFKH9/openart-image-X-UNt-ROE-1730612077329-raw-removebg-preview-1.png" alt="Logo" class="logo-image">
+  <!-- Part 1: Left Rectangle with Image -->
+  <div class="left-section">
+    <img src="https://i.postimg.cc/k5ThFKH9/openart-image-X-UNt-ROE-1730612077329-raw-removebg-preview-1.png" alt="Logo" class="logo-image">
+  </div>
+
+  <!-- Part 2: Right Sign-In Form -->
+  <div class="right-section">
+    <h1 class="title">Welcome to <span>PlayFit</span></h1>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
-  
-    <!-- Part 2: Right Sign-In Form -->
-    <div class="right-section">
-      <h1 class="title">Welcome to <span>PlayFit</span></h1>
+
+    <form (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="Enter your email" class="input-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="loginData.email" name="email" placeholder="Enter your email" class="input-field" required>
       </div>
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" placeholder="Enter your password" class="input-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" [(ngModel)]="loginData.password" name="password" placeholder="Enter your password" class="input-field" required>
       </div>
       <div class="options">
         <div class="remember-me">
-          <input type="checkbox" id="remember">
+          <input type="checkbox" id="remember" [(ngModel)]="loginData.rememberMe" name="rememberMe">
           <label for="remember">Remember me</label>
         </div>
         <a href="#" class="forgot-password">Forgot password?</a>
       </div>
-      <button class="sign-in-btn">Sign In</button>
-      <p class="signup-text">Don't have an account? <a routerLink="/signup" class="signup-link">Sign Up</a></p>
-    </div>
+      <button type="submit" class="sign-in-btn">Sign In</button>
+    </form>
+
+    <p class="signup-text">Don't have an account? <a routerLink="/signup" class="signup-link">Sign Up</a></p>
   </div>
+</div>
