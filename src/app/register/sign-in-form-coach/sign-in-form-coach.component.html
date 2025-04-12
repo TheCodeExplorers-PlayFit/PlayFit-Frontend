@@ -88,8 +88,7 @@
       <p class="hint-text warning">Only scanned copies of original documents can be uploaded.</p>
       <div class="file-upload-box">
         <div class="file-upload-content">
-          <span>Drag and drop or <a href="#" class="accent-link">browse</a> files</span>
-          <input type="file" class="hidden-file-input">
+          <span>Drag and drop or <input type="file" (change)="onFileSelected($event)" accept=".pdf" class="file-input"> to select files</span>
         </div>
       </div>
     </div>

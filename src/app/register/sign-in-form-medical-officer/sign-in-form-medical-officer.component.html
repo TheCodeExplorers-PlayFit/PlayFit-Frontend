@@ -46,7 +46,7 @@
       <div class="file-upload-box">
         <div class="file-upload-content">
           <span>Drag and drop or <a href="#" class="accent-link">browse</a> files</span>
-          <input type="file" class="hidden-file-input">
+          <input type="file" class="file-input" (change)="onFileSelected($event)">
         </div>
       </div>
       <textarea placeholder="Additional information (if any)" class="input-field textarea-field"></textarea>
