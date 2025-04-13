@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerSiderbarComponent } from './player-siderbar.component';
+import { PlayerLayoutComponent } from './player-layout.component';
 
-describe('PlayerSiderbarComponent', () => {
-  let component: PlayerSiderbarComponent;
-  let fixture: ComponentFixture<PlayerSiderbarComponent>;
+describe('PlayerLayoutComponent', () => {
+  let component: PlayerLayoutComponent;
+  let fixture: ComponentFixture<PlayerLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlayerSiderbarComponent]
+      imports: [PlayerLayoutComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PlayerSiderbarComponent);
+    fixture = TestBed.createComponent(PlayerLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

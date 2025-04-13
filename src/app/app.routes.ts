@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 // ===== PLAYER =====
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
+import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -30,7 +31,6 @@ import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.com
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 
-
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
@@ -54,7 +54,14 @@ export const routes: Routes = [
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
 
   // ===== PLAYER ROUTES =====
-  { path: 'player/dashboard', component: PlayerDashboardComponent },
+  {
+    path: 'player',
+    component: PlayerLayoutComponent,
+    children: [
+      { path: 'dashboard', component: PlayerDashboardComponent },
+      // Add other player routes here (e.g., booking-history) as you create them
+    ]
+  },
 
   // ===== COACH ROUTES =====
   { path: 'coach/booking-history', component: BookingHistoryComponent },
@@ -82,6 +89,7 @@ export const routes: Routes = [
   { path: 'health/safety-advice-create', component: SafetyAdviceCreateComponent },
   { path: 'health/settings', component: SettingsComponent },
   { path: 'health/signout', component: SignOutComponent },
+
 
   // ===== FALLBACK =====
   { path: '**', redirectTo: '' }
