@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 
+// ===== PLAYER =====
+import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
+
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
 import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.component';
@@ -27,6 +30,7 @@ import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.com
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 
+
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
@@ -48,6 +52,9 @@ export const routes: Routes = [
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
+
+  // ===== PLAYER ROUTES =====
+  { path: 'player/dashboard', component: PlayerDashboardComponent },
 
   // ===== COACH ROUTES =====
   { path: 'coach/booking-history', component: BookingHistoryComponent },

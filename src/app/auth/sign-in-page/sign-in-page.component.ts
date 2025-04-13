@@ -35,7 +35,6 @@ export class SignInPageComponent {
       next: (response) => {
         console.log('Login successful:', response);
         if (response.success && response.token) {
-          // Token and user are already stored in AuthService
           const role = response.user.role;
           switch (role) {
             case 'coach':
