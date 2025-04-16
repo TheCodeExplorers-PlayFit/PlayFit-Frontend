@@ -5,11 +5,12 @@ import { RouterOutlet } from '@angular/router';
 import { SidebarComponent as AdminSidebar } from "./Admin/sidebar/sidebar.component";
 import { SidebarComponent as StadiumOwnerSidebar } from "./stadium-owner/sidebar/sidebar.component";
 import { SidebarComponent as HealthOfficerSidebar } from "./healthOfficer/sidebar/sidebar.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar],
+  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar,CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
