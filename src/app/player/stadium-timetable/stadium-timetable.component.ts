@@ -30,7 +30,7 @@ export class StadiumTimetableComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.stadiumId = Number(params.get('stadiumId'));
       this.route.queryParamMap.subscribe(queryParams => {
-        this.sportId = Number(queryParams.get('sportId'));
+        this.sportId = queryParams.get('sportId') ? Number(queryParams.get('sportId')) : null;
         this.loadTimetable();
       });
     });

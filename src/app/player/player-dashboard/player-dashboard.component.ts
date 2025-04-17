@@ -79,4 +79,37 @@ export class PlayerDashboardComponent implements OnInit {
       }
     });
   }
+
+  exploreNearestStadium(): void {
+    this.http.get(`${this.apiUrl}/sessions/locations`).subscribe({
+      next: (response: any) => {
+        const locations = response.locations;
+        const dialogRef = this.dialog.open(LocationsModalComponent, {
+          width: '600px',
+          data: { locations }
+        });
+
+        dialogRef.afterClosed().subscribe(selectedLocation => {
+          if (selectedLocation) {
+            this.http.get(`${this.apiUrl}/sessions/stadiums-by-location`, {
+              params: { locationId: selectedLocation.location_id.toString() }
+            }).subscribe({
+              next: (response: any) => {
+                this.dialog.open(StadiumsModalComponent, {
+                  width: '600px',
+                  data: { stadiums: response.stadiums, locationId: selectedLocation.location_id }
+                });
+              },
+              error: (error) => {
+                console.error('Error fetching stadiums:', error);
+              }
+            });
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error fetching locations:', error);
+      }
+    });
+  }
 }

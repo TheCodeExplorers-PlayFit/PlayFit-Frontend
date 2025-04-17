@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class StadiumsModalComponent {
   constructor(
     public dialogRef: MatDialogRef<StadiumsModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { stadiums: any[], sportId: number, locationId: number },
+    @Inject(MAT_DIALOG_DATA) public data: { stadiums: any[], sportId?: number, locationId: number },
     private router: Router
   ) {
     console.log('Stadiums data:', data);
@@ -23,9 +23,8 @@ export class StadiumsModalComponent {
 
   selectStadium(stadium: any): void {
     this.dialogRef.close();
-    this.router.navigate(['/player/stadium-timetable', stadium.id], {
-      queryParams: { sportId: this.data.sportId }
-    });
+    const queryParams = this.data.sportId ? { sportId: this.data.sportId } : {};
+    this.router.navigate(['/player/stadium-timetable', stadium.id], { queryParams });
   }
 
   close(): void {

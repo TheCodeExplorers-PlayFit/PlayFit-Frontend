@@ -29,7 +29,7 @@
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlighted-session': row.sport_id === sportId}"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlighted-session': sportId && row.sport_id === sportId}"></tr>
     </table>
     <p *ngIf="!sessions.length">No sessions available for this week.</p>
   </div>
