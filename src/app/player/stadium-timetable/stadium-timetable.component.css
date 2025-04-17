@@ -1,0 +1,24 @@
+.timetable-container {
+    padding-left: 300px; /* Space for sidebar */
+    padding-top: 80px; /* Space for navbar */
+    padding-right: 20px; /* Right padding for consistent spacing */
+    padding-bottom: 20px; /* Bottom padding for consistency */
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .mat-elevation-z8 {
+    margin-top: 20px;
+  }
+  
+  .highlighted-session {
+    background-color: #e0f7fa; /* Light cyan background for highlighted sessions */
+    font-weight: bold; /* Optional: make text bolder */
+  }

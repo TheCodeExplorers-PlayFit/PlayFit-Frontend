@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 // ===== PLAYER =====
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
 import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
+import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-timetable.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -59,6 +60,8 @@ export const routes: Routes = [
     component: PlayerLayoutComponent,
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
+      { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent }, // For stadium's weekly sessions
+  
       // Add other player routes here (e.g., booking-history) as you create them
     ]
   },
