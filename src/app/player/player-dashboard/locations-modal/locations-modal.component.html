@@ -1,0 +1,15 @@
+<div class="modal-container">
+    <h2>Select a Location</h2>
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Locations</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Type to search...">
+    </mat-form-field>
+    <div class="locations-list">
+      <mat-card *ngFor="let location of filteredLocations" class="location-card" (click)="selectLocation(location)">
+        <mat-card-content>{{ location.location_name }}</mat-card-content>
+      </mat-card>
+    </div>
+    <div class="modal-actions">
+      <button mat-button (click)="close()">Cancel</button>
+    </div>
+  </div>
