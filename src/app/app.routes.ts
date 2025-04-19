@@ -8,6 +8,7 @@ import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-ti
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
 import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.component';
+import { StadiumComponent } from './stadium-owner/stadium/stadium.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
@@ -78,6 +79,7 @@ export const routes: Routes = [
   // ===== STADIUM OWNER ROUTES =====
   { path: 'stadium-owner/dashboard', component: StadiumOwnerDashboardComponent },
   { path: 'stadium-owner/add-stadium', component: AddStadiumComponent },
+  { path: 'stadium-owner/stadium', component: StadiumComponent },
   { path: 'stadium-owner/complaints', component: ComplaintsComponent },
   { path: 'stadium-owner/achievements', component: AchievementsComponent },
   { path: 'stadium-owner/maintenance-requests', component: MaintenanceRequestsComponent },
