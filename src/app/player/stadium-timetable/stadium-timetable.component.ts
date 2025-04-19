@@ -4,12 +4,22 @@ import { ActivatedRoute } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+import { BookingConfirmationDialogComponent } from '../booking-confirmation-dialog/booking-confirmation-dialog.component';
 
 @Component({
   selector: 'app-stadium-timetable',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatDialogModule,
+    BookingConfirmationDialogComponent
+  ],
+  providers: [CurrencyPipe],
   templateUrl: './stadium-timetable.component.html',
   styleUrls: ['./stadium-timetable.component.css']
 })
@@ -23,7 +33,8 @@ export class StadiumTimetableComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +64,31 @@ export class StadiumTimetableComponent implements OnInit {
   }
 
   bookSession(sessionId: number): void {
-    // Placeholder for booking logic
-    this.snackBar.open(`Booking session ${sessionId}... (Not implemented)`, 'Close', { duration: 3000 });
+    this.http.get(`${this.apiUrl}/sessions/validate-session`, {
+      params: { sessionId: sessionId.toString() }
+    }).subscribe({
+      next: (response: any) => {
+        if (response.success) {
+          const dialogRef = this.dialog.open(BookingConfirmationDialogComponent, {
+            width: '400px',
+            data: { cost: response.session.cost }
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.snackBar.open('Proceeding to payment...', 'Close', { duration: 3000 });
+              // TODO: Call PayHere payment initiation endpoint
+            } else {
+              this.snackBar.open('Booking cancelled', 'Close', { duration: 3000 });
+            }
+          });
+        } else {
+          this.snackBar.open('Session is unavailable', 'Close', { duration: 3000 });
+        }
+      },
+      error: (error) => {
+        console.error('Error validating session:', error);
+        this.snackBar.open('Failed to validate session. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
 }
