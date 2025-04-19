@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 // Import sidebars for different roles
 import { SidebarComponent as AdminSidebar } from "./Admin/sidebar/sidebar.component";
 import { SidebarComponent as StadiumOwnerSidebar } from "./stadium-owner/sidebar/sidebar.component";
 import { SidebarComponent as HealthOfficerSidebar } from "./healthOfficer/sidebar/sidebar.component";
+import { CommonModule } from '@angular/common';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar],
+  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar,CommonModule,NavBarComponent,MatSnackBarModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

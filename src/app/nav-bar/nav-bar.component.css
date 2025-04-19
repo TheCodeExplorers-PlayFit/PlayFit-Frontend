@@ -1,0 +1,75 @@
+/* Logo image styling */
+.logo img {
+    height: 30px;
+    width: auto;
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+  
+  /* Navbar container */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Navigation links */
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex: 1;
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+  
+  /* Style links */
+  nav ul li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+  
+  /* Active link */
+  nav ul li a.active {
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  /* Hover effect */
+  nav ul li a:hover {
+    color: #007bff;
+  }
+  
+  /* Navbar right section */
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    margin-right: 60px;
+    margin-left: 70px;
+  }
+  
+  /* Search and notification icon */
+  .search-icon,
+  .notification-icon {
+    margin-right: 40px;
+    cursor: pointer;
+  }
+  
+  .search-icon svg,
+  .notification-icon svg {
+    width: 24px;
+    height: 24px;
+  }
