@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
+import { StadiumOwnerLayoutComponent } from './stadium-owner/stadium-owner-layout/stadium-owner-layout.component';
 import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.component';
-import { StadiumComponent } from './stadium-owner/stadium/stadium.component';
+import { StadiumsComponent } from './stadium-owner/stadiums/stadiums.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
@@ -38,6 +39,7 @@ import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medic
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 
+
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
   { path: '', component: HomeComponent },
@@ -60,12 +62,18 @@ export const routes: Routes = [
   { path: 'coach/complaints', component: CoachComplaintsComponent },
 
   // ===== STADIUM OWNER ROUTES =====
+  {
+    path: 'stadium-owner',
+    component: StadiumOwnerLayoutComponent,
+    children: [
   { path: 'stadium-owner/dashboard', component: StadiumOwnerDashboardComponent },
   { path: 'stadium-owner/add-stadium', component: AddStadiumComponent },
-  { path: 'stadium-owner/stadium', component: StadiumComponent },
+  { path: 'stadium-owner/stadiums', component: StadiumsComponent },
   { path: 'stadium-owner/complaints', component: ComplaintsComponent },
   { path: 'stadium-owner/achievements', component: AchievementsComponent },
   { path: 'stadium-owner/maintenance-requests', component: MaintenanceRequestsComponent },
+]
+},
 
   // ===== HEALTH OFFICER ROUTES =====
   { path: 'health/dashboard', component: HealthOfficerDashboardComponent },
