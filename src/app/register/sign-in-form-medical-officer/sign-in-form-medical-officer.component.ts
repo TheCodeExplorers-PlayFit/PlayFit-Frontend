@@ -13,6 +13,10 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class SignInFormMedicalOfficerComponent implements OnInit {
   imageUrl: string = 'https://media-hosting.imagekit.io//afbddd0fda9f46bd/image%208.png?Expires=1836109212&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=L4JtUHtl5O6DcvnUnOD8TGnmZPRS~D~WGsgMPvefh5ZDhMX9-~JSvx7ipPRM9U3nQdU8nJU-qWnuWhg7XizGg59V3cTFIlUK4s04grSX6L~wZRL9O7qLjSYtcXaHfTeUFAdtpxSvgobibmwieWEAR8ixeciNgNvFUjHJQXxhuJEDEmUsBY5liJaSklfhCEGVzIxUerkh8xA4KT6zq7h~r3VSAFNBBZ6qI7Cq3e9YNU~nwtOq8hfFWErp38xU66AeL4ycrcJPN7p0KILGOB4-0qZnQ8ICJbsbmmweMPqlPM2hSJkjAtAsGmnKpfJp1Vq9WHk-br1sFuJyAeFfgbzIWA__';
+  primarycolor : string = '#000080';
+  buttongreen : string = '#76de1b63';
+  marginLeft = '300px';
+  marginTop = '72px';
   userData: any = {
     mobileNumber: '',
     age: null,
