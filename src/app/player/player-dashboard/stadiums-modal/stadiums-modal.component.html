@@ -1,0 +1,16 @@
+<div class="modal-container">
+    <h2>Available Stadiums</h2>
+    <div class="stadiums-list">
+      <mat-card *ngFor="let stadium of data.stadiums" class="stadium-card">
+        <mat-card-title>{{ stadium.name }}</mat-card-title>
+        <mat-card-content>{{ stadium.address }}</mat-card-content>
+        <mat-card-actions>
+          <button mat-button (click)="selectStadium(stadium)">Select</button>
+        </mat-card-actions>
+      </mat-card>
+      <p *ngIf="!data.stadiums?.length">No stadiums available for this sport and location.</p>
+    </div>
+    <div class="modal-actions">
+      <button mat-button (click)="close()">Close</button>
+    </div>
+  </div>

@@ -1,0 +1,61 @@
+/* Dashboard container to style the main content */
+.dashboard-container {
+  display: flex; /* Space between the two rectangles */
+  margin: 20px;
+  justify-content: space-between; /* To create space between rectangles */
+  padding-left: 300px; /* Creates space for the sidebar */
+  padding-top: 80px; /* Creates space for the navbar */
+  gap: 20px; /* Adjust the space between the two rectangles as desired */
+}
+
+/* Style for each rectangle */
+.rectangle {
+  background-color: #d0c5f7;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 50%; /* Adjusting the width to fit two rectangles in one row */
+}
+
+/* Title styling */
+.rectangle h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Content paragraph styling */
+.rectangle p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Button styles */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+/* Start Booking Button */
+.btn-book {
+  background-color: #000080;
+  color: white;
+}
+
+/* Explore Nearest Stadiums Button */
+.btn-explore {
+  background-color: #000080;
+  color: white;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #3333cc; /* A slightly lighter shade of blue */
+}
