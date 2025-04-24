@@ -1,0 +1,19 @@
+.view-wrapper {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  .preview {
+    max-width: 300px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+  }
+  .notice {
+    background: #f9f9f9;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .mode-status {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  

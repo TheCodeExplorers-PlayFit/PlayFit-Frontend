@@ -1,0 +1,39 @@
+.rating-form {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-top: 1rem;
+    display: block;
+  }
+  
+  select, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .stars {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    margin: 0.5rem 0;
+  }
+  .stars span.active {
+    color: #000080;
+  }
+  
+  button {
+    background-color: #000080;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

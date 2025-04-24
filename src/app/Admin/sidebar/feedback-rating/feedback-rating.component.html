@@ -1,0 +1,28 @@
+<div class="rating-form">
+    <h2>Submit Your Feedback</h2>
+  
+    <label>Feedback Type</label>
+    <select [(ngModel)]="selectedCategory">
+      <option *ngFor="let category of categories">{{ category }}</option>
+    </select>
+  
+    <label *ngIf="selectedCategory">Select {{ selectedCategory }}</label>
+    <select [(ngModel)]="selectedTarget">
+      <option *ngFor="let target of targets[selectedCategory]">{{ target }}</option>
+    </select>
+  
+    <label>Rating</label>
+    <div class="stars">
+      <span
+        *ngFor="let star of [1, 2, 3, 4, 5]"
+        (click)="selectedRating = star"
+        [class.active]="star <= selectedRating"
+      >★</span>
+    </div>
+  
+    <label>Comment (optional)</label>
+    <textarea [(ngModel)]="feedbackText" placeholder="Share your experience..."></textarea>
+  
+    <button (click)="submitRating()">Submit</button>
+  </div>
+  

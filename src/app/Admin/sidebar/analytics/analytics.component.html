@@ -1,0 +1,30 @@
+<div class="analytics-wrapper">
+    <h2>Analytics</h2>
+    <div class="chart-section">
+      <h4>Most booked stadiums of the month</h4>
+      <iframe
+        [src]="metabaseEmbedUrl | safeUrl"
+        frameborder="0"
+        width="100%"
+        height="400px"
+        allowfullscreen>
+      </iframe>
+    </div>
+  
+    <div class="achievers-section">
+      <h4>Top 3 Achievers of the Month</h4>
+      <div class="cards">
+        <div class="achiever-card" *ngFor="let person of achievers">
+          <img [src]="person.photo" alt="{{ person.name }}" />
+          <h5>{{ person.name }} 
+            <span *ngIf="person.medal === 'gold'">🥇</span>
+            <span *ngIf="person.medal === 'silver'">🥈</span>
+            <span *ngIf="person.medal === 'bronze'">🥉</span>
+          </h5>
+          <p>Achievement Earned : {{ person.achievements }}</p>
+          <p>Points : {{ person.points }}</p>
+          <p>User Type : {{ person.userType }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
