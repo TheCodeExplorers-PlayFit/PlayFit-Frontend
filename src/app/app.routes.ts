@@ -44,6 +44,8 @@ import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medic
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 
+// ===== ADMIN =====
+import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -57,15 +59,16 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
 
+  // ===== ADMIN ROUTES =====
+  { path: 'admin/dashboard', component: AdmindashboardComponent },
+
   // ===== PLAYER ROUTES =====
   {
     path: 'player',
     component: PlayerLayoutComponent,
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
-      { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent }, // For stadium's weekly sessions
-  
-      // Add other player routes here (e.g., booking-history) as you create them
+      { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
     ]
   },
 
@@ -83,14 +86,14 @@ export const routes: Routes = [
     path: 'stadium-owner',
     component: StadiumOwnerLayoutComponent,
     children: [
-  { path: 'stadium-owner/dashboard', component: StadiumOwnerDashboardComponent },
-  { path: 'stadium-owner/add-stadium', component: AddStadiumComponent },
-  { path: 'stadium-owner/stadiums', component: StadiumsComponent },
-  { path: 'stadium-owner/complaints', component: ComplaintsComponent },
-  { path: 'stadium-owner/achievements', component: AchievementsComponent },
-  { path: 'stadium-owner/maintenance-requests', component: MaintenanceRequestsComponent },
-]
-},
+      { path: 'dashboard', component: StadiumOwnerDashboardComponent },
+      { path: 'add-stadium', component: AddStadiumComponent },
+      { path: 'stadiums', component: StadiumsComponent },
+      { path: 'complaints', component: ComplaintsComponent },
+      { path: 'achievements', component: AchievementsComponent },
+      { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
+    ]
+  },
 
   // ===== HEALTH OFFICER ROUTES =====
   { path: 'health/dashboard', component: HealthOfficerDashboardComponent },
@@ -102,7 +105,6 @@ export const routes: Routes = [
   { path: 'health/safety-advice-create', component: SafetyAdviceCreateComponent },
   { path: 'health/settings', component: SettingsComponent },
   { path: 'health/signout', component: SignOutComponent },
-
 
   // ===== FALLBACK =====
   { path: '**', redirectTo: '' }

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-sign-in-page',
   standalone: true,
-  imports: [RouterModule, FormsModule,CommonModule],
+  imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './sign-in-page.component.html',
   styleUrls: ['./sign-in-page.component.css']
 })
@@ -36,26 +36,33 @@ export class SignInPageComponent {
       next: (response) => {
         console.log('Login successful:', response);
         if (response.success && response.token) {
+          console.log('Received role:', response.user.role); // Debug role
           const role = response.user.role;
           switch (role) {
             case 'coach':
+              console.log('Redirecting to coach dashboard');
               this.router.navigate(['/coach/dashboard']);
               break;
             case 'medicalOfficer':
+              console.log('Redirecting to medical officer dashboard');
               this.router.navigate(['/health/dashboard']);
               break;
             case 'stadiumOwner':
+              console.log('Redirecting to stadium owner dashboard');
               this.router.navigate(['/stadium-owner/dashboard']);
               break;
             case 'player':
+              console.log('Redirecting to player dashboard');
               this.router.navigate(['/player/dashboard']);
               break;
             case 'admin':
+              console.log('Redirecting to admin dashboard');
               this.router.navigate(['/admin/dashboard']);
               break;
             default:
-              this.errorMessage = 'Unknown role';
               console.error('Unknown role:', role);
+              this.errorMessage = 'Unknown role';
+              this.router.navigate(['/home']);
           }
         } else {
           this.errorMessage = 'Login failed: Invalid response';
