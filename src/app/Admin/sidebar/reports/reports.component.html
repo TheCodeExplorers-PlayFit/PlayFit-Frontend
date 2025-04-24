@@ -1,0 +1,24 @@
+<div class="reports-wrapper">
+    <h2>Reports</h2>
+  
+    <div class="report-grid">
+      <div class="report-card" *ngFor="let report of reports" [style.background]="report.color">
+        <h3>{{ report.category }}</h3>
+        <p class="desc">{{ report.description }}</p>
+  
+        <ul>
+          <li *ngFor="let link of report.links">
+            <a (click)="viewReport(link.url)">{{ link.label }}</a>
+          </li>
+        </ul>
+  
+        <div class="actions">
+          <button (click)="viewReport(report.links[0].url)">view</button>
+          <button (click)="editReport(report.id)">edit</button>
+          <button (click)="uploadReport(report.id)">upload</button>
+          <button (click)="downloadReport(report.id)">download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

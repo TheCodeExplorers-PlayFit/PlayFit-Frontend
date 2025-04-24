@@ -1,0 +1,17 @@
+<div class="view-wrapper">
+    <h2>Maintenance Notice</h2>
+  
+    <div *ngIf="image">
+      <img [src]="image" class="preview" />
+    </div>
+  
+    <div class="notice">{{ notice }}</div>
+  
+    <div class="mode-status">
+      Maintain mode is:
+      <span [style.color]="maintenance ? 'green' : 'red'">
+        {{ maintenance ? 'ON' : 'OFF' }}
+      </span>
+    </div>
+  </div>
+  

@@ -1,0 +1,33 @@
+<div class="feedback-wrapper">
+    <h2>Feedback Management</h2>
+  
+    <!-- Rating Breakdown -->
+    <div class="ratings-box">
+      <h4>Average Rating of the Stadium and Breakdown</h4>
+  
+      <div class="circle-placeholder">
+        <!-- Replace with chart later -->
+        <div class="circle">4.2★</div>
+      </div>
+  
+      <div class="stars" *ngFor="let rating of ratingsBreakdown">
+        <span>{{ rating.stars }} ★</span>
+        <div class="bar">
+          <div class="fill" [style.width.%]="(rating.count / 120) * 100"></div>
+        </div>
+        <span>{{ rating.count }}</span>
+      </div>
+    </div>
+  
+    <!-- Highly Rated Coaches -->
+    <div class="coach-box">
+      <h4>Highly rated coaches <span class="view-all">View All</span></h4>
+      <ul>
+        <li *ngFor="let coach of topCoaches">
+          <img [src]="coach.photo" alt="Coach" />
+          <span>{{ coach.name }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

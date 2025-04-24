@@ -1,0 +1,95 @@
+.user-management-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+}
+
+.user-management-container h2 {
+  color: #000080;
+  margin-bottom: 1rem;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+}
+
+.user-cards {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #000080;
+  border-radius: 8px;
+  text-align: center;
+  width: 180px;
+}
+
+.card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.card h4 {
+  margin: 0;
+  color: #000080;
+}
+
+.card span {
+  font-size: 12px;
+  color: #444;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+  background-color: #000080;
+  color: white;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.suspended {
+  color: red;
+  font-weight: bold;
+}
+
+.view-btn {
+  color: #000080;
+}
+
+.edit-btn {
+  color: orange;
+}
+
+.delete-btn {
+  color: red;
+}
