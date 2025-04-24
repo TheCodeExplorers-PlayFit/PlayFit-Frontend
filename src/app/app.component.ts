@@ -1,25 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-
-// Import sidebars for different roles
-import { SidebarComponent as AdminSidebar } from "./Admin/sidebar/sidebar.component";
-import { SidebarComponent as StadiumOwnerSidebar } from "./stadium-owner/stadium-owner-sidebar/stadium-owner-sidebar.component";
-import { SidebarComponent as HealthOfficerSidebar } from "./healthOfficer/sidebar/sidebar.component";
-
 import { CommonModule } from '@angular/common';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    AdminSidebar,
-    StadiumOwnerSidebar,
-    HealthOfficerSidebar,
-    CommonModule,
     NavBarComponent,
+    CommonModule,
     MatSnackBarModule
   ],
   templateUrl: './app.component.html',
@@ -27,27 +18,4 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class AppComponent {
   title = 'Sports-Management-System';
-
-  // Check if the user is registered (logged in)
-  ifRegistered: boolean = true; // Set this based on your authentication logic
-
-  // User's role, this can be dynamically set based on the logged-in user
-  currentRole: string = 'stadium-owner'; // Example: 'admin', 'stadium-owner', 'healthOfficer'
-
-  // Dynamically select the sidebar component based on the user's role
-  get sidebarComponent() {
-    if (this.ifRegistered) {
-      switch (this.currentRole) {
-        case 'admin':
-          return AdminSidebar;
-        case 'stadium-owner':
-          return StadiumOwnerSidebar;
-        case 'healthOfficer':
-          return HealthOfficerSidebar;
-        default:
-          return null;
-      }
-    }
-    return null; // Return null if user is not registered
-  }
 }

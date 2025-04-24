@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './sign-in-form-common.component.css'
 })
 export class SignInFormCommonComponent {
+  marginTop = '72px';
   role: string | null = null;
   userData: any = {
     firstName: '',
