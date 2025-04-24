@@ -33,6 +33,7 @@ import { SafetyAdviceComponent } from './healthOfficer/sidebar/safety-advice/saf
 import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.component';
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
+import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-layout/health-officer-layout.component';
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
@@ -96,15 +97,21 @@ export const routes: Routes = [
   },
 
   // ===== HEALTH OFFICER ROUTES =====
-  { path: 'health/dashboard', component: HealthOfficerDashboardComponent },
-  { path: 'health/appointments', component: AppointmentsComponent },
-  { path: 'health/record-injuries', component: RecordInjuriesComponent },
-  { path: 'health/players-health-records', component: PlayersHealthRecordsComponent },
-  { path: 'health/blogs', component: BlogsComponent },
-  { path: 'health/safety-advice', component: SafetyAdviceComponent },
-  { path: 'health/safety-advice-create', component: SafetyAdviceCreateComponent },
-  { path: 'health/settings', component: SettingsComponent },
-  { path: 'health/signout', component: SignOutComponent },
+  {
+    path: 'health',
+    component: HealthOfficerLayoutComponent,
+    children: [
+      { path: 'dashboard', component: HealthOfficerDashboardComponent },
+      { path: 'appointments', component: AppointmentsComponent },
+      { path: 'record-injuries', component: RecordInjuriesComponent },
+      { path: 'players-health-records', component: PlayersHealthRecordsComponent },
+      { path: 'blogs', component: BlogsComponent },
+      { path: 'safety-advice', component: SafetyAdviceComponent },
+      { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: 'signout', component: SignOutComponent },
+    ]
+  },
 
   // ===== FALLBACK =====
   { path: '**', redirectTo: '' }
