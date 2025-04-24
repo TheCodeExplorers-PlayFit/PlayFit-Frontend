@@ -26,6 +26,14 @@ export class AdmindashboardComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    // Redirect if not admin (optional, as AdminLayoutComponent handles this)
+    const user = this.authService.getUser();
+    if (!user || user.role !== 'admin') {
+      console.warn('Unauthorized access to admin dashboard');
+      this.router.navigate(['/sign-in']);
+      return;
+    }
+
     // Mock data for stats (replace with actual API calls)
     this.stats = {
       totalUsers: 20,
