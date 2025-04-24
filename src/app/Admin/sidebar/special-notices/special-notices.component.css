@@ -1,0 +1,89 @@
+:root {
+    --primary: #000080;
+  }
+  
+  .notices-wrapper {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    color: var(--primary);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .add-form,
+  .edit-form {
+    background: #f4f4f4;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+  }
+  
+  input, textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-right: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  .notices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  
+  .notice-card {
+    padding: 1rem;
+    border-radius: 10px;
+    background: #f9f9f9;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .notice-card h4 {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--primary);
+  }
+  
+  .notice-card .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .notice-card .desc {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .notice-card .meta {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  .notice-card .actions button {
+    background: white;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    margin-right: 6px;
+  }
+  

@@ -1,0 +1,43 @@
+<div class="notices-wrapper">
+    <h2>Special Notices</h2>
+  
+    <!-- Form to add a new notice -->
+    <div class="add-form">
+      <h3>Create New Notice</h3>
+      <input [(ngModel)]="newNotice.category" placeholder="Category" />
+      <input [(ngModel)]="newNotice.title" placeholder="Title" />
+      <textarea [(ngModel)]="newNotice.description" placeholder="Description"></textarea>
+      <input [(ngModel)]="newNotice.date" type="date" />
+      <input [(ngModel)]="newNotice.author" placeholder="Author" />
+      <button (click)="addNotice()">Add Notice</button>
+    </div>
+  
+    <!-- Display all notices -->
+    <div class="notices-grid">
+      <div class="notice-card" *ngFor="let notice of notices">
+        <h4>{{ notice.category }}</h4>
+        <p class="title">{{ notice.title }}</p>
+        <p class="desc">{{ notice.description }}</p>
+        <p class="meta">📅 {{ notice.date }}<br>✏️ {{ notice.author }}</p>
+  
+        <div class="actions">
+          <button (click)="editNotice(notice)">Edit</button>
+          <button (click)="removeNotice(notice.id)">Remove</button>
+          <button (click)="selectedNotice = notice">View</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Edit form -->
+    <div *ngIf="selectedNotice" class="edit-form">
+      <h3>Edit Notice</h3>
+      <input [(ngModel)]="selectedNotice.category" />
+      <input [(ngModel)]="selectedNotice.title" />
+      <textarea [(ngModel)]="selectedNotice.description"></textarea>
+      <input [(ngModel)]="selectedNotice.date" type="date" />
+      <input [(ngModel)]="selectedNotice.author" />
+      <button (click)="updateNotice()">Update</button>
+      <button (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+  

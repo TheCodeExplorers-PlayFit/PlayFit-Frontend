@@ -3,6 +3,15 @@ import * as L from 'leaflet';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'assets/marker-icon-2x.png',
+  iconUrl: 'assets/marker-icon.png',
+  shadowUrl: 'assets/marker-shadow.png',
+});
 
 
 
@@ -31,7 +40,8 @@ export class AddStadiumComponent implements AfterViewInit {
   private map!: L.Map;
   private marker!: L.Marker;
   
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
+
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -90,8 +100,31 @@ export class AddStadiumComponent implements AfterViewInit {
   }
 
   onSubmit(): void {
-    console.log('Form Submitted', this.stadium);
-    alert('Form submitted!');
-    this.router.navigate(['/stadium-owner/stadium']);
+    const formData = new FormData();
+  
+    // Add all form fields
+    Object.entries(this.stadium).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+  
+    // Add selected files
+    const fileInput: HTMLInputElement | null = document.querySelector('input[type="file"]');
+    if (fileInput?.files) {
+      for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append('images', fileInput.files[i]);
+      }
+    }
+  
+    this.http.post('http://localhost:5000/api/stadiums/add', formData).subscribe({
+      next: (res) => {
+        alert('Stadium added!');
+        this.router.navigate(['/stadium-owner/stadiums']);
+      },
+      error: (err) => {
+        console.error('Failed to add stadium:', err);
+        alert('Failed to add stadium');
+      },
+    });
   }
+  
 }
