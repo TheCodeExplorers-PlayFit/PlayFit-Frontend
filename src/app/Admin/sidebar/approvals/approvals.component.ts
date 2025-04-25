@@ -12,17 +12,19 @@ interface ApprovalRequest {
   photo: string;
   status: Status;
   createdAt: Date;
-  documentPath: string;
+  documentPath?: string;
 }
 
 @Component({
   selector: 'app-approvals',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [ApprovalsService], // Explicitly provide the service
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.css']
 })
 export class ApprovalsComponent implements OnInit {
+  filter: 'Peoples' | 'Stadiums' = 'Peoples';
   requests: ApprovalRequest[] = [];
 
   constructor(private approvalsService: ApprovalsService) {}
@@ -33,19 +35,27 @@ export class ApprovalsComponent implements OnInit {
 
   loadRequests(): void {
     this.approvalsService.getUnverifiedUsers().subscribe({
-      next: (data) => {
-        this.requests = data.map((user: any) => ({
-          id: user.userId,
-          name: `${user.first_name} ${user.last_name}`,
-          role: user.role === 'medicalOfficer' ? 'Medical Officer' : 'Coach',
+      next: (data: any[]) => {
+        this.requests = data.map((item: any) => ({
+          id: item.userId,
+          name: item.facilityName || `${item.first_name} ${item.last_name}`,
+          role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
           photo: 'https://randomuser.me/api/portraits/men/1.jpg', // Placeholder
           status: 'Pending' as Status,
-          createdAt: new Date(user.created_at),
-          documentPath: user.documentPath
+          createdAt: item.created_at ? new Date(item.created_at) : new Date(),
+          documentPath: item.documentPath
         }));
       },
-      error: (err) => console.error('Error fetching requests:', err)
+      error: (err: any) => console.error('Error fetching requests:', err)
     });
+  }
+
+  get filteredRequests(): ApprovalRequest[] {
+    if (this.filter === 'Peoples') {
+      return this.requests.filter((r) => r.role === 'Coach' || r.role === 'Medical Officer');
+    } else {
+      return this.requests.filter((r) => r.role === 'Stadium');
+    }
   }
 
   approveRequest(request: ApprovalRequest): void {
@@ -53,7 +63,7 @@ export class ApprovalsComponent implements OnInit {
       next: () => {
         this.requests = this.requests.filter((r) => r.id !== request.id);
       },
-      error: (err) => console.error('Error approving request:', err)
+      error: (err: any) => console.error('Error approving request:', err)
     });
   }
 
@@ -62,7 +72,7 @@ export class ApprovalsComponent implements OnInit {
       next: () => {
         this.requests = this.requests.filter((r) => r.id !== request.id);
       },
-      error: (err) => console.error('Error rejecting request:', err)
+      error: (err: any) => console.error('Error rejecting request:', err)
     });
   }
 }

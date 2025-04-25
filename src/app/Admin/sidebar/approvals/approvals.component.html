@@ -2,11 +2,12 @@
   <h2>Approve Registration Requests</h2>
 
   <div class="filters">
-    <button class="active">Peoples</button>
+    <button [class.active]="filter === 'Peoples'" (click)="filter = 'Peoples'">Peoples</button>
+    <button [class.active]="filter === 'Stadiums'" (click)="filter = 'Stadiums'">Stadiums</button>
   </div>
 
   <div class="approval-list">
-    <div class="approval-card" *ngFor="let request of requests">
+    <div class="approval-card" *ngFor="let request of filteredRequests">
       <div class="info">
         <img [src]="request.photo" alt="{{request.name}}" />
         <div>
@@ -15,7 +16,7 @@
         </div>
       </div>
       <div class="actions">
-        <a [href]="request.documentPath" target="_blank" download>Download document</a>
+        <a *ngIf="request.documentPath" [href]="request.documentPath" target="_blank" download>Download document</a>
         <button class="approve" (click)="approveRequest(request)">Approve</button>
         <button class="pending">{{ request.status }}</button>
         <button class="reject" (click)="rejectRequest(request)">Reject</button>
