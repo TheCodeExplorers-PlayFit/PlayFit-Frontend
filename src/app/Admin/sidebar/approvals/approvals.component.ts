@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ApprovalsService } from '../../../services/approvals/approvals.service';
 
 type Status = 'Pending' | 'Approved' | 'Rejected';
 
@@ -11,6 +12,7 @@ interface ApprovalRequest {
   photo: string;
   status: Status;
   createdAt: Date;
+  documentPath: string;
 }
 
 @Component({
@@ -20,54 +22,47 @@ interface ApprovalRequest {
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.css']
 })
-export class ApprovalsComponent {
-  filter: 'All' | 'Oldest' | 'Newest' = 'All';
+export class ApprovalsComponent implements OnInit {
+  requests: ApprovalRequest[] = [];
 
-  requests: ApprovalRequest[] = [
-    {
-      id: 1,
-      name: 'Jacob Jones',
-      role: 'Player',
-      photo: 'https://randomuser.me/api/portraits/men/4.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-05')
-    },
-    {
-      id: 2,
-      name: 'Annette Black',
-      role: 'Coach',
-      photo: 'https://randomuser.me/api/portraits/women/5.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-10')
-    },
-    {
-      id: 3,
-      name: 'Jacob Jones',
-      role: 'Stadium',
-      photo: 'https://randomuser.me/api/portraits/men/6.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-08')
-    },
-    {
-      id: 4,
-      name: 'Cody Fisher',
-      role: 'Medical Officer',
-      photo: 'https://randomuser.me/api/portraits/women/7.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-09')
-    }
-  ];
+  constructor(private approvalsService: ApprovalsService) {}
 
-  get filteredRequests(): ApprovalRequest[] {
-    if (this.filter === 'Oldest') {
-      return [...this.requests].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-    } else if (this.filter === 'Newest') {
-      return [...this.requests].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    }
-    return this.requests;
+  ngOnInit(): void {
+    this.loadRequests();
   }
 
-  updateStatus(request: ApprovalRequest, status: Status) {
-    request.status = status;
+  loadRequests(): void {
+    this.approvalsService.getUnverifiedUsers().subscribe({
+      next: (data) => {
+        this.requests = data.map((user: any) => ({
+          id: user.userId,
+          name: `${user.first_name} ${user.last_name}`,
+          role: user.role === 'medicalOfficer' ? 'Medical Officer' : 'Coach',
+          photo: 'https://randomuser.me/api/portraits/men/1.jpg', // Placeholder
+          status: 'Pending' as Status,
+          createdAt: new Date(user.created_at),
+          documentPath: user.documentPath
+        }));
+      },
+      error: (err) => console.error('Error fetching requests:', err)
+    });
+  }
+
+  approveRequest(request: ApprovalRequest): void {
+    this.approvalsService.approveUser(request.id, request.role).subscribe({
+      next: () => {
+        this.requests = this.requests.filter((r) => r.id !== request.id);
+      },
+      error: (err) => console.error('Error approving request:', err)
+    });
+  }
+
+  rejectRequest(request: ApprovalRequest): void {
+    this.approvalsService.rejectUser(request.id, request.role).subscribe({
+      next: () => {
+        this.requests = this.requests.filter((r) => r.id !== request.id);
+      },
+      error: (err) => console.error('Error rejecting request:', err)
+    });
   }
 }

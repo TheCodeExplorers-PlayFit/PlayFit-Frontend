@@ -1,28 +1,25 @@
 <div class="approvals-wrapper">
-    <h2>Approve Registration Requests</h2>
-  
-    <div class="filters">
-      <button [class.active]="filter === 'All'" (click)="filter = 'All'">All</button>
-      <button [class.active]="filter === 'Oldest'" (click)="filter = 'Oldest'">Oldest</button>
-      <button [class.active]="filter === 'Newest'" (click)="filter = 'Newest'">Newest</button>
-    </div>
-  
-    <div class="approval-list">
-      <div class="approval-card" *ngFor="let request of filteredRequests">
-        <div class="info">
-          <img [src]="request.photo" alt="{{request.name}}" />
-          <div>
-            <strong>{{ request.name }}</strong>
-            <p>{{ request.role }}</p>
-          </div>
+  <h2>Approve Registration Requests</h2>
+
+  <div class="filters">
+    <button class="active">Peoples</button>
+  </div>
+
+  <div class="approval-list">
+    <div class="approval-card" *ngFor="let request of requests">
+      <div class="info">
+        <img [src]="request.photo" alt="{{request.name}}" />
+        <div>
+          <strong>{{ request.name }}</strong>
+          <p>{{ request.role }}</p>
         </div>
-        <div class="actions">
-          <a href="#">View details</a>
-          <button class="approve" (click)="updateStatus(request, 'Approved')">Approve</button>
-          <button class="pending">{{ request.status }}</button>
-          <button class="reject" (click)="updateStatus(request, 'Rejected')">Reject</button>
-        </div>
+      </div>
+      <div class="actions">
+        <a [href]="request.documentPath" target="_blank" download>Download document</a>
+        <button class="approve" (click)="approveRequest(request)">Approve</button>
+        <button class="pending">{{ request.status }}</button>
+        <button class="reject" (click)="rejectRequest(request)">Reject</button>
       </div>
     </div>
   </div>
-  
+</div>
