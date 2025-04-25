@@ -1,28 +1,47 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
-// Import sidebars for different roles
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterModule } from '@angular/router'; // Import RouterModule
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SidebarComponent as AdminSidebar } from "./Admin/sidebar/sidebar.component";
 import { SidebarComponent as StadiumOwnerSidebar } from "./stadium-owner/sidebar/sidebar.component";
 import { SidebarComponent as HealthOfficerSidebar } from "./healthOfficer/sidebar/sidebar.component";
+import { CoachSidebarComponent } from './coach/coach-sidebar/coach-sidebar.component';
+import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from './services/auth/auth.service'; // Import AuthService
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AdminSidebar, StadiumOwnerSidebar, HealthOfficerSidebar],
+  imports: [
+    RouterOutlet,
+    RouterModule, // Add RouterModule to provide routing services
+    NavBarComponent,
+    AdminSidebar,
+    StadiumOwnerSidebar,
+    HealthOfficerSidebar,
+    
+    CommonModule,
+    MatSnackBarModule
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Sports-Management-System';
+  ifRegistered: boolean = false; // Initialize as false
+  currentRole: string | null = null;
 
-  // Check if the user is registered (logged in)
-  ifRegistered: boolean = true; // Set this based on your authentication logic
+  constructor(private authService: AuthService) {}
 
-  // User's role, this can be dynamically set based on the logged-in user
-  currentRole: string = 'stadium-owner'; // Example: 'admin', 'stadium-owner', 'healthOfficer'
+  ngOnInit() {
+    this.ifRegistered = this.authService.isLoggedIn();
+    const user = this.authService.getUser();
+    this.currentRole = user ? user.role : null;
+    console.log('ifRegistered:', this.ifRegistered);
+    console.log('currentRole:', this.currentRole);
+    console.log('sidebarComponent:', this.sidebarComponent);
+  }
 
-  // Dynamically select the sidebar component based on the user's role
   get sidebarComponent() {
     if (this.ifRegistered) {
       switch (this.currentRole) {
@@ -32,11 +51,12 @@ export class AppComponent {
           return StadiumOwnerSidebar;
         case 'healthOfficer':
           return HealthOfficerSidebar;
+        case 'coach':
+          return CoachSidebarComponent; // Add coach sidebar
         default:
           return null;
       }
     }
-    return null; // Return null if user is not registered
+    return null;
   }
 }
-

@@ -1,0 +1,15 @@
+<div class="modal-container">
+    <h2>Select a Sport</h2>
+    <mat-form-field appearance="outline" class="search-bar">
+      <mat-label>Search Sports</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Type to search...">
+    </mat-form-field>
+    <div class="sports-list">
+      <mat-card *ngFor="let sport of filteredSports" class="sport-card" (click)="selectSport(sport)">
+        <mat-card-content>{{ sport.name }}</mat-card-content>
+      </mat-card>
+    </div>
+    <div class="modal-actions">
+      <button mat-button (click)="close()">Cancel</button>
+    </div>
+  </div>

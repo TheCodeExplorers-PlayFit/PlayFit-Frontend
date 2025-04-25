@@ -5,7 +5,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-schedule-selector',
   standalone: true,
-  imports: [CommonModule,RouterLink,RouterModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './schedule-selector.component.html',
   styleUrl: './schedule-selector.component.css',
 })
@@ -40,6 +40,10 @@ export class ScheduleSelectorComponent {
   }
 
   navigateToBookingHistory() {
-    this.router.navigate(['/schedule-selector']);
+    this.router.navigate(['/coach/booking-history']);
+  }
+
+  navigateToStadiumList() {
+    this.router.navigate(['/coach/stadium-list']);
   }
 }

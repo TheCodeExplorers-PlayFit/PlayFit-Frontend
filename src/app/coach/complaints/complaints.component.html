@@ -1,26 +1,84 @@
-<div class="complaints">
-    <h2>Submit A Complaint</h2>
-    <form>
-      <label>Your Name</label>
-      <input type="text" placeholder="Enter your name">
-  
-      <label>Contact Number</label>
-      <input type="text" placeholder="Enter your phone number">
-  
-      <label>Select Stadium</label>
-      <select>
-        <option value="">Select stadium</option>
-      </select>
-  
-      <label>User Type</label>
-      <select>
-        <option value="">Select your type</option>
-      </select>
-  
-      <label>Complaint</label>
-      <textarea placeholder="Type your complaint"></textarea>
-  
-      <button type="submit">Submit</button>
-    </form>
+<div class="complaints-container">
+  <div class="form-row">
+    <div class="image-container">
+      <img src="https://i.postimg.cc/5tbxvShp/customer-complaint-via-call-center-600nw-2295261661.webp" alt="Complaint Form" />
+    </div>
+    <div class="form-container">
+      <h2>Submit A Complaint</h2>
+      <form (ngSubmit)="onSubmit()" #complaintForm="ngForm">
+        <label for="name">Your Name</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          [(ngModel)]="complaint.name"
+          name="name"
+          required
+          #name="ngModel"
+          [class.invalid]="name.invalid && name.touched"
+        />
+        <div *ngIf="name.invalid && name.touched" class="error">Name is required</div>
+
+        <label for="contactNumber">Contact Number</label>
+        <input
+          type="text"
+          id="contactNumber"
+          placeholder="Enter your phone number"
+          [(ngModel)]="complaint.contactNumber"
+          name="contactNumber"
+          required
+          #contactNumber="ngModel"
+          [class.invalid]="contactNumber.invalid && contactNumber.touched"
+        />
+        <div *ngIf="contactNumber.invalid && contactNumber.touched" class="error">Contact number is required</div>
+
+        <label for="stadium">Select Stadium</label>
+        <select
+          id="stadium"
+          [(ngModel)]="complaint.stadium"
+          name="stadium"
+          required
+          #stadium="ngModel"
+          [class.invalid]="stadium.invalid && stadium.touched"
+        >
+          <option value="" disabled selected>Select stadium</option>
+          <option *ngFor="let stadium of stadiums" [value]="stadium.name">
+            {{ stadium.name }}
+          </option>
+        </select>
+        <div *ngIf="stadium.invalid && stadium.touched" class="error">Stadium is required</div>
+
+        <label for="userType">User Type</label>
+        <select
+          id="userType"
+          [(ngModel)]="complaint.userType"
+          name="userType"
+          required
+          #userType="ngModel"
+          [class.invalid]="userType.invalid && userType.touched"
+        >
+          <option value="" disabled selected>Select your type</option>
+          <option *ngFor="let type of userTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+        <div *ngIf="userType.invalid && userType.touched" class="error">User type is required</div>
+
+        <label for="complaintText">Complaint</label>
+        <textarea
+          id="complaintText"
+          placeholder="Type your complaint"
+          [(ngModel)]="complaint.complaintText"
+          name="complaintText"
+          required
+          #complaintText="ngModel"
+          [class.invalid]="complaintText.invalid && complaintText.touched"
+        ></textarea>
+        <div *ngIf="complaintText.invalid && complaintText.touched" class="error">Complaint is required</div>
+
+        <button type="submit" [disabled]="complaintForm.invalid">Submit</button>
+      </form>
+    </div>
   </div>
-  
+</div>
+

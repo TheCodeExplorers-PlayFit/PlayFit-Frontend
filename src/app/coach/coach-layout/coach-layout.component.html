@@ -1,0 +1,8 @@
+<div class="coach-layout">
+  <!-- Show the sidebar only if the user is a coach -->
+  <app-coach-sidebar *ngIf="isCoach"></app-coach-sidebar>
+
+  <div class="coach-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

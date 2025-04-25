@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-stadium-detail',
@@ -12,7 +12,7 @@ export class StadiumDetailComponent implements OnInit {
   stadiumName: string | null = null;
   stadiumDetails: any = null;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -59,5 +59,9 @@ export class StadiumDetailComponent implements OnInit {
     };
 
     this.stadiumDetails = stadiums[name || ''] || null;
+  }
+
+  navigateToScheduleSelector(): void {
+    this.router.navigate(['/coach/schedule-selector']);
   }
 }

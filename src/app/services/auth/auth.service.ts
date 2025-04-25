@@ -11,6 +11,9 @@ interface AuthResponse {
     lastName: string;
     email: string;
     role: string;
+    sport1?: number;
+    sport2?: number;
+    sport3?: number;
   };
   success: boolean;
   message: string;

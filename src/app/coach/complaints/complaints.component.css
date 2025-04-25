@@ -1,23 +1,149 @@
-.complaints {
-    padding: 20px;
-    margin: 25px auto 20px 300px;
-  }
-  
-  form {
-    display: flex;
+.complaints-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 20px;
+}
+.form-row {
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.image-container {
+  flex: 0.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-right: 20px;
+  height: auto;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 1;
+}
+
+.form-container {
+  flex: 0.6;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input,
+select,
+textarea {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #0033cc;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #999;
+}
+
+select {
+  appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path d="M0 0h10L5 5z" fill="%23999"/></svg>')
+    no-repeat right 10px center;
+  background-size: 10px;
+}
+
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+button {
+  background-color: #002699;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #002699;
+}
+
+button:disabled {
+  background-color: #1e34dd;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ff3333;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border-color: #ff3333;
+}
+
+@media (max-width: 768px) {
+  .form-row {
     flex-direction: column;
-    max-width: 400px;
   }
-  
-  input, select, textarea {
-    margin-bottom: 10px;
-    padding: 8px;
+
+  .image-container,
+  .form-container {
+    width: 100%;
   }
-  
-  button {
-    background-color: #0033cc;
-    color: white;
-    padding: 10px;
-    border: none;
+
+  .image-container {
+    min-height: 200px;
   }
-  
+}

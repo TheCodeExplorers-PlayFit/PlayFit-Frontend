@@ -1,0 +1,10 @@
+.dialog-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
