@@ -3,46 +3,98 @@
     <h2>Add Stadium</h2>
     <p>Provide the necessary details</p>
 
-    <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <!-- Basic fields -->
       <label>Stadium Name:</label>
-      <input type="text" [(ngModel)]="stadium.name" name="name" placeholder="Enter your stadium name" />
+      <input type="text" name="name" [(ngModel)]="stadium.name" required />
 
       <label>Stadium ID:</label>
-      <input type="text" [(ngModel)]="stadium.id" name="id" placeholder="Enter your stadium ID" />
+      <input type="text" name="id" [(ngModel)]="stadium.id" required />
 
       <label>Address:</label>
-      <input type="text" [(ngModel)]="stadium.address" name="address" placeholder="Enter your address" />
-
-      <label>Add sports:</label>
-      <input type="text" [(ngModel)]="stadium.sports" name="sports" placeholder="Enter sports available" />
+      <input type="text" name="address" [(ngModel)]="stadium.address" required />
 
       <label>Facilities:</label>
-      <input type="text" [(ngModel)]="stadium.facilities" name="facilities" placeholder="Enter facilities" />
+      <input type="text" name="facilities" [(ngModel)]="stadium.facilities" />
 
-      <label>Upload images of stadium:</label>
-      <input type="file" (change)="onFileSelected($event)" multiple />
-      <div class="image-preview">
-        <img *ngFor="let img of imagePreviews" [src]="img" alt="Image preview" />
+      <!-- Add Sports Section -->
+      <label>Add Sports:</label>
+      <div class="chips">
+        <div
+          class="chip"
+          *ngFor="let sport of sportsOptions"
+          [class.selected]="selectedSport === sport"
+          (click)="selectSport(sport)">
+          {{ sport }}
+        </div>
       </div>
 
-      <label>Location:</label>
-      <input
-        type="text"
-        [(ngModel)]="stadium.locationText"
-        name="locationText"
-        placeholder="Type a location..."
-        (keyup.enter)="locateAddress()"
-      />
-      <button type="button" (click)="locateAddress()">Find on Map</button>
+      <div *ngIf="selectedSport">
+        <label>Select Day:</label>
+        <select [(ngModel)]="selectedDay" name="day">
+          <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
+        </select>
 
+        <div class="time-range">
+          <div>
+            <label>From Time:</label>
+            <input type="time" [(ngModel)]="selectedFromTime" name="fromTime" />
+          </div>
+          <div>
+            <label>To Time:</label>
+            <input type="time" [(ngModel)]="selectedToTime" name="toTime" />
+          </div>
+        </div>
+
+        <button type="button" (click)="addScheduleRow()">Add</button>
+      </div>
+
+      <!-- Schedule Table -->
+      <div *ngIf="scheduleRows.length">
+        <h3>Scheduled Sports</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th>Day</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of scheduleRows; let i = index">
+              <td>{{ row.sport }}</td>
+              <td>{{ row.day }}</td>
+              <td>{{ row.fromTime }}</td>
+              <td>{{ row.toTime }}</td>
+              <td><button type="button" (click)="removeRow(i)">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Image upload -->
+      <label>Upload images of stadium:</label>
+      <input type="file" multiple (change)="onFileSelected($event)" />
+      <div class="image-preview">
+        <img *ngFor="let img of imagePreviews" [src]="img" />
+      </div>
+
+      <!-- Map -->
+      <label>Location:</label>
+      <input type="text" [(ngModel)]="stadium.locationText" name="locationText"
+             placeholder="Type a location…" (keyup.enter)="locateAddress()" />
+      <button type="button" (click)="locateAddress()">Find on Map</button>
       <div id="map" class="map-box"></div>
 
+      <!-- Terms -->
       <div class="form-group terms-group">
-        <input type="checkbox" id="terms" [(ngModel)]="agreed" name="terms" />
+        <input type="checkbox" id="terms" name="terms" [(ngModel)]="agreed" />
         <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
       </div>
 
-      <button type="submit" [disabled]="!agreed || !formRef.form.valid">Submit</button>
+      <button type="submit" [disabled]="!agreed || !f.form.valid">Submit</button>
     </form>
   </div>
 </div>
