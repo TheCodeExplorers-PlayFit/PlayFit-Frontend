@@ -48,6 +48,15 @@ import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-i
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
+import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
+import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
+import { ApprovalsComponent } from './Admin/sidebar/approvals/approvals.component';
+import { BlogsComponent as adminblogscomponent } from './Admin/sidebar/blogs/blogs.component';
+import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special-notices.component';
+import { CalenderComponent } from './Admin/sidebar/calender/calender.component';
+import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
+import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
+import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -68,15 +77,15 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'dashboard', component: AdmindashboardComponent },
-      { path: 'user-management', component: AdmindashboardComponent },
-      { path: 'approvals', component: AdmindashboardComponent },
-      { path: 'blogs', component: AdmindashboardComponent },
-      { path: 'special-notices', component: AdmindashboardComponent },
-      { path: 'calendar', component: AdmindashboardComponent },
-      { path: 'reports', component: AdmindashboardComponent },
-      { path: 'analytics', component: AdmindashboardComponent },
-      { path: 'system-maintenance', component: AdmindashboardComponent },
-      { path: 'feedback-management', component: AdmindashboardComponent },
+      { path: 'user-management', component: UserManagementComponent },
+      { path: 'approvals', component: ApprovalsComponent },
+      { path: 'blogs', component: adminblogscomponent  },
+      { path: 'special-notices', component: SpecialNoticesComponent },
+      { path: 'calendar', component: CalenderComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'analytics', component: AnalyticsComponent },
+      { path: 'system-maintenance', component: SystemMaintainCreateComponent },
+      { path: 'feedback-management', component: FeedbackComponent },
       { path: 'settings', component: AdmindashboardComponent },
     ]
   },
