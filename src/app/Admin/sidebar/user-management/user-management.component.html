@@ -1,6 +1,19 @@
 <div class="user-management-container">
   <h2>User Management</h2>
 
+  <!-- Display counts -->
+  <div class="counts-container">
+    <div class="total-count">
+      Total Users: {{ filteredTotalCount }} (Overall: {{ totalCount }})
+    </div>
+    <div class="role-counts">
+      Players: {{ filteredRoleCounts.player }} (Overall: {{ roleCounts.player }}),
+      Coaches: {{ filteredRoleCounts.coach }} (Overall: {{ roleCounts.coach }}),
+      Stadium Owners: {{ filteredRoleCounts.stadiumOwner }} (Overall: {{ roleCounts.stadiumOwner }}),
+      Medical Officers: {{ filteredRoleCounts.medicalOfficer }} (Overall: {{ roleCounts.medicalOfficer }})
+    </div>
+  </div>
+
   <div class="filters">
     <mat-form-field appearance="outline">
       <mat-label>Search by First Name</mat-label>

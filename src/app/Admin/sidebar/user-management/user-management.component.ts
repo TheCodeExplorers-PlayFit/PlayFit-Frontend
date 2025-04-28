@@ -31,6 +31,20 @@ export class UserManagementComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   displayedColumns: string[] = ['name', 'email', 'phone', 'role', 'actions'];
+  totalCount: number = 0;
+  roleCounts: { player: number; coach: number; stadiumOwner: number; medicalOfficer: number } = {
+    player: 0,
+    coach: 0,
+    stadiumOwner: 0,
+    medicalOfficer: 0,
+  };
+  filteredTotalCount: number = 0;
+  filteredRoleCounts: { player: number; coach: number; stadiumOwner: number; medicalOfficer: number } = {
+    player: 0,
+    coach: 0,
+    stadiumOwner: 0,
+    medicalOfficer: 0,
+  };
 
   constructor(
     private userService: UserService,
@@ -49,6 +63,13 @@ export class UserManagementComponent implements OnInit {
             ...user,
             name: `${user.first_name} ${user.last_name}`, // Compute name
           }));
+          this.totalCount = response.totalCount || this.users.length;
+          this.roleCounts = response.roleCounts || {
+            player: 0,
+            coach: 0,
+            stadiumOwner: 0,
+            medicalOfficer: 0,
+          };
           this.filterUsers();
         }
       },
@@ -67,6 +88,19 @@ export class UserManagementComponent implements OnInit {
         this.selectedRole === 'all' || user.role === this.selectedRole;
       return matchesSearch && matchesRole;
     });
+
+    // Calculate filtered counts
+    this.filteredTotalCount = this.filteredUsers.length;
+    this.filteredRoleCounts = this.filteredUsers.reduce(
+      (acc, user) => {
+        if (user.role === 'player') acc.player++;
+        if (user.role === 'coach') acc.coach++;
+        if (user.role === 'stadiumOwner') acc.stadiumOwner++;
+        if (user.role === 'medicalOfficer') acc.medicalOfficer++;
+        return acc;
+      },
+      { player: 0, coach: 0, stadiumOwner: 0, medicalOfficer: 0 }
+    );
   }
 
   onSearchChange(): void {

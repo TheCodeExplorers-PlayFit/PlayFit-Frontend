@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
 
 export interface User {
   id: number;
@@ -10,38 +9,42 @@ export interface User {
   email: string;
   phone: string;
   role: string;
-  gender: string | null;
-  age: number | null;
-  nic: string | null;
+  gender: string;
+  age: number;
+  nic: string;
   created_at: string;
-  name: string; // Added to support full name in the table
+  name?: string; // Added for computed name in component
+}
+
+export interface UserResponse {
+  success: boolean;
+  data: User[];
+  totalCount: number;
+  roleCounts: {
+    player: number;
+    coach: number;
+    stadiumOwner: number;
+    medicalOfficer: number;
+  };
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'http://localhost:5000/api/users';
+  private apiUrl = 'http://localhost:5000/api/users';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+  getAllUsers(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(this.apiUrl, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
   }
 
-  getAllUsers(): Observable<{ success: boolean; data: User[] }> {
-    return this.http.get<{ success: boolean; data: User[] }>(this.baseUrl, {
-      headers: this.getHeaders(),
+  deleteUser(userId: number): Observable<{ success: boolean; message: string }> {
+    return this.http.delete<{ success: boolean; message: string }>(`${this.apiUrl}/${userId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
-  }
-
-  deleteUser(id: number): Observable<{ success: boolean; message: string }> {
-    return this.http.delete<{ success: boolean; message: string }>(
-      `${this.baseUrl}/${id}`,
-      { headers: this.getHeaders() }
-    );
   }
 }
