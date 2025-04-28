@@ -1,49 +1,104 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { UserService, User } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatIconModule,
+  ],
   templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.css']
+  styleUrls: ['./user-management.component.css'],
 })
-export class UserManagementComponent {
+export class UserManagementComponent implements OnInit {
   searchTerm: string = '';
-  users = [
-    {
-      id: 1,
-      name: 'Kaveesha Fernando',
-      email: 'kaveesha@playfit.com',
-      phone: '077 123 4567',
-      role: 'Coach',
-      status: 'Active',
-      photo: 'https://randomuser.me/api/portraits/men/1.jpg'
-    },
-    {
-      id: 2,
-      name: 'Rashmi Perera',
-      email: 'rashmi@playfit.com',
-      phone: '071 987 6543',
-      role: 'Player',
-      status: 'Pending',
-      photo: 'https://randomuser.me/api/portraits/women/2.jpg'
-    },
-    {
-      id: 3,
-      name: 'Anujan Silva',
-      email: 'anujan@playfit.com',
-      phone: '076 234 5678',
-      role: 'Stadium Owner',
-      status: 'Suspended',
-      photo: 'https://randomuser.me/api/portraits/men/3.jpg'
-    }
-  ];
+  selectedRole: string = 'all';
+  users: User[] = [];
+  filteredUsers: User[] = [];
+  displayedColumns: string[] = ['name', 'email', 'phone', 'role', 'actions'];
 
-  get filteredUsers() {
-    return this.users.filter(user =>
-      user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.users = response.data.map((user) => ({
+            ...user,
+            name: `${user.first_name} ${user.last_name}`, // Compute name
+          }));
+          this.filterUsers();
+        }
+      },
+      error: (error) => {
+        this.snackBar.open('Error loading users', 'Close', { duration: 3000 });
+      },
+    });
+  }
+
+  filterUsers(): void {
+    this.filteredUsers = this.users.filter((user) => {
+      const matchesSearch = user.first_name
+        .toLowerCase()
+        .startsWith(this.searchTerm.toLowerCase());
+      const matchesRole =
+        this.selectedRole === 'all' || user.role === this.selectedRole;
+      return matchesSearch && matchesRole;
+    });
+  }
+
+  onSearchChange(): void {
+    this.filterUsers();
+  }
+
+  onRoleChange(): void {
+    this.filterUsers();
+  }
+
+  viewProfile(userId: number): void {
+    this.snackBar.open('Profile view not implemented yet', 'Close', {
+      duration: 3000,
+    });
+  }
+
+  deleteUser(userId: number): void {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(userId).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.users = this.users.filter((user) => user.id !== userId);
+            this.filterUsers();
+            this.snackBar.open('User deleted successfully', 'Close', {
+              duration: 3000,
+            });
+          }
+        },
+        error: (error) => {
+          this.snackBar.open('Error deleting user', 'Close', { duration: 3000 });
+        },
+      });
+    }
   }
 }
