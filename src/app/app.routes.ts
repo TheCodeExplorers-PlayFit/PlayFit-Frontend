@@ -22,6 +22,7 @@ import { StadiumDetailComponent } from './coach/stadium-detail/stadium-detail.co
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
 import { ComplaintsComponent as CoachComplaintsComponent } from './coach/complaints/complaints.component';
+import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -101,13 +102,19 @@ export const routes: Routes = [
   },
 
   // ===== COACH ROUTES =====
-  { path: 'coach/booking-history', component: BookingHistoryComponent },
-  { path: 'coach/schedule-selector', component: ScheduleSelectorComponent },
-  { path: 'coach/stadium-list', component: StadiumListComponent },
-  { path: 'coach/stadium-detail', component: StadiumDetailComponent },
-  { path: 'coach/dashboard', component: CoachDashboardComponent },
-  { path: 'coach/private-playing-requests', component: PrivateRequestsComponent },
-  { path: 'coach/complaints', component: CoachComplaintsComponent },
+  {
+    path: 'coach',
+    component: CoachLayoutComponent,
+    children: [
+      { path: 'dashboard', component: CoachDashboardComponent },
+      { path: 'booking-history', component: BookingHistoryComponent },
+      { path: 'schedule-selector', component: ScheduleSelectorComponent },
+      { path: 'stadium-list', component: StadiumListComponent },
+      { path: 'stadium-detail', component: StadiumDetailComponent },
+      { path: 'private-playing-requests', component: PrivateRequestsComponent },
+      { path: 'complaints', component: CoachComplaintsComponent },
+    ]
+  },
 
   // ===== STADIUM OWNER ROUTES =====
   {
