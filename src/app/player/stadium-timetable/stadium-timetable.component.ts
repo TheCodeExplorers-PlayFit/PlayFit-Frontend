@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { BookingConfirmationDialogComponent } from '../booking-confirmation-dialog/booking-confirmation-dialog.component';
 
-// Declare Payhere interface to extend Window
 interface Payhere {
   onCompleted: (paymentId: string) => void;
   onDismissed: () => void;
@@ -39,11 +38,11 @@ declare global {
 })
 export class StadiumTimetableComponent implements OnInit {
   private apiUrl = 'http://localhost:5000/api';
-  displayedColumns: string[] = ['date', 'sport', 'startTime', 'endTime', 'status', 'action'];
+  displayedColumns: string[] = ['date', 'sport', 'startTime', 'endTime', 'status', 'totalCost', 'action'];
   sessions: any[] = [];
   stadiumId: number | null = null;
   sportId: number | null = null;
-  playerId: number = 18; // Updated to valid player ID
+  playerId: number = 18;
 
   constructor(
     private http: HttpClient,
@@ -86,7 +85,7 @@ export class StadiumTimetableComponent implements OnInit {
         if (response.success) {
           const dialogRef = this.dialog.open(BookingConfirmationDialogComponent, {
             width: '400px',
-            data: { cost: response.session.cost }
+            data: { totalCost: response.session.total_cost }
           });
           dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -113,22 +112,35 @@ export class StadiumTimetableComponent implements OnInit {
     }).subscribe({
       next: (response: any) => {
         if (response.success) {
-          if (!window.payhere) {
-            console.error('PayHere SDK not loaded');
-            this.snackBar.open('Payment service unavailable. Please try again later.', 'Close', { duration: 3000 });
-            return;
-          }
-          window.payhere.onCompleted = (paymentId: string) => {
-            this.snackBar.open(`Payment completed: ${paymentId}`, 'Close', { duration: 3000 });
-            this.loadTimetable(); // Refresh timetable
+          const checkPayHere = (callback: () => void, timeout = 5000) => {
+            console.log('Checking PayHere SDK availability...');
+            const startTime = Date.now();
+            const interval = setInterval(() => {
+              console.log('PayHere status:', !!window.payhere);
+              if (window.payhere) {
+                clearInterval(interval);
+                callback();
+              } else if (Date.now() - startTime > timeout) {
+                clearInterval(interval);
+                console.error('PayHere SDK not loaded within timeout');
+                this.snackBar.open('Payment service unavailable. Please try again later.', 'Close', { duration: 3000 });
+              }
+            }, 100);
           };
-          window.payhere.onDismissed = () => {
-            this.snackBar.open('Payment cancelled', 'Close', { duration: 3000 });
-          };
-          window.payhere.onError = (error: string) => {
-            this.snackBar.open(`Payment failed: ${error}`, 'Close', { duration: 3000 });
-          };
-          window.payhere.startPayment(response.payment);
+
+          checkPayHere(() => {
+            window.payhere.onCompleted = (paymentId: string) => {
+              this.snackBar.open(`Payment completed: ${paymentId}`, 'Close', { duration: 3000 });
+              this.loadTimetable();
+            };
+            window.payhere.onDismissed = () => {
+              this.snackBar.open('Payment cancelled', 'Close', { duration: 3000 });
+            };
+            window.payhere.onError = (error: string) => {
+              this.snackBar.open(`Payment failed: ${error}`, 'Close', { duration: 3000 });
+            };
+            window.payhere.startPayment(response.payment);
+          });
         } else {
           this.snackBar.open('Failed to initiate payment', 'Close', { duration: 3000 });
         }
