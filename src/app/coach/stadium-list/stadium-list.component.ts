@@ -23,17 +23,18 @@ export class StadiumListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check if user is logged in before loading stadiums
-    if (!this.authService.isLoggedIn()) {
+    const user = this.authService.getUser();
+    if (!this.authService.isLoggedIn() || !user) {
       this.error = 'Please log in to view available stadiums';
       this.loading = false;
-      
-      // Optionally redirect to login page
-      // this.router.navigate(['/login']);
+      this.router.navigate(['/sign-in']);
       return;
     }
-
-    // Continue loading stadiums if user is logged in
+    if (user.role !== 'coach') {
+      this.error = 'Only coaches can access this feature';
+      this.loading = false;
+      return;
+    }
     this.loadStadiums();
   }
 
@@ -45,29 +46,29 @@ export class StadiumListComponent implements OnInit {
           this.stadiums = response.data;
         } else {
           this.stadiums = [];
-          this.error = 'No stadiums found for your sports';
+          this.error = response.message || 'No stadiums found for your sports';
         }
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error fetching stadiums:', error);
-        
-        // Handle authentication errors
         if (error.status === 401) {
           this.error = 'Your session has expired. Please log in again.';
-          this.authService.logout(); // Clear invalid token
-          // Optionally redirect to login page
-          // this.router.navigate(['/login']);
+          if (error.error?.message.includes('Not authorized')) {
+            this.authService.logout();
+            this.router.navigate(['/sign-in']);
+          }
+        } else if (error.status === 403) {
+          this.error = 'Only coaches can access this feature';
+        } else if (error.status === 404) {
+          this.error = error.error?.message || 'No valid sports found for this coach';
         } else {
           this.error = error.error?.message || 'Failed to load stadiums';
         }
-        
         this.loading = false;
       }
     });
   }
 
-  // Fallback image if stadium image can't be loaded
   handleImageError(event: any): void {
     event.target.src = 'assets/images/stadium-placeholder.jpg';
   }
