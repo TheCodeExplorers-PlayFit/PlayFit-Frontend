@@ -1,50 +1,81 @@
 .stadium-list-container {
-    padding: 20px;
-    max-width: 960px; /* Adjust as needed */
-    margin: 0 auto; /* Center the content */
-  }
-  
-  .stadium-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-    gap: 20px;
-  }
-  
-  .stadium-list-container h2 {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .stadium-card { /* Styles for the stadium card are now directly in stadium-list.component.css */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  }
-  
-  .stadium-card img {
-    width: 100%;
-    border-radius: 8px 8px 0 0; /* Rounded corners for image top */
-    margin-bottom: 10px;
-    max-height: 150px; /* Limit image height */
-    object-fit: cover; /* Ensure images fit nicely */
-  }
-  
-  .stadium-card h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  
-  .stadium-card p {
-    color: #555; /* Medium grey text */
-    line-height: 1.4;
-  }
-  
-  .stadium-card a {
-    display: block;
-    text-align: right;
-    color: #007bff; /* Example link color */
-    text-decoration: none;
-    margin-top: 10px;
-  }
+  padding: 20px;
+  max-width: 960px; /* Adjust as needed */
+  margin: 0 auto; /* Center the content */
+  box-sizing: border-box; /* Prevent padding issues */
+}
+
+.stadium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 20px;
+}
+
+.stadium-list-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.stadium-card {
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  box-sizing: border-box; /* Prevent padding issues */
+}
+
+.stadium-card img {
+  width: 100%;
+  border-radius: 8px 8px 0 0; /* Rounded corners for image top */
+  margin-bottom: 10px;
+  max-height: 150px; /* Limit image height */
+  object-fit: cover; /* Ensure images fit nicely */
+}
+
+.stadium-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.stadium-card p {
+  color: #555; /* Medium grey text */
+  line-height: 1.4;
+}
+
+.stadium-card a {
+  display: block;
+  text-align: right;
+  color: #007bff; /* Example link color */
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.loading-state, .error-state, .empty-state {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd; /* Match stadium-card border */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Match stadium-card shadow */
+}
+
+.loading-state p, .error-state p, .empty-state p {
+  color: #555; /* Match stadium-card text color */
+  margin: 0 0 10px 0;
+}
+
+.error-state .login-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  color: #007bff; /* Match link color */
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.error-state .login-btn:hover {
+  background-color: #007bff;
+  color: #fff; /* White text on hover */
+}

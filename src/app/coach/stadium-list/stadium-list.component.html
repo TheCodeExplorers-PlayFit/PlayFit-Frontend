@@ -1,13 +1,47 @@
-<p>stadium-list works!</p>
 <div class="stadium-list-container">
-    <h2>Stadiums available in Moratuwa area</h2>
-    <div class="stadium-grid">
-      <div *ngFor="let stadium of stadiums" class="stadium-card">
-        <img [src]="stadium.images[0]" alt="{{stadium.name}}" width="300">
-        <h3>{{stadium.name}}</h3>
-        <p>{{stadium.description}}</p>
-         <a routerLink="/stadium-detail" routerLinkActive="active">Read more</a>
-      </div>
-    </div>
+  <h2>Available Stadiums for Your Sports</h2>
+  
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-state">
+    <p>Loading stadiums...</p>
   </div>
   
+  <!-- Error state -->
+  <div *ngIf="error && !loading" class="error-state">
+    <p>{{ error }}</p>
+    <!-- Add login button for authentication errors -->
+    <button *ngIf="error.includes('log in')" 
+            routerLink="/login" 
+            class="login-btn">
+      Log In
+    </button>
+  </div>
+  
+  <!-- Empty state -->
+  <div *ngIf="!loading && !error && stadiums.length === 0" class="empty-state">
+    <p>No stadiums are currently available for the sports you teach.</p>
+  </div>
+  
+  <!-- Stadium grid -->
+  <div *ngIf="!loading && stadiums.length > 0" class="stadium-grid">
+    <div *ngFor="let stadium of stadiums" class="stadium-card">
+      <img 
+        [src]="stadium.images && stadium.images.length > 0 ? stadium.images[0] : 'assets/images/stadium-placeholder.jpg'" 
+        alt="{{stadium.name}}" 
+        (error)="handleImageError($event)">
+      <h3>{{stadium.name}}</h3>
+      <p class="location" *ngIf="stadium.location_name">
+        <span class="location-icon">📍</span> {{stadium.location_name}}
+      </p>
+      <p class="stadium-description">{{stadium.description || 'No description available'}}</p>
+      
+      <div class="sports-tags">
+        <span *ngFor="let sport of stadium.sport_names" class="sport-tag">
+          {{sport}}
+        </span>
+      </div>
+      
+      <a [routerLink]="['/stadium-detail', stadium.id]" class="view-details-btn">View Details</a>
+    </div>
+  </div>
+</div>
