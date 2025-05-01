@@ -1,8 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
-import * as L from 'leaflet';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-stadium',
@@ -10,21 +9,19 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [CommonModule, FormsModule, HttpClientModule],
   styleUrls: ['./add-stadium.component.css'],
 })
-export class AddStadiumComponent implements AfterViewInit {
+export class AddStadiumComponent {
   stadium: any = {
     name: '',
-    id: '',
     address: '',
     facilities: '',
     locationText: '',
+    locationUrl: '',
   };
 
   agreed = false;
   imagePreviews: string[] = [];
-  map: any;
-  marker: any;
+  locationConfirmed = false;
 
-  // Sport schedule related
   sportsOptions: string[] = ['Football', 'Cricket', 'Rugby', 'Hockey', 'Tennis'];
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   selectedSport: string | null = null;
@@ -33,18 +30,7 @@ export class AddStadiumComponent implements AfterViewInit {
   selectedToTime: string = '';
   scheduleRows: { sport: string; day: string; fromTime: string; toTime: string }[] = [];
 
-  ngAfterViewInit(): void {
-    this.map = L.map('map').setView([6.9271, 79.8612], 13); // Default to Colombo
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-    }).addTo(this.map);
-
-    this.marker = L.marker([6.9271, 79.8612], { draggable: true }).addTo(this.map);
-    this.marker.on('dragend', () => {
-      const pos = this.marker.getLatLng();
-      console.log('Selected position:', pos);
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   locateAddress() {
     if (!this.stadium.locationText) return;
@@ -55,12 +41,29 @@ export class AddStadiumComponent implements AfterViewInit {
         if (data.length > 0) {
           const lat = parseFloat(data[0].lat);
           const lon = parseFloat(data[0].lon);
-          this.map.setView([lat, lon], 15);
-          this.marker.setLatLng([lat, lon]);
+
+          const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+
+          this.stadium.locationUrl = googleMapsUrl;
+
+          window.open(googleMapsUrl, '_blank');
         } else {
           alert('Location not found!');
         }
+      })
+      .catch(err => {
+        console.error('Error fetching location:', err);
+        alert('Error finding location');
       });
+  }
+
+  confirmLocation() {
+    if (this.stadium.locationUrl) {
+      this.locationConfirmed = true;
+      alert('Location confirmed!');
+    } else {
+      alert('Please find a location on the map first.');
+    }
   }
 
   onFileSelected(event: any) {
@@ -103,10 +106,32 @@ export class AddStadiumComponent implements AfterViewInit {
   }
 
   onSubmit(form: any) {
-    if (form.valid) {
+    if (form.valid && this.locationConfirmed) {
       console.log('Form submitted:', this.stadium);
       console.log('Schedule:', this.scheduleRows);
-      // Add backend integration here
+
+      const stadiumData = {
+        name: this.stadium.name,
+        address: this.stadium.address,
+        description: this.stadium.facilities,
+        images: this.imagePreviews,
+        locationUrl: this.stadium.locationUrl,
+        schedule: this.scheduleRows,
+      };
+
+      this.http.post('http://localhost:5000/api/stadiums/add', stadiumData)
+        .subscribe({
+          next: (response: any) => {
+            console.log('Stadium added successfully!', response);
+            alert('Stadium added successfully!');
+          },
+          error: (error: any) => {
+            console.error('Error adding stadium:', error);
+            alert(`Error adding stadium: ${error.status} - ${error.statusText}`);
+          }
+        });
+    } else if (!this.locationConfirmed) {
+      alert('Please confirm the location before submitting.');
     }
   }
 }

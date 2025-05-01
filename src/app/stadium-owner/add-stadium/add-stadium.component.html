@@ -81,12 +81,14 @@
         <img *ngFor="let img of imagePreviews" [src]="img" />
       </div>
 
-      <!-- Map -->
+      <!-- Location -->
       <label>Location:</label>
       <input type="text" [(ngModel)]="stadium.locationText" name="locationText"
              placeholder="Type a location…" (keyup.enter)="locateAddress()" />
       <button type="button" (click)="locateAddress()">Find on Map</button>
-      <div id="map" class="map-box"></div>
+      <button type="button" (click)="confirmLocation()" [disabled]="!stadium.locationUrl || locationConfirmed" class="confirm-button">
+        {{ locationConfirmed ? 'Location Confirmed' : 'Confirm Location' }}
+      </button>
 
       <!-- Terms -->
       <div class="form-group terms-group">
@@ -94,7 +96,7 @@
         <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
       </div>
 
-      <button type="submit" [disabled]="!agreed || !f.form.valid">Submit</button>
+      <button type="submit" [disabled]="!agreed || !f.form.valid || !locationConfirmed">Submit</button>
     </form>
   </div>
 </div>
