@@ -1,1 +1,29 @@
-<p>appointments works!</p>
+<!-- appointments.component.html -->
+<h1 class="p-1" [style.marginTop]="marginTop">Appointments</h1>
+<div class="container">
+  <h3 class="mb-4" class="text-muted">Appointment Requests</h3>
+  <table class="table table-bordered table-striped">
+    <thead class="table-primary" [ngStyle]="">
+      <tr>
+        <th>ID</th>
+        <th>Player</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appointment of appointments">
+        <td>{{ appointment.id }}</td>
+        <td>{{ appointment.player_name }}</td>
+        <td>{{ appointment.appointment_date }}</td>
+        <td>{{ appointment.appointment_time }}</td>
+        <td>{{ appointment.reason }}</td>
+        <td>{{ appointment.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
