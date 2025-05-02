@@ -1,18 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { StadiumService } from '../../services/stadium/stadium.service';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-stadium-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterModule],
+  imports: [CommonModule, RouterLink, RouterModule, FormsModule],
   templateUrl: './stadium-list.component.html',
-  styleUrl: './stadium-list.component.css'
+  styleUrls: ['./stadium-list.component.css']
 })
 export class StadiumListComponent implements OnInit {
   stadiums: any[] = [];
+  filteredStadiums: any[] = [];
+  sports: string[] = [];
+  locations: string[] = [];
+  sportFilter: string = '';
+  locationFilter: string = '';
   loading: boolean = true;
   error: string | null = null;
 
@@ -44,8 +50,20 @@ export class StadiumListComponent implements OnInit {
       next: (response) => {
         if (response.success && response.data) {
           this.stadiums = response.data;
+          this.filteredStadiums = [...this.stadiums];
+          this.sports = [...new Set(
+            this.stadiums
+              .flatMap(stadium => stadium.sport_names || [])
+              .filter(sport => sport)
+          )];
+          this.locations = [...new Set(
+            this.stadiums
+              .map(stadium => stadium.location_name)
+              .filter(location => location)
+          )];
         } else {
           this.stadiums = [];
+          this.filteredStadiums = [];
           this.error = response.message || 'No stadiums found for your sports';
         }
         this.loading = false;
@@ -67,6 +85,24 @@ export class StadiumListComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  filterStadiums(): void {
+    let tempStadiums = [...this.stadiums];
+
+    if (this.sportFilter) {
+      tempStadiums = tempStadiums.filter(stadium =>
+        stadium.sport_names?.includes(this.sportFilter)
+      );
+    }
+
+    if (this.locationFilter) {
+      tempStadiums = tempStadiums.filter(stadium =>
+        stadium.location_name?.toLowerCase().includes(this.locationFilter.toLowerCase())
+      );
+    }
+
+    this.filteredStadiums = tempStadiums;
   }
 
   handleImageError(event: any): void {
