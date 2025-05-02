@@ -31,18 +31,22 @@
 
       <div *ngIf="selectedSport">
         <label>Select Day:</label>
-        <select [(ngModel)]="selectedDay" name="day">
+        <select [(ngModel)]="selectedDay" name="day" required>
+          <option value="" disabled selected>Select a day</option>
           <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
         </select>
+
+        <label>Max Players:</label>
+        <input type="number" [(ngModel)]="selectedMaxPlayers" name="maxPlayers" min="1" required />
 
         <div class="time-range">
           <div>
             <label>From Time:</label>
-            <input type="time" [(ngModel)]="selectedFromTime" name="fromTime" />
+            <input type="time" [(ngModel)]="selectedFromTime" name="fromTime" required />
           </div>
           <div>
             <label>To Time:</label>
-            <input type="time" [(ngModel)]="selectedToTime" name="toTime" />
+            <input type="time" [(ngModel)]="selectedToTime" name="toTime" required />
           </div>
         </div>
 
@@ -59,6 +63,7 @@
               <th>Day</th>
               <th>From</th>
               <th>To</th>
+              <th>Max Players</th>
               <th>Remove</th>
             </tr>
           </thead>
@@ -68,6 +73,7 @@
               <td>{{ row.day }}</td>
               <td>{{ row.fromTime }}</td>
               <td>{{ row.toTime }}</td>
+              <td>{{ row.maxPlayers }}</td>
               <td><button type="button" (click)="removeRow(i)">X</button></td>
             </tr>
           </tbody>
