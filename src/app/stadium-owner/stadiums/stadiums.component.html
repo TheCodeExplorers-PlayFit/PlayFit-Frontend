@@ -1,71 +1,126 @@
-<div class="d-flex flex-row gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
-<div class="stadiums-dashboard">
-    <header class="dashboard-header">
-      <h1>Stadiums</h1>
-      <div class="total-stadiums">
-        <p>Total Stadiums Owned: 3</p>
+<div class="container">
+  <h2>Stadiums</h2>
+
+  <div class="row">
+    <div class="col-md-8">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Sports</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stadium of stadiums">
+            <td>{{ stadium.name }}</td>
+            <td>{{ stadium.address }}</td>
+            <td>
+              <ul class="list-unstyled">
+                <li *ngFor="let schedule of stadium.schedules">
+                  {{ schedule.sport }} ({{ schedule.start_time }} - {{ schedule.end_time }}, {{ schedule.max_players }} players)
+                </li>
+              </ul>
+            </td>
+            <td>
+              <button class="btn btn-primary btn-sm me-2" (click)="enableEdit(stadium)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteStadium(stadium.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Total Stadiums Owned</h5>
+          <p class="card-text">{{ stadiums.length }} <small>(Since last week)</small></p>
+        </div>
       </div>
-    </header>
-  
-    
-      
-      <div class="stadium-card">
-        <section class="stadium-details">
-            <h3>Stadium Details</h3>
-  
-      <div class="sports-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Address</th>
-              <th>Sports</th>
-              <th>Action</th>
-             
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>
-                <div class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Sports Per Stadium</h5>
+          <p class="card-text">Galaxy Sports League: 4 sports</p>
+          <p class="card-text">YMB Sports Club: 2 sports <small>(Since last week)</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-8">
+      <h4>Stadium Locations</h4>
+      <!-- Placeholder for map (replace with actual map integration if needed) -->
+      <div style="height: 300px; background-color: #e9ecef;" class="rounded">Map Placeholder</div>
+    </div>
+    <div class="col-md-4">
+      <h4>Stadium Gallery</h4>
+      <!-- Placeholder for gallery (replace with actual images from stadium.images if needed) -->
+      <div class="row">
+        <div class="col-4 mb-2" *ngFor="let image of [1, 2, 3, 4, 5, 6]">
+          <div style="height: 100px; background-color: #dee2e6; border-radius: 5px;">Image {{ image }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Form Modal -->
+  <div class="modal" [class.show]="showEdit" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Stadium</h5>
+          <button type="button" class="btn-close" (click)="cancelEdit()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="editName" class="form-label">Name</label>
+              <input [(ngModel)]="editedStadium.name" name="name" id="editName" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="editAddress" class="form-label">Address</label>
+              <input [(ngModel)]="editedStadium.address" name="address" id="editAddress" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="editFacilities" class="form-label">Facilities</label>
+              <input [(ngModel)]="editedStadium.facilities" name="facilities" id="editFacilities" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="editGoogleMapsLink" class="form-label">Google Maps Link</label>
+              <input [(ngModel)]="editedStadium.google_maps_link" name="google_maps_link" id="editGoogleMapsLink" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Schedules</label>
+              <div *ngFor="let schedule of editedStadium.schedules; let i = index" class="mb-3">
+                <div class="row">
+                  <div class="col">
+                    <label for="editSport_{{i}}" class="form-label">Sport</label>
+                    <input [(ngModel)]="editedStadium.schedules[i].sport" name="sport_{{i}}" id="editSport_{{i}}" class="form-control">
                   </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button class="more-btn">Add Stadiums</button>
+                  <div class="col">
+                    <label for="editStartTime_{{i}}" class="form-label">Start Time</label>
+                    <input [(ngModel)]="editedStadium.schedules[i].start_time" name="start_time_{{i}}" id="editStartTime_{{i}}" class="form-control">
+                  </div>
+                  <div class="col">
+                    <label for="editEndTime_{{i}}" class="form-label">End Time</label>
+                    <input [(ngModel)]="editedStadium.schedules[i].end_time" name="end_time_{{i}}" id="editEndTime_{{i}}" class="form-control">
+                  </div>
+                  <div class="col">
+                    <label for="editMaxPlayers_{{i}}" class="form-label">Max Players</label>
+                    <input [(ngModel)]="editedStadium.schedules[i].max_players" name="max_players_{{i}}" id="editMaxPlayers_{{i}}" type="number" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="saveEdit()">Save</button>
+        </div>
       </div>
-    </section>
-      </div>
-   
-  
-    <section class="stadium-cards">
-      <div class="stadium-card featured">
-        <h4>Galaxy Sports League</h4>
-        <p>A community-focused club in Bawattawasatma, offering facilities for cricket, vadayaki, and badminton.</p>
-        <button class="more-btn">Add More</button>
-      </div>
-  
-      <div class="stadium-card featured">
-        <h4>Peak Performance Club</h4>
-        <p>A community-focused club in Bawattawasatma, offering facilities for cricket, vadayaki, and badminton.</p>
-        <button class="more-btn">Add More</button>
-      </div>
-  
-      <div class="stadium-card featured">
-        <h4>VMB Sports</h4>
-        <p>A community-focused club in Bawattawasatma, offering facilities for cricket, vadayaki, and badminton.</p>
-        <button class="more-btn">Add More</button>
-      </div>
-    </section>
-  
-    <section class="stadium-locations">
-      <h3>Stadiums' Locations</h3>
-    </section>
+    </div>
   </div>
 </div>
