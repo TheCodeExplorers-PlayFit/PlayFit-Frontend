@@ -33,4 +33,13 @@ export class AppointmentService {
   createAppointment(data: Partial<Appointment>): Observable<Appointment> {
     return this.http.post<Appointment>(`${this.baseUrl}/appointments`, data);
   }
+
+  updateAppointmentStatus(id: number, status: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/appointments/update-status`, {
+      healthAppointmentId: id,
+      status: status
+    });
+  }
+  
+
 }

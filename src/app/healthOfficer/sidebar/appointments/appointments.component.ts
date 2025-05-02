@@ -14,13 +14,34 @@ import { AppointmentService, Appointment } from '../../../services/appointment/a
 })
 export class AppointmentsComponent implements OnInit {
   marginTop = '72px';
+  public tableHeader: string = '#E0E0EE';
   private appointmentService = inject(AppointmentService);
   appointments: Appointment[] = [];
 
   ngOnInit(): void {
-    const healthOfficerId = 1; // Replace with dynamic ID as needed
-    this.appointmentService.getAppointmentsByHealthOfficer(healthOfficerId).subscribe((data) => {
+    const healthOfficerId = 2; // Replace with dynamic ID as needed
+    this.appointmentService.getAppointmentsByHealthOfficer(healthOfficerId).subscribe((data: Appointment[]) => {
       this.appointments = data;
     });
+    
   }
-}
+
+  onStatusChange(event: Event, appointment: Appointment): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const newStatus = selectElement.value;
+
+    if (newStatus) {
+      this.updateStatus(appointment, newStatus);
+    }
+  }
+
+  updateStatus(appointment: Appointment, newStatus: string): void {
+    if (!newStatus) return;
+  
+    this.appointmentService.updateAppointmentStatus(appointment.id, newStatus).subscribe(response => {
+      appointment.status = response.data.status;  // update the local list
+      console.log(`Updated appointment ${appointment.id} to: ${response.data.status}`);
+    });
+  }
+  
+}     
