@@ -43,5 +43,19 @@ export class AppointmentsComponent implements OnInit {
       console.log(`Updated appointment ${appointment.id} to: ${response.data.status}`);
     });
   }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Approved':
+        return 'text-success';  // Bootstrap green
+      case 'Rejected':
+        return 'text-danger';   // Bootstrap red
+      case 'Pending':
+        return 'text-warning';  // Bootstrap yellow
+      default:
+        return '';
+    }
+  }
+  
   
 }     
