@@ -4,6 +4,7 @@ import { Routes } from '@angular/router';
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
 import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
 import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-timetable.component';
+import { PlayerTransactionsComponent } from './player/player-transactions/player-transactions.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -98,6 +99,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
       { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
+      {path:  'transactions', component:PlayerTransactionsComponent}
     ]
   },
 

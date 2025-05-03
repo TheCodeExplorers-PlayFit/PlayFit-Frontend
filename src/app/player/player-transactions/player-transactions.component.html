@@ -1,1 +1,47 @@
-<p>player-transactions works!</p>
+<div class="transactions-container">
+    <h2>My Transactions</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="transactions.length === 0 && !errorMessage" class="alert alert-info">
+      No completed transactions found.
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let transaction of transactions">
+        <div class="card mb-3 transaction-card" (click)="openTransactionModal(transaction)">
+          <div class="card-body">
+            <h5 class="card-title">{{ transaction.sport_name }}</h5>
+            <p class="card-text">
+              <strong>Amount:</strong> {{ transaction.amount }} LKR<br>
+              <strong>Date:</strong> {{ transaction.payment_date | date:'medium' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" *ngIf="selectedTransaction" [style.display]="showModal ? 'block' : 'none'">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Transaction Details</h5>
+            <button type="button" class="close" (click)="closeTransactionModal()">
+              <span>×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Payment ID:</strong> {{ selectedTransaction.payment_id }}</p>
+            <p><strong>Amount:</strong> {{ selectedTransaction.amount }} LKR</p>
+            <p><strong>Payment Date:</strong> {{ selectedTransaction.payment_date | date:'medium' }}</p>
+            <p><strong>Order ID:</strong> {{ selectedTransaction.order_id }}</p>
+            <p><strong>Transaction ID:</strong> {{ selectedTransaction.transaction_id }}</p>
+            <p><strong>Sport:</strong> {{ selectedTransaction.sport_name }}</p>
+            <p><strong>Stadium:</strong> {{ selectedTransaction.stadium_name }}</p>
+            <p><strong>Location:</strong> {{ selectedTransaction.location_name }}</p>
+            <p><strong>Session Date:</strong> {{ selectedTransaction.session_date }}</p>
+            <p><strong>Time:</strong> {{ selectedTransaction.start_time }} - {{ selectedTransaction.end_time }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeTransactionModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

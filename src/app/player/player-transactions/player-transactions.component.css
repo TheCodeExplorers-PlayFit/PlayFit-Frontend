@@ -1,0 +1,52 @@
+.transactions-container {
+    padding-left: 300px; /* Space for sidebar */
+    padding-top: 80px; /* Space for navbar */
+    padding-right: 20px; /* Right padding for consistent spacing */
+    padding-bottom: 20px; /* Bottom padding for consistency */
+  }
+  
+  .transaction-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .transaction-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card {
+    border: 1px solid #000080;
+    border-radius: 8px;
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .modal-dialog {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+  
+  .modal-content {
+    border-radius: 8px;
+  }
