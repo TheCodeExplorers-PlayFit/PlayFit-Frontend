@@ -1,65 +1,74 @@
 <div class="container">
-  <h2>Stadiums</h2>
-
   <div class="row">
-    <div class="col-md-8">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Sports</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let stadium of stadiums">
-            <td>{{ stadium.name }}</td>
-            <td>{{ stadium.address }}</td>
-            <td>
-              <ul class="list-unstyled">
-                <li *ngFor="let schedule of stadium.schedules">
-                  {{ schedule.sport }} ({{ schedule.start_time }} - {{ schedule.end_time }}, {{ schedule.max_players }} players)
-                </li>
-              </ul>
-            </td>
-            <td>
-              <button class="btn btn-primary btn-sm me-2" (click)="enableEdit(stadium)">Edit</button>
-              <button class="btn btn-danger btn-sm" (click)="deleteStadium(stadium.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-4">
+    <!-- Left sidebar -->
+    <div class="col-md-3 col-12">
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">Total Stadiums Owned</h5>
           <p class="card-text">{{ stadiums.length }} <small>(Since last week)</small></p>
         </div>
       </div>
-      <div class="card">
+      <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">Sports Per Stadium</h5>
-          <p class="card-text">Galaxy Sports League: 4 sports</p>
-          <p class="card-text">YMB Sports Club: 2 sports <small>(Since last week)</small></p>
+          <p class="card-text" *ngFor="let stadium of stadiums">
+            {{ stadium.name }}: {{ (stadium.schedules || []).length }} sports
+            <small *ngIf="(stadium.schedules || []).length > 0">(Since last week)</small>
+          </p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4>Stadium Gallery</h4>
+          <div class="row">
+            <div class="col-4 mb-2" *ngFor="let image of getAllImages()">
+              <img [src]="image" class="img-fluid rounded" style="height: 100px; object-fit: cover;" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="row mt-4">
-    <div class="col-md-8">
-      <h4>Stadium Locations</h4>
-      <!-- Placeholder for map (replace with actual map integration if needed) -->
-      <div style="height: 300px; background-color: #e9ecef;" class="rounded">Map Placeholder</div>
-    </div>
-    <div class="col-md-4">
-      <h4>Stadium Gallery</h4>
-      <!-- Placeholder for gallery (replace with actual images from stadium.images if needed) -->
-      <div class="row">
-        <div class="col-4 mb-2" *ngFor="let image of [1, 2, 3, 4, 5, 6]">
-          <div style="height: 100px; background-color: #dee2e6; border-radius: 5px;">Image {{ image }}</div>
+    <!-- Main content with stadiums-card -->
+    <div class="col-md-9 col-12">
+      <div class="stadiums-card">
+        <div class="stadiums-header">Stadiums</div>
+        <div class="total-stadiums">Total Stadiums Owned: {{ stadiums.length }} <small>(Since last week)</small></div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Sports</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let stadium of stadiums">
+              <td>{{ stadium.name }}</td>
+              <td>{{ stadium.address }}</td>
+              <td>
+                <ul class="list-unstyled">
+                  <li *ngFor="let schedule of stadium.schedules || []">
+                    {{ schedule.sport }} ({{ schedule.day }}, {{ schedule.start_time }} - {{ schedule.end_time }}, {{ schedule.max_players }} players)
+                  </li>
+                </ul>
+              </td>
+              <td>
+                <button class="edit-btn me-2" (click)="enableEdit(stadium)">Edit</button>
+                <button class="delete-btn" (click)="deleteStadium(stadium.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="add-stadium-btn" (click)="navigateToAddStadium()">Add Stadium</button>
+
+        <div class="row mt-4">
+          <div class="col-12">
+            <h4>Stadium Locations</h4>
+            <div style="height: 300px; background-color: #e9ecef;" class="rounded">Map Placeholder</div>
+          </div>
         </div>
       </div>
     </div>
@@ -77,11 +86,11 @@
           <form>
             <div class="mb-3">
               <label for="editName" class="form-label">Name</label>
-              <input [(ngModel)]="editedStadium.name" name="name" id="editName" class="form-control">
+              <input [(ngModel)]="editedStadium.name" name="name" id="editName" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="editAddress" class="form-label">Address</label>
-              <input [(ngModel)]="editedStadium.address" name="address" id="editAddress" class="form-control">
+              <input [(ngModel)]="editedStadium.address" name="address" id="editAddress" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="editFacilities" class="form-label">Facilities</label>
@@ -89,30 +98,41 @@
             </div>
             <div class="mb-3">
               <label for="editGoogleMapsLink" class="form-label">Google Maps Link</label>
-              <input [(ngModel)]="editedStadium.google_maps_link" name="google_maps_link" id="editGoogleMapsLink" class="form-control">
+              <input [(ngModel)]="editedStadium.google_maps_link" name="google_maps_link" id="editGoogleMapsLink" class="form-control" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Schedules</label>
-              <div *ngFor="let schedule of editedStadium.schedules; let i = index" class="mb-3">
+              <div *ngFor="let schedule of editedStadium.schedules; let i = index" class="mb-3 border p-3 rounded">
                 <div class="row">
                   <div class="col">
-                    <label for="editSport_{{i}}" class="form-label">Sport</label>
-                    <input [(ngModel)]="editedStadium.schedules[i].sport" name="sport_{{i}}" id="editSport_{{i}}" class="form-control">
+                    <label [for]="'editSport_' + i" class="form-label">Sport</label>
+                    <input [(ngModel)]="schedule.sport" [name]="'sport_' + i" [id]="'editSport_' + i" class="form-control" required>
                   </div>
                   <div class="col">
-                    <label for="editStartTime_{{i}}" class="form-label">Start Time</label>
-                    <input [(ngModel)]="editedStadium.schedules[i].start_time" name="start_time_{{i}}" id="editStartTime_{{i}}" class="form-control">
-                  </div>
-                  <div class="col">
-                    <label for="editEndTime_{{i}}" class="form-label">End Time</label>
-                    <input [(ngModel)]="editedStadium.schedules[i].end_time" name="end_time_{{i}}" id="editEndTime_{{i}}" class="form-control">
-                  </div>
-                  <div class="col">
-                    <label for="editMaxPlayers_{{i}}" class="form-label">Max Players</label>
-                    <input [(ngModel)]="editedStadium.schedules[i].max_players" name="max_players_{{i}}" id="editMaxPlayers_{{i}}" type="number" class="form-control">
+                    <label [for]="'editDay_' + i" class="form-label">Day</label>
+                    <select [(ngModel)]="schedule.day" [name]="'day_' + i" [id]="'editDay_' + i" class="form-control" required>
+                      <option value="" disabled>Select a day</option>
+                      <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
+                    </select>
                   </div>
                 </div>
+                <div class="row mt-2">
+                  <div class="col">
+                    <label [for]="'editStartTime_' + i" class="form-label">Start Time</label>
+                    <input [(ngModel)]="schedule.start_time" [name]="'start_time_' + i" [id]="'editStartTime_' + i" type="time" class="form-control" required>
+                  </div>
+                  <div class="col">
+                    <label [for]="'editEndTime_' + i" class="form-label">End Time</label>
+                    <input [(ngModel)]="schedule.end_time" [name]="'end_time_' + i" [id]="'editEndTime_' + i" type="time" class="form-control" required>
+                  </div>
+                  <div class="col">
+                    <label [for]="'editMaxPlayers_' + i" class="form-label">Max Players</label>
+                    <input [(ngModel)]="schedule.max_players" [name]="'max_players_' + i" [id]="'editMaxPlayers_' + i" type="number" min="1" class="form-control" required>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeSchedule(i)">Remove</button>
               </div>
+              <button type="button" class="btn btn-primary btn-sm" (click)="addSchedule()">Add Schedule</button>
             </div>
           </form>
         </div>
