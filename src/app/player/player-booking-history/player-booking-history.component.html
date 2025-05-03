@@ -4,18 +4,27 @@
     <div *ngIf="bookings.length === 0 && !errorMessage" class="alert alert-info">
       No bookings found.
     </div>
-    <div class="row">
-      <div class="col-md-4" *ngFor="let booking of bookings">
-        <div class="card mb-3 booking-card" (click)="openBookingModal(booking)">
-          <div class="card-body">
-            <h5 class="card-title">{{ booking.sport_name }}</h5>
-            <p class="card-text">
-              <strong>Date:</strong> {{ booking.session_date | date:'mediumDate' }}<br>
-              <strong>Time:</strong> {{ booking.start_time }} - {{ booking.end_time }}
-            </p>
-          </div>
-        </div>
-      </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover" *ngIf="bookings.length > 0">
+        <thead>
+          <tr>
+            <th>Sport</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Stadium</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookings" (click)="openBookingModal(booking)" class="booking-row">
+            <td>{{ booking.sport_name }}</td>
+            <td>{{ booking.session_date | date:'mediumDate' }}</td>
+            <td>{{ booking.start_time }} - {{ booking.end_time }}</td>
+            <td>{{ booking.stadium_name }}</td>
+            <td>{{ booking.location_name }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="modal" *ngIf="selectedBooking" [style.display]="showModal ? 'block' : 'none'">
       <div class="modal-dialog">

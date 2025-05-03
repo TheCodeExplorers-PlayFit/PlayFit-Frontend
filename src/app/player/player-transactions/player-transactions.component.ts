@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-player-transactions',
@@ -14,15 +15,21 @@ export class PlayerTransactionsComponent implements OnInit {
   selectedTransaction: any = null;
   showModal: boolean = false;
   errorMessage: string = '';
-  playerId: number = 18; // Replace with actual player ID from auth service
+  playerId: number | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.fetchTransactions();
+    this.playerId = this.authService.getPlayerId();
+    if (this.playerId) {
+      this.fetchTransactions();
+    } else {
+      this.errorMessage = 'Please log in as a player to view transaction history';
+    }
   }
 
   fetchTransactions(): void {
+    if (!this.playerId) return;
     this.http.get(`http://localhost:5000/api/transactions/player/${this.playerId}`)
       .subscribe({
         next: (response: any) => {
