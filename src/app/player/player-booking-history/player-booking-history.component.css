@@ -3,19 +3,24 @@
     padding-top: 80px; /* Space for navbar */
     padding-right: 20px; /* Right padding for consistent spacing */
     padding-bottom: 20px; /* Bottom padding for consistency */
+    background-color: #f8f9fa;
+    min-height: 100vh;
   }
   
   .booking-card {
     cursor: pointer;
     transition: transform 0.2s;
+    background-color: #ffffff;
+    border-left: 5px solid #000080;
   }
   
   .booking-card:hover {
     transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 128, 0.3);
   }
   
   .card {
-    border: 1px solid #ddd;
+    border: 1px solid #cccccc;
     border-radius: 8px;
   }
   
@@ -26,10 +31,29 @@
   .card-title {
     margin-bottom: 10px;
     font-size: 1.25rem;
+    color: #000080;
+    font-weight: bold;
   }
   
   .card-text {
     font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    padding: 10px;
+    border-radius: 5px;
   }
   
   .modal {
@@ -49,4 +73,60 @@
   
   .modal-content {
     border-radius: 8px;
+    border: 2px solid #000080;
   }
+  
+  .modal-header {
+    background-color: #000080;
+    color: white;
+    padding: 15px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .modal-footer {
+    padding: 10px 20px;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn-secondary {
+    background-color: #000080;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #000066;
+  }
+
+  .modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white; /* Make '×' white */
+    cursor: pointer;
+    opacity: 1;
+  }
+  
+  .modal-header .close span {
+    color: white; /* Ensures the '×' itself is white */
+  }
+  
