@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <h2>Booking Details</h2>
+  <div class="details">
+    <p><strong>Sport:</strong> {{ data.sportName }}</p>
+    <p><strong>Stadium:</strong> {{ data.stadiumName }}</p>
+    <p><strong>Location:</strong> {{ data.locationName }}</p>
+    <p><strong>Date:</strong> {{ data.sessionDate }} ({{ data.dayName }})</p>
+    <p><strong>Time:</strong> {{ data.startTime }} - {{ data.endTime }}</p>
+    <p><strong>Address:</strong> {{ data.address }}</p>
+    <p><strong>Coach:</strong> {{ data.coachName }}</p>
+    <p *ngIf="data.googleMapsLink"><strong>Location:</strong> <a [href]="data.googleMapsLink" target="_blank">View on Google Maps</a></p>
+  </div>
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="close()">Close</button>
+  </div>
+</div>
