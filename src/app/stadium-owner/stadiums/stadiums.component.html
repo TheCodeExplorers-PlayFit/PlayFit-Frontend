@@ -1,32 +1,8 @@
 <div class="container">
   <div class="row">
-    <!-- Left sidebar -->
+    <!-- Left sidebar (now only Stadium Gallery) -->
     <div class="col-md-3 col-12">
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total Stadiums Owned</h5>
-          <p class="card-text">{{ stadiums.length }} <small>(Since last week)</small></p>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Sports Per Stadium</h5>
-          <p class="card-text" *ngFor="let stadium of stadiums">
-            {{ stadium.name }}: {{ (stadium.schedules || []).length }} sports
-            <small *ngIf="(stadium.schedules || []).length > 0">(Since last week)</small>
-          </p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <h4>Stadium Gallery</h4>
-          <div class="row">
-            <div class="col-4 mb-2" *ngFor="let image of getAllImages()">
-              <img [src]="image" class="img-fluid rounded" style="height: 100px; object-fit: cover;" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Removed Total Stadiums Owned and Sports Per Stadium -->
     </div>
 
     <!-- Main content with stadiums-card -->
@@ -40,7 +16,7 @@
             <tr>
               <th>Name</th>
               <th>Address</th>
-              <th>Sports</th>
+              <th>Sports Schedule</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -49,11 +25,29 @@
               <td>{{ stadium.name }}</td>
               <td>{{ stadium.address }}</td>
               <td>
-                <ul class="list-unstyled">
-                  <li *ngFor="let schedule of stadium.schedules || []">
-                    {{ schedule.sport }} ({{ schedule.day }}, {{ schedule.start_time }} - {{ schedule.end_time }}, {{ schedule.max_players }} players)
-                  </li>
-                </ul>
+                <table class="nested-table">
+                  <thead>
+                    <tr>
+                      <th>Sport</th>
+                      <th>Day</th>
+                      <th>Time</th>
+                      <th>Max Players</th>
+                      <th>Sport Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let schedule of stadium.schedules || []">
+                      <td>{{ schedule.sport }}</td>
+                      <td>{{ schedule.day }}</td>
+                      <td>{{ schedule.start_time }} - {{ schedule.end_time }}</td>
+                      <td>{{ schedule.max_players }}</td>
+                      <td>${{ schedule.stadium_sportcost || 0 }}</td>
+                    </tr>
+                    <tr *ngIf="!(stadium.schedules && stadium.schedules.length)">
+                      <td colspan="5">No schedules available</td>
+                    </tr>
+                  </tbody>
+                </table>
               </td>
               <td>
                 <button class="edit-btn me-2" (click)="enableEdit(stadium)">Edit</button>
@@ -65,7 +59,21 @@
         <button class="add-stadium-btn" (click)="navigateToAddStadium()">Add Stadium</button>
 
         <div class="row mt-4">
-          <div class="col-12">
+          <!-- Stadium Gallery moved to the left -->
+          <div class="col-md-4 col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4>Stadium Gallery</h4>
+                <div class="row">
+                  <div class="col-4 mb-2" *ngFor="let image of getAllImages()">
+                    <img [src]="image" class="img-fluid rounded" style="height: 100px; object-fit: cover;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Stadium Locations to the right -->
+          <div class="col-md-8 col-12">
             <h4>Stadium Locations</h4>
             <div style="height: 300px; background-color: #e9ecef;" class="rounded">Map Placeholder</div>
           </div>
@@ -79,7 +87,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Stadium</h5>
+          <h4 class="modal-title">Edit Stadium</h4>
           <button type="button" class="btn-close" (click)="cancelEdit()"></button>
         </div>
         <div class="modal-body">
@@ -115,6 +123,10 @@
                       <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
                     </select>
                   </div>
+                  <div class="col">
+                    <label [for]="'editDate_' + i" class="form-label">Date</label>
+                    <input [(ngModel)]="schedule.date" [name]="'date_' + i" [id]="'editDate_' + i" type="date" class="form-control" required>
+                  </div>
                 </div>
                 <div class="row mt-2">
                   <div class="col">
@@ -128,6 +140,10 @@
                   <div class="col">
                     <label [for]="'editMaxPlayers_' + i" class="form-label">Max Players</label>
                     <input [(ngModel)]="schedule.max_players" [name]="'max_players_' + i" [id]="'editMaxPlayers_' + i" type="number" min="1" class="form-control" required>
+                  </div>
+                  <div class="col">
+                    <label [for]="'editSportCost_' + i" class="form-label">Sport Cost ($)</label>
+                    <input [(ngModel)]="schedule.stadium_sportcost" [name]="'stadium_sportcost_' + i" [id]="'editSportCost_' + i" type="number" min="0" step="0.01" class="form-control" required>
                   </div>
                 </div>
                 <button type="button" class="btn btn-danger btn-sm mt-2" (click)="removeSchedule(i)">Remove</button>

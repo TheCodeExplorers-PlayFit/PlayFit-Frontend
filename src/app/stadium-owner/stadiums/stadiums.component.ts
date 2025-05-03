@@ -11,7 +11,15 @@ interface Stadium {
   google_maps_link: string;
   facilities: string;
   images: string[];
-  schedules: { sport: string; day: string; start_time: string; end_time: string; max_players: number }[];
+  schedules: { 
+    sport: string; 
+    day: string; 
+    date: string; 
+    start_time: string; 
+    end_time: string; 
+    max_players: number; 
+    stadium_sportcost: number; 
+  }[];
 }
 
 @Component({
@@ -22,7 +30,6 @@ interface Stadium {
   imports: [CommonModule, FormsModule, HttpClientModule, RouterModule]
 })
 export class StadiumsComponent implements OnInit {
-  
   stadiums: Stadium[] = [];
   editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedules: [] };
   showEdit = false;
@@ -100,8 +107,8 @@ export class StadiumsComponent implements OnInit {
     }
     // Validate schedules
     for (const schedule of this.editedStadium.schedules) {
-      if (!schedule.sport || !schedule.day || !schedule.start_time || !schedule.end_time || !schedule.max_players || schedule.max_players <= 0) {
-        alert('All schedule fields (sport, day, start time, end time, max players) must be filled and valid.');
+      if (!schedule.sport || !schedule.day || !schedule.date || !schedule.start_time || !schedule.end_time || !schedule.max_players || schedule.max_players <= 0 || !schedule.stadium_sportcost || schedule.stadium_sportcost <= 0) {
+        alert('All schedule fields (sport, day, date, start time, end time, max players, sport cost) must be filled and valid.');
         return;
       }
       if (schedule.start_time >= schedule.end_time) {
@@ -192,9 +199,11 @@ export class StadiumsComponent implements OnInit {
     this.editedStadium.schedules.push({
       sport: '',
       day: '',
+      date: '',
       start_time: '',
       end_time: '',
-      max_players: 0
+      max_players: 0,
+      stadium_sportcost: 0
     });
   }
 

@@ -1,7 +1,7 @@
 .container {
   padding: 50px;
   max-width: 1600px;
-  margin: 78px 0 0 270px; /* Retained to offset for left sidebar (270px) and top header (78px) */
+  margin: 0 0 0 270px;
   font-family: Arial, sans-serif;
 }
 
@@ -11,8 +11,8 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   padding: 30px;
   margin-bottom: 30px;
-  width: 100%; /* Stretches fully to the right within col-md-9 */
-  margin-right: 0; /* Ensures no extra space on the right */
+  width: 100%;
+  margin-right: 0;
 }
 
 .stadiums-header {
@@ -48,6 +48,24 @@ th {
   background-color: #CCCCE6;
   font-weight: 600;
   font-size: 1.1rem;
+}
+
+.nested-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #E6E6FA;
+}
+
+.nested-table th, .nested-table td {
+  border: 1px solid #CCCCE6;
+  padding: 8px;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.nested-table th {
+  background-color: #D3D3FA;
+  font-weight: 500;
 }
 
 .list-unstyled li {
