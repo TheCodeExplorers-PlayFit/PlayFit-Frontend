@@ -5,6 +5,7 @@ import { PlayerDashboardComponent } from './player/player-dashboard/player-dashb
 import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
 import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-timetable.component';
 import { PlayerTransactionsComponent } from './player/player-transactions/player-transactions.component';
+import { PlayerBookingHistoryComponent } from './player/player-booking-history/player-booking-history.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -99,7 +100,8 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
       { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
-      {path:  'transactions', component:PlayerTransactionsComponent}
+      { path:  'transactions', component:PlayerTransactionsComponent },
+      { path:  'booking-history', component:PlayerBookingHistoryComponent },
     ]
   },
 

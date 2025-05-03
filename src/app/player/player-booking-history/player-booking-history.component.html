@@ -1,1 +1,44 @@
-<p>player-booking-history works!</p>
+<div class="bookings-container">
+    <h2>My Booking History</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="bookings.length === 0 && !errorMessage" class="alert alert-info">
+      No bookings found.
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let booking of bookings">
+        <div class="card mb-3 booking-card" (click)="openBookingModal(booking)">
+          <div class="card-body">
+            <h5 class="card-title">{{ booking.sport_name }}</h5>
+            <p class="card-text">
+              <strong>Date:</strong> {{ booking.session_date | date:'mediumDate' }}<br>
+              <strong>Time:</strong> {{ booking.start_time }} - {{ booking.end_time }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" *ngIf="selectedBooking" [style.display]="showModal ? 'block' : 'none'">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Booking Details</h5>
+            <button type="button" class="close" (click)="closeBookingModal()">
+              <span>×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Booking ID:</strong> {{ selectedBooking.booking_id }}</p>
+            <p><strong>Sport:</strong> {{ selectedBooking.sport_name }}</p>
+            <p><strong>Stadium:</strong> {{ selectedBooking.stadium_name }}</p>
+            <p><strong>Location:</strong> {{ selectedBooking.location_name }}</p>
+            <p><strong>Session Date:</strong> {{ selectedBooking.session_date | date:'mediumDate' }}</p>
+            <p><strong>Time:</strong> {{ selectedBooking.start_time }} - {{ selectedBooking.end_time }}</p>
+            <p><strong>Private Session:</strong> {{ selectedBooking.is_private ? 'Yes' : 'No' }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeBookingModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
