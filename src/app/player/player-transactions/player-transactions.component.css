@@ -8,10 +8,15 @@
   .transaction-card {
     cursor: pointer;
     transition: transform 0.2s;
+    background-color: #f0f4ff; /* Light navy-related background */
+    border: 1px solid #000080;
+    border-radius: 8px;
+    color: #000080;
   }
   
   .transaction-card:hover {
     transform: scale(1.05);
+    background-color: #dce4ff; /* Slightly darker on hover */
   }
   
   .card {
@@ -26,10 +31,12 @@
   .card-title {
     margin-bottom: 10px;
     font-size: 1.25rem;
+    color: #000080;
   }
   
   .card-text {
     font-size: 0.9rem;
+    color: #000080;
   }
   
   .modal {
@@ -49,4 +56,58 @@
   
   .modal-content {
     border-radius: 8px;
+    background-color: #ffffff;
+    border: 2px solid #000080;
   }
+  
+  .modal-header {
+    background-color: #000080;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .modal-title {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: #ffcccb;
+  }
+  
+  .modal-body {
+    padding: 15px;
+    color: #000080;
+  }
+  
+  .modal-footer {
+    padding: 10px 15px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn-secondary {
+    background-color: #000080;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #001f4d;
+  }
+  
