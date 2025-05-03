@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -17,8 +17,7 @@ export class AddStadiumComponent {
     address: '',
     facilities: '',
     locationText: '',
-    locationUrl: '',
-    id: ''
+    locationUrl: ''
   };
 
   agreed = false;
@@ -130,9 +129,8 @@ export class AddStadiumComponent {
     this.scheduleRows.splice(index, 1);
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: NgForm) {
     console.log('Form Valid:', form.valid);
-    console.log('Form Controls:', form.controls);
     console.log('Form Value:', form.value);
     console.log('locationConfirmed:', this.locationConfirmed);
     console.log('scheduleRows:', this.scheduleRows);
@@ -163,18 +161,23 @@ export class AddStadiumComponent {
             console.log('Stadium added successfully!', response);
             alert('Stadium added successfully!');
             form.reset();
-            this.stadium = { name: '', address: '', facilities: '', locationText: '', locationUrl: '', id: '' };
+            this.stadium = { name: '', address: '', facilities: '', locationText: '', locationUrl: '' };
             this.imagePreviews = [];
             this.scheduleRows = [];
             this.locationConfirmed = false;
             this.agreed = false;
-            // Navigate to StadiumComponent
             this.router.navigate(['/stadium-owner/stadiums']);
           },
           error: (error: any) => {
             console.error('Error adding stadium:', error);
-            const message = error.error?.message || error.statusText || 'Unknown error';
-            alert(`Error adding stadium: ${error.status} - ${message}`);
+            const message = error.error?.message || error.message || 'An unexpected error occurred';
+            console.log('Error details:', {
+              status: error.status,
+              statusText: error.statusText,
+              error: error.error,
+              message
+            });
+            alert(`Error adding stadium: ${message}`);
             if (error.status === 401) {
               this.router.navigate(['/login']);
             }
