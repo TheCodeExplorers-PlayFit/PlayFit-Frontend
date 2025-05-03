@@ -41,12 +41,12 @@ declare global {
 })
 export class StadiumTimetableComponent implements OnInit {
   private apiUrl = 'http://localhost:5000/api';
-  displayedColumns: string[] = ['date', 'sport', 'startTime', 'endTime', 'status', 'totalCost', 'action'];
+  displayedColumns: string[] = ['date', 'day', 'sport', 'coach', 'startTime', 'endTime', 'status', 'totalCost', 'action'];
   sessions: any[] = [];
   stadiumId: number | null = null;
   sportId: number | null = null;
   playerId: number | null = null;
-  private currentOrderId: string | null = null; // Store order_id
+  private currentOrderId: string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -132,7 +132,7 @@ export class StadiumTimetableComponent implements OnInit {
       next: (response: any) => {
         console.log('Initiate payment response:', response);
         if (response.success) {
-          this.currentOrderId = response.payment.order_id; // Store order_id
+          this.currentOrderId = response.payment.order_id;
           const checkPayHere = (callback: () => void, timeout = 5000) => {
             console.log('Checking PayHere SDK availability...');
             const startTime = Date.now();
@@ -153,7 +153,6 @@ export class StadiumTimetableComponent implements OnInit {
             window.payhere.onCompleted = (paymentId: string) => {
               console.log('Payment completed:', this.currentOrderId);
               this.snackBar.open(`Payment completed: ${this.currentOrderId}`, 'Close', { duration: 3000 });
-              // Call completePayment endpoint
               this.http.post(`${this.apiUrl}/sessions/complete-payment`, {
                 order_id: this.currentOrderId,
                 transaction_id: paymentId

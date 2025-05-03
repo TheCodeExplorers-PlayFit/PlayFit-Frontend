@@ -1,18 +1,16 @@
 .dialog-container {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .booking-details {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  
-  .booking-details p {
-    margin: 5px 0;
-  }
-  
-  .dialog-actions {
-    display: flex;
-    justify-content: space-between;
-  }
+  padding: 20px;
+}
+
+.details p {
+  margin: 10px 0;
+}
+
+.actions {
+  text-align: right;
+  margin-top: 20px;
+}
+
+button {
+  margin-left: 10px;
+}
