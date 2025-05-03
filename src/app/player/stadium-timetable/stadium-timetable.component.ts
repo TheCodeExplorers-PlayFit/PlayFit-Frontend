@@ -8,6 +8,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { BookingConfirmationDialogComponent } from '../booking-confirmation-dialog/booking-confirmation-dialog.component';
+import { BookingDetailsDialogComponent } from '../booking-details-dialog/booking-details-dialog.component';
+import { AuthService } from '../../services/auth/auth.service';
 
 interface Payhere {
   onCompleted: (paymentId: string) => void;
@@ -30,7 +32,8 @@ declare global {
     MatTableModule,
     MatButtonModule,
     MatDialogModule,
-    BookingConfirmationDialogComponent
+    BookingConfirmationDialogComponent,
+    BookingDetailsDialogComponent
   ],
   providers: [CurrencyPipe],
   templateUrl: './stadium-timetable.component.html',
@@ -42,16 +45,23 @@ export class StadiumTimetableComponent implements OnInit {
   sessions: any[] = [];
   stadiumId: number | null = null;
   sportId: number | null = null;
-  playerId: number = 18;
+  playerId: number | null = null;
+  private currentOrderId: string | null = null; // Store order_id
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.playerId = this.authService.getPlayerId();
+    if (!this.playerId) {
+      this.snackBar.open('You must be logged in as a player.', 'Close', { duration: 3000 });
+      return;
+    }
     this.route.paramMap.subscribe(params => {
       this.stadiumId = Number(params.get('stadiumId'));
       this.route.queryParamMap.subscribe(queryParams => {
@@ -62,11 +72,15 @@ export class StadiumTimetableComponent implements OnInit {
   }
 
   loadTimetable(): void {
-    if (this.stadiumId) {
+    if (this.stadiumId && this.playerId) {
       this.http.get(`${this.apiUrl}/sessions/timetable`, {
-        params: { stadiumId: this.stadiumId.toString() }
+        params: { 
+          stadiumId: this.stadiumId.toString(),
+          playerId: this.playerId.toString()
+        }
       }).subscribe({
         next: (response: any) => {
+          console.log('Timetable response:', response);
           this.sessions = response.sessions || [];
         },
         error: (error) => {
@@ -82,6 +96,7 @@ export class StadiumTimetableComponent implements OnInit {
       params: { sessionId: sessionId.toString() }
     }).subscribe({
       next: (response: any) => {
+        console.log('Validate session response:', response);
         if (response.success) {
           const dialogRef = this.dialog.open(BookingConfirmationDialogComponent, {
             width: '400px',
@@ -95,7 +110,7 @@ export class StadiumTimetableComponent implements OnInit {
             }
           });
         } else {
-          this.snackBar.open('Session is unavailable', 'Close', { duration: 3000 });
+          this.snackBar.open(response.message || 'Session is unavailable', 'Close', { duration: 3000 });
         }
       },
       error: (error) => {
@@ -106,12 +121,18 @@ export class StadiumTimetableComponent implements OnInit {
   }
 
   initiatePayment(sessionId: number): void {
+    if (!this.playerId) {
+      this.snackBar.open('Player ID not found.', 'Close', { duration: 3000 });
+      return;
+    }
     this.http.post(`${this.apiUrl}/sessions/initiate-payment`, {
       sessionId,
       playerId: this.playerId
     }).subscribe({
       next: (response: any) => {
+        console.log('Initiate payment response:', response);
         if (response.success) {
+          this.currentOrderId = response.payment.order_id; // Store order_id
           const checkPayHere = (callback: () => void, timeout = 5000) => {
             console.log('Checking PayHere SDK availability...');
             const startTime = Date.now();
@@ -130,15 +151,37 @@ export class StadiumTimetableComponent implements OnInit {
 
           checkPayHere(() => {
             window.payhere.onCompleted = (paymentId: string) => {
-              this.snackBar.open(`Payment completed: ${paymentId}`, 'Close', { duration: 3000 });
-              this.loadTimetable();
+              console.log('Payment completed:', this.currentOrderId);
+              this.snackBar.open(`Payment completed: ${this.currentOrderId}`, 'Close', { duration: 3000 });
+              // Call completePayment endpoint
+              this.http.post(`${this.apiUrl}/sessions/complete-payment`, {
+                order_id: this.currentOrderId,
+                transaction_id: paymentId
+              }).subscribe({
+                next: (response: any) => {
+                  console.log('Complete payment response:', response);
+                  if (response.success) {
+                    this.showBookingDetails(sessionId);
+                    this.loadTimetable();
+                  } else {
+                    this.snackBar.open('Failed to finalize payment: ' + response.message, 'Close', { duration: 3000 });
+                  }
+                },
+                error: (error) => {
+                  console.error('Error finalizing payment:', error);
+                  this.snackBar.open('Failed to finalize payment. Please contact support.', 'Close', { duration: 3000 });
+                }
+              });
             };
             window.payhere.onDismissed = () => {
+              console.log('Payment dismissed');
               this.snackBar.open('Payment cancelled', 'Close', { duration: 3000 });
             };
             window.payhere.onError = (error: string) => {
+              console.error('Payment error:', error);
               this.snackBar.open(`Payment failed: ${error}`, 'Close', { duration: 3000 });
             };
+            console.log('Starting PayHere payment:', response.payment);
             window.payhere.startPayment(response.payment);
           });
         } else {
@@ -148,6 +191,28 @@ export class StadiumTimetableComponent implements OnInit {
       error: (error) => {
         console.error('Error initiating payment:', error);
         this.snackBar.open('Failed to initiate payment. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  showBookingDetails(sessionId: number): void {
+    this.http.get(`${this.apiUrl}/sessions/booking-details`, {
+      params: { sessionId: sessionId.toString() }
+    }).subscribe({
+      next: (response: any) => {
+        console.log('Booking details response:', response);
+        if (response.success) {
+          const dialogRef = this.dialog.open(BookingDetailsDialogComponent, {
+            width: '500px',
+            data: response.bookingDetails
+          });
+        } else {
+          this.snackBar.open('Failed to load booking details', 'Close', { duration: 3000 });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching booking details:', error);
+        this.snackBar.open('Failed to load booking details. Please try again.', 'Close', { duration: 3000 });
       }
     });
   }

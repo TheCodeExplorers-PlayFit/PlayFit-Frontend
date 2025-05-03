@@ -1,0 +1,18 @@
+.dialog-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .booking-details {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .booking-details p {
+    margin: 5px 0;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
