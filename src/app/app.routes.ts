@@ -41,6 +41,7 @@ import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-lay
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
+import { AboutComponent } from './nav-bar/about/about.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
 import { SignInFormComponent } from './register/sign-in-form/sign-in-form.component';
 import { RoleSelectionComponent } from './register/role-selection/role-selection.component';
@@ -74,6 +75,7 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
+  { path: 'about', component: AboutComponent },
 
   // ===== ADMIN ROUTES =====
   {
