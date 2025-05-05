@@ -30,7 +30,8 @@ export class AddStadiumComponent {
   selectedFromTime: string = '';
   selectedToTime: string = '';
   selectedMaxPlayers: number | null = null;
-  scheduleRows: { sport: string; day: string; fromTime: string; toTime: string; maxPlayers: number }[] = [];
+  selectedSportPercentage: number | null = null; // New field for sport cost percentage
+  scheduleRows: { sport: string; day: string; fromTime: string; toTime: string; maxPlayers: number; sportPercentage: number }[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -85,6 +86,7 @@ export class AddStadiumComponent {
     this.selectedFromTime = '';
     this.selectedToTime = '';
     this.selectedMaxPlayers = null;
+    this.selectedSportPercentage = null; // Reset sport percentage
   }
 
   addScheduleRow() {
@@ -94,7 +96,9 @@ export class AddStadiumComponent {
       this.selectedFromTime &&
       this.selectedToTime &&
       this.selectedMaxPlayers !== null &&
-      this.selectedMaxPlayers > 0
+      this.selectedMaxPlayers > 0 &&
+      this.selectedSportPercentage !== null &&
+      this.selectedSportPercentage >= 0 && this.selectedSportPercentage <= 100
     ) {
       if (this.selectedFromTime >= this.selectedToTime) {
         alert('From time must be earlier than To time');
@@ -105,7 +109,8 @@ export class AddStadiumComponent {
         day: this.selectedDay,
         fromTime: this.selectedFromTime,
         toTime: this.selectedToTime,
-        maxPlayers: this.selectedMaxPlayers
+        maxPlayers: this.selectedMaxPlayers,
+        sportPercentage: this.selectedSportPercentage // Add sport percentage
       });
       console.log('Schedule Rows:', this.scheduleRows);
       this.selectedSport = null;
@@ -113,14 +118,16 @@ export class AddStadiumComponent {
       this.selectedFromTime = '';
       this.selectedToTime = '';
       this.selectedMaxPlayers = null;
+      this.selectedSportPercentage = null; // Reset sport percentage
     } else {
-      alert('Please select sport, day, from time, to time, and a valid number of max players');
+      alert('Please select sport, day, from time, to time, a valid number of max players, and a sport cost percentage (0-100)');
       console.log('Schedule fields:', {
         sport: this.selectedSport,
         day: this.selectedDay,
         fromTime: this.selectedFromTime,
         toTime: this.selectedToTime,
-        maxPlayers: this.selectedMaxPlayers
+        maxPlayers: this.selectedMaxPlayers,
+        sportPercentage: this.selectedSportPercentage
       });
     }
   }
@@ -142,7 +149,14 @@ export class AddStadiumComponent {
         google_maps_link: this.stadium.locationUrl,
         facilities: this.stadium.facilities,
         images: this.imagePreviews,
-        schedule: this.scheduleRows
+        schedule: this.scheduleRows.map(row => ({
+          sport: row.sport,
+          day: row.day,
+          fromTime: row.fromTime,
+          toTime: row.toTime,
+          maxPlayers: row.maxPlayers,
+          sportPercentage: row.sportPercentage // Include sport percentage
+        }))
       };
       const token = localStorage.getItem('token');
       if (!token) {
