@@ -13,6 +13,8 @@ import { StadiumsComponent } from './stadium-owner/stadiums/stadiums.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
+import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
+
 
 // ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
@@ -48,7 +50,6 @@ import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-i
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
-import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
