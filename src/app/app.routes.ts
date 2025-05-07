@@ -48,6 +48,7 @@ import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-i
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
+import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -112,6 +113,7 @@ export const routes: Routes = [
       { path: 'complaints', component: ComplaintsComponent },
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
+      { path: 'player-packages', component: PlayerPackagesComponent },
     ]
   },
 
