@@ -4,6 +4,10 @@ import { Routes } from '@angular/router';
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
 import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
 import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-timetable.component';
+import { PlayerTransactionsComponent } from './player/player-transactions/player-transactions.component';
+import { PlayerBookingHistoryComponent } from './player/player-booking-history/player-booking-history.component';
+import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
+import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -24,6 +28,7 @@ import { StadiumDetailComponent } from './coach/stadium-detail/stadium-detail.co
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
 import { ComplaintsComponent as CoachComplaintsComponent } from './coach/complaints/complaints.component';
+import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -39,6 +44,7 @@ import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-lay
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
+import { AboutComponent } from './nav-bar/about/about.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
 import { SignInFormComponent } from './register/sign-in-form/sign-in-form.component';
 import { RoleSelectionComponent } from './register/role-selection/role-selection.component';
@@ -50,6 +56,15 @@ import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-i
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
+import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
+import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
+import { ApprovalsComponent } from './Admin/sidebar/approvals/approvals.component';
+import { BlogsComponent as adminblogscomponent } from './Admin/sidebar/blogs/blogs.component';
+import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special-notices.component';
+import { CalenderComponent } from './Admin/sidebar/calender/calender.component';
+import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
+import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
+import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -63,6 +78,7 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
+  { path: 'about', component: AboutComponent },
 
   // ===== ADMIN ROUTES =====
   {
@@ -70,15 +86,15 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     children: [
       { path: 'dashboard', component: AdmindashboardComponent },
-      { path: 'user-management', component: AdmindashboardComponent },
-      { path: 'approvals', component: AdmindashboardComponent },
-      { path: 'blogs', component: AdmindashboardComponent },
-      { path: 'special-notices', component: AdmindashboardComponent },
-      { path: 'calendar', component: AdmindashboardComponent },
-      { path: 'reports', component: AdmindashboardComponent },
-      { path: 'analytics', component: AdmindashboardComponent },
-      { path: 'system-maintenance', component: AdmindashboardComponent },
-      { path: 'feedback-management', component: AdmindashboardComponent },
+      { path: 'user-management', component: UserManagementComponent },
+      { path: 'approvals', component: ApprovalsComponent },
+      { path: 'blogs', component: adminblogscomponent  },
+      { path: 'special-notices', component: SpecialNoticesComponent },
+      { path: 'calendar', component: CalenderComponent },
+      { path: 'reports', component: ReportsComponent },
+      { path: 'analytics', component: AnalyticsComponent },
+      { path: 'system-maintenance', component: SystemMaintainCreateComponent },
+      { path: 'feedback-management', component: FeedbackComponent },
       { path: 'settings', component: AdmindashboardComponent },
     ]
   },
@@ -90,17 +106,27 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
       { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
+      { path:  'transactions', component:PlayerTransactionsComponent },
+      { path:  'booking-history', component:PlayerBookingHistoryComponent },
+      { path: 'my-timetable', component:PlayerTimetableComponent},
+      { path: 'complaints', component:PlayerComplaintsComponent},
     ]
   },
 
   // ===== COACH ROUTES =====
-  { path: 'coach/booking-history', component: BookingHistoryComponent },
-  { path: 'coach/schedule-selector', component: ScheduleSelectorComponent },
-  { path: 'coach/stadium-list', component: StadiumListComponent },
-  { path: 'coach/stadium-detail', component: StadiumDetailComponent },
-  { path: 'coach/dashboard', component: CoachDashboardComponent },
-  { path: 'coach/private-playing-requests', component: PrivateRequestsComponent },
-  { path: 'coach/complaints', component: CoachComplaintsComponent },
+  {
+    path: 'coach',
+    component: CoachLayoutComponent,
+    children: [
+      { path: 'dashboard', component: CoachDashboardComponent },
+      { path: 'booking-history', component: BookingHistoryComponent },
+      { path: 'schedule-selector', component: ScheduleSelectorComponent },
+      { path: 'stadium-list', component: StadiumListComponent },
+      { path: 'stadium-detail', component: StadiumDetailComponent },
+      { path: 'private-playing-requests', component: PrivateRequestsComponent },
+      { path: 'complaints', component: CoachComplaintsComponent },
+    ]
+  },
 
   // ===== STADIUM OWNER ROUTES =====
   {

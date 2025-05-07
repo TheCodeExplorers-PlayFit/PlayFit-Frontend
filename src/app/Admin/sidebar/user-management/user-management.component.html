@@ -1,46 +1,79 @@
 <div class="user-management-container">
   <h2>User Management</h2>
 
-  <input type="text" [(ngModel)]="searchTerm" placeholder="Search a user..." class="search-bar"/>
-
-  <div class="user-cards">
-    <div class="card" *ngFor="let user of filteredUsers.slice(0, 3)">
-      <img [src]="user.photo" alt="{{ user.name }}" />
-      <h4>{{ user.name }}</h4>
-      <span>{{ user.role }}</span>
+  <!-- Display counts -->
+  <div class="counts-container">
+    <div class="total-count">
+      Total Users: {{ filteredTotalCount }} (Overall: {{ totalCount }})
+    </div>
+    <div class="role-counts">
+      Players: {{ filteredRoleCounts.player }} (Overall: {{ roleCounts.player }}),
+      Coaches: {{ filteredRoleCounts.coach }} (Overall: {{ roleCounts.coach }}),
+      Stadium Owners: {{ filteredRoleCounts.stadiumOwner }} (Overall: {{ roleCounts.stadiumOwner }}),
+      Medical Officers: {{ filteredRoleCounts.medicalOfficer }} (Overall: {{ roleCounts.medicalOfficer }})
     </div>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of filteredUsers">
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.role }}</td>
-        <td>
-          <span [ngClass]="{
-            'active': user.status === 'Active',
-            'pending': user.status === 'Pending',
-            'suspended': user.status === 'Suspended'
-          }">{{ user.status }}</span>
-        </td>
-        <td>
-          <button class="view-btn">👁️</button>
-          <button class="edit-btn">✏️</button>
-          <button class="delete-btn">❌</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search by First Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Enter first name..."
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Role</mat-label>
+      <mat-select
+        [(value)]="selectedRole"
+        (selectionChange)="onRoleChange()"
+      >
+        <mat-option value="all">All Roles</mat-option>
+        <mat-option value="player">Player</mat-option>
+        <mat-option value="coach">Coach</mat-option>
+        <mat-option value="stadiumOwner">Stadium Owner</mat-option>
+        <mat-option value="medicalOfficer">Medical Officer</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-table [dataSource]="filteredUsers">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.email }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <mat-header-cell *matHeaderCellDef>Phone</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.phone }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{ user.role }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-icon-button (click)="viewProfile(user.id)" color="primary">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteUser(user.id)" color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>
