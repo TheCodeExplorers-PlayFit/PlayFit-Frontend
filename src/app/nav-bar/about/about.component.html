@@ -1,0 +1,44 @@
+<div class="modal about-modal" *ngIf="showModal" [style.display]="showModal ? 'block' : 'none'" (click)="closeModal()">
+    <div class="modal-dialog modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">About Our Platform</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h6>Welcome to Our Sports Management Platform</h6>
+          <p>
+            Our innovative platform revolutionizes sports engagement by connecting players, coaches, admins, stadium owners, and health officers in a seamless ecosystem designed to enhance your sports experience.
+          </p>
+          <h6>For Players</h6>
+          <p>
+            Register and personalize your profile, book sessions tailored to your preferred sports, locations, times, and coaches—choose private coaching or join group sessions. Make secure payments, rate stadiums and coaches, share blog posts, view session participants, report issues directly to stadium owners or admins, and book health officer appointments for personalized care.
+          </p>
+          <h6>For Coaches</h6>
+          <p>
+            Create and manage your profile and timetables, approve or reject private session requests, post insightful sports blogs, view monthly salaries, and rate or report stadium issues to ensure a top-notch coaching environment.
+          </p>
+          <h6>For Admins</h6>
+          <p>
+            Oversee the platform by verifying and adding coaches, stadiums, and health officers. Post blogs, announce notices or downtimes, generate system reports, review player reports, and approve user-generated content to maintain a vibrant community.
+          </p>
+          <h6>For Stadium Owners</h6>
+          <p>
+            Manage your stadiums and profiles, add sports facilities, respond to maintenance requests, create custom player packages, track monthly income, and celebrate achievements like hosting successful sessions. Utilize our waitlist system to maximize bookings.
+          </p>
+          <h6>For Health Officers</h6>
+          <p>
+            Register with verified credentials, respond to player appointments, record injuries, access player health records, share health-focused blogs, and provide safety advice to enhance player well-being.
+          </p>
+          <p>
+            Join us today to experience a platform that empowers every sports enthusiast to connect, play, and thrive!
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

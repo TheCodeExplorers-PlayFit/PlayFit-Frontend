@@ -7,6 +7,7 @@ import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-ti
 import { PlayerTransactionsComponent } from './player/player-transactions/player-transactions.component';
 import { PlayerBookingHistoryComponent } from './player/player-booking-history/player-booking-history.component';
 import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
+import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -41,6 +42,7 @@ import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-lay
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
+import { AboutComponent } from './nav-bar/about/about.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
 import { SignInFormComponent } from './register/sign-in-form/sign-in-form.component';
 import { RoleSelectionComponent } from './register/role-selection/role-selection.component';
@@ -74,6 +76,7 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
+  { path: 'about', component: AboutComponent },
 
   // ===== ADMIN ROUTES =====
   {
@@ -104,6 +107,7 @@ export const routes: Routes = [
       { path:  'transactions', component:PlayerTransactionsComponent },
       { path:  'booking-history', component:PlayerBookingHistoryComponent },
       { path: 'my-timetable', component:PlayerTimetableComponent},
+      { path: 'complaints', component:PlayerComplaintsComponent},
     ]
   },
 
