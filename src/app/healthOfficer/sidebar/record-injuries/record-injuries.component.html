@@ -1,59 +1,59 @@
-<h1 [style.marginTop]="marginTop">Record Injury Details</h1>
+<!-- <h1 [style.marginTop]="marginTop">Record Injury Details</h1>
 <br>
 <div class="record-injuries container"  >
   <div class="bd-example p-3" [ngStyle]="{'background-color':bgColor1}">
     <form>
       <h4>1. Player Information</h4>
       <br>
-      <!-- player name -->
+    
       <div class="form-group row">
         <label for="inputname" class="col-sm-2 col-form-label">Player Name :</label>
         <div class="col-sm-10">
           <input type="text" class="form-control text-center" id="inputname" [placeholder]="placeholder1"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
         </div>
-      </div> <br>
+      </div> <br> -->
 
       <!-- player id -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="inputID" class="col-sm-2 col-form-label">Player ID :</label>
         <div class="col-sm-10">
           <input type="text" class="form-control text-center" id="inputID" [placeholder]="placeholder2"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}" [maxLength]="idSize">
         </div>
       </div>
-      <br>
+      <br> -->
 
       <!-- player age -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="inputAge" class="col-sm-2 col-form-label">Age :</label>
         <div class="col-sm-10">
           <input type="number" class="form-control text-center" id="inputAge" [placeholder]="placeholder3"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
         </div>
       </div>
-      <br>   
+      <br>    -->
 
-      <hr>
+      <!-- <hr>
       <br>
       <h4>2. Injury Details</h4>
-      <br>
+      <br> -->
 
       <!-- injury day -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="inputInjuryDate" class="col-sm-2 col-form-label">Date of Injury :</label>
         <div class="col-sm-10">
           <input type="date" class="form-control text-center" id="inputInjuryDate" [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
         </div>
-      </div> <br>
+      </div> <br> -->
 
       <!-- injury date -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="inputInjuryTime" class="col-sm-2 col-form-label">Time of Injury :</label>
         <div class="col-sm-10">
           <input type="time" class="form-control text-center" id="inputInjuryTime" [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
         </div>
-      </div> <br>  
+      </div> <br>   -->
 
       <!-- type of injury -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label for="inputSelectTypeInjury" class="col-sm-2 col-form-label">Type of Injury :</label> 
         <div class="col-sm-10">
           <div class="dropdown-wrapper">
@@ -61,14 +61,14 @@
               <option value="" disabled selected  >Select type of injury</option>
               <option *ngFor="let injury of injuryTypes">{{injury}}</option>
             </select>
-            <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
-          </div>
+            <i class="bi bi-chevron-down dropdown-icon"></i> <Bootstrap Icon -->
+          <!-- </div>
           </div>
      </div>  
-      <br>
+        <br> -->
 
      <!-- injury severity type -->
-     <div class="form-group row">
+     <!-- <div class="form-group row">
       <label for="inputSelectInjuryServerity" class="col-sm-2 col-form-label">Injury Serverity :</label> 
       <div class="col-sm-10">
         <div class="dropdown-wrapper">
@@ -77,42 +77,20 @@
             <option [value]="serverity.indexOf" *ngFor="let serverity of injuryServerity">{{serverity}}</option>
           </select>
           <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
-        </div>
+        <!-- </div>
         </div>
    </div>  
-    <br>
+    <br>  -->
 
-   <!-- injury location -->
-   <div class="form-group row">
-    <label for="inputInjuryLocation" class="col-sm-2 col-form-label">Injury Location :</label> 
-    <div class="col-sm-10">
-      <div class="dropdown-wrapper">
-        <select class="form-control text-center" id="inputInjuryLocation" [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
-          <option value="" disabled selected  >Select injury location</option>
-          <option [value]="injlocation.indexOf" *ngFor="let injlocation of injuryLocation">{{injlocation}}</option>
-        </select>
-        <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
-      </div>
-      </div>
- </div>  
-  <br>
-
+<!-- 
   <hr>
   <br>
   <h4>3. Incident Details</h4>
-  <br>
+  <br> -->
 
-  <!-- injury description -->
-  <div class="form-group row">
-    <label for="inputDescription" class="col-sm-2 col-form-label">Description of Injury :</label>
-    <div class="col-sm-10">
-      <textarea class="form-control" id="inputDescription" rows="4"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}" [maxLength]="idSize"></textarea>
-    </div>
-  </div>
-  <br>
 
        <!-- cause of injury -->
-       <div class="form-group row">
+       <!-- <div class="form-group row">
         <label for="inputinjuryCause" class="col-sm-2 col-form-label">Cause of injury :</label> 
         <div class="col-sm-10">
           <div class="dropdown-wrapper">
@@ -121,13 +99,13 @@
               <option [value]="cause.indexOf" *ngFor="let cause of injuryCause">{{cause}}</option>
             </select>
             <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
-          </div>
+          <!-- </div>
           </div>
      </div>  
-      <br>
+      <br>  -->
 
       <!-- first aid give or not-->
-    <div class="form-group row">
+    <!-- <div class="form-group row">
       <fieldset class="form-group">
         <div class="row">
           <legend class="col-form-label col-sm-2 pt-0">First Aid given ?</legend>
@@ -144,65 +122,137 @@
                No
               </label>
             </div>
-          
-          </div>
+           -->
+          <!-- </div>
         </div>
       </fieldset>
     </div>
-<br>
+<br> -->
 
-    <!-- first aid details -->
-    <div class="form-group row">
-      <label for="firstAidDetails" class="col-sm-2 col-form-label">First Aid Details :</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" id="inputDescription" rows="4"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}" [maxLength]="idSize"></textarea>
-      </div>
-    </div>
-    <small [ngStyle]="{'margin-left': contentMarginLeft,'color':textBlueColor}" class="form-text text-muted">If you fill only yes above question</small>
-    <br> 
-<br>
 <!-- docotr details -->
-<div class="form-group row">
+<!-- <div class="form-group row">
   <label for="inputDname" class="col-sm-2 col-form-label">Doctor/Health Officer Name :</label>
   <div class="col-sm-10">
     <input type="text" class="form-control text-center" id="inputDname" [placeholder]="placeholder4"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
   </div>
 </div> <br>
-    <!-- diagnosis -->
-    <div class="form-group row">
-      <label for="diagnosis" class="col-sm-2 col-form-label">Diagnosis :</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" id="diagnosis" rows="4"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}" [maxLength]="idSize"></textarea>
-      </div>
-    </div>
-<br>
-
+    -->
 <!-- treatment plan -->
-<div class="form-group row">
+<!-- <div class="form-group row">
   <label for="inputTreatments" class="col-sm-2 col-form-label">Treatment Plan :</label>
   <div class="col-sm-10">
     <textarea class="form-control" id="inputTreatments" rows="4"  [ngStyle]="{'width' : barWidth,'background-color':bgColor}" [maxLength]="idSize"></textarea>
   </div>
 </div>
-<br>
+<br> -->
 
 <!-- xrays reports -->
-<div class="form-group row">
+<!-- <div class="form-group row">
   <label for="inputreports" class="col-sm-2 col-form-label">Upload Medical Reports/X-rays :</label>
   <div class="col-sm-10">
     <input class="form-control" type="file" id="formFile" [ngStyle]="{'width' : barWidth,'background-color':bgColor}">
   </div>
-</div> <br><br>
+</div> <br><br> -->
 
 
-<button type="submit" class="btn btn-primary mx-2" [ngStyle]="{'background-color': primaryColor, 'border-color': primaryColor,'width':marginLeft}">Save</button>
+<!-- <button type="submit" class="btn btn-primary mx-2" [ngStyle]="{'background-color': primaryColor, 'border-color': primaryColor,'width':marginLeft}">Save</button>
 <button type="submit" class="btn btn-primary" disabled [ngStyle]="{'background-color': primaryColor, 'border-color': primaryColor,'width':marginLeft}">Reset Form</button>
 
     </form>
     </div>
-</div>
+</div> -->
 
 <!-- bootstrap-icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> --> 
+<form [formGroup]="injuryForm" (ngSubmit)="submitInjury()" class="container mt-4 border p-4 rounded shadow-sm bg-light">
+  <h1 class="mb-4" [style.marginTop]="marginTop">Record Injury Details</h1>
+  <h4>1. Player Information</h4>
+  <br>
+  <div class="row mb-3">
+    <!-- player name -->
+    <div class="col-md-6">
+      <label for="player_name" class="form-label">Player Name:</label>
+      <input type="text" id="player_name" placeholder="Enter player name" class="form-control" formControlName="player_name" required>
+    </div>
+  
+    <!-- player id -->
+    <div class="col-md-6">
+      <label for="player_id" class="form-label">Player ID:</label>
+      <input type="text" id="player_id" placeholder="Enter player ID" class="form-control" formControlName="player_id" required>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <!-- age -->
+    <div class="col-md-6">
+      <label for="age" class="form-label">Age:</label>
+      <input type="number" id="age" placeholder="Enter player age" class="form-control" formControlName="age" required min="1">
+    </div>
+
+  </div>
+  <br>
+  <hr>
+  <h4>2. Injury Details</h4>
+  <br>
+  <div class="row mb-3">
+      <!-- injury day -->
+    <div class="col-md-6">
+      <label for="date_of_injury" class="form-label">Date of Injury:</label>
+      <input type="date" id="date_of_injury" class="form-control" formControlName="date_of_injury" required>
+    </div>
+
+        <!-- injury time -->
+        <div class="col-md-6">
+          <label for="time_of_injury" class="form-label">Time of Injury:</label>
+          <input type="time" id="time_of_injury" class="form-control" formControlName="time_of_injury" required>
+        </div>
+  </div>
+ 
+  <div class="row mb-3">
+      <!-- injury type -->
+    <div class="col-md-6">
+      <label for="type_of_injury" class="form-label ">Type of Injury:</label>
+      <select id="type_of_injury"  class="form-select" formControlName="type_of_injury" required>
+        <option value="" disabled selected class="text-muted">Select type of injury</option>
+        <option *ngFor="let type of injuryTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+
+     <!-- Injury Severity -->
+     <div class="col-md-6">
+      <label for="injury_severity" class="form-label">Injury Severity</label>
+      <select id="injury_severity" class="form-select" formControlName="injury_severity" required>
+        <option value="" disabled selected class="text-muted">Select injury severity</option>
+        <option *ngFor="let level of injuryServerity" [value]="level">{{ level }}</option>
+      </select>
+    </div>
+  </div>
+<br><hr> 
+
+<h4>3. Incident Details</h4>
+<br>
+  <div class="row mb-3">
+   <!-- first aid given -->
+    <div class="col-md-6">
+      <label for="first_aid_given" class="form-label d-block">First Aid Given:</label>
+      <div class="form-check form-switch">
+        <input type="checkbox" id="first_aid_given" class="form-check-input" formControlName="first_aid_given">
+        <label class="form-check-label" for="first_aid_given"></label>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="health_officer_name" class="form-label">Health Officer Name:</label>
+      <input type="text" id="health_officer_name" class="form-control" formControlName="health_officer_name" required>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="treatment_plan" class="form-label">Treatment Plan:</label>
+      <textarea id="treatment_plan" class="form-control" formControlName="treatment_plan" rows="3"></textarea>
+    </div>
+  </div>
 
 
+  <button type="submit" class="btn w-50" [ngStyle]="{'background-color': primaryColor,'color':'#ffffff'}" [disabled]="injuryForm.invalid">Submit Injury Record</button>
+</form>
