@@ -11,14 +11,13 @@ interface Stadium {
   google_maps_link: string;
   facilities: string;
   images: string[];
-  schedules: { 
+  schedule: { 
     sport: string; 
     day: string; 
-    date?: string; 
-    start_time: string; 
-    end_time: string; 
-    max_players: number; 
-    stadium_sportcost: number; 
+    fromTime: string; 
+    toTime: string; 
+    maxPlayers: number; 
+    sportPercentage: number; 
   }[];
 }
 
@@ -31,7 +30,7 @@ interface Stadium {
 })
 export class StadiumsComponent implements OnInit {
   stadiums: Stadium[] = [];
-  editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedules: [] };
+  editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
   showEdit = false;
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -86,7 +85,7 @@ export class StadiumsComponent implements OnInit {
     this.http.get<Stadium[]>('http://localhost:5000/api/stadiums', { headers }).subscribe({
       next: (data) => {
         this.stadiums = data || [];
-        console.log('Fetched stadiums with images:', this.stadiums);
+        console.log('Fetched stadiums with schedule:', this.stadiums);
       },
       error: (error) => {
         console.error('Error fetching stadiums:', {
@@ -117,19 +116,17 @@ export class StadiumsComponent implements OnInit {
     }
     this.editedStadium = {
       ...stadium,
-      schedules: Array.isArray(stadium.schedules) ? stadium.schedules.map(s => ({
-        ...s,
+      schedule: Array.isArray(stadium.schedule) ? stadium.schedule.map(s => ({
         sport: s.sport || '',
         day: s.day || '',
-        date: s.date || '',
-        start_time: s.start_time || '',
-        end_time: s.end_time || '',
-        max_players: s.max_players || 0,
-        stadium_sportcost: s.stadium_sportcost || 0
+        fromTime: s.fromTime || '',
+        toTime: s.toTime || '',
+        maxPlayers: s.maxPlayers || 0,
+        sportPercentage: s.sportPercentage || 0
       })) : []
     };
     this.showEdit = true;
-    this.cdr.detectChanges(); // Force change detection
+    this.cdr.detectChanges();
     console.log('showEdit set to:', this.showEdit);
     console.log('Edited stadium set:', this.editedStadium);
   }
@@ -137,7 +134,7 @@ export class StadiumsComponent implements OnInit {
   cancelEdit() {
     console.log('cancelEdit called');
     this.showEdit = false;
-    this.editedStadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedules: [] };
+    this.editedStadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
     this.cdr.detectChanges();
     console.log('showEdit set to:', this.showEdit);
   }
@@ -154,13 +151,13 @@ export class StadiumsComponent implements OnInit {
       alert('Name, Address, and Google Maps Link are required.');
       return;
     }
-    if (this.editedStadium.schedules && this.editedStadium.schedules.length > 0) {
-      for (const schedule of this.editedStadium.schedules) {
+    if (this.editedStadium.schedule && this.editedStadium.schedule.length > 0) {
+      for (const schedule of this.editedStadium.schedule) {
         if (schedule.day && !this.weekdayOptions.includes(schedule.day)) {
           alert(`Invalid day: ${schedule.day}. Choose a valid day of the week.`);
           return;
         }
-        if (schedule.start_time && schedule.end_time && schedule.start_time >= schedule.end_time) {
+        if (schedule.fromTime && schedule.toTime && schedule.fromTime >= schedule.toTime) {
           alert(`Start time must be earlier than end time for ${schedule.sport || 'schedule'}.`);
           return;
         }
@@ -177,13 +174,13 @@ export class StadiumsComponent implements OnInit {
       google_maps_link: this.editedStadium.google_maps_link,
       facilities: this.editedStadium.facilities || null,
       images: this.editedStadium.images || [],
-      schedules: this.editedStadium.schedules.map(schedule => ({
+      schedule: this.editedStadium.schedule.map(schedule => ({
         sport: schedule.sport,
         day: schedule.day,
-        start_time: schedule.start_time,
-        end_time: schedule.end_time,
-        max_players: schedule.max_players,
-        stadium_sportcost: schedule.stadium_sportcost
+        fromTime: schedule.fromTime,
+        toTime: schedule.toTime,
+        maxPlayers: schedule.maxPlayers,
+        sportPercentage: schedule.sportPercentage
       }))
     };
     console.log('Sending payload to update:', JSON.stringify(payload, null, 2));
@@ -253,19 +250,19 @@ export class StadiumsComponent implements OnInit {
 
   addSchedule() {
     console.log('addSchedule called');
-    this.editedStadium.schedules = this.editedStadium.schedules || [];
-    this.editedStadium.schedules.push({
+    this.editedStadium.schedule = this.editedStadium.schedule || [];
+    this.editedStadium.schedule.push({
       sport: '',
       day: '',
-      start_time: '',
-      end_time: '',
-      max_players: 0,
-      stadium_sportcost: 0
+      fromTime: '',
+      toTime: '',
+      maxPlayers: 0,
+      sportPercentage: 0
     });
   }
 
   removeSchedule(index: number) {
     console.log('removeSchedule called with index:', index);
-    this.editedStadium.schedules.splice(index, 1);
+    this.editedStadium.schedule.splice(index, 1);
   }
 }

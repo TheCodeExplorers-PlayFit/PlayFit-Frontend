@@ -21,7 +21,7 @@
           <td><a [href]="stadium.google_maps_link" target="_blank">View Map</a></td>
           <td>{{ stadium.facilities || 'N/A' }}</td>
           <td>
-            <div *ngIf="stadium.schedules?.length; else noSchedules">
+            <div *ngIf="stadium.schedule?.length; else noSchedules">
               <table class="nested-table">
                 <thead>
                   <tr>
@@ -30,17 +30,17 @@
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Max Players</th>
-                    <th>Sport Cost (%)</th>
+                    <th>Sport Percentage (%)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let schedule of stadium.schedules">
+                  <tr *ngFor="let schedule of stadium.schedule">
                     <td>{{ schedule.sport }}</td>
                     <td>{{ schedule.day }}</td>
-                    <td>{{ schedule.start_time }}</td>
-                    <td>{{ schedule.end_time }}</td>
-                    <td>{{ schedule.max_players }}</td>
-                    <td>{{ schedule.stadium_sportcost }}%</td>
+                    <td>{{ schedule.fromTime }}</td>
+                    <td>{{ schedule.toTime }}</td>
+                    <td>{{ schedule.maxPlayers }}</td>
+                    <td>{{ schedule.sportPercentage }}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -89,7 +89,7 @@
         <label>Facilities:</label>
         <input type="text" class="form-control" [(ngModel)]="editedStadium.facilities" name="facilities" />
 
-        <div *ngIf="editedStadium.schedules?.length">
+        <div *ngIf="editedStadium.schedule?.length">
           <h4>Schedules</h4>
           <table class="nested-table">
             <thead>
@@ -99,22 +99,22 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Max Players</th>
-                <th>Sport Cost (%)</th>
+                <th>Sport Percentage (%)</th>
                 <th>Remove</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let schedule of editedStadium.schedules; let i = index">
+              <tr *ngFor="let schedule of editedStadium.schedule; let i = index">
                 <td><input type="text" class="form-control" [(ngModel)]="schedule.sport" [name]="'sport' + i" required /></td>
                 <td>
                   <select class="form-control" [(ngModel)]="schedule.day" [name]="'day' + i">
                     <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
                   </select>
                 </td>
-                <td><input type="time" class="form-control" [(ngModel)]="schedule.start_time" [name]="'start_time' + i" required /></td>
-                <td><input type="time" class="form-control" [(ngModel)]="schedule.end_time" [name]="'end_time' + i" required /></td>
-                <td><input type="number" class="form-control" [(ngModel)]="schedule.max_players" [name]="'max_players' + i" min="1" required /></td>
-                <td><input type="number" class="form-control" [(ngModel)]="schedule.stadium_sportcost" [name]="'stadium_sportcost' + i" min="0" max="100" step="0.01" required /></td>
+                <td><input type="time" class="form-control" [(ngModel)]="schedule.fromTime" [name]="'fromTime' + i" required /></td>
+                <td><input type="time" class="form-control" [(ngModel)]="schedule.toTime" [name]="'toTime' + i" required /></td>
+                <td><input type="number" class="form-control" [(ngModel)]="schedule.maxPlayers" [name]="'maxPlayers' + i" min="1" required /></td>
+                <td><input type="number" class="form-control" [(ngModel)]="schedule.sportPercentage" [name]="'sportPercentage' + i" min="0" max="100" step="0.01" required /></td>
                 <td><button type="button" class="delete-btn btn-sm" (click)="removeSchedule(i)">Remove</button></td>
               </tr>
             </tbody>
