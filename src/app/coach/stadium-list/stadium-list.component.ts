@@ -4,6 +4,7 @@ import { RouterLink, RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { StadiumService } from '../../services/stadium/stadium.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-stadium-list',
@@ -21,10 +22,12 @@ export class StadiumListComponent implements OnInit {
   locationFilter: string = '';
   loading: boolean = true;
   error: string | null = null;
+  selectedStadium: any = null; // For popup
 
   constructor(
-    private stadiumService: StadiumService, 
+    private stadiumService: StadiumService,
     private authService: AuthService,
+    private bookingService: BookingService,
     private router: Router
   ) {}
 
@@ -48,6 +51,7 @@ export class StadiumListComponent implements OnInit {
     this.loading = true;
     this.stadiumService.getStadiumsByCoachSports().subscribe({
       next: (response) => {
+        console.log('API Response:', response); // Debug log
         if (response.success && response.data) {
           this.stadiums = response.data;
           this.filteredStadiums = [...this.stadiums];
@@ -107,5 +111,18 @@ export class StadiumListComponent implements OnInit {
 
   handleImageError(event: any): void {
     event.target.src = 'assets/images/stadium-placeholder.jpg';
+  }
+
+  viewDetails(stadium: any): void {
+    this.selectedStadium = stadium; // Show popup
+  }
+
+  closePopup(): void {
+    this.selectedStadium = null; // Hide popup
+  }
+
+  bookStadium(stadium: any): void {
+    this.router.navigate(['/coach/stadium-timetable', stadium.id]); // Use absolute path
+        this.closePopup(); // Close the popup after navigation
   }
 }

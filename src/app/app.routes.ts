@@ -18,11 +18,11 @@ import { ComplaintsComponent } from './stadium-owner/complaints/complaints.compo
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
 import { ScheduleSelectorComponent } from './coach/schedule-selector/schedule-selector.component';
 import { StadiumListComponent } from './coach/stadium-list/stadium-list.component';
-import { StadiumDetailComponent } from './coach/stadium-detail/stadium-detail.component';
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
 import { ComplaintsComponent as CoachComplaintsComponent } from './coach/complaints/complaints.component';
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
+import { StadiumtimetableComponent } from './coach/stadium-timetable/stadium-timetable.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -97,7 +97,7 @@ export const routes: Routes = [
     component: PlayerLayoutComponent,
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
-      { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
+      { path: 'stadium-timetable/:stadiumId', component: StadiumtimetableComponent },
     ]
   },
 
@@ -110,9 +110,9 @@ export const routes: Routes = [
       { path: 'booking-history', component: BookingHistoryComponent },
       { path: 'schedule-selector', component: ScheduleSelectorComponent },
       { path: 'stadium-list', component: StadiumListComponent },
-      { path: 'stadium-detail', component: StadiumDetailComponent },
       { path: 'private-playing-requests', component: PrivateRequestsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
+      { path: 'stadium-timetable/:id',component: StadiumTimetableComponent}
     ]
   },
 

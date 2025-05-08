@@ -1,0 +1,56 @@
+.timetable-container {
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #0a0466;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f0f4f8;
+}
+
+tr:hover {
+  background-color: #e0e7f0;
+}
+
+.book-btn {
+  padding: 8px 16px;
+  background: #0a0466;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.book-btn:hover {
+  background: #080120;
+}
+
+.loading-state, .error-state, .empty-state {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.loading-state p, .error-state p, .empty-state p {
+  color: #555;
+}

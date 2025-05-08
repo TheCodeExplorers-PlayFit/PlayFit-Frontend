@@ -67,7 +67,21 @@
         </span>
       </div>
       
-      <a [routerLink]="['/stadium-detail', stadium.id]" class="view-details-btn">View Details</a>
+      <div class="stadium-actions">
+        <button (click)="viewDetails(stadium)" class="view-details-btn">View Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup for stadium details -->
+  <div class="popup-overlay" *ngIf="selectedStadium" (click)="closePopup()">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+      <h3>{{ selectedStadium.name }}</h3>
+      <p>{{ selectedStadium.details || 'No details available' }}</p>
+      <div class="popup-actions">
+        <button class="book-btn" (click)="bookStadium(selectedStadium)">Book</button>
+        <button class="close-btn" (click)="closePopup()">Close</button>
+      </div>
     </div>
   </div>
 </div>
