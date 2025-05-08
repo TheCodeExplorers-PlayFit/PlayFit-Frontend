@@ -60,7 +60,12 @@
       <h3>Stadium Images</h3>
       <div *ngIf="getAllImages().length > 0; else noImages">
         <div class="image-container">
-          <img *ngFor="let img of getAllImages()" [src]="img" (error)="onImageError($event)" class="img-fluid" />
+          <img *ngFor="let img of getAllImages()" 
+               [src]="img" 
+               (error)="onImageError($event)" 
+               class="img-fluid" 
+               alt="Stadium Image"
+               fallback-src="https://via.placeholder.com/150?text=Image+Not+Found" />
         </div>
       </div>
       <ng-template #noImages>

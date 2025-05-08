@@ -33,6 +33,7 @@ export class StadiumsComponent implements OnInit {
   editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
   showEdit = false;
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  backendUrl = 'http://localhost:5000'; // Backend base URL
 
   constructor(
     private http: HttpClient, 
@@ -51,10 +52,14 @@ export class StadiumsComponent implements OnInit {
     const allImages: string[] = [];
     this.stadiums.forEach(stadium => {
       if (Array.isArray(stadium.images) && stadium.images.length > 0) {
+        const prefixedImages = stadium.images.map(img => 
+          img.startsWith('/uploads') ? `${this.backendUrl}${img}` : img
+        );
         console.log(`Images for ${stadium.name}:`, stadium.images);
-        allImages.push(...stadium.images);
+        console.log(`Prefixed images for ${stadium.name}:`, prefixedImages);
+        allImages.push(...prefixedImages);
       } else {
-        console.log(`No images for ${stadium.name}`);
+        console.log(`No images for ${stadium.name}:`, stadium.images);
       }
     });
     console.log('Total images collected:', allImages);
@@ -62,8 +67,12 @@ export class StadiumsComponent implements OnInit {
   }
 
   onImageError(event: Event) {
-    console.error('Image failed to load:', (event.target as HTMLImageElement).src);
-    (event.target as HTMLImageElement).style.display = 'none';
+    const imgElement = event.target as HTMLImageElement;
+    console.error('Image failed to load:', {
+      src: imgElement.src,
+      error: event
+    });
+    imgElement.style.display = 'none';
   }
 
   private getErrorMessage(error: any): string {
@@ -123,7 +132,8 @@ export class StadiumsComponent implements OnInit {
         toTime: s.toTime || '',
         maxPlayers: s.maxPlayers || 0,
         sportPercentage: s.sportPercentage || 0
-      })) : []
+      })) : [],
+      images: Array.isArray(stadium.images) ? [...stadium.images] : []
     };
     this.showEdit = true;
     this.cdr.detectChanges();
