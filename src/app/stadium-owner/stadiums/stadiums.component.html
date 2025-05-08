@@ -64,8 +64,7 @@
                [src]="img" 
                (error)="onImageError($event)" 
                class="img-fluid" 
-               alt="Stadium Image"
-               fallback-src="https://via.placeholder.com/150?text=Image+Not+Found" />
+               alt="Stadium Image" />
         </div>
       </div>
       <ng-template #noImages>
@@ -93,6 +92,21 @@
 
         <label>Facilities:</label>
         <input type="text" class="form-control" [(ngModel)]="editedStadium.facilities" name="facilities" />
+
+        <label>Images:</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*" multiple />
+        <div *ngIf="editedStadium.images?.length" class="image-preview">
+          <h4>Current Images</h4>
+          <div class="image-container">
+            <div *ngFor="let img of editedStadium.images; let i = index" class="image-item">
+              <img [src]="img.startsWith('/uploads') ? backendUrl + img : img" 
+                   (error)="onImageError($event)" 
+                   class="img-thumbnail" 
+                   alt="Stadium Image" />
+              <button type="button" class="delete-btn btn-sm" (click)="removeImage(i)">Remove</button>
+            </div>
+          </div>
+        </div>
 
         <div *ngIf="editedStadium.schedule?.length">
           <h4>Schedules</h4>

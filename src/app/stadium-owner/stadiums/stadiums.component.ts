@@ -52,10 +52,12 @@ export class StadiumsComponent implements OnInit {
     const allImages: string[] = [];
     this.stadiums.forEach(stadium => {
       if (Array.isArray(stadium.images) && stadium.images.length > 0) {
-        const prefixedImages = stadium.images.map(img => 
-          img.startsWith('/uploads') ? `${this.backendUrl}${img}` : img
+        const validImages = stadium.images.filter(img => this.isValidImagePath(img));
+        const prefixedImages = validImages.map(img => 
+          img.toLowerCase().startsWith('/uploads') ? `${this.backendUrl}${img}` : img
         );
-        console.log(`Images for ${stadium.name}:`, stadium.images);
+        console.log(`Raw images for ${stadium.name}:`, stadium.images);
+        console.log(`Valid images for ${stadium.name}:`, validImages);
         console.log(`Prefixed images for ${stadium.name}:`, prefixedImages);
         allImages.push(...prefixedImages);
       } else {
@@ -66,13 +68,65 @@ export class StadiumsComponent implements OnInit {
     return allImages;
   }
 
+  private isValidImagePath(img: string): boolean {
+    if (!img || typeof img !== 'string') {
+      console.warn('Invalid image path:', img);
+      return false;
+    }
+    // Case-insensitive check for /uploads or base64 data URLs
+    const isValid = img.toLowerCase().startsWith('/uploads') || img.startsWith('data:image/');
+    if (!isValid) {
+      console.warn('Skipping invalid image path:', img);
+    }
+    return isValid;
+  }
+
   onImageError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
     console.error('Image failed to load:', {
       src: imgElement.src,
       error: event
     });
-    imgElement.style.display = 'none';
+    imgElement.classList.add('image-placeholder');
+    imgElement.src = ''; // Clear src to prevent further errors
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const files = Array.from(input.files);
+      Promise.all(files.map(file => this.readFileAsBase64(file))).then(base64Images => {
+        this.editedStadium.images = [...this.editedStadium.images, ...base64Images];
+        console.log('New images added:', base64Images);
+        console.log('Updated editedStadium.images:', this.editedStadium.images);
+        this.cdr.detectChanges();
+      }).catch(error => {
+        console.error('Error reading files:', error);
+        alert('Failed to upload images. Please try again.');
+      });
+    }
+  }
+
+  private readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to read file as base64'));
+        }
+      };
+      reader.onerror = () => reject(new Error('Error reading file'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  removeImage(index: number) {
+    console.log('Removing image at index:', index);
+    this.editedStadium.images.splice(index, 1);
+    console.log('Updated editedStadium.images:', this.editedStadium.images);
+    this.cdr.detectChanges();
   }
 
   private getErrorMessage(error: any): string {

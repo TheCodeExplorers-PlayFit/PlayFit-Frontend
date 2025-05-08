@@ -203,3 +203,49 @@ th {
 .col-md-3 .card-text {
   font-size: 0.95rem;
 }
+
+.image-gallery .image-container img {
+  max-width: 200px;
+  margin: 5px;
+}
+
+.image-placeholder {
+  width: 150px;
+  height: 150px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+.image-placeholder::after {
+  content: 'Image Not Found';
+}
+
+.image-preview {
+  margin-top: 10px;
+}
+
+.image-item {
+  display: inline-block;
+  margin: 5px;
+  position: relative;
+}
+
+.img-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+}
+
+.image-item .delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px 5px;
+  font-size: 12px;
+}
