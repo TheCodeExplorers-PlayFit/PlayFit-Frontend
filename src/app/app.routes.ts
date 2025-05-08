@@ -22,7 +22,7 @@ import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
 import { ComplaintsComponent as CoachComplaintsComponent } from './coach/complaints/complaints.component';
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
-import { StadiumtimetableComponent } from './coach/stadium-timetable/stadium-timetable.component';
+import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -97,7 +97,7 @@ export const routes: Routes = [
     component: PlayerLayoutComponent,
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
-      { path: 'stadium-timetable/:stadiumId', component: StadiumtimetableComponent },
+      { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
     ]
   },
 
@@ -112,7 +112,7 @@ export const routes: Routes = [
       { path: 'stadium-list', component: StadiumListComponent },
       { path: 'private-playing-requests', component: PrivateRequestsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
-      { path: 'stadium-timetable/:id',component: StadiumTimetableComponent}
+      { path: 'coach-stadium-timetable/:id',component: CoachStadiumtimetableComponent}
     ]
   },
 

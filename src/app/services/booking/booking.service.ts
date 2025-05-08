@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service'; // Adjust path as needed
   providedIn: 'root'
 })
 export class BookingService {
-  private apiUrl = 'http://localhost:5000/api/sessions'; // Updated to match backend sessions API
+  private apiUrl = 'http://localhost:5000/api/coach-sessions'; // Changed from /api/sessions to /api/coach-sessions
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

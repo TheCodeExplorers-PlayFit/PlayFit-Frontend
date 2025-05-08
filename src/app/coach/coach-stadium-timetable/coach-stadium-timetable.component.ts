@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
-  selector: 'app-stadium-timetable',
+  selector: 'app-coach-stadium-timetable',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './stadium-timetable.component.html',
-  styleUrls: ['./stadium-timetable.component.css']
+  templateUrl: './coach-stadium-timetable.component.html',
+  styleUrls: ['./coach-stadium-timetable.component.css']
 })
-export class StadiumtimetableComponent implements OnInit {
+export class CoachStadiumtimetableComponent implements OnInit {
   stadiumId: number | null = null;
   timetable: any[] = [];
   loading: boolean = true;
@@ -34,14 +34,22 @@ export class StadiumtimetableComponent implements OnInit {
   loadTimetable(): void {
     this.bookingService.getWeeklyTimetable(this.stadiumId!).subscribe({
       next: (response) => {
+        console.log('API Response:', response);
         if (response.success && response.sessions) {
-          this.timetable = response.sessions;
+          this.timetable = response.sessions.filter((session: any) => session.isbooked === 0);
+          console.log('Filtered Timetable:', this.timetable);
+          if (this.timetable.length === 0) {
+            this.error = 'No unassigned sessions available for this stadium.';
+          } else {
+            this.error = null;
+          }
         } else {
           this.error = response.message || 'No timetable data available';
         }
         this.loading = false;
       },
       error: (error) => {
+        console.error('API Error:', error);
         this.error = error.error?.message || 'Failed to load timetable';
         this.loading = false;
       }
@@ -52,8 +60,7 @@ export class StadiumtimetableComponent implements OnInit {
     this.bookingService.bookSession(sessionId).subscribe({
       next: (response) => {
         console.log('Session booked successfully:', response);
-        // Optionally navigate to a confirmation page
-        // this.router.navigate(['/booking-confirmation', sessionId]);
+        this.loadTimetable();
       },
       error: (error) => {
         this.error = error.error?.message || 'Failed to book session';

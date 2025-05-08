@@ -122,7 +122,7 @@ export class StadiumListComponent implements OnInit {
   }
 
   bookStadium(stadium: any): void {
-    this.router.navigate(['/coach/stadium-timetable', stadium.id]); // Use absolute path
+    this.router.navigate(['/coach/coach-stadium-timetable', stadium.id]); // Use absolute path
         this.closePopup(); // Close the popup after navigation
   }
 }
