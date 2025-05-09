@@ -70,6 +70,9 @@ export class RecordInjuriesComponent {
     'Psychological and Internal Injuries'
   ];
 
+  // Property to store selected files
+selectedFiles: File[] = [];
+
   constructor(private fb: FormBuilder, private injuryService: InjuryService) {
     this.injuryForm = this.fb.group({
       player_name: ['', Validators.required],
@@ -85,13 +88,98 @@ export class RecordInjuriesComponent {
     });
   }
 
-  submitInjury() {
-    if (this.injuryForm.valid) {
-      this.injuryService.createInjury(this.injuryForm.value).subscribe({
-        next: res => console.log('Injury record created:', res),
+// Handle file selection
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    // Limit to 5 files max
+    const files = Array.from(input.files);
+    this.selectedFiles = files.slice(0, 5);
+    
+    // If user selected more than 5 files, show a message
+    if (files.length > 5) {
+      alert('Maximum 5 files allowed. Only the first 5 files have been selected.');
+    }
+  }
+}
+// Remove a file from selection
+removeFile(index: number) {
+  this.selectedFiles.splice(index, 1);
+}
+
+uploading = false;
+
+// async submitInjury() {
+//   if (this.injuryForm.valid) {
+//     try {
+//       this.uploading = true;
+//       let fileUrls: string[] = [];
+
+//       if (this.selectedFiles.length > 0) {
+//         for (const file of this.selectedFiles) {
+//           const res = await this.injuryService.uploadFileToCloudinary(file).toPromise();
+//           fileUrls.push(res.secure_url);
+//         }
+//       }
+
+//       this.uploading = false;
+
+//       const formValue = {
+//         ...this.injuryForm.value,
+//         medical_files: fileUrls.join(',')
+//       };
+
+//       this.injuryService.createInjury(formValue).subscribe({
+//         next: res => {
+//           console.log('Injury record created:', res);
+//           this.injuryForm.reset();
+//           this.selectedFiles = [];
+//         },
+//         error: err => console.error('Error creating injury record:', err)
+//       });
+
+//     } catch (err) {
+//       this.uploading = false;
+//       console.error('File upload failed:', err);
+//     }
+//   }
+// }
+async submitInjury() {
+  if (this.injuryForm.valid) {
+    try {
+      this.uploading = true;
+      let fileUrls: string[] = [];
+
+      if (this.selectedFiles.length > 0) {
+        for (const file of this.selectedFiles) {
+          const res = await this.injuryService.uploadFileToCloudinary(file).toPromise();
+          fileUrls.push(res.secure_url);
+        }
+      }
+
+      this.uploading = false;
+
+      const formValue = {
+        ...this.injuryForm.value,
+        medical_files: fileUrls.length > 0 ? fileUrls.join(',') : ''
+      };
+
+      console.log('Final form value sending to backend:', formValue);
+
+      this.injuryService.createInjury(formValue).subscribe({
+        next: res => {
+          console.log('Injury record created:', res);
+          this.injuryForm.reset();
+          this.selectedFiles = [];
+        },
         error: err => console.error('Error creating injury record:', err)
       });
+
+    } catch (err) {
+      this.uploading = false;
+      console.error('File upload failed:', err);
     }
   }
 }
 
+}

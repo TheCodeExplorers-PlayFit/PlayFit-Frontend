@@ -253,6 +253,33 @@
     </div>
   </div>
 
+<br>
+<hr>
+<h4>4. Upload Medical Reports/X-rays</h4>
+<br>
+<div class="row mb-3">
+  <div class="col-md-6">
+    <label for="medical_files" class="form-label">Upload X-Ray/Medical Reports:</label>
+    <input type="file" id="medical_files" class="form-control" multiple (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
+    <small class="form-text text-muted">Accepted formats: JPG, PNG, PDF. Max 5 files.</small>
+  </div>
+</div>
 
+<div class="row mb-3" *ngIf="selectedFiles.length > 0">
+  <div class="col-md-6">
+    <p><strong>Selected Files:</strong></p>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let file of selectedFiles; let i = index">
+        {{ file.name }}
+        <button type="button" class="btn btn-sm btn-danger" (click)="removeFile(i)">Remove</button>
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="uploading">
+  <p>Uploading files, please wait...</p>
+</div>
+
+<br>
   <button type="submit" class="btn w-50" [ngStyle]="{'background-color': primaryColor,'color':'#ffffff'}" [disabled]="injuryForm.invalid">Submit Injury Record</button>
 </form>
