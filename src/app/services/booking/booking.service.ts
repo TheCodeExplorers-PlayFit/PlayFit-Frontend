@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service'; // Adjust path as needed
   providedIn: 'root'
 })
 export class BookingService {
-  private apiUrl = 'http://localhost:5000/api/coach-sessions'; // Changed from /api/sessions to /api/coach-sessions
+  private apiUrl = 'http://localhost:5000/api/coach-sessions';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -23,18 +23,17 @@ export class BookingService {
     return this.http.get(`${this.apiUrl}/timetable?stadiumId=${stadiumId}`, { headers: this.getHeaders() });
   }
 
+  updateCoachCost(sessionId: number, coachCost: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update-cost/${sessionId}`, { coachCost }, { headers: this.getHeaders() });
+  }
+
   bookSession(sessionId: number): Observable<any> {
     const user = this.authService.getUser();
     if (!user || !this.authService.isLoggedIn()) {
       throw new Error('User not logged in');
     }
-
-    const bookingData = {
-      sessionId,
-      playerId: user.id // Using coach's ID; adjust if needed
-    };
-
-    return this.http.post(`${this.apiUrl}/initiate-payment`, bookingData, { headers: this.getHeaders() });
+    const coachId = user.id;
+    return this.http.post(`${this.apiUrl}/book/${sessionId}`, { coachId }, { headers: this.getHeaders() });
   }
 
   createBooking(stadiumId: number): Observable<any> {

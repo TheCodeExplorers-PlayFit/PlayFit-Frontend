@@ -1,56 +1,86 @@
-.timetable-container {
-  padding: 20px;
-  max-width: 960px;
-  margin: 0 auto;
+:host {
+  display: block;
+  margin: 30px auto;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
-table {
+/* Card container */
+.card {
+  background-color: #0c1c3f;
+  color: white;
+  border-radius: 16px;
+  padding: 30px 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
 }
 
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #0a0466;
+/* Heading */
+.card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
   color: white;
 }
 
-tr:nth-child(even) {
-  background-color: #f0f4f8;
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  color: #2c3e50;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 16px;
 }
 
-tr:hover {
-  background-color: #e0e7f0;
+/* Header row */
+th {
+  background-color: #142850;
+  color: white;
+  padding: 14px 12px;
+  text-align: left;
 }
 
-.book-btn {
-  padding: 8px 16px;
-  background: #0a0466;
-  color: #fff;
+/* Table rows */
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Book button */
+button {
+  background-color: #3498db;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 24px;
+  padding: 8px 20px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
 }
 
-.book-btn:hover {
-  background: #080120;
+button:hover {
+  background-color: #1f78c1;
 }
 
-.loading-state, .error-state, .empty-state {
-  text-align: center;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 20px;
-}
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+  }
 
-.loading-state p, .error-state p, .empty-state p {
-  color: #555;
+  table, th, td {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 6px 14px;
+    font-size: 14px;
+  }
+
+  .card h2 {
+    font-size: 22px;
+  }
 }

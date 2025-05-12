@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking/booking.service';
+import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
 
 @Component({
   selector: 'app-coach-stadium-timetable',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // Add FormsModule to imports
   templateUrl: './coach-stadium-timetable.component.html',
   styleUrls: ['./coach-stadium-timetable.component.css']
 })
@@ -15,6 +16,11 @@ export class CoachStadiumtimetableComponent implements OnInit {
   timetable: any[] = [];
   loading: boolean = true;
   error: string | null = null;
+  showPopup: boolean = false; // Flag to show/hide popup
+  selectedSessionId: number | null = null; // Store the session ID being booked
+  coachCost: number | null = null; // Store the coach cost input
+  coachId: number | null = null; // Add coachId property
+  isUpdating: boolean = false; // Flag to prevent multiple updates
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +29,8 @@ export class CoachStadiumtimetableComponent implements OnInit {
 
   ngOnInit(): void {
     this.stadiumId = +this.route.snapshot.paramMap.get('id')!;
+    // Assume coachId is fetched from a service or local storage
+    this.coachId = 1; // Replace with actual coachId retrieval logic (e.g., from auth service)
     if (this.stadiumId) {
       this.loadTimetable();
     } else {
@@ -39,7 +47,7 @@ export class CoachStadiumtimetableComponent implements OnInit {
           this.timetable = response.sessions.filter((session: any) => session.isbooked === 0);
           console.log('Filtered Timetable:', this.timetable);
           if (this.timetable.length === 0) {
-            this.error = 'No unassigned sessions available for this stadium.';
+            this.error = 'No unassigned sessions available for this stadium. The stadium may not support the sports for the available sessions.';
           } else {
             this.error = null;
           }
@@ -56,15 +64,59 @@ export class CoachStadiumtimetableComponent implements OnInit {
     });
   }
 
-  bookSession(sessionId: number): void {
-    this.bookingService.bookSession(sessionId).subscribe({
-      next: (response) => {
-        console.log('Session booked successfully:', response);
-        this.loadTimetable();
-      },
-      error: (error) => {
-        this.error = error.error?.message || 'Failed to book session';
-      }
-    });
+  openPopup(sessionId: number): void {
+    this.selectedSessionId = sessionId;
+    this.showPopup = true;
+    this.coachCost = null; // Reset coach cost input
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.selectedSessionId = null;
+    this.coachCost = null;
+    this.isUpdating = false; // Reset the flag
+  }
+
+  updateCoachCost(): void {
+    if (this.isUpdating) {
+      console.log('Update already in progress, skipping...');
+      return; // Prevent multiple updates
+    }
+
+    if (this.selectedSessionId && this.coachCost !== null && this.coachCost >= 0) {
+      this.isUpdating = true; // Set the flag to indicate an update is in progress
+      this.bookingService.CoachCost(this.selectedSessionId, this.coachCost).subscribe({
+        next: (response) => {
+          console.log('Coach cost updated:', response);
+          // Keep the popup open for the confirm step
+          this.isUpdating = false; // Reset the flag
+        },
+        error: (error) => {
+          console.error('Error updating coach cost:', error);
+          this.error = error.error?.message || 'Failed to update coach cost. Please ensure the stadium supports this sport.';
+          this.closePopup();
+        }
+      });
+    } else {
+      this.error = 'Please enter a valid coach cost';
+      this.isUpdating = false; // Reset the flag
+    }
+  }
+
+  confirmBooking(): void {
+    if (this.selectedSessionId && this.coachId) {
+      this.bookingService.bookSession(this.selectedSessionId).subscribe({
+        next: (response) => {
+          console.log('Session booked successfully:', response);
+          this.closePopup();
+          this.loadTimetable(); // Refresh the timetable
+        },
+        error: (error) => {
+          console.error('Error booking session:', error);
+          this.error = error.error?.message || 'Failed to book session';
+          this.closePopup();
+        }
+      });
+    }
   }
 }

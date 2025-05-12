@@ -20,7 +20,7 @@
         <td>{{ session.start_time }} - {{ session.end_time }}</td>
         <td>{{ session.status }}</td>
         <td>
-          <button *ngIf="session.status === 'available'" (click)="bookSession(session.id)" class="book-btn">Book</button>
+          <button *ngIf="session.status === 'available'" (click)="openPopup(session.id)" class="book-btn">Book</button>
         </td>
       </tr>
     </tbody>
@@ -31,4 +31,15 @@
 </div>
 <div *ngIf="loading" class="loading-state">
   <p>Loading timetable...</p>
+</div>
+
+<!-- Popup Modal -->
+<div *ngIf="showPopup" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Enter Coach Cost</h3>
+    <input type="number" [(ngModel)]="coachCost" placeholder="Enter coach cost" min="0" />
+    <button (click)="CoachCost()" class="cost-btn">Enter session fees</button>
+    <button [disabled]="coachCost === null" (click)="confirmBooking()" class="confirm-btn">Confirm Booking</button>
+    <button (click)="closePopup()" class="close-btn">Cancel</button>
+  </div>
 </div>
