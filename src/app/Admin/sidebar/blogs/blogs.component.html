@@ -1,51 +1,30 @@
 <div class="blog-posts-wrapper">
-    <h2>Blog Posts</h2>
-    <p class="subtitle">Blogposts Requests</p>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>Request ID</th>
-          <th>Position</th>
-          <th>Name</th>
-          <th>Date & Time</th>
-          <th>View Blog</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let blog of blogRequests">
-          <td>{{ blog.id }}</td>
-          <td>{{ blog.position }}</td>
-          <td class="profile">
-            <img [src]="blog.photo" alt="profile" />
-            {{ blog.name }}
-          </td>
-          <td>{{ blog.date }}<br />{{ blog.time }}</td>
-          <td>{{ blog.blogTitle }}</td>
-          <td>
-            <span [ngClass]="{
-              'status-pending': blog.status === 'Pending',
-              'status-approved': blog.status === 'Approved',
-              'status-declined': blog.status === 'Declined'
-            }">
-              {{ blog.status }}
-            </span>
-          </td>
-          <td>
-            <ng-container [ngSwitch]="blog.status">
-              <button *ngSwitchCase="'Pending'" class="approve-btn" (click)="changeStatus(blog, 'Approved')">Approve</button>
-              <button *ngSwitchCase="'Pending'" class="decline-btn" (click)="changeStatus(blog, 'Declined')">Decline</button>
-  
-              <button *ngSwitchCase="'Approved'" class="reschedule-btn">Reschedule</button>
-              <button *ngSwitchCase="'Approved'" class="cancel-btn" (click)="changeStatus(blog, 'Declined')">Cancel</button>
-  
-              <button *ngSwitchCase="'Declined'" class="re-request-btn" (click)="changeStatus(blog, 'Pending')">Re-request</button>
-            </ng-container>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <h2>Admin Blogs</h2>
+  <p class="subtitle">Pending Blog Posts</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Position</th>
+        <th>Name</th>
+        <th>Date & Time</th>
+        <th>Blog Title</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let blog of blogRequests">
+        <td>{{ blog.id }}</td>
+        <td>{{ blog.role }}</td>
+        <td>{{ blog.first_name }} {{ blog.last_name }}</td>
+        <td>{{ blog.created_at | date:'MM/dd/yyyy, hh:mm a' }}</td>
+        <td>{{ blog.title }}</td>
+        <td>
+          <button class="approve-btn" (click)="approveBlog(blog)">Approve</button>
+          <button class="decline-btn" (click)="rejectBlog(blog)">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

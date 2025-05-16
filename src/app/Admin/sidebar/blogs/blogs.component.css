@@ -1,105 +1,46 @@
-:root {
-    --primary: #000080;
-  }
-  
-  .blog-posts-wrapper {
-    padding: 2rem;
-  }
-  
-  h2 {
-    color: var(--primary);
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .subtitle {
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 1.5rem;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    font-size: 14px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-  }
-  
-  thead {
-    background-color: #e0e0f9;
-    color: #000;
-  }
-  
-  th, td {
-    padding: 12px 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-    vertical-align: middle;
-  }
-  
-  .profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .profile img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
-  
-  .status-pending {
-    color: #ffa500;
-    font-weight: bold;
-  }
-  
-  .status-approved {
-    color: green;
-    font-weight: bold;
-  }
-  
-  .status-declined {
-    color: red;
-    font-weight: bold;
-  }
-  
-  button {
-    padding: 4px 10px;
-    font-size: 12px;
-    border-radius: 5px;
-    margin: 2px;
-    cursor: pointer;
-  }
-  
-  .approve-btn {
-    border: 1px solid green;
-    color: green;
-    background: none;
-  }
-  
-  .decline-btn {
-    border: 1px solid red;
-    color: red;
-    background: none;
-  }
-  
-  .reschedule-btn {
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    background: none;
-  }
-  
-  .cancel-btn {
-    border: 1px solid red;
-    color: red;
-    background: none;
-  }
-  
-  .re-request-btn {
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    background: none;
-  }
-  
+.blog-posts-wrapper {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+.approve-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.decline-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
