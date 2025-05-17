@@ -47,6 +47,9 @@
           </div>
         </div>
 
+        <label>Sport Cost (%):</label>
+        <input type="number" [(ngModel)]="selectedSportPercentage" name="sportPercentage" min="0" max="100" step="0.01" required />
+
         <button type="button" (click)="addScheduleRow()">Add</button>
       </div>
 
@@ -61,6 +64,7 @@
               <th>From</th>
               <th>To</th>
               <th>Max Players</th>
+              <th>Sport Cost (%)</th>
               <th>Remove</th>
             </tr>
           </thead>
@@ -71,6 +75,7 @@
               <td>{{ row.fromTime }}</td>
               <td>{{ row.toTime }}</td>
               <td>{{ row.maxPlayers }}</td>
+              <td>{{ row.sportPercentage }}%</td>
               <td><button type="button" (click)="removeRow(i)">X</button></td>
             </tr>
           </tbody>

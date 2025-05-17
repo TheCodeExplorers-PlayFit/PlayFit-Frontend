@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
@@ -11,14 +11,13 @@ interface Stadium {
   google_maps_link: string;
   facilities: string;
   images: string[];
-  schedules: { 
+  schedule: { 
     sport: string; 
     day: string; 
-    date: string; 
-    start_time: string; 
-    end_time: string; 
-    max_players: number; 
-    stadium_sportcost: number; 
+    fromTime: string; 
+    toTime: string; 
+    maxPlayers: number; 
+    sportPercentage: number; 
   }[];
 }
 
@@ -31,18 +30,103 @@ interface Stadium {
 })
 export class StadiumsComponent implements OnInit {
   stadiums: Stadium[] = [];
-  editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedules: [] };
+  editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
   showEdit = false;
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  backendUrl = 'http://localhost:5000'; // Backend base URL
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
+    console.log('StadiumsComponent initialized');
+  }
 
   ngOnInit() {
+    console.log('ngOnInit called');
     this.fetchStadiums();
   }
 
   getAllImages(): string[] {
-    return this.stadiums.flatMap(stadium => Array.isArray(stadium.images) ? stadium.images : []);
+    const allImages: string[] = [];
+    this.stadiums.forEach(stadium => {
+      if (Array.isArray(stadium.images) && stadium.images.length > 0) {
+        const validImages = stadium.images.filter(img => this.isValidImagePath(img));
+        const prefixedImages = validImages.map(img => 
+          img.toLowerCase().startsWith('/uploads') ? `${this.backendUrl}${img}` : img
+        );
+        console.log(`Raw images for ${stadium.name}:`, stadium.images);
+        console.log(`Valid images for ${stadium.name}:`, validImages);
+        console.log(`Prefixed images for ${stadium.name}:`, prefixedImages);
+        allImages.push(...prefixedImages);
+      } else {
+        console.log(`No images for ${stadium.name}:`, stadium.images);
+      }
+    });
+    console.log('Total images collected:', allImages);
+    return allImages;
+  }
+
+  private isValidImagePath(img: string): boolean {
+    if (!img || typeof img !== 'string') {
+      console.warn('Invalid image path:', img);
+      return false;
+    }
+    // Case-insensitive check for /uploads or base64 data URLs
+    const isValid = img.toLowerCase().startsWith('/uploads') || img.startsWith('data:image/');
+    if (!isValid) {
+      console.warn('Skipping invalid image path:', img);
+    }
+    return isValid;
+  }
+
+  onImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    console.error('Image failed to load:', {
+      src: imgElement.src,
+      error: event
+    });
+    imgElement.classList.add('image-placeholder');
+    imgElement.src = ''; // Clear src to prevent further errors
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const files = Array.from(input.files);
+      Promise.all(files.map(file => this.readFileAsBase64(file))).then(base64Images => {
+        this.editedStadium.images = [...this.editedStadium.images, ...base64Images];
+        console.log('New images added:', base64Images);
+        console.log('Updated editedStadium.images:', this.editedStadium.images);
+        this.cdr.detectChanges();
+      }).catch(error => {
+        console.error('Error reading files:', error);
+        alert('Failed to upload images. Please try again.');
+      });
+    }
+  }
+
+  private readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to read file as base64'));
+        }
+      };
+      reader.onerror = () => reject(new Error('Error reading file'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  removeImage(index: number) {
+    console.log('Removing image at index:', index);
+    this.editedStadium.images.splice(index, 1);
+    console.log('Updated editedStadium.images:', this.editedStadium.images);
+    this.cdr.detectChanges();
   }
 
   private getErrorMessage(error: any): string {
@@ -50,6 +134,7 @@ export class StadiumsComponent implements OnInit {
   }
 
   fetchStadiums() {
+    console.log('fetchStadiums called');
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Please log in to view stadiums.');
@@ -63,7 +148,7 @@ export class StadiumsComponent implements OnInit {
     this.http.get<Stadium[]>('http://localhost:5000/api/stadiums', { headers }).subscribe({
       next: (data) => {
         this.stadiums = data || [];
-        console.log('Fetched stadiums:', this.stadiums);
+        console.log('Fetched stadiums with schedule:', this.stadiums);
       },
       error: (error) => {
         console.error('Error fetching stadiums:', {
@@ -82,42 +167,64 @@ export class StadiumsComponent implements OnInit {
   }
 
   navigateToAddStadium() {
+    console.log('Navigating to add-stadium');
     this.router.navigate(['/stadium-owner/add-stadium']);
   }
 
   enableEdit(stadium: Stadium) {
+    console.log('enableEdit called with stadium:', stadium);
+    if (!stadium) {
+      console.error('Stadium is undefined or null');
+      return;
+    }
     this.editedStadium = {
       ...stadium,
-      schedules: Array.isArray(stadium.schedules) ? stadium.schedules.map(s => ({ ...s })) : []
+      schedule: Array.isArray(stadium.schedule) ? stadium.schedule.map(s => ({
+        sport: s.sport || '',
+        day: s.day || '',
+        fromTime: s.fromTime || '',
+        toTime: s.toTime || '',
+        maxPlayers: s.maxPlayers || 0,
+        sportPercentage: s.sportPercentage || 0
+      })) : [],
+      images: Array.isArray(stadium.images) ? [...stadium.images] : []
     };
     this.showEdit = true;
+    this.cdr.detectChanges();
+    console.log('showEdit set to:', this.showEdit);
+    console.log('Edited stadium set:', this.editedStadium);
   }
 
   cancelEdit() {
+    console.log('cancelEdit called');
     this.showEdit = false;
-    this.editedStadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedules: [] };
+    this.editedStadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
+    this.cdr.detectChanges();
+    console.log('showEdit set to:', this.showEdit);
   }
 
   saveEdit() {
+    console.log('Saving edit with editedStadium:', this.editedStadium);
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Please log in to save changes.');
       this.router.navigate(['/login']);
       return;
     }
-    // Validate schedules
-    for (const schedule of this.editedStadium.schedules) {
-      if (!schedule.sport || !schedule.day || !schedule.date || !schedule.start_time || !schedule.end_time || !schedule.max_players || schedule.max_players <= 0 || !schedule.stadium_sportcost || schedule.stadium_sportcost <= 0) {
-        alert('All schedule fields (sport, day, date, start time, end time, max players, sport cost) must be filled and valid.');
-        return;
-      }
-      if (schedule.start_time >= schedule.end_time) {
-        alert(`Start time must be earlier than end time for ${schedule.sport}.`);
-        return;
-      }
-      if (!this.weekdayOptions.includes(schedule.day)) {
-        alert(`Invalid day: ${schedule.day}. Choose a valid day of the week.`);
-        return;
+    if (!this.editedStadium.name || !this.editedStadium.address || !this.editedStadium.google_maps_link) {
+      alert('Name, Address, and Google Maps Link are required.');
+      return;
+    }
+    if (this.editedStadium.schedule && this.editedStadium.schedule.length > 0) {
+      for (const schedule of this.editedStadium.schedule) {
+        if (schedule.day && !this.weekdayOptions.includes(schedule.day)) {
+          alert(`Invalid day: ${schedule.day}. Choose a valid day of the week.`);
+          return;
+        }
+        if (schedule.fromTime && schedule.toTime && schedule.fromTime >= schedule.toTime) {
+          alert(`Start time must be earlier than end time for ${schedule.sport || 'schedule'}.`);
+          return;
+        }
       }
     }
     const headers = new HttpHeaders({
@@ -130,26 +237,36 @@ export class StadiumsComponent implements OnInit {
       address: this.editedStadium.address,
       google_maps_link: this.editedStadium.google_maps_link,
       facilities: this.editedStadium.facilities || null,
-      images: this.editedStadium.images,
-      schedules: this.editedStadium.schedules
+      images: this.editedStadium.images || [],
+      schedule: this.editedStadium.schedule.map(schedule => ({
+        sport: schedule.sport,
+        day: schedule.day,
+        fromTime: schedule.fromTime,
+        toTime: schedule.toTime,
+        maxPlayers: schedule.maxPlayers,
+        sportPercentage: schedule.sportPercentage
+      }))
     };
-    console.log('Saving stadium update:', payload);
+    console.log('Sending payload to update:', JSON.stringify(payload, null, 2));
     this.http.put(`http://localhost:5000/api/stadiums/${this.editedStadium.id}`, payload, { headers }).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Update response:', response);
         const index = this.stadiums.findIndex(s => s.id === this.editedStadium.id);
         if (index !== -1) {
           this.stadiums[index] = { ...this.editedStadium };
         }
         this.showEdit = false;
+        this.cdr.detectChanges();
         alert('Stadium updated successfully!');
-        this.fetchStadiums(); // Refresh data
+        this.fetchStadiums();
       },
       error: (error) => {
         console.error('Error updating stadium:', {
           status: error.status,
           statusText: error.statusText,
           message: error.message,
-          error: error.error
+          error: error.error,
+          payloadSent: payload
         });
         const message = this.getErrorMessage(error);
         alert(`Error updating stadium: ${error.status} - ${message}`);
@@ -161,6 +278,7 @@ export class StadiumsComponent implements OnInit {
   }
 
   deleteStadium(id: number) {
+    console.log('deleteStadium called with id:', id);
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Please log in to delete stadium.');
@@ -195,19 +313,20 @@ export class StadiumsComponent implements OnInit {
   }
 
   addSchedule() {
-    this.editedStadium.schedules = this.editedStadium.schedules || [];
-    this.editedStadium.schedules.push({
+    console.log('addSchedule called');
+    this.editedStadium.schedule = this.editedStadium.schedule || [];
+    this.editedStadium.schedule.push({
       sport: '',
       day: '',
-      date: '',
-      start_time: '',
-      end_time: '',
-      max_players: 0,
-      stadium_sportcost: 0
+      fromTime: '',
+      toTime: '',
+      maxPlayers: 0,
+      sportPercentage: 0
     });
   }
 
   removeSchedule(index: number) {
-    this.editedStadium.schedules.splice(index, 1);
+    console.log('removeSchedule called with index:', index);
+    this.editedStadium.schedule.splice(index, 1);
   }
 }
