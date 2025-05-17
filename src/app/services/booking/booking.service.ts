@@ -23,7 +23,7 @@ export class BookingService {
     return this.http.get(`${this.apiUrl}/timetable?stadiumId=${stadiumId}`, { headers: this.getHeaders() });
   }
 
-  updateCoachCost(sessionId: number, coachCost: number): Observable<any> {
+  CoachCost(sessionId: number, coachCost: number): Observable<any> {
     return this.http.put(`${this.apiUrl}/update-cost/${sessionId}`, { coachCost }, { headers: this.getHeaders() });
   }
 

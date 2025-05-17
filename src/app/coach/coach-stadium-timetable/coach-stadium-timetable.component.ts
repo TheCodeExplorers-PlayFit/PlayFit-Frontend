@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking/booking.service';
 import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
+import { debounce } from 'rxjs/operators'; // Import debounce operator
+import { interval } from 'rxjs'; // Import interval for debounce
 
 @Component({
   selector: 'app-coach-stadium-timetable',
@@ -77,7 +79,9 @@ export class CoachStadiumtimetableComponent implements OnInit {
     this.isUpdating = false; // Reset the flag
   }
 
-  updateCoachCost(): void {
+  CoachCost(): void {
+    console.log(`Calling updateCoachCost for sessionId: ${this.selectedSessionId}, coachCost: ${this.coachCost}`);
+
     if (this.isUpdating) {
       console.log('Update already in progress, skipping...');
       return; // Prevent multiple updates
@@ -86,12 +90,12 @@ export class CoachStadiumtimetableComponent implements OnInit {
     if (this.selectedSessionId && this.coachCost !== null && this.coachCost >= 0) {
       this.isUpdating = true; // Set the flag to indicate an update is in progress
       this.bookingService.CoachCost(this.selectedSessionId, this.coachCost).subscribe({
-        next: (response) => {
+        next: (response:any) => {
           console.log('Coach cost updated:', response);
           // Keep the popup open for the confirm step
           this.isUpdating = false; // Reset the flag
         },
-        error: (error) => {
+        error: (error:any) => {
           console.error('Error updating coach cost:', error);
           this.error = error.error?.message || 'Failed to update coach cost. Please ensure the stadium supports this sport.';
           this.closePopup();
