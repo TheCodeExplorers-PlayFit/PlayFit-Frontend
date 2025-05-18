@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>Your Salary Details</h2>
+
+  <div *ngIf="loading" class="spinner">Loading...</div>
+
+  <div *ngIf="error && !loading" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <table class="table table-striped" *ngIf="coachSalaries.length > 0 && !loading">
+    <thead>
+      <tr>
+        <th>Coach ID</th>
+        <th>Total Salary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let salary of coachSalaries">
+        <td>{{ salary.coach_id }}</td>
+        <td>{{ salary.total_salary | currency:'USD' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="coachSalaries.length === 0 && !error && !loading" class="alert alert-info">
+    No salary data available for you.
+  </div>
+</div>
