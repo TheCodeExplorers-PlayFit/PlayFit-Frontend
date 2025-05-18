@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
-
-// Import CoachSalaryService and CoachSalary interface with named imports
 import { CoachSalaryService, CoachSalary } from '../../services/coach-salary/coach-salary.service';
 
 @Component({
@@ -26,8 +24,8 @@ export class SalaryDetailsComponent implements OnInit {
   loadSalaries(): void {
     this.loading = true;
     this.coachSalaryService.getCoachSalaries().subscribe({
-      next: (salaries:any) => {
-        console.log('Received salaries:', salaries);
+      next: (salaries) => {
+        console.log('Processed salaries:', salaries);
         this.coachSalaries = salaries;
         this.loading = false;
       },

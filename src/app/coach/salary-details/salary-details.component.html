@@ -7,20 +7,12 @@
     {{ error }}
   </div>
 
-  <table class="table table-striped" *ngIf="coachSalaries.length > 0 && !loading">
-    <thead>
-      <tr>
-        <th>Coach ID</th>
-        <th>Total Salary</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let salary of coachSalaries">
-        <td>{{ salary.coach_id }}</td>
-        <td>{{ salary.total_salary | currency:'USD' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="coachSalaries.length > 0 && !loading" class="salary-box">
+    <div *ngFor="let salary of coachSalaries" class="salary-card">
+      <p><strong>Coach Name:</strong> {{ salary.coach_name || 'Name not available' }}</p>
+      <p><strong>Total Salary:</strong> {{ salary.total_salary | currency:'USD' }}</p>
+    </div>
+  </div>
 
   <div *ngIf="coachSalaries.length === 0 && !error && !loading" class="alert alert-info">
     No salary data available for you.

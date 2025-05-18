@@ -3,13 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-// Export the CoachSalary interface
 export interface CoachSalary {
   coach_id: number;
   total_salary: number;
+  coach_name: string;
 }
 
-// Export the CoachSalaryService class
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +27,10 @@ export class CoachSalaryService {
     });
 
     return this.http.get<CoachSalary[]>(this.apiUrl, { headers }).pipe(
-      map(data => data.length > 0 ? [data[0]] : [])
+      map(data => {
+        console.log('Raw API response:', data);
+        return data.length > 0 ? [data[0]] : [];
+      })
     );
   }
 }
