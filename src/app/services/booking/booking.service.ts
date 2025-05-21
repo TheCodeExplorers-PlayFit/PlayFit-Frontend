@@ -19,10 +19,9 @@ export class BookingService {
     });
   }
 
-  getWeeklyTimetable(stadiumId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/timetable?stadiumId=${stadiumId}`, { headers: this.getHeaders() });
-  }
-
+ getWeeklyTimetable(stadiumId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/weekly-timetable?stadiumId=${stadiumId}`, { headers: this.getHeaders() });
+}
   CoachCost(sessionId: number, coachCost: number): Observable<any> {
     return this.http.put(`${this.apiUrl}/update-cost/${sessionId}`, { coachCost }, { headers: this.getHeaders() });
   }
