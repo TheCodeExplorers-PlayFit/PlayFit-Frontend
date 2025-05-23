@@ -64,7 +64,8 @@
                [src]="img" 
                (error)="onImageError($event)" 
                class="img-fluid" 
-               alt="Stadium Image" />
+               alt="Stadium Image"
+               loading="lazy" />
         </div>
       </div>
       <ng-template #noImages>
@@ -95,14 +96,21 @@
 
         <label>Images:</label>
         <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*" multiple />
+        <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
+          Uploading: {{ uploadProgress }}%
+        </div>
+        <div *ngIf="uploadError" class="error">
+          {{ uploadError }}
+        </div>
         <div *ngIf="editedStadium.images?.length" class="image-preview">
           <h4>Current Images</h4>
           <div class="image-container">
             <div *ngFor="let img of editedStadium.images; let i = index" class="image-item">
-              <img [src]="img.startsWith('/uploads') ? backendUrl + img : img" 
+              <img [src]="img" 
                    (error)="onImageError($event)" 
                    class="img-thumbnail" 
-                   alt="Stadium Image" />
+                   alt="Stadium Image"
+                   loading="lazy" />
               <button type="button" class="delete-btn btn-sm" (click)="removeImage(i)">Remove</button>
             </div>
           </div>
