@@ -21,7 +21,9 @@ export class AddStadiumComponent {
   };
 
   agreed = false;
-  imagePreviews: string[] = [];
+  imageUrls: string[] = [];
+  uploadProgress: number = 0;
+  uploadError: string | null = null;
   locationConfirmed = false;
   sportsOptions: string[] = ['Football', 'Basketball', 'Tennis', 'Cricket', 'Swimming', 'Volleyball', 'Badminton', 'Rugby', 'Hockey'];
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -30,7 +32,7 @@ export class AddStadiumComponent {
   selectedFromTime: string = '';
   selectedToTime: string = '';
   selectedMaxPlayers: number | null = null;
-  selectedSportPercentage: number | null = null; // New field for sport cost percentage
+  selectedSportPercentage: number | null = null;
   scheduleRows: { sport: string; day: string; fromTime: string; toTime: string; maxPlayers: number; sportPercentage: number }[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -71,13 +73,42 @@ export class AddStadiumComponent {
     }
   }
 
-  onFileSelected(event: any) {
-    const files = event.target.files;
-    for (let file of files) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imagePreviews.push(e.target.result);
-      reader.readAsDataURL(file);
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.uploadProgress = 0;
+      this.uploadError = null;
+      const files = Array.from(input.files);
+      files.forEach(file => this.uploadToCloudinary(file));
     }
+  }
+
+  uploadToCloudinary(file: File): void {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'imageuploading'); // Replace with your preset
+    formData.append('cloud_name', 'dubclskme'); // Replace with your Cloud Name
+    formData.append('folder', 'Uploads'); // Optional: organize in a folder
+
+    const uploadUrl = 'https://api.cloudinary.com/v1_1/dubclskme/image/upload'; // Replace with your Cloud Name
+
+    fetch(uploadUrl, {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.secure_url) {
+          this.imageUrls.push(data.secure_url);
+          this.uploadProgress = 100;
+        } else {
+          throw new Error('Upload failed');
+        }
+      })
+      .catch(error => {
+        this.uploadError = `Upload failed: ${error.message}`;
+        this.uploadProgress = 0;
+      });
   }
 
   selectSport(sport: string) {
@@ -86,7 +117,7 @@ export class AddStadiumComponent {
     this.selectedFromTime = '';
     this.selectedToTime = '';
     this.selectedMaxPlayers = null;
-    this.selectedSportPercentage = null; // Reset sport percentage
+    this.selectedSportPercentage = null;
   }
 
   addScheduleRow() {
@@ -110,7 +141,7 @@ export class AddStadiumComponent {
         fromTime: this.selectedFromTime,
         toTime: this.selectedToTime,
         maxPlayers: this.selectedMaxPlayers,
-        sportPercentage: this.selectedSportPercentage // Add sport percentage
+        sportPercentage: this.selectedSportPercentage
       });
       console.log('Schedule Rows:', this.scheduleRows);
       this.selectedSport = null;
@@ -118,7 +149,7 @@ export class AddStadiumComponent {
       this.selectedFromTime = '';
       this.selectedToTime = '';
       this.selectedMaxPlayers = null;
-      this.selectedSportPercentage = null; // Reset sport percentage
+      this.selectedSportPercentage = null;
     } else {
       alert('Please select sport, day, from time, to time, a valid number of max players, and a sport cost percentage (0-100)');
       console.log('Schedule fields:', {
@@ -142,20 +173,20 @@ export class AddStadiumComponent {
     console.log('locationConfirmed:', this.locationConfirmed);
     console.log('scheduleRows:', this.scheduleRows);
     console.log('agreed:', this.agreed);
-    if (form.valid && this.locationConfirmed && this.agreed && this.scheduleRows.length > 0) {
+    if (form.valid && this.locationConfirmed && this.agreed && this.scheduleRows.length > 0 && this.imageUrls.length > 0) {
       const stadiumData = {
         name: this.stadium.name,
         address: this.stadium.address,
         google_maps_link: this.stadium.locationUrl,
         facilities: this.stadium.facilities,
-        images: this.imagePreviews,
+        images: this.imageUrls,
         schedule: this.scheduleRows.map(row => ({
           sport: row.sport,
           day: row.day,
           fromTime: row.fromTime,
           toTime: row.toTime,
           maxPlayers: row.maxPlayers,
-          sportPercentage: row.sportPercentage // Include sport percentage
+          sportPercentage: row.sportPercentage
         }))
       };
       const token = localStorage.getItem('token');
@@ -176,7 +207,7 @@ export class AddStadiumComponent {
             alert('Stadium added successfully!');
             form.reset();
             this.stadium = { name: '', address: '', facilities: '', locationText: '', locationUrl: '' };
-            this.imagePreviews = [];
+            this.imageUrls = [];
             this.scheduleRows = [];
             this.locationConfirmed = false;
             this.agreed = false;
@@ -203,6 +234,7 @@ export class AddStadiumComponent {
       if (!this.locationConfirmed) errorMessage += '\n- Confirm the location.';
       if (!this.agreed) errorMessage += '\n- Agree to terms and conditions.';
       if (!this.scheduleRows.length) errorMessage += '\n- Add at least one schedule row.';
+      if (!this.imageUrls.length) errorMessage += '\n- Upload at least one image.';
       alert(errorMessage);
       console.log('Form submission failed:', errorMessage);
     }

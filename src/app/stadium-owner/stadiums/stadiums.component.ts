@@ -33,7 +33,8 @@ export class StadiumsComponent implements OnInit {
   editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
   showEdit = false;
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  backendUrl = 'http://localhost:5000'; // Backend base URL
+  uploadProgress: number = 0;
+  uploadError: string | null = null;
 
   constructor(
     private http: HttpClient, 
@@ -53,13 +54,8 @@ export class StadiumsComponent implements OnInit {
     this.stadiums.forEach(stadium => {
       if (Array.isArray(stadium.images) && stadium.images.length > 0) {
         const validImages = stadium.images.filter(img => this.isValidImagePath(img));
-        const prefixedImages = validImages.map(img => 
-          img.toLowerCase().startsWith('/uploads') ? `${this.backendUrl}${img}` : img
-        );
-        console.log(`Raw images for ${stadium.name}:`, stadium.images);
         console.log(`Valid images for ${stadium.name}:`, validImages);
-        console.log(`Prefixed images for ${stadium.name}:`, prefixedImages);
-        allImages.push(...prefixedImages);
+        allImages.push(...validImages);
       } else {
         console.log(`No images for ${stadium.name}:`, stadium.images);
       }
@@ -73,8 +69,8 @@ export class StadiumsComponent implements OnInit {
       console.warn('Invalid image path:', img);
       return false;
     }
-    // Case-insensitive check for /uploads or base64 data URLs
-    const isValid = img.toLowerCase().startsWith('/uploads') || img.startsWith('data:image/');
+    // Check for valid Cloudinary URLs (or other valid URLs)
+    const isValid = img.startsWith('https://') || img.startsWith('http://');
     if (!isValid) {
       console.warn('Skipping invalid image path:', img);
     }
@@ -94,32 +90,43 @@ export class StadiumsComponent implements OnInit {
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      this.uploadProgress = 0;
+      this.uploadError = null;
       const files = Array.from(input.files);
-      Promise.all(files.map(file => this.readFileAsBase64(file))).then(base64Images => {
-        this.editedStadium.images = [...this.editedStadium.images, ...base64Images];
-        console.log('New images added:', base64Images);
-        console.log('Updated editedStadium.images:', this.editedStadium.images);
-        this.cdr.detectChanges();
-      }).catch(error => {
-        console.error('Error reading files:', error);
-        alert('Failed to upload images. Please try again.');
-      });
+      files.forEach(file => this.uploadToCloudinary(file));
     }
   }
 
-  private readFileAsBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result);
+  uploadToCloudinary(file: File): void {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'imageuploading'); // Replace with your preset
+    formData.append('cloud_name', 'dubclskme'); // Replace with your Cloud Name
+    formData.append('folder', 'stadiums');
+
+    const uploadUrl = 'https://api.cloudinary.com/v1_1/dubclskme/image/upload'; // Replace with your Cloud Name
+
+    fetch(uploadUrl, {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.secure_url) {
+          this.editedStadium.images = [...this.editedStadium.images, data.secure_url];
+          this.uploadProgress = 100;
+          this.cdr.detectChanges();
+          console.log('Uploaded image URL:', data.secure_url);
+          console.log('Updated editedStadium.images:', this.editedStadium.images);
         } else {
-          reject(new Error('Failed to read file as base64'));
+          throw new Error('Upload failed');
         }
-      };
-      reader.onerror = () => reject(new Error('Error reading file'));
-      reader.readAsDataURL(file);
-    });
+      })
+      .catch(error => {
+        this.uploadError = `Upload failed: ${error.message}`;
+        this.uploadProgress = 0;
+        console.error('Upload error:', error);
+      });
   }
 
   removeImage(index: number) {
