@@ -1,121 +1,101 @@
-<div class="container mt-4">
-    <h1 class="mb-4">Player Packages</h1>
-  
-    <!-- Package Features Table -->
-    <div class="mb-4">
-      <table class="table table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th>Feature</th>
-            <th>Basic</th>
-            <th>Premium</th>
-            <th>VIP</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Price</td>
-            <td>$30/month</td>
-            <td>$50/month</td>
-            <td>$100/month</td>
-          </tr>
-          <tr>
-            <td>Exclusive Events</td>
-            <td><span class="text-danger">✗</span></td>
-            <td><span class="text-danger">✗</span></td>
-            <td><span class="text-success">✓</span></td>
-          </tr>
-          <tr>
-            <td>Discount on Merchandise</td>
-            <td><span class="text-danger">✗</span></td>
-            <td><span class="text-success">✓</span></td>
-            <td><span class="text-success">✓</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <!-- Player Packages List Table -->
-    <div class="mb-4">
-      <h2 class="mb-2">Player Packages List</h2>
-      <a href="#" class="text-primary mb-2 d-block">View All</a>
-      <table class="table table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th>Package ID</th>
-            <th>Player Name</th>
-            <th>Package Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Stadium Name</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>P001</td>
-            <td><img src="https://via.placeholder.com/30" alt="Player" class="me-2"> Nolan Bator</td>
-            <td>Basic</td>
-            <td>01/01/2025</td>
-            <td>01/04/2025</td>
-            <td>YMB Sports club</td>
-            <td>$30</td>
-            <td><span class="badge bg-success text-white">Active</span></td>
-            <td><span class="text-success cursor-pointer me-2">👁️</span> <span class="text-primary cursor-pointer">📝</span></td>
-          </tr>
-          <tr>
-            <td>P002</td>
-            <td><img src="https://via.placeholder.com/30" alt="Player" class="me-2"> Ruben DeWit</td>
-            <td>Premium</td>
-            <td>01/01/2025</td>
-            <td>01/04/2025</td>
-            <td>Peak Performance club</td>
-            <td>$50</td>
-            <td><span class="badge bg-success text-white">Active</span></td>
-            <td><span class="text-success cursor-pointer me-2">👁️</span> <span class="text-primary cursor-pointer">📝</span></td>
-          </tr>
-          <tr>
-            <td>P003</td>
-            <td><img src="https://via.placeholder.com/30" alt="Player" class="me-2"> Erin Levin</td>
-            <td>VIP</td>
-            <td>01/01/2025</td>
-            <td>01/04/2025</td>
-            <td>YMB Sports Club</td>
-            <td>$100</td>
-            <td><span class="badge bg-danger text-white">Expired</span></td>
-            <td><span class="text-success cursor-pointer me-2">👁️</span> <span class="text-primary cursor-pointer">📝</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <!-- Summary Cards -->
-    <div class="row">
-      <div class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card text-center bg-danger text-white p-3">
-          <h5>Total Players Subscribed</h5>
-          <p class="display-4">250</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card text-center bg-success text-white p-3">
-          <h5>Active Subscriptions</h5>
-          <p class="display-4">180</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card text-center bg-secondary text-white p-3">
-          <h5>Expired Subscriptions</h5>
-          <p class="display-4">100</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-3 mb-3">
-        <div class="card text-center bg-pink text-white p-3">
-          <h5>Most Popular Package</h5>
-          <p class="display-4">Premium Plan</p>
-        </div>
-      </div>
+<div class="container">
+  <h2>Player Packages</h2>
+  <button class="add-package-btn" (click)="enableAdd()">Add New Package</button>
+
+  <div *ngIf="packages.length; else noPackages">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price ($)</th>
+          <th>Duration (Days)</th>
+          <th>Sport</th>
+          <th>Stadium</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pkg of packages">
+          <td>{{ pkg.name }}</td>
+          <td>{{ pkg.description || 'N/A' }}</td>
+          <td>{{ pkg.price }}</td>
+          <td>{{ pkg.duration }}</td>
+          <td>{{ pkg.sport }}</td>
+          <td>{{ pkg.stadium_name }}</td>
+          <td>
+            <button class="edit-btn" (click)="enableEdit(pkg)">Edit</button>
+            <button class="delete-btn" (click)="deletePackage(pkg.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noPackages>
+    <p>No player packages available. Add a new package to get started!</p>
+  </ng-template>
+
+  <!-- Add Modal -->
+  <div class="modal" [ngClass]="{'show': showAdd}">
+    <div class="modal-content">
+      <h3>Add New Package</h3>
+      <form (ngSubmit)="saveAdd()">
+        <label>Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="newPackage.name" name="name" required />
+
+        <label>Description:</label>
+        <textarea class="form-control" [(ngModel)]="newPackage.description" name="description"></textarea>
+
+        <label>Price ($):</label>
+        <input type="number" class="form-control" [(ngModel)]="newPackage.price" name="price" min="0" step="0.01" required />
+
+        <label>Duration (Days):</label>
+        <input type="number" class="form-control" [(ngModel)]="newPackage.duration" name="duration" min="1" required />
+
+        <label>Sport:</label>
+        <input type="text" class="form-control" [(ngModel)]="newPackage.sport" name="sport" required />
+
+        <label>Stadium:</label>
+        <select class="form-control" [(ngModel)]="newPackage.stadium_id" name="stadium_id" required>
+          <option value="">Select a stadium</option>
+          <option *ngFor="let stadium of stadiums" [value]="stadium.id">{{ stadium.name }}</option>
+        </select>
+
+        <button type="submit" class="add-package-btn btn-sm">Add Package</button>
+        <button type="button" class="edit-btn btn-sm" (click)="cancelAdd()">Cancel</button>
+      </form>
     </div>
   </div>
+
+  <!-- Edit Modal -->
+  <div class="modal" [ngClass]="{'show': showEdit}">
+    <div class="modal-content">
+      <h3>Edit Package</h3>
+      <form (ngSubmit)="saveEdit()">
+        <label>Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="editedPackage.name" name="name" required />
+
+        <label>Description:</label>
+        <textarea class="form-control" [(ngModel)]="editedPackage.description" name="description"></textarea>
+
+        <label>Price ($):</label>
+        <input type="number" class="form-control" [(ngModel)]="editedPackage.price" name="price" min="0" step="0.01" required />
+
+        <label>Duration (Days):</label>
+        <input type="number" class="form-control" [(ngModel)]="editedPackage.duration" name="duration" min="1" required />
+
+        <label>Sport:</label>
+        <input type="text" class="form-control" [(ngModel)]="editedPackage.sport" name="sport" required />
+
+        <label>Stadium:</label>
+        <select class="form-control" [(ngModel)]="editedPackage.stadium_id" name="stadium_id" required>
+          <option value="">Select a stadium</option>
+          <option *ngFor="let stadium of stadiums" [value]="stadium.id">{{ stadium.name }}</option>
+        </select>
+
+        <button type="submit" class="add-package-btn btn-sm">Save</button>
+        <button type="button" class="edit-btn btn-sm" (click)="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
