@@ -1,20 +1,28 @@
 <div class="container">
   <h2>Your Salary Details</h2>
 
+  <!-- Button to generate PDF -->
+  <button class="pdf-btn" (click)="generateSalaryReport()">Generate Salary Report</button>
+
+  <!-- Loading state -->
   <div *ngIf="loading" class="spinner">Loading...</div>
 
+  <!-- Error state -->
   <div *ngIf="error && !loading" class="alert alert-danger">
     {{ error }}
   </div>
 
+  <!-- Salary cards -->
   <div *ngIf="coachSalaries.length > 0 && !loading" class="salary-box">
     <div *ngFor="let salary of coachSalaries" class="salary-card">
-      <p><strong>Coach Name:</strong> {{ salary.coach_name || 'Name not available' }}</p>
+      <p><strong>Coach ID:</strong> {{ salary.coach_id }}</p>
+      <p><strong>Coach Name:</strong> {{ salary.coach_name || 'N/A' }}</p>
       <p><strong>Total Salary:</strong> {{ salary.total_salary | currency:'USD' }}</p>
     </div>
   </div>
 
+  <!-- No data state -->
   <div *ngIf="coachSalaries.length === 0 && !error && !loading" class="alert alert-info">
-    No salary data available for you.
+    No salary data available.
   </div>
 </div>
