@@ -2,13 +2,15 @@
   <h2>Player Packages</h2>
   <button class="add-package-btn" (click)="enableAdd()">Add New Package</button>
 
+  <!-- Existing Table: Package Templates -->
+  <h3>Package Templates</h3>
   <div *ngIf="packages.length; else noPackages">
     <table class="table">
       <thead>
         <tr>
           <th>Name</th>
           <th>Description</th>
-          <th>Price ($)</th>
+          <th>Price (Rs)</th>
           <th>Duration (Days)</th>
           <th>Sport</th>
           <th>Stadium</th>
@@ -35,6 +37,64 @@
     <p>No player packages available. Add a new package to get started!</p>
   </ng-template>
 
+  <!-- New Table: Player Package Assignments -->
+  <h3>Player Package Assignments</h3>
+  <div *ngIf="assignments.length; else noAssignments">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Package ID</th>
+          <th>Player Name</th>
+          <th>Package Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Stadium Name</th>
+          <th>Price (Rs)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let assignment of assignments">
+          <td>{{ assignment.id }}</td>
+          <td>{{ assignment.player_name }}</td>
+          <td>{{ assignment.package_name }}</td>
+          <td>{{ assignment.start_date }}</td>
+          <td>{{ assignment.end_date }}</td>
+          <td>{{ assignment.stadium_name }}</td>
+          <td>{{ assignment.price }}</td>
+          <td>
+            <span class="status" [ngClass]="{'active': isActive(assignment), 'expired': !isActive(assignment)}">
+              {{ isActive(assignment) ? 'Active' : 'Expired' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noAssignments>
+    <p>No player package assignments available.</p>
+  </ng-template>
+
+  <!-- Subscription Summary Boxes -->
+  <div class="summary-boxes">
+    <div class="summary-box total">
+      <h3>Total Players Subscribed</h3>
+      <p>{{ stats.totalPlayers }}</p>
+    </div>
+    <div class="summary-box active">
+      <h3>Active Subscriptions</h3>
+      <p>{{ stats.activeSubscriptions }}</p>
+    </div>
+    <div class="summary-box expired">
+      <h3>Expired Subscriptions</h3>
+      <p>{{ stats.expiredSubscriptions }}</p>
+    </div>
+    <div class="summary-box popular">
+      <h3>Most Popular Package</h3>
+      <p>{{ stats.mostPopularPackage || 'N/A' }}</p>
+    </div>
+  </div>
+
   <!-- Add Modal -->
   <div class="modal" [ngClass]="{'show': showAdd}">
     <div class="modal-content">
@@ -46,7 +106,7 @@
         <label>Description:</label>
         <textarea class="form-control" [(ngModel)]="newPackage.description" name="description"></textarea>
 
-        <label>Price ($):</label>
+        <label>Price (Rs):</label>
         <input type="number" class="form-control" [(ngModel)]="newPackage.price" name="price" min="0" step="0.01" required />
 
         <label>Duration (Days):</label>
@@ -60,6 +120,12 @@
           <option value="">Select a stadium</option>
           <option *ngFor="let stadium of stadiums" [value]="stadium.id">{{ stadium.name }}</option>
         </select>
+
+        <label>Start Date:</label>
+        <input type="date" class="form-control" [(ngModel)]="newPackage.start_date" name="start_date" required />
+
+        <label>End Date:</label>
+        <input type="date" class="form-control" [(ngModel)]="newPackage.end_date" name="end_date" required />
 
         <button type="submit" class="add-package-btn btn-sm">Add Package</button>
         <button type="button" class="edit-btn btn-sm" (click)="cancelAdd()">Cancel</button>
@@ -78,7 +144,7 @@
         <label>Description:</label>
         <textarea class="form-control" [(ngModel)]="editedPackage.description" name="description"></textarea>
 
-        <label>Price ($):</label>
+        <label>Price (Rs):</label>
         <input type="number" class="form-control" [(ngModel)]="editedPackage.price" name="price" min="0" step="0.01" required />
 
         <label>Duration (Days):</label>
@@ -92,6 +158,12 @@
           <option value="">Select a stadium</option>
           <option *ngFor="let stadium of stadiums" [value]="stadium.id">{{ stadium.name }}</option>
         </select>
+
+        <label>Start Date:</label>
+        <input type="date" class="form-control" [(ngModel)]="editedPackage.start_date" name="start_date" required />
+
+        <label>End Date:</label>
+        <input type="date" class="form-control" [(ngModel)]="editedPackage.end_date" name="end_date" required />
 
         <button type="submit" class="add-package-btn btn-sm">Save</button>
         <button type="button" class="edit-btn btn-sm" (click)="cancelEdit()">Cancel</button>
