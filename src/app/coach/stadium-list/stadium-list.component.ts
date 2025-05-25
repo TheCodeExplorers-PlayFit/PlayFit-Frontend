@@ -1,24 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { StadiumService } from '../../services/stadium/stadium.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
   selector: 'app-stadium-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterModule],
+  imports: [CommonModule, RouterLink, RouterModule, FormsModule],
   templateUrl: './stadium-list.component.html',
-  styleUrl: './stadium-list.component.css'
+  styleUrls: ['./stadium-list.component.css']
 })
 export class StadiumListComponent implements OnInit {
   stadiums: any[] = [];
+  filteredStadiums: any[] = [];
+  sports: string[] = [];
+  locations: string[] = [];
+  sportFilter: string = '';
+  locationFilter: string = '';
   loading: boolean = true;
   error: string | null = null;
+  selectedStadium: any = null; // For popup
 
   constructor(
-    private stadiumService: StadiumService, 
+    private stadiumService: StadiumService,
     private authService: AuthService,
+    private bookingService: BookingService,
     private router: Router
   ) {}
 
@@ -42,10 +51,23 @@ export class StadiumListComponent implements OnInit {
     this.loading = true;
     this.stadiumService.getStadiumsByCoachSports().subscribe({
       next: (response) => {
+        console.log('API Response:', response); // Debug log
         if (response.success && response.data) {
           this.stadiums = response.data;
+          this.filteredStadiums = [...this.stadiums];
+          this.sports = [...new Set(
+            this.stadiums
+              .flatMap(stadium => stadium.sport_names || [])
+              .filter(sport => sport)
+          )];
+          this.locations = [...new Set(
+            this.stadiums
+              .map(stadium => stadium.location_name)
+              .filter(location => location)
+          )];
         } else {
           this.stadiums = [];
+          this.filteredStadiums = [];
           this.error = response.message || 'No stadiums found for your sports';
         }
         this.loading = false;
@@ -69,7 +91,38 @@ export class StadiumListComponent implements OnInit {
     });
   }
 
+  filterStadiums(): void {
+    let tempStadiums = [...this.stadiums];
+
+    if (this.sportFilter) {
+      tempStadiums = tempStadiums.filter(stadium =>
+        stadium.sport_names?.includes(this.sportFilter)
+      );
+    }
+
+    if (this.locationFilter) {
+      tempStadiums = tempStadiums.filter(stadium =>
+        stadium.location_name?.toLowerCase().includes(this.locationFilter.toLowerCase())
+      );
+    }
+
+    this.filteredStadiums = tempStadiums;
+  }
+
   handleImageError(event: any): void {
     event.target.src = 'assets/images/stadium-placeholder.jpg';
+  }
+
+  viewDetails(stadium: any): void {
+    this.selectedStadium = stadium; // Show popup
+  }
+
+  closePopup(): void {
+    this.selectedStadium = null; // Hide popup
+  }
+
+  bookStadium(stadium: any): void {
+    this.router.navigate(['/coach/coach-stadium-timetable', stadium.id]); // Use absolute path
+        this.closePopup(); // Close the popup after navigation
   }
 }
