@@ -14,6 +14,10 @@ export class ApprovalsService {
     return this.http.get<any[]>(`${this.apiUrl}/unverified`);
   }
 
+  getVerifiedUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/verified`);
+  }
+
   approveUser(userId: number, role: string): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/approve/${userId}`, { role });
   }

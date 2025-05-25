@@ -1,56 +1,54 @@
-/* dashboard-cards.component.css */
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card {
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 15rem !important; /* Forces consistent width */
-    flex: 0 0 15rem; /* Prevents shrinking */
-    text-align: center;
-  }
-  
-  .card h3 {
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .card p {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
-  .card .learn-more {
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css");
 
-  .d-flex {
-    display: flex;
-    flex-wrap: nowrap;  /* Prevents wrapping */
-    overflow-x: auto;   /* Allows horizontal scrolling if needed */
-    gap: 1rem;
+.d-flex {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
 }
 
 .card-container {
-    flex: 0 0 auto; /* Prevents cards from shrinking */
-    width: 15rem; /* Ensures all cards have a fixed width */
+  flex: 0 0 auto;
+  width: 16rem;
 }
 
-  .red { background-color: #F3A4A4; }
-  .blue { background-color: #C0C0DE; }
-  .green { background-color: #CFEDC6; }
-  .pink { background-color: #F9C8F1; }
-  
+.card {
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 16rem;
+  height: 10rem;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+  text-decoration: none;
+}
+
+.card-subtitle:hover {
+  text-decoration: underline;
+}
+
+.card-divider {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 0.5rem 0;
+}
+
+.card-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 0.85rem;
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.4;
+}

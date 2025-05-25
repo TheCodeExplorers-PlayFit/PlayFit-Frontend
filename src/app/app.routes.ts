@@ -4,6 +4,10 @@ import { Routes } from '@angular/router';
 import { PlayerDashboardComponent } from './player/player-dashboard/player-dashboard.component';
 import { PlayerLayoutComponent } from './player/player-layout/player-layout.component';
 import { StadiumTimetableComponent } from './player/stadium-timetable/stadium-timetable.component';
+import { PlayerTransactionsComponent } from './player/player-transactions/player-transactions.component';
+import { PlayerBookingHistoryComponent } from './player/player-booking-history/player-booking-history.component';
+import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
+import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -13,6 +17,8 @@ import { StadiumsComponent } from './stadium-owner/stadiums/stadiums.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
+import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
+
 
 // ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
@@ -39,6 +45,7 @@ import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-lay
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
+import { AboutComponent } from './nav-bar/about/about.component';
 import { SignInPageComponent } from './auth/sign-in-page/sign-in-page.component';
 import { SignInFormComponent } from './register/sign-in-form/sign-in-form.component';
 import { RoleSelectionComponent } from './register/role-selection/role-selection.component';
@@ -72,6 +79,7 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
+  { path: 'about', component: AboutComponent },
 
   // ===== ADMIN ROUTES =====
   {
@@ -99,6 +107,10 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
       { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
+      { path:  'transactions', component:PlayerTransactionsComponent },
+      { path:  'booking-history', component:PlayerBookingHistoryComponent },
+      { path: 'my-timetable', component:PlayerTimetableComponent},
+      { path: 'complaints', component:PlayerComplaintsComponent},
     ]
   },
 
@@ -125,11 +137,13 @@ export const routes: Routes = [
     component: StadiumOwnerLayoutComponent,
     children: [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
-      { path: 'add-stadium', component: AddStadiumComponent },
       { path: 'stadiums', component: StadiumsComponent },
+      { path: 'add-stadium', component: AddStadiumComponent },
+      { path: '', redirectTo: '/stadium-owner/stadiums', pathMatch: 'full' },
       { path: 'complaints', component: ComplaintsComponent },
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
+      { path: 'player-packages', component: PlayerPackagesComponent },
     ]
   },
 

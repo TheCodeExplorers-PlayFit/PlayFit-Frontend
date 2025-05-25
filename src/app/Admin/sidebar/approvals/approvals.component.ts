@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ApprovalsService } from '../../../services/approvals/approvals.service';
+import { ApprovalsService } from '../../../services/approvals/approvals.service'; // Fixed import path
 
 type Status = 'Pending' | 'Approved' | 'Rejected';
 
@@ -19,49 +19,77 @@ interface ApprovalRequest {
   selector: 'app-approvals',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  providers: [ApprovalsService], // Explicitly provide the service
+  providers: [ApprovalsService],
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.css']
 })
 export class ApprovalsComponent implements OnInit {
-  filter: 'Peoples' | 'Stadiums' = 'Peoples';
-  requests: ApprovalRequest[] = [];
+  filter: 'Peoples' | 'Stadiums' | 'Verified' = 'Peoples';
+  unverifiedRequests: ApprovalRequest[] = [];
+  verifiedRequests: ApprovalRequest[] = [];
 
   constructor(private approvalsService: ApprovalsService) {}
 
   ngOnInit(): void {
-    this.loadRequests();
+    this.loadUnverifiedRequests();
+    this.loadVerifiedRequests();
   }
 
-  loadRequests(): void {
+  loadUnverifiedRequests(): void {
     this.approvalsService.getUnverifiedUsers().subscribe({
       next: (data: any[]) => {
-        this.requests = data.map((item: any) => ({
+        this.unverifiedRequests = data.map((item: any) => ({
           id: item.userId,
           name: item.facilityName || `${item.first_name} ${item.last_name}`,
           role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
-          photo: 'https://randomuser.me/api/portraits/men/1.jpg', // Placeholder
+          photo: 'https://randomuser.me/api/portraits/men/1.jpg',
           status: 'Pending' as Status,
           createdAt: item.created_at ? new Date(item.created_at) : new Date(),
           documentPath: item.documentPath
         }));
       },
-      error: (err: any) => console.error('Error fetching requests:', err)
+      error: (err: any) => {
+        console.error('Error fetching unverified requests:', err);
+        console.error('Error details:', err.message, err.status, err.statusText);
+      }
+    });
+  }
+
+  loadVerifiedRequests(): void {
+    this.approvalsService.getVerifiedUsers().subscribe({
+      next: (data: any[]) => {
+        this.verifiedRequests = data.map((item: any) => ({
+          id: item.userId,
+          name: item.facilityName || `${item.first_name} ${item.last_name}`,
+          role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
+          photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+          status: 'Approved' as Status,
+          createdAt: item.created_at ? new Date(item.created_at) : new Date(),
+          documentPath: item.documentPath
+        }));
+      },
+      error: (err: any) => {
+        console.error('Error fetching verified requests:', err);
+        console.error('Error details:', err.message, err.status, err.statusText);
+      }
     });
   }
 
   get filteredRequests(): ApprovalRequest[] {
     if (this.filter === 'Peoples') {
-      return this.requests.filter((r) => r.role === 'Coach' || r.role === 'Medical Officer');
+      return this.unverifiedRequests.filter((r) => r.role === 'Coach' || r.role === 'Medical Officer');
+    } else if (this.filter === 'Stadiums') {
+      return this.unverifiedRequests.filter((r) => r.role === 'Stadium');
     } else {
-      return this.requests.filter((r) => r.role === 'Stadium');
+      return this.verifiedRequests;
     }
   }
 
   approveRequest(request: ApprovalRequest): void {
     this.approvalsService.approveUser(request.id, request.role).subscribe({
       next: () => {
-        this.requests = this.requests.filter((r) => r.id !== request.id);
+        this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
+        this.loadVerifiedRequests();
       },
       error: (err: any) => console.error('Error approving request:', err)
     });
@@ -70,7 +98,7 @@ export class ApprovalsComponent implements OnInit {
   rejectRequest(request: ApprovalRequest): void {
     this.approvalsService.rejectUser(request.id, request.role).subscribe({
       next: () => {
-        this.requests = this.requests.filter((r) => r.id !== request.id);
+        this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
       },
       error: (err: any) => console.error('Error rejecting request:', err)
     });
