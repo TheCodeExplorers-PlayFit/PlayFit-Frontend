@@ -1,43 +1,59 @@
-<div class="notices-wrapper">
-    <h2>Special Notices</h2>
-  
-    <!-- Form to add a new notice -->
-    <div class="add-form">
-      <h3>Create New Notice</h3>
-      <input [(ngModel)]="newNotice.category" placeholder="Category" />
-      <input [(ngModel)]="newNotice.title" placeholder="Title" />
-      <textarea [(ngModel)]="newNotice.description" placeholder="Description"></textarea>
-      <input [(ngModel)]="newNotice.date" type="date" />
-      <input [(ngModel)]="newNotice.author" placeholder="Author" />
-      <button (click)="addNotice()">Add Notice</button>
+<!-- admin/sidebar/special-notices/special-notices.component.html -->
+<div class="special-notices-container">
+  <!-- Form Section -->
+  <h2>{{ editingNotice ? 'Edit Notice' : 'Create New Notice' }}</h2>
+  <form (ngSubmit)="editingNotice ? updateNotice() : createNotice()" class="notice-form">
+    <div class="form-group">
+      <label for="category">Category</label>
+      <input type="text" id="category" [(ngModel)]="newNotice.category" name="category" required />
     </div>
-  
-    <!-- Display all notices -->
-    <div class="notices-grid">
-      <div class="notice-card" *ngFor="let notice of notices">
-        <h4>{{ notice.category }}</h4>
-        <p class="title">{{ notice.title }}</p>
-        <p class="desc">{{ notice.description }}</p>
-        <p class="meta">📅 {{ notice.date }}<br>✏️ {{ notice.author }}</p>
-  
-        <div class="actions">
-          <button (click)="editNotice(notice)">Edit</button>
-          <button (click)="removeNotice(notice.id)">Remove</button>
-          <button (click)="selectedNotice = notice">View</button>
-        </div>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" id="title" [(ngModel)]="newNotice.title" name="title" required />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" [(ngModel)]="newNotice.description" name="description" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="notice_date">Date (mm/dd/yyyy)</label>
+      <input type="text" id="notice_date" [(ngModel)]="newNotice.notice_date" name="notice_date" required />
+    </div>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" id="author" [(ngModel)]="newNotice.author" name="author" required />
+    </div>
+    <div class="form-actions">
+      <button type="submit">{{ editingNotice ? 'Update Notice' : 'Add Notice' }}</button>
+      <button type="button" *ngIf="editingNotice" (click)="cancelEdit()">Cancel</button>
+    </div>
+  </form>
+
+  <!-- Notices Display Section -->
+  <div class="notices-list">
+    <div *ngFor="let notice of notices" class="notice-box">
+      <h3>{{ notice.category }}</h3>
+      <p class="title">{{ notice.title }}</p>
+      <p class="description">{{ notice.description.length > 100 ? (notice.description | slice:0:100) + '...' : notice.description }}</p>
+      <p class="date"><strong>📅</strong> {{ notice.notice_date }}</p>
+      <p class="author"><strong>✍️</strong> {{ notice.author }}</p>
+      <div class="notice-actions">
+        <button (click)="editNotice(notice)">Edit</button>
+        <button (click)="deleteNotice(notice.id)">Remove</button>
+        <button (click)="viewNotice(notice)">View</button>
       </div>
     </div>
-  
-    <!-- Edit form -->
-    <div *ngIf="selectedNotice" class="edit-form">
-      <h3>Edit Notice</h3>
-      <input [(ngModel)]="selectedNotice.category" />
-      <input [(ngModel)]="selectedNotice.title" />
-      <textarea [(ngModel)]="selectedNotice.description"></textarea>
-      <input [(ngModel)]="selectedNotice.date" type="date" />
-      <input [(ngModel)]="selectedNotice.author" />
-      <button (click)="updateNotice()">Update</button>
-      <button (click)="cancelEdit()">Cancel</button>
+  </div>
+
+  <!-- Modal for Viewing Full Notice -->
+  <div *ngIf="viewingNotice" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeView()">&times;</span>
+      <h3>{{ viewingNotice.category }}</h3>
+      <p class="title">{{ viewingNotice.title }}</p>
+      <p class="description">{{ viewingNotice.description }}</p>
+      <p class="date"><strong>📅</strong> {{ viewingNotice.notice_date }}</p>
+      <p class="author"><strong>✍️</strong> {{ viewingNotice.author }}</p>
     </div>
   </div>
-  
+</div>

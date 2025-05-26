@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ApprovalsService } from '../../../services/approvals/approvals.service'; // Fixed import path
 
 type Status = 'Pending' | 'Approved' | 'Rejected';
 
@@ -11,63 +12,95 @@ interface ApprovalRequest {
   photo: string;
   status: Status;
   createdAt: Date;
+  documentPath?: string;
 }
 
 @Component({
   selector: 'app-approvals',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [ApprovalsService],
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.css']
 })
-export class ApprovalsComponent {
-  filter: 'All' | 'Oldest' | 'Newest' = 'All';
+export class ApprovalsComponent implements OnInit {
+  filter: 'Peoples' | 'Stadiums' | 'Verified' = 'Peoples';
+  unverifiedRequests: ApprovalRequest[] = [];
+  verifiedRequests: ApprovalRequest[] = [];
 
-  requests: ApprovalRequest[] = [
-    {
-      id: 1,
-      name: 'Jacob Jones',
-      role: 'Player',
-      photo: 'https://randomuser.me/api/portraits/men/4.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-05')
-    },
-    {
-      id: 2,
-      name: 'Annette Black',
-      role: 'Coach',
-      photo: 'https://randomuser.me/api/portraits/women/5.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-10')
-    },
-    {
-      id: 3,
-      name: 'Jacob Jones',
-      role: 'Stadium',
-      photo: 'https://randomuser.me/api/portraits/men/6.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-08')
-    },
-    {
-      id: 4,
-      name: 'Cody Fisher',
-      role: 'Medical Officer',
-      photo: 'https://randomuser.me/api/portraits/women/7.jpg',
-      status: 'Pending',
-      createdAt: new Date('2024-03-09')
-    }
-  ];
+  constructor(private approvalsService: ApprovalsService) {}
 
-  get filteredRequests(): ApprovalRequest[] {
-    if (this.filter === 'Oldest') {
-      return [...this.requests].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-    } else if (this.filter === 'Newest') {
-      return [...this.requests].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    }
-    return this.requests;
+  ngOnInit(): void {
+    this.loadUnverifiedRequests();
+    this.loadVerifiedRequests();
   }
 
-  updateStatus(request: ApprovalRequest, status: Status) {
-    request.status = status;
+  loadUnverifiedRequests(): void {
+    this.approvalsService.getUnverifiedUsers().subscribe({
+      next: (data: any[]) => {
+        this.unverifiedRequests = data.map((item: any) => ({
+          id: item.userId,
+          name: item.facilityName || `${item.first_name} ${item.last_name}`,
+          role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
+          photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+          status: 'Pending' as Status,
+          createdAt: item.created_at ? new Date(item.created_at) : new Date(),
+          documentPath: item.documentPath
+        }));
+      },
+      error: (err: any) => {
+        console.error('Error fetching unverified requests:', err);
+        console.error('Error details:', err.message, err.status, err.statusText);
+      }
+    });
+  }
+
+  loadVerifiedRequests(): void {
+    this.approvalsService.getVerifiedUsers().subscribe({
+      next: (data: any[]) => {
+        this.verifiedRequests = data.map((item: any) => ({
+          id: item.userId,
+          name: item.facilityName || `${item.first_name} ${item.last_name}`,
+          role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
+          photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+          status: 'Approved' as Status,
+          createdAt: item.created_at ? new Date(item.created_at) : new Date(),
+          documentPath: item.documentPath
+        }));
+      },
+      error: (err: any) => {
+        console.error('Error fetching verified requests:', err);
+        console.error('Error details:', err.message, err.status, err.statusText);
+      }
+    });
+  }
+
+  get filteredRequests(): ApprovalRequest[] {
+    if (this.filter === 'Peoples') {
+      return this.unverifiedRequests.filter((r) => r.role === 'Coach' || r.role === 'Medical Officer');
+    } else if (this.filter === 'Stadiums') {
+      return this.unverifiedRequests.filter((r) => r.role === 'Stadium');
+    } else {
+      return this.verifiedRequests;
+    }
+  }
+
+  approveRequest(request: ApprovalRequest): void {
+    this.approvalsService.approveUser(request.id, request.role).subscribe({
+      next: () => {
+        this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
+        this.loadVerifiedRequests();
+      },
+      error: (err: any) => console.error('Error approving request:', err)
+    });
+  }
+
+  rejectRequest(request: ApprovalRequest): void {
+    this.approvalsService.rejectUser(request.id, request.role).subscribe({
+      next: () => {
+        this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
+      },
+      error: (err: any) => console.error('Error rejecting request:', err)
+    });
   }
 }
