@@ -18,7 +18,7 @@ import { AchievementsComponent } from './stadium-owner/achievements/achievements
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
 import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
-
+import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 
 // ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
@@ -141,6 +141,7 @@ export const routes: Routes = [
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
       { path: 'player-packages', component: PlayerPackagesComponent },
+      { path: 'waitlist', component: WaitlistComponent },
     ]
   },
 

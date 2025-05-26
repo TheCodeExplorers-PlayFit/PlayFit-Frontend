@@ -1,0 +1,67 @@
+<!-- waitlist.component.html -->
+<h1>Waitlist Management</h1>
+
+<button (click)="showAddWaitlist()">Add to Waitlist</button>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>User Name</th>
+      <th>Slot</th>
+      <th>Requested Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of waitlist">
+      <td>{{ entry.id }}</td>
+      <td>{{ entry.user_name }}</td>
+      <td>{{ entry.start_time }} - {{ entry.end_time }} on {{ getDayOfWeek(entry.day_of_week) }}</td>
+      <td>{{ entry.requested_date | date:'medium' }}</td>
+      <td>{{ entry.status }}</td>
+      <td>
+        <button (click)="selectWaitlistForUpdate(entry.id)">Update Status</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Waitlist Stats -->
+<h4>Waitlist Stats</h4>
+<p>Total Requests: {{ waitlistStats.total_waitlist_requests }}</p>
+<p>Pending Requests: {{ waitlistStats.pending_requests }}</p>
+<p>Approved Requests: {{ waitlistStats.approved_requests }}</p>
+<p>Most Requested Slot: {{ waitlistStats.most_requested_slot || 'N/A' }}</p>
+
+<!-- Add Waitlist Form -->
+<div *ngIf="showAddWaitlistForm" class="edit-form">
+  <h4>Add to Waitlist</h4>
+  <form (ngSubmit)="addToWaitlist()">
+    <label for="user_id">User ID:</label>
+    <input id="user_id" type="number" [(ngModel)]="newWaitlist.user_id" required>
+
+    <label for="session_id">Session ID:</label>
+    <input id="session_id" type="number" [(ngModel)]="newWaitlist.session_id" required>
+
+    <button type="submit">Add</button>
+    <button type="button" (click)="cancelAddWaitlist()">Cancel</button>
+  </form>
+</div>
+
+<!-- Update Waitlist Status Form -->
+<div *ngIf="selectedWaitlistId !== null" class="edit-form">
+  <h4>Update Waitlist Status</h4>
+  <form (ngSubmit)="updateWaitlistStatus()">
+    <label for="status">Status:</label>
+    <select id="status" [(ngModel)]="newStatus" required>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="notified">Notified</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+
+    <button type="submit">Save</button>
+    <button type="button" (click)="selectedWaitlistId = null">Cancel</button>
+  </form>
+</div>
