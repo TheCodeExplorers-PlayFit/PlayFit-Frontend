@@ -1,3 +1,177 @@
-.bg-pink {
-    background-color: #fbb6ce;
-  }
+/* player-packages.component.css */
+.container {
+  padding: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h3 {
+  margin-top: 20px;
+  color: #333;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #f5f7fa;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #e0e7f5;
+  font-weight: bold;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 12px;
+  color: white;
+}
+
+.status.active {
+  background-color: #28a745;
+}
+
+.status.expired {
+  background-color: #dc3545;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 600px;
+  width: 90%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-control textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.add-package-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.add-package-btn:hover {
+  background-color: #218838;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.btn-sm {
+  padding: 3px 8px;
+  font-size: 0.9em;
+}
+
+.summary-boxes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.summary-box {
+  flex: 1;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  min-width: 150px;
+}
+
+.summary-box.total {
+  background-color: #ff6b6b;
+}
+
+.summary-box.active {
+  background-color: #6b7280;
+}
+
+.summary-box.expired {
+  background-color: #a3e4d7;
+}
+
+.summary-box.popular {
+  background-color: #ff9ff3;
+}
+
+.summary-box h3 {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.summary-box p {
+  margin: 5px 0 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
