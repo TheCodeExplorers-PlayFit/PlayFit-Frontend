@@ -1,1 +1,133 @@
-<p>player-complaints works!</p>
+<div class="complaints-container">
+    <h2>File a Complaint</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Complaint about Stadiums</h5>
+            <p class="card-text">
+              Report issues like poor facilities, maintenance problems, or other concerns related to stadiums.
+            </p>
+            <button class="btn btn-primary" (click)="openModal('stadium')">File Complaint</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Complaint about Coach</h5>
+            <p class="card-text">
+              Address concerns about a coach's behavior, professionalism, or session management.
+            </p>
+            <button class="btn btn-primary" (click)="openModal('coach')">File Complaint</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Complaint about System</h5>
+            <p class="card-text">
+              Report technical issues, payment problems, or other platform-related concerns to admins.
+            </p>
+            <button class="btn btn-primary" (click)="openModal('system')">File Complaint</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Stadium Complaint Modal -->
+    <div class="modal complaint-modal" *ngIf="showModal && selectedModal === 'stadium'" [style.display]="showModal ? 'block' : 'none'" (click)="closeModal()">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Stadium Complaint</h5>
+            <button type="button" class="close" (click)="closeModal()">
+              <span>×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+            <div class="form-group">
+              <label for="stadiumSearch">Search Stadium</label>
+              <input type="text" class="form-control" id="stadiumSearch" [(ngModel)]="searchQuery" placeholder="Type to search stadiums">
+              <select class="form-control mt-2" [(ngModel)]="selectedStadiumId">
+                <option [ngValue]="null" disabled>Select a stadium</option>
+                <option *ngFor="let stadium of filteredStadiums()" [ngValue]="stadium.id">
+                  {{ stadium.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="stadiumComplaint">Complaint Details</label>
+              <textarea class="form-control" id="stadiumComplaint" [(ngModel)]="complaintDescription" rows="5" placeholder="Describe the issue"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="submitComplaint()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Coach Complaint Modal -->
+    <div class="modal complaint-modal" *ngIf="showModal && selectedModal === 'coach'" [style.display]="showModal ? 'block' : 'none'" (click)="closeModal()">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Coach Complaint</h5>
+            <button type="button" class="close" (click)="closeModal()">
+              <span>×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+            <div class="form-group">
+              <label for="coachSearch">Search Coach</label>
+              <input type="text" class="form-control" id="coachSearch" [(ngModel)]="searchQuery" placeholder="Type to search coaches">
+              <select class="form-control mt-2" [(ngModel)]="selectedCoachId">
+                <option [ngValue]="null" disabled>Select a coach</option>
+                <option *ngFor="let coach of filteredCoaches()" [ngValue]="coach.id">
+                  {{ coach.first_name }} {{ coach.last_name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="coachComplaint">Complaint Details</label>
+              <textarea class="form-control" id="coachComplaint" [(ngModel)]="complaintDescription" rows="5" placeholder="Describe the issue"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="submitComplaint()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- System Complaint Modal -->
+    <div class="modal complaint-modal" *ngIf="showModal && selectedModal === 'system'" [style.display]="showModal ? 'block' : 'none'" (click)="closeModal()">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">System Complaint</h5>
+            <button type="button" class="close" (click)="closeModal()">
+              <span>×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+            <div class="form-group">
+              <label for="systemComplaint">Complaint Details</label>
+              <textarea class="form-control" id="systemComplaint" [(ngModel)]="complaintDescription" rows="5" placeholder="Describe the issue"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="submitComplaint()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,77 +1,57 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-sign-in-page',
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './sign-in-page.component.html',
-  styleUrls: ['./sign-in-page.component.css']
+  styleUrls: ['./sign-in-page.component.css'],
 })
 export class SignInPageComponent {
   loginData = {
     email: '',
     password: '',
-    rememberMe: false
+    rememberMe: false,
   };
-  errorMessage: string = '';
+  errorMessage: string | null = null;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  onSubmit() {
-    console.log('Login attempt:', this.loginData);
-
+  onSubmit(): void {
+    this.errorMessage = null;
     if (!this.loginData.email || !this.loginData.password) {
-      this.errorMessage = 'Please enter both email and password';
+      this.errorMessage = 'Email and password are required';
       return;
     }
 
     this.authService.login(this.loginData.email, this.loginData.password).subscribe({
       next: (response) => {
-        console.log('Login successful:', response);
-        if (response.success && response.token) {
-          console.log('Received role:', response.user.role); // Debug role
-          const role = response.user.role;
-          switch (role) {
-            case 'coach':
-              console.log('Redirecting to coach dashboard');
-              this.router.navigate(['/coach/dashboard']);
-              break;
-            case 'medicalOfficer':
-              console.log('Redirecting to medical officer dashboard');
-              this.router.navigate(['/health/dashboard']);
-              break;
-            case 'stadiumOwner':
-              console.log('Redirecting to stadium owner dashboard');
-              this.router.navigate(['/stadium-owner/dashboard']);
-              break;
-            case 'player':
-              console.log('Redirecting to player dashboard');
-              this.router.navigate(['/player/dashboard']);
-              break;
-            case 'admin':
-              console.log('Redirecting to admin dashboard');
-              this.router.navigate(['/admin/dashboard']);
-              break;
-            default:
-              console.error('Unknown role:', role);
-              this.errorMessage = 'Unknown role';
-              this.router.navigate(['/home']);
+        if (response.success) {
+          // Redirect based on user role
+          const userRole = response.user.role;
+          if (userRole === 'admin') {
+            this.router.navigate(['/admin/dashboard']);
+          } else if (userRole === 'player') {
+            this.router.navigate(['/player/dashboard']);
+          } else if (userRole === 'coach') {
+            this.router.navigate(['/coach/dashboard']);
+          } else if (userRole === 'stadiumOwner') {
+            this.router.navigate(['/stadium-owner/dashboard']);
+          } else if (userRole === 'medicalOfficer') {
+            this.router.navigate(['/health/dashboard']);
+          } else {
+            this.router.navigate(['/']);
           }
-        } else {
-          this.errorMessage = 'Login failed: Invalid response';
         }
       },
       error: (error) => {
         console.error('Login error:', error);
-        this.errorMessage = error.error?.message || 'Login failed. Please try again.';
-      }
+        this.errorMessage = error.error?.message || 'An error occurred during login. Please check your credentials and try again.';
+      },
     });
   }
 }

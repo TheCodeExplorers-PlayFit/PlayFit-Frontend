@@ -3,46 +3,110 @@
     <h2>Add Stadium</h2>
     <p>Provide the necessary details</p>
 
-    <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <!-- Basic fields -->
       <label>Stadium Name:</label>
-      <input type="text" [(ngModel)]="stadium.name" name="name" placeholder="Enter your stadium name" />
-
-      <label>Stadium ID:</label>
-      <input type="text" [(ngModel)]="stadium.id" name="id" placeholder="Enter your stadium ID" />
+      <input type="text" name="name" [(ngModel)]="stadium.name" required />
 
       <label>Address:</label>
-      <input type="text" [(ngModel)]="stadium.address" name="address" placeholder="Enter your address" />
-
-      <label>Add sports:</label>
-      <input type="text" [(ngModel)]="stadium.sports" name="sports" placeholder="Enter sports available" />
+      <input type="text" name="address" [(ngModel)]="stadium.address" required />
 
       <label>Facilities:</label>
-      <input type="text" [(ngModel)]="stadium.facilities" name="facilities" placeholder="Enter facilities" />
+      <input type="text" name="facilities" [(ngModel)]="stadium.facilities" />
 
-      <label>Upload images of stadium:</label>
-      <input type="file" (change)="onFileSelected($event)" multiple />
-      <div class="image-preview">
-        <img *ngFor="let img of imagePreviews" [src]="img" alt="Image preview" />
+      <!-- Add Sports Section (unchanged) -->
+      <label>Add Sports:</label>
+      <div class="chips">
+        <div class="chip" *ngFor="let sport of sportsOptions" [class.selected]="selectedSport === sport" (click)="selectSport(sport)">
+          {{ sport }}
+        </div>
       </div>
 
+      <!-- Schedule logic (unchanged) -->
+      <div *ngIf="selectedSport">
+        <label>Select Day:</label>
+        <select [(ngModel)]="selectedDay" name="day" required>
+          <option value="" disabled selected>Select a day</option>
+          <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
+        </select>
+
+        <label>Max Players:</label>
+        <input type="number" [(ngModel)]="selectedMaxPlayers" name="maxPlayers" min="1" required />
+
+        <div class="time-range">
+          <div>
+            <label>From Time:</label>
+            <input type="time" [(ngModel)]="selectedFromTime" name="fromTime" required />
+          </div>
+          <div>
+            <label>To Time:</label>
+            <input type="time" [(ngModel)]="selectedToTime" name="toTime" required />
+          </div>
+        </div>
+
+        <label>Sport Cost (%):</label>
+        <input type="number" [(ngModel)]="selectedSportPercentage" name="sportPercentage" min="0" max="100" step="0.01" required />
+
+        <button type="button" (click)="addScheduleRow()">Add</button>
+      </div>
+
+      <!-- Schedule Table (unchanged) -->
+      <div *ngIf="scheduleRows.length">
+        <h3>Scheduled Sports</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th>Day</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Max Players</th>
+              <th>Sport Cost (%)</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of scheduleRows; let i = index">
+              <td>{{ row.sport }}</td>
+              <td>{{ row.day }}</td>
+              <td>{{ row.fromTime }}</td>
+              <td>{{ row.toTime }}</td>
+              <td>{{ row.maxPlayers }}</td>
+              <td>{{ row.sportPercentage }}%</td>
+              <td><button type="button" (click)="removeRow(i)">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Image upload -->
+      <label>Upload images of stadium:</label>
+      <input type="file" multiple (change)="onFileSelected($event)" accept="image/*" />
+      <div class="image-preview">
+        <img *ngFor="let url of imageUrls" [src]="url" alt="Stadium Image" style="max-width: 200px; margin: 5px;" />
+      </div>
+      <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
+        Uploading: {{ uploadProgress }}%
+      </div>
+      <div *ngIf="uploadError" class="error">
+        {{ uploadError }}
+      </div>
+
+      <!-- Location (unchanged) -->
       <label>Location:</label>
-      <input
-        type="text"
-        [(ngModel)]="stadium.locationText"
-        name="locationText"
-        placeholder="Type a location..."
-        (keyup.enter)="locateAddress()"
-      />
+      <input type="text" [(ngModel)]="stadium.locationText" name="locationText" placeholder="Type a location…" (keyup.enter)="locateAddress()" />
       <button type="button" (click)="locateAddress()">Find on Map</button>
+      <button type="button" (click)="confirmLocation()" [disabled]="!stadium.locationUrl || locationConfirmed" class="confirm-button">
+        {{ locationConfirmed ? 'Location Confirmed' : 'Confirm Location' }}
+      </button>
 
-      <div id="map" class="map-box"></div>
-
+      <!-- Terms (unchanged) -->
       <div class="form-group terms-group">
-        <input type="checkbox" id="terms" [(ngModel)]="agreed" name="terms" />
+        <input type="checkbox" id="terms" name="terms" [(ngModel)]="agreed" />
         <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
       </div>
 
-      <button type="submit" [disabled]="!agreed || !formRef.form.valid">Submit</button>
+      <button type="submit" [disabled]="!agreed || !f.form.valid || !locationConfirmed">Submit</button>
     </form>
   </div>
 </div>

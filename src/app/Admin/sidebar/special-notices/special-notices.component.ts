@@ -1,107 +1,116 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// admin/sidebar/special-notices/special-notices.component.ts
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-interface Notice {
-  id: number;
-  category: string;
-  title: string;
-  description: string;
-  date: string;
-  author: string;
-}
+import { CommonModule } from '@angular/common';
+import { AnnouncementService } from '../../../services/announcement/announcement.service';
 
 @Component({
   selector: 'app-special-notices',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './special-notices.component.html',
   styleUrls: ['./special-notices.component.css']
 })
-export class SpecialNoticesComponent {
-  primaryColor = '#000080';
-  nextId = 6;
+export class SpecialNoticesComponent implements OnInit {
+  adminId: number = 20; // Hardcoded for now, replace with actual admin ID from auth
+  newNotice = {
+    category: '',
+    title: '',
+    description: '',
+    notice_date: '', // Changed to match backend field name
+    author: ''
+  };
+  notices: any[] = [];
+  editingNotice: any = null;
+  viewingNotice: any = null; // For viewing full notice
 
-  notices: Notice[] = [
-    {
-      id: 1,
-      category: 'About Players',
-      title: 'New Training Schedules Available',
-      description: 'New training plans for players are now live. Contact your coach.',
-      date: 'Feb 10, 2025',
-      author: 'Player Unit'
-    },
-    {
-      id: 2,
-      category: 'About Coaches',
-      title: 'New Safety Guidelines for Training',
-      description: 'All coaches must review the new safety procedures before conducting sessions.',
-      date: 'Feb 12, 2025',
-      author: 'Coach Management'
-    },
-    {
-      id: 3,
-      category: 'About Stadiums',
-      title: 'Floodlight Repairs in Stadium A',
-      description: 'Players: Lighting might be affected. Check alternatives.',
-      date: 'Feb 18, 2025',
-      author: 'Stadium Authority'
-    },
-    {
-      id: 4,
-      category: 'About Health Officers',
-      title: 'New Injury Treatment Guidelines Implemented',
-      description: 'Health protocols for sports-related injuries are now available.',
-      date: 'Feb 20, 2025',
-      author: 'Medical Team'
-    },
-    {
-      id: 5,
-      category: 'Others',
-      title: 'Security Update for PlayFit Accounts',
-      description: '2FA and password policy enforcement is live.',
-      date: 'Feb 25, 2025',
-      author: 'Platform Admin'
-    }
-  ];
+  constructor(private announcementService: AnnouncementService) {}
 
-  newNotice: Partial<Notice> = {};
-
-  selectedNotice: Notice | null = null;
-
-  addNotice() {
-    if (
-      this.newNotice.title &&
-      this.newNotice.category &&
-      this.newNotice.description &&
-      this.newNotice.date &&
-      this.newNotice.author
-    ) {
-      this.notices.push({
-        ...(this.newNotice as Notice),
-        id: this.nextId++
-      });
-      this.newNotice = {};
-    }
+  ngOnInit() {
+    this.loadNotices();
   }
 
-  editNotice(notice: Notice) {
-    this.selectedNotice = { ...notice };
+  loadNotices() {
+    this.announcementService.getNotices().subscribe(
+      (data) => {
+        this.notices = data;
+      },
+      (error) => {
+        console.error('Error fetching notices:', error);
+      }
+    );
+  }
+
+  createNotice() {
+    const noticeData = {
+      admin_id: this.adminId,
+      ...this.newNotice
+    };
+
+    this.announcementService.createNotice(noticeData).subscribe(
+      () => {
+        this.loadNotices();
+        this.resetForm();
+      },
+      (error) => {
+        console.error('Error creating notice:', error);
+      }
+    );
+  }
+
+  editNotice(notice: any) {
+    this.editingNotice = notice;
+    this.newNotice = { ...notice }; // Copy notice fields to form
   }
 
   updateNotice() {
-    const index = this.notices.findIndex(n => n.id === this.selectedNotice?.id);
-    if (index > -1 && this.selectedNotice) {
-      this.notices[index] = this.selectedNotice;
-      this.selectedNotice = null;
+    if (!this.editingNotice) return;
+
+    this.announcementService.updateNotice(this.editingNotice.id, this.newNotice).subscribe(
+      () => {
+        this.loadNotices();
+        this.resetForm();
+        this.editingNotice = null;
+      },
+      (error) => {
+        console.error('Error updating notice:', error);
+      }
+    );
+  }
+
+  deleteNotice(id: number) {
+    if (confirm('Are you sure you want to delete this notice?')) {
+      this.announcementService.deleteNotice(id).subscribe(
+        () => {
+          this.loadNotices();
+        },
+        (error) => {
+          console.error('Error deleting notice:', error);
+        }
+      );
     }
   }
 
-  removeNotice(id: number) {
-    this.notices = this.notices.filter(n => n.id !== id);
+  viewNotice(notice: any) {
+    this.viewingNotice = notice; // Set the notice to view
+  }
+
+  closeView() {
+    this.viewingNotice = null; // Close the view modal
+  }
+
+  resetForm() {
+    this.newNotice = {
+      category: '',
+      title: '',
+      description: '',
+      notice_date: '',
+      author: ''
+    };
   }
 
   cancelEdit() {
-    this.selectedNotice = null;
+    this.resetForm();
+    this.editingNotice = null;
   }
 }

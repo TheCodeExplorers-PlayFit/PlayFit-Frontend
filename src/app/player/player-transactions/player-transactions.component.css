@@ -1,0 +1,139 @@
+.transactions-container {
+  padding-left: 300px; /* Space for sidebar */
+  padding-top: 80px; /* Space for navbar */
+  padding-right: 20px;
+  padding-bottom: 20px;
+  background-color: #FFFFFF; /* White background */
+}
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+.table {
+  background-color: #fff;
+  border: 1px solid #000080; /* Navy blue border */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  padding: 12px;
+  vertical-align: middle;
+  color: #000080; /* Navy blue text */
+}
+
+.table th {
+  background-color: #000066; /* Darker navy for header */
+  color: #fff;
+  font-weight: 600;
+}
+
+.transaction-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.transaction-row:hover {
+  background-color: #E6E6FF; /* Light blue-gray on hover */
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-dialog {
+  max-width: 500px;
+  margin: 1.75rem auto;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.modal-content {
+  border-radius: 8px;
+  border: 1px solid #000080; /* Navy blue border */
+}
+
+.modal-header {
+  background-color: #000066; /* Darker navy */
+  color: #fff;
+  border-bottom: 1px solid #000080;
+  position: relative;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+.modal-body {
+  background-color: #fff;
+  color: #000080; /* Navy blue text */
+}
+
+.modal-footer {
+  border-top: 1px solid #000080;
+}
+
+.btn-primary {
+  background-color: #3333B3; /* Lighter blue for buttons */
+  border-color: #3333B3;
+}
+
+.btn-primary:hover {
+  background-color: #000080; /* Navy blue on hover */
+  border-color: #000080;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+
+.close {
+  color: #FFFFFF;
+  background-color: #000080;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  opacity: 1;
+  transition: opacity 0.2s;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.close:hover {
+  opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

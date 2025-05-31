@@ -1,13 +1,21 @@
 <div class="timetable-container">
-  <h2>Stadium Weekly Timetable</h2>
+  <h2>Stadium Weekly Timetable (Next Week)</h2>
   <table mat-table [dataSource]="sessions" class="mat-elevation-z8">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Date</th>
       <td mat-cell *matCellDef="let session">{{ session.session_date }}</td>
     </ng-container>
+    <ng-container matColumnDef="day">
+      <th mat-header-cell *matHeaderCellDef>Day</th>
+      <td mat-cell *matCellDef="let session">{{ session.day_name }}</td>
+    </ng-container>
     <ng-container matColumnDef="sport">
       <th mat-header-cell *matHeaderCellDef>Sport</th>
       <td mat-cell *matCellDef="let session">{{ session.sport_name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="coach">
+      <th mat-header-cell *matHeaderCellDef>Coach</th>
+      <td mat-cell *matCellDef="let session">{{ session.coach_name }}</td>
     </ng-container>
     <ng-container matColumnDef="startTime">
       <th mat-header-cell *matHeaderCellDef>Start Time</th>
@@ -21,15 +29,18 @@
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let session">{{ session.status }}</td>
     </ng-container>
+    <ng-container matColumnDef="totalCost">
+      <th mat-header-cell *matHeaderCellDef>Total Cost</th>
+      <td mat-cell *matCellDef="let session">{{ session.total_cost | currency:'LKR' }}</td>
+    </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let session">
         <button mat-raised-button color="primary" (click)="bookSession(session.id)" [disabled]="session.status !== 'available'">Book</button>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlighted-session': sportId && row.sport_id === sportId}"></tr>
   </table>
-  <p *ngIf="!sessions.length">No sessions available for this week.</p>
+  <p *ngIf="!sessions.length">No sessions available for next week.</p>
 </div>
