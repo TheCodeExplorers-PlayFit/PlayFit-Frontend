@@ -40,6 +40,11 @@ export class SignInFormCommonComponent {
       alert('Please accept the terms and conditions');
       return;
     }
+
+    if (!this.userData.email || !this.userData.email.includes('@')) {
+  alert('Please enter a valid email address with @');
+  return;
+   }
     
     // Debug log to verify data being passed
     console.log('Navigating with data:', this.userData);
