@@ -44,11 +44,6 @@ export class SalaryDetailsComponent implements OnInit {
     doc.text('Play Fit Coach Salary Report', 14, 20);
     doc.setFontSize(12);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-    doc.setFontSize(14);
-    doc.text('Play Fit Sports', 14, 40);
-    doc.setFontSize(10);
-    doc.text('123 Stadium Road, City, Country', 14, 46);
-    doc.text('PAN: ABCDE1234F', 14, 52);
 
     if (this.coachSalaries.length > 0) {
       doc.setFontSize(12);

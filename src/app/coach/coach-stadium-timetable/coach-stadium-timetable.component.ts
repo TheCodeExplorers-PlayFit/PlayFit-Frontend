@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking/booking.service';
-import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
+import { FormsModule } from '@angular/forms'; 
+import { AuthService } from '../../services/auth/auth.service';
+// Import FormsModule for ngModel
 import { debounce } from 'rxjs/operators'; // Import debounce operator
 import { interval } from 'rxjs'; // Import interval for debounce
 
@@ -40,7 +42,16 @@ export class CoachStadiumtimetableComponent implements OnInit {
   }
 
   loadTimetable(): void {
-    this.bookingService.getWeeklyTimetable(this.stadiumId!).subscribe({
+    // Define the date range: today (May 31, 2025) to one week from today (June 7, 2025)
+    const today = new Date('2025-05-31');
+    const oneWeekLater = new Date(today);
+    oneWeekLater.setDate(today.getDate() + 7);
+
+    // Format dates as YYYY-MM-DD strings for the API (adjust format as per backend requirement)
+    const startDate = today.toISOString().split('T')[0]; // 2025-05-31
+    const endDate = oneWeekLater.toISOString().split('T')[0]; // 2025-06-07
+
+    this.bookingService.getWeeklyTimetable(this.stadiumId!, startDate, endDate).subscribe({
       next: (response) => {
         console.log('API Response:', response);
         if (response.success && response.sessions) {
@@ -104,20 +115,60 @@ export class CoachStadiumtimetableComponent implements OnInit {
     }
   }
 
-  confirmBooking(): void {
-  if (this.selectedSessionId && this.coachId) {
-    this.bookingService.bookSession(this.selectedSessionId).subscribe({
-      next: (response) => {
-        console.log('Session booked successfully:', response);
-        this.closePopup();
-        this.loadTimetable(); // Refresh the timetable
-      },
-      error: (error) => {
-        console.error('Error booking session:', error);
-        this.error = error.error?.message || 'Failed to book session';
+confirmBooking(): void {
+  if (this.isUpdating) {
+    console.log('Update in progress, skipping...');
+    return;
+  }
+
+  if (!this.selectedSessionId || this.coachCost === null || this.coachCost < 0) {
+    this.error = 'Please enter a valid session ID and coach cost';
+    this.closePopup();
+    return;
+  }
+
+  if (!this.coachId) {
+    this.error = 'Coach ID not found. Please ensure you are logged in.';
+    this.closePopup();
+    return;
+  }
+
+  this.isUpdating = true;
+  this.bookingService.CoachCost(this.selectedSessionId, this.coachCost).subscribe({
+    next: (response) => {
+      console.log('Coach cost updated:', response);
+      if (response.success) {
+        this.bookingService.bookSession(this.selectedSessionId!, this.coachId!).subscribe({
+          next: (bookResponse) => {
+            console.log('Session booked successfully:', bookResponse);
+            if (bookResponse.success) {
+              this.timetable = this.timetable.filter(session => session.id !== this.selectedSessionId);
+              this.closePopup();
+            } else {
+              this.error = bookResponse.message || 'Failed to book session';
+              this.closePopup();
+            }
+            this.isUpdating = false;
+          },
+          error: (error) => {
+            console.error('Error booking session:', error);
+            this.error = error.status === 404 ? 'Session not found or already booked' : (error.error?.message || 'Failed to book session');
+            this.isUpdating = false;
+            this.closePopup();
+          }
+        });
+      } else {
+        this.error = response.message || 'Failed to update coach cost';
+        this.isUpdating = false;
         this.closePopup();
       }
-    });
-  }
+    },
+    error: (error) => {
+      console.error('Error updating coach cost:', error);
+      this.error = error.error?.message || 'Failed to update coach cost';
+      this.isUpdating = false;
+      this.closePopup();
+    }
+  });
 }
 }

@@ -50,7 +50,7 @@ export class BookingHistoryComponent implements OnInit {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    const url = `${this.apiUrl}/bookings`;
+    const url = `${this.apiUrl}/bookings?coachId=${this.coachId}`; // Filter by coachId
     console.log('Fetching booking history from:', url);
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
