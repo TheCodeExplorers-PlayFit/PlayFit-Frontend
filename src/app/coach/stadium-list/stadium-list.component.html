@@ -51,10 +51,13 @@
   <!-- Stadium grid -->
   <div *ngIf="!loading && filteredStadiums.length > 0" class="stadium-grid">
     <div *ngFor="let stadium of filteredStadiums" class="stadium-card">
-      <img 
-        [src]="stadium.images && stadium.images.length > 0 ? stadium.images[0] : 'assets/images/stadium-placeholder.jpg'" 
-        alt="{{stadium.name}}" 
-        (error)="handleImageError($event)">
+
+  <img [src]="stadium.images[0]" 
+     alt="{{stadium.name}}" 
+     (error)="handleImageError($event)"
+     class="stadium-preview-image">
+
+
       <h3>{{stadium.name}}</h3>
       <p class="location" *ngIf="stadium.location_name">
         <span class="location-icon">📍</span> {{stadium.location_name}}
@@ -77,7 +80,7 @@
   <div class="popup-overlay" *ngIf="selectedStadium" (click)="closePopup()">
     <div class="popup-content" (click)="$event.stopPropagation()">
       <h3>{{ selectedStadium.name }}</h3>
-      <p>{{ selectedStadium.details || 'No details available' }}</p>
+      <p>{{ selectedStadium.description || 'No details available' }}</p>
       <div class="popup-actions">
         <button class="book-btn" (click)="bookStadium(selectedStadium)">Book</button>
         <button class="close-btn" (click)="closePopup()">Close</button>

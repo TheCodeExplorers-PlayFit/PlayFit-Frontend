@@ -53,7 +53,15 @@ export class StadiumListComponent implements OnInit {
       next: (response) => {
         console.log('API Response:', response); // Debug log
         if (response.success && response.data) {
-          this.stadiums = response.data;
+          this.stadiums = response.data.map((stadium: any) => {
+            console.log(`Raw images for ${stadium.name}:`, stadium.images); // Log raw images field
+            const parsedImages = this.parseImages(stadium.images);
+            console.log(`Parsed images for ${stadium.name}:`, parsedImages); // Log parsed images
+            return {
+              ...stadium,
+              images: parsedImages
+            };
+          });
           this.filteredStadiums = [...this.stadiums];
           this.sports = [...new Set(
             this.stadiums
@@ -123,6 +131,32 @@ export class StadiumListComponent implements OnInit {
 
   bookStadium(stadium: any): void {
     this.router.navigate(['/coach/coach-stadium-timetable', stadium.id]); // Use absolute path
-        this.closePopup(); // Close the popup after navigation
+    this.closePopup(); // Close the popup after navigation
+  }
+
+  // Helper method to parse images field
+  private parseImages(images: any): string[] {
+    if (!images) {
+      console.log('Images field is null or undefined');
+      return [];
+    }
+    if (Array.isArray(images)) {
+      console.log('Images field is already an array:', images);
+      return images;
+    }
+    if (typeof images === 'string') {
+      try {
+        // Try parsing as JSON
+        const parsed = JSON.parse(images);
+        console.log('Images parsed as JSON:', parsed);
+        return Array.isArray(parsed) ? parsed : [images];
+      } catch {
+        // If not JSON, treat as comma-separated string or single image
+        console.log('Images treated as string:', images);
+        return images.includes(',') ? images.split(',').map(img => img.trim()) : [images];
+      }
+    }
+    console.log('Images field in unexpected format:', images);
+    return [];
   }
 }
