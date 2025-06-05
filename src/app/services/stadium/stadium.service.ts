@@ -13,7 +13,7 @@ export class StadiumService {
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
-    console.log('Token being sent:', token); // Debug
+    console.log('Token being sent:', token); 
     if (!token) {
       console.warn('No token found in localStorage');
     }

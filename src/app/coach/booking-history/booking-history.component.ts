@@ -69,6 +69,7 @@ export class BookingHistoryComponent implements OnInit {
           message: error.error?.message || error.message,
           error: error.error
         }); // Detailed error logging
+        
         if (error.status === 500) {
           this.error = 'An unexpected server error occurred while fetching booking history. Please try again later or contact support.';
         } else {

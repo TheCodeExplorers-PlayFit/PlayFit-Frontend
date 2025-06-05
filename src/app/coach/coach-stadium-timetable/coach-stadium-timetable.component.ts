@@ -22,21 +22,21 @@ export class CoachStadiumtimetableComponent implements OnInit {
   showPopup: boolean = false;
   selectedSessionId: number | null = null;
   coachCost: number | null = null;
-  coachId: number | null = null; //  Set properly later from AuthService
+  coachId: number | null = null; 
   isUpdating: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private bookingService: BookingService,
-    private authService: AuthService // Ensure AuthService is injected to get coachId
+    private authService: AuthService 
 
   ) {}
 
  ngOnInit(): void {
-  const currentUser = this.authService.getUser(); // ✅ Get logged-in user
+  const currentUser = this.authService.getUser(); //  Get logged-in user
 
   if (currentUser && currentUser.role === 'coach') {
-    this.coachId = currentUser.id; // ✅ Set correct coachId
+    this.coachId = currentUser.id; //  Set correct coachId
     console.log('Logged-in Coach ID:', this.coachId);
   } else {
     this.error = 'Invalid or unauthorized user';
@@ -62,8 +62,8 @@ export class CoachStadiumtimetableComponent implements OnInit {
     oneWeekLater.setDate(today.getDate() + 7);
 
     // Format dates as YYYY-MM-DD strings for the API
-    const startDate = today.toISOString().split('T')[0]; // 2025-06-02
-    const endDate = oneWeekLater.toISOString().split('T')[0]; // 2025-06-09
+    const startDate = today.toISOString().split('T')[0]; 
+    const endDate = oneWeekLater.toISOString().split('T')[0]; 
 
     // Calculate the day_of_week values for the date range
     const daysInRange: { date: Date, dayOfWeek: number }[] = [];
