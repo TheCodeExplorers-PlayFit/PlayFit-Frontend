@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service'; // Adjust path if needed
+import { AuthService } from '../../services/auth/auth.service'; 
 
 @Component({
   selector: 'app-booking-history',

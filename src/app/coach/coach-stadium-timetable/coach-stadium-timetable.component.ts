@@ -69,12 +69,12 @@ export class CoachStadiumtimetableComponent implements OnInit {
     const daysInRange: { date: Date, dayOfWeek: number }[] = [];
     let currentDate = new Date(today);
     while (currentDate <= oneWeekLater) {
-      // JavaScript getDay() returns 0=Sunday, 1=Monday, ..., 6=Saturday
-      // Convert to match database: 1=Monday, ..., 7=Sunday
-      const jsDay = currentDate.getDay();
-      const dbDay = jsDay === 0 ? 7 : jsDay; // Convert Sunday (0) to 7, others stay the same
-      daysInRange.push({ date: new Date(currentDate), dayOfWeek: dbDay });
-      currentDate.setDate(currentDate.getDate() + 1);
+
+    // Convert to match database: 1=Monday, ..., 7=Sunday
+    const jsDay = currentDate.getDay();
+    const dbDay = jsDay === 0 ? 7 : jsDay; // Convert Sunday (0) to 7, others stay the same
+    daysInRange.push({ date: new Date(currentDate), dayOfWeek: dbDay });
+    currentDate.setDate(currentDate.getDate() + 1);
     }
 
     console.log('Days in range:', daysInRange.map(d => ({
