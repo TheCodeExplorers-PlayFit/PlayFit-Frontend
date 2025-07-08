@@ -14,7 +14,7 @@
       <label>Facilities:</label>
       <input type="text" name="facilities" [(ngModel)]="stadium.facilities" />
 
-      <!-- Add Sports Section (unchanged) -->
+      <!-- Add Sports Section  -->
       <label>Add Sports:</label>
       <div class="chips">
         <div class="chip" *ngFor="let sport of sportsOptions" [class.selected]="selectedSport === sport" (click)="selectSport(sport)">
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <!-- Schedule logic (unchanged) -->
+      <!-- Schedule logic  -->
       <div *ngIf="selectedSport">
         <label>Select Day:</label>
         <select [(ngModel)]="selectedDay" name="day" required>
@@ -50,7 +50,7 @@
         <button type="button" (click)="addScheduleRow()">Add</button>
       </div>
 
-      <!-- Schedule Table (unchanged) -->
+      <!-- Schedule Table  -->
       <div *ngIf="scheduleRows.length">
         <h3>Scheduled Sports</h3>
         <table>
@@ -92,7 +92,7 @@
         {{ uploadError }}
       </div>
 
-      <!-- Location (unchanged) -->
+      <!-- Location  -->
       <label>Location:</label>
       <input type="text" [(ngModel)]="stadium.locationText" name="locationText" placeholder="Type a location…" (keyup.enter)="locateAddress()" />
       <button type="button" (click)="locateAddress()">Find on Map</button>
@@ -100,7 +100,7 @@
         {{ locationConfirmed ? 'Location Confirmed' : 'Confirm Location' }}
       </button>
 
-      <!-- Terms (unchanged) -->
+      <!-- Terms  -->
       <div class="form-group terms-group">
         <input type="checkbox" id="terms" name="terms" [(ngModel)]="agreed" />
         <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>

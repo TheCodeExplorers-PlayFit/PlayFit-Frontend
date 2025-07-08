@@ -100,11 +100,11 @@ export class StadiumsComponent implements OnInit {
   uploadToCloudinary(file: File): void {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'imageuploading'); // Replace with your preset
-    formData.append('cloud_name', 'dubclskme'); // Replace with your Cloud Name
+    formData.append('upload_preset', 'imageuploading');
+    formData.append('cloud_name', 'dubclskme'); 
     formData.append('folder', 'stadiums');
 
-    const uploadUrl = 'https://api.cloudinary.com/v1_1/dubclskme/image/upload'; // Replace with your Cloud Name
+    const uploadUrl = 'https://api.cloudinary.com/v1_1/dubclskme/image/upload'; 
 
     fetch(uploadUrl, {
       method: 'POST',

@@ -359,7 +359,7 @@ export class PlayerPackagesComponent implements OnInit {
   }
 
   isActive(assignment: PlayerPackageAssignment): boolean {
-    const now = new Date('2025-05-24 :09:00+05:30'); // Current date and time: May 24, 2025, 04:09 PM IST
+    const now = new Date();
     const endDate = new Date(assignment.end_date);
     return endDate > now;
   }
