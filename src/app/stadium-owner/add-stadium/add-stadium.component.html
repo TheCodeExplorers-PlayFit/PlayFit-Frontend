@@ -1,112 +1,105 @@
 <div class="container">
-  <div class="content">
-    <h2>Add Stadium</h2>
-    <p>Provide the necessary details</p>
-
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-      <!-- Basic fields -->
-      <label>Stadium Name:</label>
-      <input type="text" name="name" [(ngModel)]="stadium.name" required />
-
-      <label>Address:</label>
-      <input type="text" name="address" [(ngModel)]="stadium.address" required />
-
-      <label>Facilities:</label>
-      <input type="text" name="facilities" [(ngModel)]="stadium.facilities" />
-
-      <!-- Add Sports Section  -->
-      <label>Add Sports:</label>
-      <div class="chips">
-        <div class="chip" *ngFor="let sport of sportsOptions" [class.selected]="selectedSport === sport" (click)="selectSport(sport)">
-          {{ sport }}
-        </div>
-      </div>
-
-      <!-- Schedule logic  -->
-      <div *ngIf="selectedSport">
-        <label>Select Day:</label>
-        <select [(ngModel)]="selectedDay" name="day" required>
-          <option value="" disabled selected>Select a day</option>
-          <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
-        </select>
-
-        <label>Max Players:</label>
-        <input type="number" [(ngModel)]="selectedMaxPlayers" name="maxPlayers" min="1" required />
-
-        <div class="time-range">
-          <div>
-            <label>From Time:</label>
-            <input type="time" [(ngModel)]="selectedFromTime" name="fromTime" required />
-          </div>
-          <div>
-            <label>To Time:</label>
-            <input type="time" [(ngModel)]="selectedToTime" name="toTime" required />
-          </div>
-        </div>
-
-        <label>Sport Cost (%):</label>
-        <input type="number" [(ngModel)]="selectedSportPercentage" name="sportPercentage" min="0" max="100" step="0.01" required />
-
-        <button type="button" (click)="addScheduleRow()">Add</button>
-      </div>
-
-      <!-- Schedule Table  -->
-      <div *ngIf="scheduleRows.length">
-        <h3>Scheduled Sports</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Sport</th>
-              <th>Day</th>
-              <th>From</th>
-              <th>To</th>
-              <th>Max Players</th>
-              <th>Sport Cost (%)</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of scheduleRows; let i = index">
-              <td>{{ row.sport }}</td>
-              <td>{{ row.day }}</td>
-              <td>{{ row.fromTime }}</td>
-              <td>{{ row.toTime }}</td>
-              <td>{{ row.maxPlayers }}</td>
-              <td>{{ row.sportPercentage }}%</td>
-              <td><button type="button" (click)="removeRow(i)">X</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Image upload -->
-      <label>Upload images of stadium:</label>
-      <input type="file" multiple (change)="onFileSelected($event)" accept="image/*" />
-      <div class="image-preview">
-        <img *ngFor="let url of imageUrls" [src]="url" alt="Stadium Image" style="max-width: 200px; margin: 5px;" />
-      </div>
+  <h2>Add New Stadium</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="newStadium.name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <input type="text" id="address" [(ngModel)]="newStadium.address" name="address" class="form-control" required (ngModelChange)="locateAddress()">
+      <button type="button" (click)="locateAddress()">Locate</button>
+      <button type="button" [disabled]="!newStadium.google_maps_link || locationConfirmed" (click)="confirmLocation()">Confirm Location</button>
+      <button type="button" [disabled]="!hasNavigatedToMap || locationConfirmed" (click)="confirmLocationInMap()">Confirm Location in Map</button>
+      <div *ngIf="locationConfirmed" class="confirmation">Location confirmed!</div>
+      <div *ngIf="addressError" class="error">{{ addressError }}</div>
+    </div>
+    <div class="form-group">
+      <label for="google_maps_link">Google Maps Link:</label>
+      <input type="text" id="google_maps_link" [(ngModel)]="newStadium.google_maps_link" name="google_maps_link" class="form-control" readonly required>
+    </div>
+    <div class="form-group">
+      <label for="facilities">Facilities:</label>
+      <input type="text" id="facilities" [(ngModel)]="newStadium.facilities" name="facilities" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="sport">Sport:</label>
+      <select id="sport" [(ngModel)]="selectedSport" name="sport" class="form-control">
+        <option value="" disabled>Select a sport</option>
+        <option *ngFor="let sport of sportsOptions" [value]="sport">{{ sport }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="day">Day:</label>
+      <select id="day" [(ngModel)]="selectedDay" name="day" class="form-control">
+        <option value="" disabled>Select a day</option>
+        <option *ngFor="let day of weekdayOptions" [value]="day">{{ day }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="maxPlayers">Max Players:</label>
+      <input type="number" id="maxPlayers" [(ngModel)]="selectedMaxPlayers" name="maxPlayers" class="form-control" min="1" required>
+    </div>
+    <div class="form-group">
+      <label for="fromTime">Start Time:</label>
+      <input type="time" id="fromTime" [(ngModel)]="selectedFromTime" name="fromTime" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="toTime">End Time:</label>
+      <input type="time" id="toTime" [(ngModel)]="selectedToTime" name="toTime" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="sportPercentage">Sport Percentage (%):</label>
+      <input type="number" id="sportPercentage" [(ngModel)]="selectedSportPercentage" name="sportPercentage" class="form-control" min="0" max="20" step="0.01" required>
+    </div>
+    <button type="button" class="add-btn" (click)="addScheduleRow()">Add Schedule</button>
+    <div *ngIf="newStadium.schedule.length > 0" class="schedule-table">
+      <h3>Added Schedules</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Sport</th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Max Players</th>
+            <th>Sport Percentage (%)</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let schedule of newStadium.schedule; let i = index">
+            <td>{{ schedule.sport }}</td>
+            <td>{{ schedule.day }}</td>
+            <td>{{ schedule.fromTime }}</td>
+            <td>{{ schedule.toTime }}</td>
+            <td>{{ schedule.maxPlayers }}</td>
+            <td>{{ schedule.sportPercentage }}</td>
+            <td><button type="button" class="delete-btn" (click)="removeRow(i)">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group">
+      <label for="images">Images:</label>
+      <input type="file" id="images" (change)="onFileSelected($event)" accept="image/*" multiple class="form-control">
       <div *ngIf="uploadProgress > 0 && uploadProgress < 100">
         Uploading: {{ uploadProgress }}%
       </div>
-      <div *ngIf="uploadError" class="error">
-        {{ uploadError }}
+      <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
+      <div *ngIf="imageUrls.length > 0" class="image-preview">
+        <h3>Uploaded Images</h3>
+        <div class="image-container">
+          <img *ngFor="let url of imageUrls" [src]="url" class="img-fluid" alt="Stadium Image">
+        </div>
       </div>
-
-      <!-- Location  -->
-      <label>Location:</label>
-      <input type="text" [(ngModel)]="stadium.locationText" name="locationText" placeholder="Type a location…" (keyup.enter)="locateAddress()" />
-      <button type="button" (click)="locateAddress()">Find on Map</button>
-      <button type="button" (click)="confirmLocation()" [disabled]="!stadium.locationUrl || locationConfirmed" class="confirm-button">
-        {{ locationConfirmed ? 'Location Confirmed' : 'Confirm Location' }}
-      </button>
-
-      <!-- Terms  -->
-      <div class="form-group terms-group">
-        <input type="checkbox" id="terms" name="terms" [(ngModel)]="agreed" />
-        <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
-      </div>
-
-      <button type="submit" [disabled]="!agreed || !f.form.valid || !locationConfirmed">Submit</button>
-    </form>
-  </div>
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" [(ngModel)]="agreed" name="agreed" [disabled]="!locationConfirmed"> I agree to the terms and conditions
+      </label>
+    </div>
+    <button type="submit" class="submit-btn" [disabled]="!agreed || !locationConfirmed">Submit</button>
+    <button type="button" class="reset-btn" (click)="resetForm()">Reset</button>
+  </form>
 </div>
