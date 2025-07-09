@@ -1,13 +1,16 @@
-<div class="private-requests">
-    <h2>Private Playing Requests</h2>
-    <div class="request" *ngFor="let request of requests">
-      <p><strong>{{ request.name }}</strong> has requested a private coaching session</p>
-      <p>Stadium: {{ request.stadium }}</p>
-      <p>Date: {{ request.date }}</p>
-      <p>Time: {{ request.time }}</p>
-      <button class="approve">Approve</button>
-      <button class="decline">Decline</button>
-      <button class="profile">Profile</button>
+<div class="container my-4 private-requests">
+  <h2 class="mb-4">Private Playing Requests</h2>
+
+  <div *ngFor="let request of requests" class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <p class="mb-2"><strong>{{ request.name }}</strong> has requested a private coaching session</p>
+      <p class="mb-1">Stadium: {{ request.stadium }}</p>
+      <p class="mb-3">Date: {{ request.date }} | Time: {{ request.time }}</p>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-sm approve">Approve</button>
+        <button class="btn btn-sm decline">Decline</button>
+        <button class="btn btn-sm profile">Profile</button>
+      </div>
     </div>
   </div>
-  
+</div>

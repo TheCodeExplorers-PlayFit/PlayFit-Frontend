@@ -1,89 +1,117 @@
-<div class="stadium-list-container">
-  <h2>Available Stadiums for Your Sports</h2>
+<div class="container my-4 stadium-list-container">
+  <h2 class="mb-4 text-center">Available Stadiums for Your Sports</h2>
 
   <!-- Filters -->
-  <div *ngIf="!loading && !error && stadiums.length > 0" class="search-bar-container">
-    <div class="search-bar">
+  <div *ngIf="!loading && !error && stadiums.length > 0" class="mb-4">
+    <form class="row g-3 align-items-center justify-content-center">
       <!-- Sports Filter Dropdown -->
-      <select [(ngModel)]="sportFilter" class="filter-input">
-        <option value="">All Sports</option>
-        <option *ngFor="let sport of sports" [value]="sport">
-          {{ sport }}
-        </option>
-      </select>
+      <div class="col-auto">
+        <select [(ngModel)]="sportFilter" class="form-select" aria-label="Filter by sport" name="sportFilter">
+          <option value="">All Sports</option>
+          <option *ngFor="let sport of sports" [value]="sport">
+            {{ sport }}
+          </option>
+        </select>
+      </div>
 
       <!-- Location Filter Dropdown -->
-      <select [(ngModel)]="locationFilter" class="filter-input">
-        <option value="">All Locations</option>
-        <option *ngFor="let location of locations" [value]="location">
-          {{ location }}
-        </option>
-      </select>
+      <div class="col-auto">
+        <select [(ngModel)]="locationFilter" class="form-select" aria-label="Filter by location" name="locationFilter">
+          <option value="">All Locations</option>
+          <option *ngFor="let location of locations" [value]="location">
+            {{ location }}
+          </option>
+        </select>
+      </div>
 
       <!-- Search Button -->
-      <button (click)="filterStadiums()" class="search-btn">Search</button>
-    </div>
+      <div class="col-auto">
+        <button (click)="filterStadiums()" type="button" class="btn btn-primary">
+          Search
+        </button>
+      </div>
+    </form>
   </div>
-  
+
   <!-- Loading state -->
-  <div *ngIf="loading" class="loading-state">
-    <p>Loading stadiums...</p>
+  <div *ngIf="loading" class="alert alert-info text-center">
+    Loading stadiums...
   </div>
-  
+
   <!-- Error state -->
-  <div *ngIf="error && !loading" class="error-state">
+  <div *ngIf="error && !loading" class="alert alert-danger text-center">
     <p>{{ error }}</p>
-    <button *ngIf="error.includes('log in')" 
-            routerLink="/login" 
-            class="login-btn">
+    <button *ngIf="error.includes('log in')" routerLink="/login" class="btn btn-outline-primary mt-2">
       Log In
     </button>
   </div>
-  
+
   <!-- Empty state -->
-  <div *ngIf="!loading && !error && filteredStadiums.length === 0 && stadiums.length > 0" class="empty-state">
-    <p>No stadiums match your filters.</p>
+  <div *ngIf="!loading && !error && filteredStadiums.length === 0 && stadiums.length > 0" class="alert alert-warning text-center">
+    No stadiums match your filters.
   </div>
-  <div *ngIf="!loading && !error && stadiums.length === 0" class="empty-state">
-    <p>No stadiums are currently available for the sports you teach.</p>
+  <div *ngIf="!loading && !error && stadiums.length === 0" class="alert alert-warning text-center">
+    No stadiums are currently available for the sports you teach.
   </div>
-  
+
   <!-- Stadium grid -->
-  <div *ngIf="!loading && filteredStadiums.length > 0" class="stadium-grid">
-    <div *ngFor="let stadium of filteredStadiums" class="stadium-card">
+  <div *ngIf="!loading && filteredStadiums.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div *ngFor="let stadium of filteredStadiums" class="col">
+      <div class="card h-100 shadow-sm stadium-card">
+        <img
+          [src]="stadium.images[0]"
+          alt="{{stadium.name}}"
+          (error)="handleImageError($event)"
+          class="card-img-top stadium-preview-image"
+          style="object-fit: cover; height: 180px;"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ stadium.name }}</h5>
+          <p class="card-text text-muted mb-1" *ngIf="stadium.location_name">
+            <span class="me-1">📍</span> {{ stadium.location_name }}
+          </p>
+          <p class="card-text flex-grow-1">{{ stadium.description || 'No description available' }}</p>
 
-  <img [src]="stadium.images[0]" 
-     alt="{{stadium.name}}" 
-     (error)="handleImageError($event)"
-     class="stadium-preview-image">
+          <div class="mb-3">
+            <span *ngFor="let sport of stadium.sport_names" class="badge bg-secondary me-1 sport-tag">
+              {{ sport }}
+            </span>
+          </div>
 
-
-      <h3>{{stadium.name}}</h3>
-      <p class="location" *ngIf="stadium.location_name">
-        <span class="location-icon">📍</span> {{stadium.location_name}}
-      </p>
-      <p class="stadium-description">{{stadium.description || 'No description available'}}</p>
-      
-      <div class="sports-tags">
-        <span *ngFor="let sport of stadium.sport_names" class="sport-tag">
-          {{sport}}
-        </span>
-      </div>
-      
-      <div class="stadium-actions">
-        <button (click)="viewDetails(stadium)" class="view-details-btn">View Details</button>
+          <button (click)="viewDetails(stadium)" class="btn btn-outline-primary mt-auto">
+            View Details
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Popup for stadium details -->
-  <div class="popup-overlay" *ngIf="selectedStadium" (click)="closePopup()">
-    <div class="popup-content" (click)="$event.stopPropagation()">
-      <h3>{{ selectedStadium.name }}</h3>
-      <p>{{ selectedStadium.description || 'No details available' }}</p>
-      <div class="popup-actions">
-        <button class="book-btn" (click)="bookStadium(selectedStadium)">Book</button>
-        <button class="close-btn" (click)="closePopup()">Close</button>
+  <div
+    class="modal fade show"
+    tabindex="-1"
+    [ngClass]="{ 'd-block': selectedStadium, 'd-none': !selectedStadium }"
+    (click)="closePopup()"
+    aria-modal="true"
+    role="dialog"
+    style="background: rgba(0,0,0,0.5);"
+  >
+    <div
+      class="modal-dialog modal-dialog-centered"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ selectedStadium?.name }}</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closePopup()"></button>
+        </div>
+        <div class="modal-body">
+          <p>{{ selectedStadium?.description || 'No details available' }}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" (click)="bookStadium(selectedStadium)">Book</button>
+          <button class="btn btn-secondary" (click)="closePopup()">Close</button>
+        </div>
       </div>
     </div>
   </div>
