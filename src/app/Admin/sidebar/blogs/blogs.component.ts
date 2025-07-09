@@ -1,18 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-type Status = 'Pending' | 'Approved' | 'Declined';
-
-interface BlogRequest {
-  id: string;
-  position: string;
-  name: string;
-  date: string;
-  time: string;
-  blogTitle: string;
-  status: Status;
-  photo: string;
-}
+import { AdminBlogsService, Blog } from '../../../services/adminblogs/adminblogs.service';
 
 @Component({
   selector: 'app-blogs',
@@ -21,51 +9,51 @@ interface BlogRequest {
   templateUrl: './blogs.component.html',
   styleUrls: ['./blogs.component.css']
 })
-export class BlogsComponent {
-  blogRequests: BlogRequest[] = [
-    {
-      id: 'P001',
-      position: 'player',
-      name: 'Nolan Bator',
-      date: '01/10/2025',
-      time: '09:00 AM',
-      blogTitle: 'Injury Follow-up',
-      status: 'Pending',
-      photo: 'https://randomuser.me/api/portraits/men/30.jpg'
-    },
-    {
-      id: 'P002',
-      position: 'player',
-      name: 'Nathan Diett',
-      date: '01/10/2025',
-      time: '10:00 AM',
-      blogTitle: 'Vaccination & Immunization',
-      status: 'Pending',
-      photo: 'https://randomuser.me/api/portraits/men/31.jpg'
-    },
-    {
-      id: 'P003',
-      position: 'coach',
-      name: 'Erin Levin',
-      date: '01/10/2025',
-      time: '11:00 AM',
-      blogTitle: 'Preventive Health Check',
-      status: 'Approved',
-      photo: 'https://randomuser.me/api/portraits/women/32.jpg'
-    },
-    {
-      id: 'P004',
-      position: 'player',
-      name: 'Chance Rosser',
-      date: '01/10/2025',
-      time: '11:15 AM',
-      blogTitle: 'Fitness Assessment',
-      status: 'Declined',
-      photo: 'https://randomuser.me/api/portraits/men/33.jpg'
-    }
-  ];
+export class BlogsComponent implements OnInit {
+  blogRequests: Blog[] = [];
 
-  changeStatus(blog: BlogRequest, status: Status) {
-    blog.status = status;
+  constructor(private adminBlogsService: AdminBlogsService) {}
+
+  ngOnInit(): void {
+    this.loadPendingBlogs();
+  }
+
+  loadPendingBlogs(): void {
+    console.log('loadPendingBlogs: Fetching pending blogs');
+    this.adminBlogsService.getPendingBlogs().subscribe({
+      next: (blogs) => {
+        console.log('loadPendingBlogs: Fetched blogs:', blogs);
+        this.blogRequests = blogs;
+      },
+      error: (err) => {
+        console.error('loadPendingBlogs: Error fetching blogs:', err);
+      }
+    });
+  }
+
+  approveBlog(blog: Blog): void {
+    console.log('approveBlog: Approving blog with ID:', blog.id);
+    this.adminBlogsService.approveBlog(blog.id).subscribe({
+      next: () => {
+        console.log('approveBlog: Blog approved successfully');
+        this.loadPendingBlogs(); // Refresh the list
+      },
+      error: (err) => {
+        console.error('approveBlog: Error approving blog:', err);
+      }
+    });
+  }
+
+  rejectBlog(blog: Blog): void {
+    console.log('rejectBlog: Rejecting blog with ID:', blog.id);
+    this.adminBlogsService.rejectBlog(blog.id).subscribe({
+      next: () => {
+        console.log('rejectBlog: Blog rejected successfully');
+        this.loadPendingBlogs(); // Refresh the list
+      },
+      error: (err) => {
+        console.error('rejectBlog: Error rejecting blog:', err);
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service'; // Adjust path as needed
+import { Observable, throwError } from 'rxjs';
+import { AuthService } from '../auth/auth.service'; 
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +19,21 @@ export class BookingService {
     });
   }
 
- getWeeklyTimetable(stadiumId: number): Observable<any> {
-  return this.http.get(`${this.apiUrl}/weekly-timetable?stadiumId=${stadiumId}`, { headers: this.getHeaders() });
-}
+  getWeeklyTimetable(stadiumId: number, startDate: string, endDate: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/weekly-timetable?stadiumId=${stadiumId}&startDate=${startDate}&endDate=${endDate}`, { headers: this.getHeaders() });
+  }
+
   CoachCost(sessionId: number, coachCost: number): Observable<any> {
     return this.http.put(`${this.apiUrl}/update-cost/${sessionId}`, { coachCost }, { headers: this.getHeaders() });
   }
 
-  bookSession(sessionId: number): Observable<any> {
-    const user = this.authService.getUser();
-    if (!user || !this.authService.isLoggedIn()) {
-      throw new Error('User not logged in');
-    }
-    const coachId = user.id;
-    return this.http.post(`${this.apiUrl}/book/${sessionId}`, { coachId }, { headers: this.getHeaders() });
+  bookSession(sessionId: number, coachId: number): Observable<any> {
+  if (!this.authService.isLoggedIn()) {
+    return throwError(() => new Error('User not logged in'));
   }
+  console.log(`Booking session: sessionId=${sessionId}, coachId=${coachId}`);
+  return this.http.post(`${this.apiUrl}/book/${sessionId}`, { coachId }, { headers: this.getHeaders() });
+}
 
   createBooking(stadiumId: number): Observable<any> {
     const user = this.authService.getUser();

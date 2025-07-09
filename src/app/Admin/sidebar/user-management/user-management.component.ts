@@ -78,7 +78,7 @@ export class UserManagementComponent implements OnInit {
       },
     });
   }
-
+  // Filter users based on search term and role
   filterUsers(): void {
     this.filteredUsers = this.users.filter((user) => {
       const matchesSearch = user.first_name
@@ -89,7 +89,7 @@ export class UserManagementComponent implements OnInit {
       return matchesSearch && matchesRole;
     });
 
-    // Calculate filtered counts
+// Calculate filtered counts based on filteredUsers array and validity
     this.filteredTotalCount = this.filteredUsers.length;
     this.filteredRoleCounts = this.filteredUsers.reduce(
       (acc, user) => {

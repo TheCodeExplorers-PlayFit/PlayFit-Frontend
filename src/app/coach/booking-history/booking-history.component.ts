@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../services/auth/auth.service'; // Adjust path if needed
+import { AuthService } from '../../services/auth/auth.service'; 
 
 @Component({
   selector: 'app-booking-history',
@@ -50,7 +50,7 @@ export class BookingHistoryComponent implements OnInit {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
-    const url = `${this.apiUrl}/bookings`;
+    const url = `${this.apiUrl}/bookings?coachId=${this.coachId}`; // Filter by coachId
     console.log('Fetching booking history from:', url);
     this.http.get<any>(url, { headers }).subscribe({
       next: (response) => {
@@ -69,6 +69,7 @@ export class BookingHistoryComponent implements OnInit {
           message: error.error?.message || error.message,
           error: error.error
         }); // Detailed error logging
+        
         if (error.status === 500) {
           this.error = 'An unexpected server error occurred while fetching booking history. Please try again later or contact support.';
         } else {

@@ -9,8 +9,8 @@ import { AuthService } from '../../services/auth/auth.service';
   selector: 'app-coach-complaints',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './complaints.component.html',
-  styleUrls: ['./complaints.component.css']
+  templateUrl: './CoachComplaints.component.html',
+  styleUrls: ['./CoachComplaints.component.css']
 })
 export class CoachComplaintsComponent implements OnInit {
   stadiums: any[] = [];

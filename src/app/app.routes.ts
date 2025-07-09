@@ -22,11 +22,10 @@ import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 
 // ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
-import { ScheduleSelectorComponent } from './coach/schedule-selector/schedule-selector.component';
 import { StadiumListComponent } from './coach/stadium-list/stadium-list.component';
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
 import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
-import { CoachComplaintsComponent } from './coach/complaints/complaints.component';
+import { CoachComplaintsComponent } from './coach/CoachComplaints/CoachComplaints.component';
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
 import { SalaryDetailsComponent } from './coach/salary-details/salary-details.component';
@@ -123,7 +122,6 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: CoachDashboardComponent },
       { path: 'booking-history', component: BookingHistoryComponent },
-      { path: 'schedule-selector', component: ScheduleSelectorComponent },
       { path: 'stadium-list', component: StadiumListComponent },
       { path: 'private-playing-requests', component: PrivateRequestsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
