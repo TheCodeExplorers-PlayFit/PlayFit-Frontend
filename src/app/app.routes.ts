@@ -53,6 +53,9 @@ import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medic
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password/forgot-password.component';
+import { ResetVerificationComponent } from './auth/reset-verification/reset-verification/reset-verification.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password/reset-password.component';
 
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
@@ -75,6 +78,9 @@ export const routes: Routes = [
   { path: 'signup', component: RoleSelectionComponent },
   { path: 'sign-in-form-common', component: SignInFormCommonComponent },
   { path: 'email-verification', component: EmailVerificationComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-verification', component: ResetVerificationComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'sign-in-form', component: SignInFormComponent },
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
