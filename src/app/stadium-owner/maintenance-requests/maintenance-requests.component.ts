@@ -1,32 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-
-interface Complaint {
-  id: number;
-  reported_by: number;
-  reported_to: string;
-  stadium_id: number | null;
-  coach_id: number | null;
-  description: string;
-  status: string;
-  created_at: string;
-}
-
-interface Card {
-  subtitle: string;
-  text: string;
-  backgroundColor: string;
-  route: string;
-}
+import { Router, RouterModule } from '@angular/router';
+import { MaintenanceRequestsService } from '../../services/maintenance-requests/maintenance-requests.service';
+import { Complaint, Card } from '@models/maintenance-requests';
 
 @Component({
   selector: 'app-maintenance-requests',
   templateUrl: './maintenance-requests.component.html',
   styleUrls: ['./maintenance-requests.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterModule]
 })
 export class MaintenanceRequestsComponent implements OnInit {
   complaints: Complaint[] = [];
@@ -42,7 +25,11 @@ export class MaintenanceRequestsComponent implements OnInit {
     { subtitle: 'In Progress', text: this.inProgressTasks.toString(), backgroundColor: '#F9C8F1', route: '/stadium-owner/maintenance-requests' }
   ];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private maintenanceRequestsService: MaintenanceRequestsService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
     console.log('MaintenanceRequestsComponent initialized');
   }
 
@@ -53,28 +40,23 @@ export class MaintenanceRequestsComponent implements OnInit {
 
   fetchComplaints() {
     console.log('fetchComplaints called');
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
-    this.http.get<Complaint[]>('http://localhost:5000/api/stadium-owner/maintenance-requests', { headers }).subscribe({
+    this.maintenanceRequestsService.getMaintenanceRequests().subscribe({
       next: (data) => {
         this.complaints = data || [];
         console.log('Fetched complaints:', this.complaints);
-        // Calculate dynamic counts
         this.totalTasks = this.complaints.length;
         this.pendingTasks = this.complaints.filter(c => c.status === 'pending').length;
         this.completedTasks = this.complaints.filter(c => c.status === 'resolved').length;
-        this.inProgressTasks = 0; // No 'in_progress' status in the table
+        this.inProgressTasks = this.complaints.filter(c => c.status === 'in_progress').length;
         this.updateCardText();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error fetching complaints:', error);
+        if (error.message.includes('401')) {
+          this.router.navigate(['/login']);
+        }
+        alert(error.message);
       }
     });
   }
@@ -86,21 +68,36 @@ export class MaintenanceRequestsComponent implements OnInit {
     this.cards[3].text = this.inProgressTasks.toString();
   }
 
-  getStadiumName(stadiumId: number | null): string {
-    const stadiums = [
-      { id: 1, name: 'YMB Sports Club' },
-      { id: 2, name: 'Peak Performance Club' }
-    ];
-    const stadium = stadiumId ? stadiums.find(s => s.id === stadiumId) : null;
-    return stadium ? stadium.name : 'Unknown';
+  viewRequest(id: number) {
+    console.log('View request:', id);
+    this.router.navigate([`/stadium-owner/maintenance-requests/${id}`]);
   }
 
-  getReportedByName(reportedById: number): string {
-    const users = [
-      { id: 18, username: 'player1' },
-      { id: 19, username: 'player2' }
-    ];
-    const user = users.find(u => u.id === reportedById);
-    return user ? user.username : 'Unknown';
+  editRequest(complaint: Complaint) {
+    console.log('Edit request:', complaint.id);
+    const newStatus = complaint.status === 'pending' ? 'resolved' : 'pending';
+    this.maintenanceRequestsService.updateMaintenanceRequest(complaint.id, newStatus).subscribe({
+      next: () => {
+        complaint.status = newStatus;
+        this.pendingTasks = this.complaints.filter(c => c.status === 'pending').length;
+        this.completedTasks = this.complaints.filter(c => c.status === 'resolved').length;
+        this.inProgressTasks = this.complaints.filter(c => c.status === 'in_progress').length;
+        this.updateCardText();
+        this.cdr.detectChanges();
+        alert('Maintenance request status updated successfully!');
+      },
+      error: (error) => {
+        console.error('Error updating request:', error);
+        if (error.message.includes('401')) {
+          this.router.navigate(['/login']);
+        }
+        alert(error.message);
+      }
+    });
+  }
+
+  viewAllRequests() {
+    console.log('View all requests called');
+    this.fetchComplaints();
   }
 }
