@@ -1,5 +1,5 @@
 .user-management-container {
-  padding: 2rem;
+  padding: 5rem;
   font-family: 'Roboto', sans-serif;
   background: #f5f5f5;
 }
@@ -43,21 +43,57 @@ mat-table {
   width: 100%;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  table-layout: fixed; /* fixes column widths */
 }
 
 mat-header-cell {
   background: #3f51b5;
   color: #000080;
   font-weight: bold;
+  padding: 12px;
+  white-space: nowrap; /* prevent header text wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 mat-cell {
   color: #333;
+  padding: 12px;
+  white-space: nowrap; /* prevent cell text wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-mat-header-cell,
-mat-cell {
-  padding: 12px;
+/* Column widths */
+
+.mat-column-name {
+  width: 25%;
+  max-width: 25%;
+  white-space: normal; /* allow line wrap */
+  word-break: break-word; /* break long words if needed */
+}
+
+.mat-column-email {
+  width: 30%;
+  max-width: 30%;
+  white-space: normal; /* allow line wrap */
+  word-break: break-word; /* break long words if needed */
+}
+
+.mat-column-phone {
+  width: 20%;
+  max-width: 20%;
+}
+
+.mat-column-role {
+  width: 20%;
+  max-width: 20%;
+}
+
+.mat-column-actions {
+  width: 15%;
+  max-width: 15%;
+  text-align: center;
 }
 
 mat-icon-button {
