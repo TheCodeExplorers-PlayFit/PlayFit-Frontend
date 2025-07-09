@@ -1,23 +1,13 @@
-<!-- cards -->
 <div class="d-flex flex-row gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
-
-    <div class="card-container mx-3" *ngFor="let card of cards">
-        <div class="card" style="width: 15rem;" [style.backgroundColor]="card.backgroundColor">
-            <div class="card-body">
-              <h2 class="card-subtitle mb-2 text-muted">{{card.subtiitle}}</h2>
-                <hr>
-      
-             <div class="d-flex justify-content-between align-items-center">
-                <p class="card-text pt-1">{{ card.text }}</p>
-                
-            </div>
-          
-            </div>
-          </div>
+  <div class="card-container" *ngFor="let card of cards">
+    <div class="card" [style.backgroundColor]="card.backgroundColor">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
+        </div>
+        <hr class="card-divider">
+        <p class="card-text">{{ card.text }}</p>
+      </div>
     </div>
-
-    
+  </div>
 </div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  

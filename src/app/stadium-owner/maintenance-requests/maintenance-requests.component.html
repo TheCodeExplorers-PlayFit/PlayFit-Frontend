@@ -1,25 +1,51 @@
-<!-- cards -->
-<div class="d-flex flex-row gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
-
-    <div class="card-container mx-3" *ngFor="let card of cards">
-        <div class="card" style="width: 15rem;" [style.backgroundColor]="card.backgroundColor">
-            <div class="card-body">
-              <h2 class="card-subtitle mb-2 text-muted">{{card.subtiitle}}</h2>
-              <hr>
-              <h2 class="card-title">{{card.value}}</h2>  
-      
-             <div class="d-flex justify-content-between align-items-center">
-               
-        
-    
-            </div>
-          
-            </div>
+<div class="container">
+  <h2>Maintenance Requests</h2>
+  <div class="d-flex flex-row gap-3" style="margin-left: 0; margin-top: 20px;">
+    <div class="card-container" *ngFor="let card of cards">
+      <div class="card" [style.backgroundColor]="card.backgroundColor">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
           </div>
+          <hr class="card-divider">
+          <p class="card-text">{{ card.text }}</p>
+        </div>
+      </div>
     </div>
-
-    
+  </div>
+  <div class="maintenance-details">
+    <h3>Maintenance Task Details</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Task ID</th>
+          <th>Description</th>
+          <th>Assigned To</th>
+          <th>Stadium Name</th>
+          <th>Start Date</th>
+          <th>Due Date</th>
+          <th>Completion Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let complaint of complaints">
+          <td>{{ complaint.id }}</td>
+          <td>{{ complaint.description }}</td>
+          <td>{{ getReportedByName(complaint.reported_by) }}</td>
+          <td>{{ getStadiumName(complaint.stadium_id) }}</td>
+          <td>{{ complaint.created_at }}</td>
+          <td>{{ complaint.created_at }}</td>
+          <td>{{ complaint.created_at }}</td>
+          <td><span class="status {{ complaint.status }}">{{ complaint.status }}</span></td>
+          <td>
+            <button class="action-btn">👁️</button>
+            <button class="action-btn">✏️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="view-all">View All</button>
+  </div>
 </div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  

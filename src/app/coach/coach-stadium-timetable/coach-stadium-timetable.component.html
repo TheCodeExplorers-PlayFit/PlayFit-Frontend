@@ -1,0 +1,45 @@
+<div class="timetable-container" *ngIf="!loading">
+  <h2>Stadium Timetable for {{ stadiumId }}</h2>
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+  </div>
+  <table *ngIf="timetable.length > 0">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Sport</th>
+        <th>Time</th>
+        <th>Availability</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let session of timetable">
+        <td>{{ session.session_date }}</td>
+        <td>{{ session.sport_name }}</td>
+        <td>{{ session.start_time }} - {{ session.end_time }}</td>
+        <td>{{ session.status }}</td>
+        <td>
+          <button *ngIf="session.status === 'available'" (click)="openPopup(session.id)" class="book-btn">Book</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="timetable.length === 0 && !error" class="empty-state">
+    <p>No sessions available.</p>
+  </div>
+</div>
+<div *ngIf="loading" class="loading-state">
+  <p>Loading timetable...</p>
+</div>
+
+<!-- Popup Modal -->
+<div *ngIf="showPopup" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Enter Coach Cost</h3>
+    <input type="number" [(ngModel)]="coachCost" placeholder="Enter coach cost" min="0" />
+    <button (click)="CoachCost()" class="cost-btn">Enter session fees</button>
+    <button [disabled]="coachCost === null" (click)="confirmBooking()" class="confirm-btn">Confirm Booking</button>
+    <button (click)="closePopup()" class="close-btn">Cancel</button>
+  </div>
+</div>
