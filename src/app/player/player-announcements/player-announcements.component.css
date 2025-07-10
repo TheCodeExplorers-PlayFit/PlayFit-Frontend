@@ -1,0 +1,90 @@
+.announcements-container {
+  padding-left: 300px; /* sidebar space */
+  padding-top: 80px;   /* navbar space */
+  padding-right: 20px;
+  padding-bottom: 20px;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.alert {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.announcement-card {
+  background: white;
+  border: 2px solid #000080; /* navy blue border */
+  border-radius: 10px;
+  width: 300px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.announcement-card:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.card-header {
+  border-bottom: 1px solid #000080;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #000080;
+}
+
+.category {
+  background-color: #000080;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.card-body p {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1rem;
+  min-height: 60px;
+}
+
+.card-footer {
+  border-top: 1px solid #000080;
+  margin-top: 12px;
+  padding-top: 8px;
+  font-size: 0.85rem;
+  color: #555;
+  text-align: right;
+}

@@ -1,1 +1,26 @@
-<p>player-announcements works!</p>
+<div class="announcements-container">
+  <h2>Announcements</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <div *ngIf="announcements.length === 0 && !errorMessage" class="alert alert-info">
+    No announcements available.
+  </div>
+
+  <div class="cards-container" *ngIf="announcements.length > 0">
+    <div class="announcement-card" *ngFor="let announcement of announcements">
+      <div class="card-header">
+        <h3>{{ announcement.title }}</h3>
+        <span class="category">{{ announcement.category }}</span>
+      </div>
+      <div class="card-body">
+        <p>{{ announcement.description }}</p>
+      </div>
+      <div class="card-footer">
+        <small>
+          Date: {{ announcement.notice_date }} | Author: {{ announcement.author }}
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
