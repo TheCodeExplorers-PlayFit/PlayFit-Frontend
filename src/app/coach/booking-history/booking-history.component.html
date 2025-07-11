@@ -1,40 +1,63 @@
-<div class="container my-5">
-  <h2 class="text-center fw-bold mb-4">Your Booking History</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking History</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .min-vh-100 {
+      min-height: 100vh; /* Full viewport height to center content vertically */
+    }
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex flex-column justify-content-center min-vh-100">
+    <div class="container my-5">
+      <h2 class="text-center fw-bold mb-4">Your Booking History</h2>
 
-  <!-- Loading -->
-  <div *ngIf="loading" class="text-center my-4">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-      <span class="visually-hidden">Loading...</span>
+      <!-- Loading -->
+      <div *ngIf="loading" class="text-center my-4">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="error && !loading" class="alert alert-danger text-center rounded-3 shadow-sm fs-5">
+        {{ error }}
+      </div>
+
+      <!-- Empty -->
+      <div *ngIf="!loading && !error && bookings.length === 0" class="alert alert-warning text-center rounded-3 shadow-sm fs-5">
+        No bookings found.
+      </div>
+
+      <!-- Booking List -->
+      <div *ngIf="!loading && bookings.length > 0" class="table-responsive">
+        <div class="table w-100">
+          <div class="row fw-bold border-bottom pb-2 mb-2 text-secondary d-none d-md-flex">
+            <div class="col-md-1">#</div>
+            <div class="col-md-4">Club</div>
+            <div class="col-md-3">Date</div>
+            <div class="col-md-4">Time</div>
+          </div>
+
+          <div *ngFor="let booking of bookings; let i = index" 
+               class="row align-items-center py-3 px-1 border-bottom hover-shadow rounded-2 mx-0">
+            <div class="col-md-1 fw-bold text-muted">{{ i + 1 }}</div>
+            <div class="col-md-4 fw-semibold">{{ booking.clubName }}</div>
+            <div class="col-md-3">{{ booking.date }}</div>
+            <div class="col-md-4">{{ booking.time }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Error -->
-  <div *ngIf="error && !loading" class="alert alert-danger text-center rounded-3 shadow-sm fs-5">
-    {{ error }}
-  </div>
-
-  <!-- Empty -->
-  <div *ngIf="!loading && !error && bookings.length === 0" class="alert alert-warning text-center rounded-3 shadow-sm fs-5">
-    No bookings found.
-  </div>
-
-  <!-- Booking List -->
-  <div *ngIf="!loading && bookings.length > 0" class="table-responsive">
-    <div class="table w-100">
-      <div class="row fw-bold border-bottom pb-2 mb-2 text-secondary d-none d-md-flex">
-        <div class="col-md-1">#</div>
-        <div class="col-md-4">Club</div>
-        <div class="col-md-3">Date</div>
-        <div class="col-md-4">Time</div>
-      </div>
-
-      <div *ngFor="let booking of bookings; let i = index" 
-           class="row align-items-center py-3 px-1 border-bottom hover-shadow rounded-2 mx-0">
-        <div class="col-md-1 fw-bold text-muted">{{ i + 1 }}</div>
-        <div class="col-md-4 fw-semibold">{{ booking.clubName }}</div>
-        <div class="col-md-3">{{ booking.date }}</div>
-        <div class="col-md-4">{{ booking.time }}</div>
-      </div>
-    </div>
-  </div>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
