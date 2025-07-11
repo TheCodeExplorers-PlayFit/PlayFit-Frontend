@@ -16,7 +16,7 @@ export class AchievementsComponent {
   bgcolor4 : string = '#F9C8F1';
   primarycolor : string = '#000080';
   buttongreen : string = '#76de1b63';
-  marginLeft = '270px';
+  marginLeft = '5px';
   marginTop = '78px';
   
 cards= [
@@ -28,17 +28,17 @@ cards= [
   {
     subtiitle : 'Top Achiever of the Month',
     value : 'Omar Aminoff',
-   backgroundColor : '#C0C0DE', 
+    backgroundColor : '#C0C0DE', 
   },
   {
     subtiitle : 'Most Active Module',
     value : 'Player, Coach',
-   backgroundColor : '#CFEDC6', 
+    backgroundColor : '#CFEDC6', 
   },
   {
     subtiitle : 'Most Recent Achievement',
     value : '100 Matches Played',
-   backgroundColor : '#F9C8F1', 
+    backgroundColor : '#F9C8F1', 
 
   },
 ]

@@ -1,8 +1,9 @@
 .container {
   padding: 50px;
   max-width: 1600px;
-  margin: 10px 0 0 400px; /* Reduced from 270px to 250px for more space */
   font-family: Arial, sans-serif;
+  margin-top: 5px;
+  margin-left: 0px;
 }
 
 .stadiums-card {

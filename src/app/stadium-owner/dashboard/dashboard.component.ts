@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  marginLeft = '270px';
+  marginLeft = '5px';
   marginTop = '78px';
   
   cards = [
@@ -31,13 +31,13 @@ export class DashboardComponent {
       subtitle: 'Review Complaints',
       text: 'Track and resolve complaints for better management.',
       backgroundColor: '#CFEDC6',
-      route: '/stadium-owner/complaints'
+      route: '/stadium-owner/maintenance-requests'
     },
     {
       subtitle: 'Explore Analytics',
       text: 'View data and performance insights for your stadiums.',
       backgroundColor: '#F9C8F1',
-      route: '/stadium-owner/content-controller'
+      route: '/stadium-owner/waitlist'
     }
   ];
 }

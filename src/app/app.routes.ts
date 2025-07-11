@@ -138,7 +138,6 @@ export const routes: Routes = [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
       { path: 'stadiums', component: StadiumsComponent },
       { path: 'add-stadium', component: AddStadiumComponent },
-      { path: '', redirectTo: '/stadium-owner/stadiums', pathMatch: 'full' },
       { path: 'complaints', component: ComplaintsComponent },
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
