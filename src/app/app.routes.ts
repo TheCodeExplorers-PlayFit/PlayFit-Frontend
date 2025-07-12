@@ -29,6 +29,7 @@ import { CoachComplaintsComponent } from './coach/CoachComplaints/CoachComplaint
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
 import { SalaryDetailsComponent } from './coach/salary-details/salary-details.component';
+import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -118,6 +119,7 @@ export const routes: Routes = [
     path: 'coach',
     component: CoachLayoutComponent,
     children: [
+      { path: 'view-session-details',component: SessionDetailsComponent},
       { path: 'dashboard', component: CoachDashboardComponent },
       { path: 'booking-history', component: BookingHistoryComponent },
       { path: 'stadium-list', component: StadiumListComponent },

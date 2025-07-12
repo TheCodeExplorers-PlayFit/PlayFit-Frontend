@@ -1,0 +1,16 @@
+<div class="container mx-auto p-4">
+  <h2 class="text-2xl font-bold mb-4">Session Details</h2>
+  <div *ngIf="error" class="text-red-500 mb-4">{{ error }}</div>
+  <div *ngIf="sessions?.length; else noSessions" class="space-y-4">
+    <div *ngFor="let session of sessions" class="border p-4 rounded">
+      <h3 class="text-lg font-semibold">Session ID: {{ session.sessionId }}</h3>
+      <p>Date: {{ session.date }}</p>
+      <p>Time: {{ session.startTime }} - {{ session.endTime }}</p>
+      <p>Number of Players: {{ session.playerCount }}</p>
+      <p>Players: {{ session.players.join(', ') || 'None' }}</p>
+    </div>
+  </div>
+  <ng-template #noSessions>
+    <p>No sessions found.</p>
+  </ng-template>
+</div>
