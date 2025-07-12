@@ -13,7 +13,38 @@
     </div>
   </div>
 
-  <h2 style="color: black;">Achievement List</h2>
+  <!-- Edit Form -->
+  <div *ngIf="editingAchievement" class="modal" tabindex="-1" style="display: block;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Achievement</h5>
+          <button type="button" class="btn-close" (click)="editingAchievement = null"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Points</label>
+              <input [(ngModel)]="editForm.points" name="points" type="number" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <input [(ngModel)]="editForm.status" name="status" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date Earned</label>
+              <input [(ngModel)]="editForm.dateEarned" name="dateEarned" type="date" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="editingAchievement = null">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="saveEdit()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Achievement List Table -->
   <div class="card mb-4">
     <div class="card-body">
@@ -41,15 +72,14 @@
             <td>{{ achievement.mostRecent || 'N/A' }}</td>
             <td>
               <button (click)="onEdit(achievement)" class="btn btn-primary btn-sm me-2">Edit</button>
-              <button (click)="onView(achievement)" class="btn btn-secondary btn-sm">View</button>
+              <button (click)="deleteAchievement(achievement.id)" class="btn btn-danger btn-sm">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  
-  <h3 style="color: black; text-align: center; margin: 0 auto; width: 50%;">Top 3 Achievers</h3>
+  <h1 style="color: black; text-align: center; margin: 0 auto; width: 50%;">Achievement List</h1>
 
   <!-- Top 3 Achievers as Cards -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">

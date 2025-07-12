@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { AchievementsService } from '../../services/achievements/achievements.service';
 import { Achievement } from '../../models/achievement';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 interface Card {
   subtitle: string;
@@ -11,6 +13,7 @@ interface Card {
 }
 
 export interface ExtendedAchievement extends Achievement {
+  id: number;
   stadiumName: string;
   dateEarned: string;
   userType: string;
@@ -21,7 +24,7 @@ export interface ExtendedAchievement extends Achievement {
 @Component({
   selector: 'app-achievements',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.css']
 })
@@ -35,10 +38,12 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   cards: Card[] = [];
   achievements: ExtendedAchievement[] = [];
   top3Achievers: ExtendedAchievement[] = [];
+  editingAchievement: ExtendedAchievement | null = null;
+  editForm = { points: 0, status: '', dateEarned: '' };
 
   private subscriptions: Subscription[] = [];
 
-  constructor(@Inject(AchievementsService) private achievementsService: AchievementsService) {
+  constructor(@Inject(AchievementsService) private achievementsService: AchievementsService, private http: HttpClient) {
     console.log('AchievementsComponent initialized');
   }
 
@@ -68,9 +73,10 @@ export class AchievementsComponent implements OnInit, OnDestroy {
         next: (data: any[]) => {
           console.log('Received achievement details:', data);
           this.achievements = data.map(item => ({
-            totalUnlocked: 0, // Not from details; use getAchievements
+            id: item.id,
+            totalUnlocked: 0,
             topAchiever: item.achievementName,
-            mostActiveModule: 'N/A', // Fetch if available
+            mostActiveModule: 'N/A',
             mostRecent: item.status,
             stadiumName: item.stadiumName || 'N/A',
             dateEarned: item.dateEarned || new Date().toISOString().split('T')[0],
@@ -81,7 +87,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
         },
         error: (err: any) => {
           console.error('Achievement details error:', err);
-          this.achievements = [{ totalUnlocked: 0, topAchiever: 'N/A', mostActiveModule: 'N/A', mostRecent: 'N/A', stadiumName: 'N/A', dateEarned: '', userType: 'N/A', points: 0, achievementName: 'N/A' }];
+          this.achievements = [{ id: 0, totalUnlocked: 0, topAchiever: 'N/A', mostActiveModule: 'N/A', mostRecent: 'N/A', stadiumName: 'N/A', dateEarned: '', userType: 'N/A', points: 0, achievementName: 'N/A' }];
         }
       })
     );
@@ -91,12 +97,13 @@ export class AchievementsComponent implements OnInit, OnDestroy {
         next: (data: any[]) => {
           console.log('Received top 3 achievers:', data);
           this.top3Achievers = data.map(item => ({
-            totalUnlocked: 0, // Not applicable here
+            id: 0, // Not applicable here
+            totalUnlocked: 0,
             topAchiever: item.topAchiever,
             mostActiveModule: 'N/A',
             mostRecent: 'N/A',
-            stadiumName: 'N/A', // Fetch if needed
-            dateEarned: '', // Fetch if needed
+            stadiumName: 'N/A',
+            dateEarned: '',
             userType: item.userType,
             points: item.points,
             achievementName: item.topAchiever
@@ -114,13 +121,64 @@ export class AchievementsComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  onEdit(achievement: ExtendedAchievement) {
-    console.log('Edit clicked for:', achievement.achievementName);
-    // Placeholder: Add navigation or form logic here
+  startEdit(achievement: ExtendedAchievement) {
+    this.editingAchievement = { ...achievement };
+    this.editForm = {
+      points: achievement.points,
+      status: achievement.mostRecent || '',
+      dateEarned: achievement.dateEarned
+    };
   }
 
-  onView(achievement: ExtendedAchievement) {
-    console.log('View clicked for:', achievement.achievementName);
-    // Placeholder: Add navigation or detail display logic here
+  saveEdit() {
+    if (this.editingAchievement) {
+      const url = `http://localhost:5000/api/achievement/${this.editingAchievement.id}`;
+      this.http.put(url, this.editForm).subscribe({
+        next: () => {
+          console.log('Achievement updated');
+          this.editingAchievement = null;
+          this.loadAchievements();
+        },
+        error: (err) => console.error('Update error:', err)
+      });
+    }
+  }
+
+  deleteAchievement(id: number) {
+    const url = `http://localhost:5000/api/achievement/${id}`;
+    this.http.delete(url).subscribe({
+      next: () => {
+        console.log('Achievement deleted');
+        this.loadAchievements();
+      },
+      error: (err) => console.error('Delete error:', err)
+    });
+  }
+
+  loadAchievements() {
+    this.subscriptions.push(
+      this.achievementsService.getAchievementDetails().subscribe({
+        next: (data: any[]) => {
+          console.log('Reloaded achievement details:', data);
+          this.achievements = data.map(item => ({
+            id: item.id,
+            totalUnlocked: 0,
+            topAchiever: item.achievementName,
+            mostActiveModule: 'N/A',
+            mostRecent: item.status,
+            stadiumName: item.stadiumName || 'N/A',
+            dateEarned: item.dateEarned || new Date().toISOString().split('T')[0],
+            userType: item.userType || 'N/A',
+            points: item.points || 0,
+            achievementName: item.achievementName || 'N/A'
+          }));
+        },
+        error: (err) => console.error('Reload error:', err)
+      })
+    );
+  }
+
+  onEdit(achievement: ExtendedAchievement) {
+    this.startEdit(achievement);
   }
 }

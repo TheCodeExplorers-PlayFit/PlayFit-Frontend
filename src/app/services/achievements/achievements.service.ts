@@ -16,13 +16,23 @@ export class AchievementsService {
     return this.http.get<Achievement>(`${this.apiUrl}/achievements`);
   }
 
-  getAchievementDetails(): Observable<any> {
+  getAchievementDetails(): Observable<any[]> {
     console.log('Fetching achievement details from:', `${this.apiUrl}/achievement-details`);
-    return this.http.get<any>(`${this.apiUrl}/achievement-details`);
+    return this.http.get<any[]>(`${this.apiUrl}/achievement-details`);
   }
 
   getTop3Achievers(): Observable<any[]> {
     console.log('Fetching top 3 achievers from:', `${this.apiUrl}/top-achievers`);
     return this.http.get<any[]>(`${this.apiUrl}/top-achievers`);
+  }
+
+  updateAchievement(id: number, data: any): Observable<any> {
+    console.log('Updating achievement from:', `${this.apiUrl}/achievement/${id}`);
+    return this.http.put(`${this.apiUrl}/achievement/${id}`, data);
+  }
+
+  deleteAchievement(id: number): Observable<any> {
+    console.log('Deleting achievement from:', `${this.apiUrl}/achievement/${id}`);
+    return this.http.delete(`${this.apiUrl}/achievement/${id}`);
   }
 }
