@@ -1,55 +1,16 @@
-/* dashboard-cards.component.css */
 .card-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card {
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 15rem !important; /* Forces consistent width */
-    flex: 0 0 15rem; /* Prevents shrinking */
-    text-align: center;
-  }
-  
-  .card h3 {
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .card p {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
-  .card .learn-more {
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-
-  .d-flex {
-    display: flex;
-    flex-wrap: nowrap;  /* Prevents wrapping */
-    overflow-x: auto;   /* Allows horizontal scrolling if needed */
-    gap: 1rem;
+  transition: transform 0.2s;
 }
 
-.card-container {
-    flex: 0 0 auto; /* Prevents cards from shrinking */
-    width: 15rem; /* Ensures all cards have a fixed width */
+.card-container:hover {
+  transform: scale(1.05);
 }
 
-  
-  .red { background-color: #F3A4A4; }
-  .blue { background-color: #C0C0DE; }
-  .green { background-color: #CFEDC6; }
-  .pink { background-color: #F9C8F1; }
+.card-title {
+  color: #000080;
+  font-weight: bold;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+}
