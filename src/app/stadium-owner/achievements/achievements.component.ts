@@ -49,6 +49,14 @@ export class AchievementsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('ngOnInit called');
+    this.loadAllData();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  loadAllData() {
     this.subscriptions.push(
       this.achievementsService.getAchievements().subscribe({
         next: (data: Achievement) => {
@@ -117,10 +125,6 @@ export class AchievementsComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
   startEdit(achievement: ExtendedAchievement) {
     this.editingAchievement = { ...achievement };
     this.editForm = {
@@ -137,7 +141,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
         next: () => {
           console.log('Achievement updated');
           this.editingAchievement = null;
-          this.loadAchievements();
+          this.loadAllData(); // Reload all data to reflect new points order
         },
         error: (err) => console.error('Update error:', err)
       });
@@ -149,33 +153,10 @@ export class AchievementsComponent implements OnInit, OnDestroy {
     this.http.delete(url).subscribe({
       next: () => {
         console.log('Achievement deleted');
-        this.loadAchievements();
+        this.loadAllData(); // Reload all data to reflect new top achiever/top 3
       },
       error: (err) => console.error('Delete error:', err)
     });
-  }
-
-  loadAchievements() {
-    this.subscriptions.push(
-      this.achievementsService.getAchievementDetails().subscribe({
-        next: (data: any[]) => {
-          console.log('Reloaded achievement details:', data);
-          this.achievements = data.map(item => ({
-            id: item.id,
-            totalUnlocked: 0,
-            topAchiever: item.achievementName,
-            mostActiveModule: 'N/A',
-            mostRecent: item.status,
-            stadiumName: item.stadiumName || 'N/A',
-            dateEarned: item.dateEarned || new Date().toISOString().split('T')[0],
-            userType: item.userType || 'N/A',
-            points: item.points || 0,
-            achievementName: item.achievementName || 'N/A'
-          }));
-        },
-        error: (err) => console.error('Reload error:', err)
-      })
-    );
   }
 
   onEdit(achievement: ExtendedAchievement) {
