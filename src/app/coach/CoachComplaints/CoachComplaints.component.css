@@ -1,6 +1,6 @@
 .complaints-container {
   padding-left: 300px; /* Space for sidebar */
-  padding-top: 80px; /* Space for navbar */
+  padding-top: 20px;   /* Reduced from 80px for better vertical spacing */
   padding-right: 20px;
   padding-bottom: 20px;
   background-color: #FFFFFF; /* White background */

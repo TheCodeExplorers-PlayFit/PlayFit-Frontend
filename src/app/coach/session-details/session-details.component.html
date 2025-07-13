@@ -1,16 +1,31 @@
-<div class="container mx-auto p-4">
-  <h2 class="text-2xl font-bold mb-4">Session Details</h2>
-  <div *ngIf="error" class="text-red-500 mb-4">{{ error }}</div>
-  <div *ngIf="sessions?.length; else noSessions" class="space-y-4">
-    <div *ngFor="let session of sessions" class="border p-4 rounded">
-      <h3 class="text-lg font-semibold">Session ID: {{ session.sessionId }}</h3>
-      <p>Date: {{ session.date }}</p>
-      <p>Time: {{ session.startTime }} - {{ session.endTime }}</p>
-      <p>Number of Players: {{ session.playerCount }}</p>
-      <p>Players: {{ session.players.join(', ') || 'None' }}</p>
+<div class="container py-5" style="padding-top: 2rem;">
+  <h2 class="display-6 fw-bold mb-5 text-primary">Session Details</h2>
+  <div *ngIf="error" class="alert alert-danger mb-4" role="alert">{{ error }}</div>
+  <div *ngIf="sessions?.length; else noSessions" class="row g-4">
+    <div *ngFor="let session of sessions" class="col-12 col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100 transition-all hover-shadow">
+        <div class="card-body">
+          <h3 class="card-title h5 fw-bold text-dark">Session ID: {{ session.sessionId }}</h3>
+          <p class="card-text"><strong>Date:</strong> {{ session.date }}</p>
+          <p class="card-text"><strong>Time:</strong> {{ session.startTime }} - {{ session.endTime }}</p>
+          <p class="card-text"><strong>Number of Players:</strong> {{ session.playerCount }}</p>
+          <p class="card-text"><strong>Players:</strong> {{ session.players.join(', ') || 'None' }}</p>
+        </div>
+      </div>
     </div>
   </div>
   <ng-template #noSessions>
-    <p>No sessions found.</p>
+    <div class="alert alert-info text-center" role="alert">
+      No sessions found.
+    </div>
   </ng-template>
 </div>
+
+<style>
+  .transition-all {
+    transition: all 0.3s ease;
+  }
+  .hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+</style>
