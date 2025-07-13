@@ -21,9 +21,9 @@ export class AchievementsService {
     return this.http.get<any[]>(`${this.apiUrl}/achievement-details`);
   }
 
-  getTop3Achievers(): Observable<any[]> {
-    console.log('Fetching top 3 achievers from:', `${this.apiUrl}/top-achievers`);
-    return this.http.get<any[]>(`${this.apiUrl}/top-achievers`);
+  getTopAchieversByStadium(): Observable<any[]> {
+    console.log('Fetching top achievers by stadium from:', `${this.apiUrl}/top-achievers-by-stadium`);
+    return this.http.get<any[]>(`${this.apiUrl}/top-achievers-by-stadium`);
   }
 
   updateAchievement(id: number, data: any): Observable<any> {
