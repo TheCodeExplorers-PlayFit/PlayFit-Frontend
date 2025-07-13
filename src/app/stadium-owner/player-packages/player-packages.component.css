@@ -102,7 +102,7 @@ h3 {
 }
 
 .edit-btn {
-  background-color: #007bff;
+  background-color: #000080;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -116,7 +116,7 @@ h3 {
 }
 
 .delete-btn {
-  background-color: #dc3545;
+  background-color: #ba1829;
   color: white;
   padding: 5px 10px;
   border: none;
