@@ -1,0 +1,6 @@
+/* Optional: add this to ensure responsiveness */
+@media (max-width: 767px) {
+  .row > div {
+    margin-bottom: 1rem;
+  }
+}
