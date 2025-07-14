@@ -1,3 +1,4 @@
+// players-health-records.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -17,6 +18,7 @@ export class PlayersHealthRecordsComponent implements OnInit {
   filteredAppointments: any[] = [];
   selectedPlayer: any = null;
   searchTerm: string = '';
+  injuries: any[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -30,7 +32,9 @@ export class PlayersHealthRecordsComponent implements OnInit {
         if (res.success) {
           this.appointments = res.data;
           this.filteredAppointments = [...this.appointments];
-          this.selectedPlayer = this.filteredAppointments[0];
+          if (this.filteredAppointments.length > 0) {
+            this.selectPlayer(this.filteredAppointments[0]);
+          }
         }
       },
       error: (err) => console.error('Failed to fetch appointments', err)
@@ -43,16 +47,33 @@ export class PlayersHealthRecordsComponent implements OnInit {
       `${p.first_name} ${p.last_name}`.toLowerCase().startsWith(term)
     );
 
-    // Auto-select first if exists
     if (this.filteredAppointments.length > 0) {
-      this.selectedPlayer = this.filteredAppointments[0];
+      this.selectPlayer(this.filteredAppointments[0]);
     } else {
       this.selectedPlayer = null;
+      this.injuries = [];
     }
   }
 
   selectPlayer(player: any) {
     this.selectedPlayer = player;
+    this.fetchInjuriesByPlayerId(player.player_id); // Important: use `player_id` not `id`
+  }
+
+  fetchInjuriesByPlayerId(playerId: number) {
+    this.http.get<any>(`http://localhost:5000/api/injuries/player/${playerId}`).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.injuries = res.data;
+        } else {
+          this.injuries = [];
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch injuries', err);
+        this.injuries = [];
+      }
+    });
   }
 
   goToAddInjury(appointmentId: number) {

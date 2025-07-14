@@ -57,7 +57,7 @@ injuryCause: string[] = [
       type_of_injury: ['', Validators.required],
       injury_severity: ['', Validators.required],
       first_aid_given: [false, Validators.required],
-      health_officer_name: ['', Validators.required],
+      health_officer_id: ['', Validators.required],
       treatment_plan: ['']
     });
   }

@@ -1,10 +1,10 @@
+<!-- players-health-records.component.html -->
 <div class="container-fluid p-4">
   <h1 class="fw-bold mb-4" [style.marginTop]="marginTop">Players’ Health Records</h1>
 
   <div class="row">
     <!-- LEFT PANEL -->
     <div class="col-md-5">
-      <!-- Search Field -->
       <div class="input-group mb-3">
         <span class="input-group-text bg-light border-0">🔍</span>
         <input
@@ -16,9 +16,6 @@
         />
       </div>
 
-   
-
-      <!-- Player List -->
       <div *ngFor="let player of filteredAppointments" class="card mb-2 shadow-sm"
            [class.border-primary]="selectedPlayer?.id === player.id"
            (click)="selectPlayer(player)" style="cursor: pointer;">
@@ -44,14 +41,42 @@
         </div>
 
         <p class="mb-1"><strong>Age:</strong> <span class="text-primary">{{ selectedPlayer.age }} years</span></p>
-        <p class="mb-1"><strong>Phone Number:</strong> 
+        <p class="mb-1"><strong>Phone Number:</strong>
           <a [href]="'tel:' + selectedPlayer.mobile_number">{{ selectedPlayer.mobile_number }}</a>
         </p>
         <p class="mb-3"><strong>Email:</strong> {{ selectedPlayer.email }}</p>
 
-        <button class="btn btn-primary" (click)="goToAddInjury(selectedPlayer.id)">
+        <button class="btn btn-primary mb-4" (click)="goToAddInjury(selectedPlayer.id)">
           Add Injury details
         </button>
+
+        <!-- Injury Records Table -->
+        <h5>Injury History</h5>
+        <div *ngIf="injuries.length > 0; else noInjuries">
+          <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Severity</th>
+                <th>First Aid</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let injury of injuries">
+                <td>{{ injury.date_of_injury }}</td>
+                <td>{{ injury.time_of_injury }}</td>
+                <td>{{ injury.type_of_injury }}</td>
+                <td>{{ injury.injury_severity }}</td>
+                <td>{{ injury.first_aid_given ? 'Yes' : 'No' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #noInjuries>
+          <p class="text-muted">No injury records found for this player.</p>
+        </ng-template>
       </div>
     </div>
   </div>
