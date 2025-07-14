@@ -11,10 +11,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./coach-blog-post.component.css']
 })
 export class CoachBlogPostComponent {
-  title: string = '';
-  content: string = '';
+  title = '';
+  content = '';
   image: File | null = null;
-  message: string = '';
+  message = '';
+  isUploading = false;
+
+  cloudName = 'dfafezdx5'; // put your Cloudinary cloud name here
+  uploadPreset = 'unsigned_preset'; // create this in your Cloudinary dashboard
 
   constructor(private http: HttpClient) {}
 
@@ -22,35 +26,52 @@ export class CoachBlogPostComponent {
     this.image = event.target.files[0];
   }
 
-  submitBlog() {
-  if (!this.title || !this.content) {
-    this.message = 'Title and Content are required.';
-    return;
+  async uploadImageToCloudinary(file: File): Promise<string> {
+    const url = `https://api.cloudinary.com/v1_1/${this.cloudName}/upload`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', this.uploadPreset);
+
+    const response: any = await this.http.post(url, formData).toPromise();
+    return response.secure_url; // this is the image URL
   }
 
-  const formData = new FormData();
-  formData.append('title', this.title);
-  formData.append('content', this.content);
-  if (this.image) {
-    formData.append('image', this.image);
-  }
+  async submitBlog() {
+    if (!this.title || !this.content) {
+      this.message = 'Title and Content are required.';
+      return;
+    }
 
-  // Get the token from localStorage or wherever you store it
-  const token = localStorage.getItem('token') || '';
+    this.isUploading = true;
+    this.message = '';
 
-  this.http.post('http://localhost:5000/api/coach-sessions/blogs', formData, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  .subscribe({
-    next: () => {
+    try {
+      let imageUrl = null;
+      if (this.image) {
+        imageUrl = await this.uploadImageToCloudinary(this.image);
+      }
+
+      const token = localStorage.getItem('token') || '';
+      const blogData = {
+        title: this.title,
+        content: this.content,
+        image: imageUrl,
+        status: 'pending',
+      };
+
+      await this.http.post('http://localhost:5000/api/coach-sessions/blogs', blogData, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).toPromise();
+
       this.message = 'Blog submitted successfully!';
       this.title = '';
       this.content = '';
       this.image = null;
-    },
-    error: () => {
+    } catch (error) {
+      console.error(error);
       this.message = 'Error submitting blog.';
+    } finally {
+      this.isUploading = false;
     }
-  });
-}
+  }
 }
