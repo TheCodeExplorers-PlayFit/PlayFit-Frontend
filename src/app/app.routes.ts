@@ -54,6 +54,7 @@ import { SignInFormCoachComponent } from './register/sign-in-form-coach/sign-in-
 import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medical-officer/sign-in-form-medical-officer.component';
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
+import { BlogsDisplayComponent } from './common/blogs/blogs.component';
 
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
@@ -129,6 +130,7 @@ export const routes: Routes = [
       { path: 'coach-stadium-timetable/:id',component: CoachStadiumtimetableComponent},
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
+      { path: 'blogs', component: BlogsDisplayComponent },
 
       ]
   
