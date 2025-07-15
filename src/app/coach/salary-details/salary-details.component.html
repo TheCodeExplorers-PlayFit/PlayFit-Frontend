@@ -1,29 +1,56 @@
-<div class="container">
-  <h2>Your Salary Details</h2>
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
 
-  <!-- Loading state -->
-  <div *ngIf="loading" class="spinner">Loading...</div>
+      <!-- Title -->
+      <h2 class="text-center fw-bold mb-5" style="color: #260eac; letter-spacing: 1px;">
+        Your Salary Details
+      </h2>
 
-  <!-- Error state -->
-  <div *ngIf="error && !loading" class="alert alert-danger">
-    {{ error }}
-  </div>
+      <!-- Loading Spinner -->
+      <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
 
-  <!-- Salary cards -->
-  <div *ngIf="coachSalaries.length > 0 && !loading" class="salary-box">
-    <div *ngFor="let salary of coachSalaries" class="salary-card">
-      <p><strong> Your Coach ID:</strong> {{ salary.coach_id }}</p>
-      <p><strong> Your Name:</strong> {{ salary.coach_name || 'N/A' }}</p>
-      <p><strong> Total Salary:</strong> {{ salary.total_salary | currency:'USD' }}</p>
+      <!-- Error Message -->
+      <div *ngIf="error && !loading" class="alert alert-danger text-center fs-5 py-3 rounded-3">
+        {{ error }}
+      </div>
+
+      <!-- Salary Details Card -->
+      <div *ngIf="!loading && coachSalaries.length > 0" class="card shadow border-0 rounded-4">
+        <div class="card-body px-5 py-4">
+          <div *ngFor="let salary of coachSalaries" class="mb-4">
+            <p class="mb-2 fs-5">
+              <span class="fw-semibold text-secondary">Coach ID:</span> 
+              <span class="text-dark">{{ salary.coach_id }}</span>
+            </p>
+            <p class="mb-2 fs-5">
+              <span class="fw-semibold text-secondary">Name:</span> 
+              <span class="text-dark">{{ salary.coach_name || 'N/A' }}</span>
+            </p>
+            <p class="fs-5">
+              <span class="fw-semibold text-secondary">Total Salary:</span> 
+              <span class="text-success fs-4">${{ salary.total_salary | number:'1.2-2' }}</span>
+            </p>
+          </div>
+
+          <!-- PDF Download Button -->
+          <div class="text-end mt-4">
+            <button class="btn btn-success px-5 py-2 rounded-pill shadow-sm" (click)="generateSalaryReport()">
+              <i class="bi bi-download me-2"></i> Download Salary Report
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Data Message -->
+      <div *ngIf="coachSalaries.length === 0 && !loading && !error" class="alert alert-info text-center mt-5 fs-5 rounded-3">
+        No salary data available.
+      </div>
+
     </div>
-  </div>
-
-  
-  <!-- Button to generate PDF -->
-  <button class="pdf-btn" (click)="generateSalaryReport()">Download Your Salary Report</button>
-
-  <!-- No data state -->
-  <div *ngIf="coachSalaries.length === 0 && !error && !loading" class="alert alert-info">
-    No salary data available.
   </div>
 </div>
