@@ -28,6 +28,11 @@ export class HealthTipsService {
     return this.http.post<any>(this.apiUrl, healthTipData);
   }
 
+getHealthTipsByOfficerId(officerId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/by-officer/${officerId}`);
+}
+
+
   getHealthTips(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
