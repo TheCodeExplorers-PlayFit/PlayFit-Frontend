@@ -25,10 +25,11 @@
           <td>{{ pkg.duration }}</td>
           <td>{{ pkg.sport }}</td>
           <td>{{ pkg.stadium_name }}</td>
-          <td>
-            <button class="edit-btn" (click)="enableEdit(pkg)">Edit</button>
-            <button class="delete-btn" (click)="deletePackage(pkg.id)">Delete</button>
-          </td>
+          <td class="d-flex gap-2">
+  <button class="btn edit-btn" (click)="enableEdit(pkg)">Edit</button>
+  <button class="btn delete-btn" (click)="deletePackage(pkg.id)">Delete</button>
+</td>
+
         </tr>
       </tbody>
     </table>
