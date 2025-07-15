@@ -16,7 +16,7 @@ import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.com
 import { StadiumsComponent } from './stadium-owner/stadiums/stadiums.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
-import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
+import { BlogsComponent as StadiumOwnerBlogsComponent} from './stadium-owner/blogs/blogs.component';
 import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
 import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 
@@ -138,7 +138,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
       { path: 'stadiums', component: StadiumsComponent },
       { path: 'add-stadium', component: AddStadiumComponent },
-      { path: 'complaints', component: ComplaintsComponent },
+      { path: 'blogs', component:BlogsComponent},
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
       { path: 'player-packages', component: PlayerPackagesComponent },
