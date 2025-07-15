@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="section">
+    <h2>Rate Stadiums</h2>
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="stadiumSearchQuery" (ngModelChange)="onStadiumSearchChange($event)" placeholder="Search for a stadium...">
+    </div>
+    <div class="results">
+      <div *ngFor="let stadium of stadiums" class="result-item" (click)="openRatingsPopup('stadium', stadium.id, stadium.name)">
+        {{ stadium.name }}
+      </div>
+      <p *ngIf="stadiumSearchQuery && !stadiums.length">No stadiums found.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Rate Coaches</h2>
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="coachSearchQuery" (ngModelChange)="onCoachSearchChange($event)" placeholder="Search for a coach...">
+    </div>
+    <div class="results">
+      <div *ngFor="let coach of coaches" class="result-item" (click)="openRatingsPopup('coach', coach.id, coach.first_name + ' ' + coach.last_name)">
+        {{ coach.first_name }} {{ coach.last_name }}
+      </div>
+      <p *ngIf="coachSearchQuery && !coaches.length">No coaches found.</p>
+    </div>
+  </div>
+</div>
