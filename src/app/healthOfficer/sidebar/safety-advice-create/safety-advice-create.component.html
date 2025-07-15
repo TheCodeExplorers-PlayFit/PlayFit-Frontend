@@ -1,66 +1,150 @@
-<h1 [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">Add Safety Advice & Tips</h1>
-<h6 [style.marginLeft]="marginLeft">Share your expertise on sports health, recovery, and wellness.</h6>
-<br>
-<form action="">
-<div class="blogpost container" >
-    <div class="bd-example" [style.marginLeft]="marginLeft">
-        <form>
-            <!-- blog title -->
-          <div class="form-group" [ngStyle]="{'width':contentWidth}">
-            <label for="inputTitle"  class="form-label">Enter Blog Title</label> <br>  <br>
-            <input type="text"  class="form-control" id="inputTitle" [placeholder]="placeholder1" [ngStyle]="{'background-color':bgColor}">
-          </div>
-          <br>
-          <!-- Category -->
-          <div class="form-group  position-relative" [ngStyle]="{'width':contentWidth}">
-            <label for="inputCategory" class="form-label">Category</label><br><br>
-            
-            <div class="dropdown-wrapper">
-            <select class="form-select" id="inputCategory" [ngStyle]="{'background-color':bgColor}" required> 
-              <option *ngFor="let categories of categoryList">{{categories}}</option>
-            </select>
-            <i class="bi bi-chevron-down dropdown-icon"></i> <!-- Bootstrap Icon -->
-          </div>
-          </div>
-          <br>
+<form (ngSubmit)="onSubmit()" class="container-fluid p-4" style="max-width: 600px; margin: 0 auto;">
+  <div class="mb-4">
+    <h2 class="fw-bold mb-2">Add Safety Advice & Tips</h2>
+    <p class="text-muted">Share your expertise on sports health, recovery, and wellness.</p>
+  </div>
 
-        <!-- blog content -->
-        <div class="form-group" [ngStyle]="{'width':contentWidth}">
-          <label for="inputcontent">Blog Content</label> <br>  <br>
-                <!-- Toolbar for Formatting -->
-      <div class="toolbar" [ngStyle]="{'width':contentWidth}">
-        <button type="button" (click)="formatText('bold')"><i class="bi bi-type-bold"></i></button>
-        <button type="button" (click)="formatText('italic')"><i class="bi bi-type-italic"></i></button>
-        <button type="button" (click)="formatText('underline')"><i class="bi bi-type-underline"></i></button>
-        <button type="button" (click)="formatText('insertOrderedList')"><i class="bi bi-list-ol"></i></button>
-        <button type="button" (click)="formatText('insertUnorderedList')"><i class="bi bi-list-ul"></i></button>
-        <button type="button" (click)="undo()"><i class="bi bi-arrow-counterclockwise"></i></button>
-        <button type="button" (click)="redo()"><i class="bi bi-arrow-clockwise"></i></button>
+  <!-- Title Input -->
+  <div class="mb-3">
+    <label for="title" class="form-label fw-medium">Enter Title</label>
+    <input 
+      type="text" 
+      id="title"
+      [(ngModel)]="title" 
+      name="title" 
+      class="form-control" 
+      placeholder="Effective Recovery Strategies for Athletes"
+      required>
+  </div>
+
+  <!-- Category Select -->
+  <div class="mb-3">
+    <label for="category" class="form-label fw-medium">Category</label>
+    <select 
+      id="category"
+      [(ngModel)]="category" 
+      name="category" 
+      class="form-select" 
+      required>
+      <option value="" disabled selected>Nutrition</option>
+      <option *ngFor="let cat of categoryList" [value]="cat">{{ cat }}</option>
+    </select>
+  </div>
+
+  <!-- Content Editor -->
+  <div class="mb-3">
+    <label class="form-label fw-medium">Content</label>
+    
+    <!-- Toolbar -->
+    <div class="border border-bottom-0 bg-light p-2 rounded-top">
+      <div class="d-flex gap-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('bold')" title="Bold">
+          <strong>B</strong>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('italic')" title="Italic">
+          <em>I</em>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('underline')" title="Underline">
+          <u>U</u>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('strikeThrough')" title="Strikethrough">
+          <s>T</s>
+        </button>
+        <div class="vr mx-1"></div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('insertUnorderedList')" title="Bullet List">
+          ≡
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('insertOrderedList')" title="Numbered List">
+          1.
+        </button>
+        <div class="vr mx-1"></div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('createLink')" title="Link">
+          🔗
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('insertImage')" title="Image">
+          🖼️
+        </button>
+        <div class="vr mx-1"></div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('justifyLeft')" title="Align Left">
+          ⬅️
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="formatText('justifyCenter')" title="Align Center">
+          ↔️
+        </button>
       </div>
-      <div contenteditable="true" class="form-control" #editor [ngStyle]="{'background-color':bgColor,'height':marginLeft}" > 
-      </div> 
-         
-        </div>
-        <br>
+    </div>
 
-        <!-- feature image -->
-        <div class="form-group" [ngStyle]="{'width':contentWidth}">
-          <label for="inputImage">Featured Image</label> <br>  
-           <small class="form-text text-muted">Upload button to add a thumbnail image</small> <br><br>
-            <input class="form-control" type="file" id="inputImage" [ngStyle]="{'background-color':bgColor}" >
-            <small class="form-text" [ngStyle]="{'color':textred}">supports JPG, JPEG, PNG</small> 
+    <!-- Editor Area -->
+    <div 
+      #editor 
+      contenteditable="true" 
+      class="form-control border-top-0 rounded-bottom" 
+      style="min-height: 200px; resize: vertical; overflow-y: auto;"
+      (input)="onContentChange()"
+      (paste)="onPaste($event)">
+    </div>
+  </div>
+
+  <!-- Image Upload -->
+  <div class="mb-4">
+    <label class="form-label fw-medium">Featured Image</label>
+    <p class="text-muted small mb-2">Upload button to add a thumbnail image</p>
+    
+    <div 
+      class="border border-2 border-dashed rounded p-5 text-center"
+      [class.border-primary]="isDragOver"
+      [class.bg-light]="isDragOver"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      (click)="inputImage.click()"
+      style="cursor: pointer; min-height: 120px; display: flex; flex-direction: column; justify-content: center;">
+      
+      <div *ngIf="!selectedImage">
+        <div class="mb-3">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-muted">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21,15 16,10 5,21"/>
+          </svg>
         </div>
-        <br>
- 
-        <button type="submit" class="btn btn-primary " [ngStyle]="{'background-color': primaryColor, 'border-color': primaryColor,'width':buttonWidth}"><a  [routerLink]="'/safetyAdvice'" routerLinkActive="active" style="text-decoration: none;" [style.color]="pureWhite">Publish</a></button>
-        <button type="submit" class="btn btn-primary mx-2" [ngStyle]="{'background-color':pureWhite,'color': primaryColor, 'border-color': primaryColor,'width':buttonWidth}">Cancel</button>
-        </form>
-        </div>
-</div>
+        <p class="mb-1 text-muted">Drop your image here, or browse</p>
+        <p class="small text-muted">Supports: JPG, JPEG, PNG</p>
+      </div>
+
+      <div *ngIf="selectedImage" class="position-relative">
+        <img [src]="selectedImage" class="img-fluid rounded" style="max-height: 200px;">
+        <button 
+          type="button" 
+          class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+          (click)="removeImage($event)">
+          ×
+        </button>
+      </div>
+    </div>
+
+    <input 
+      type="file" 
+      #inputImage 
+      accept="image/*" 
+      class="d-none"
+      (change)="onImageSelect($event)">
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="d-flex gap-2">
+    <button 
+      type="button" 
+      class="btn btn-outline-secondary"
+      (click)="onCancel()">
+      Cancel
+    </button>
+    <button 
+      type="submit" 
+      class="btn btn-primary"
+      [disabled]="submitting || !isFormValid()">
+      <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+      Publish
+    </button>
+  </div>
 </form>
-
-
-<!-- bootstrap-icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-<router-outlet></router-outlet>
-
