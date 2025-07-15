@@ -114,6 +114,7 @@ export class SafetyAdviceCreateComponent {
     this.submitting = true;
     const content = this.editor.nativeElement.innerHTML.trim();
     const imageFile = this.inputImage.nativeElement.files[0];
+  
 
     try {
       let uploadedImageUrl = '';
@@ -127,7 +128,8 @@ export class SafetyAdviceCreateComponent {
         title: this.title,
         category: this.category,
         content,
-        image_url: uploadedImageUrl || null
+        image_url: uploadedImageUrl || null,
+        healthOfficer_id:2
       };
 
       this.healthTipsService.createHealthTip(healthTipData).subscribe({
