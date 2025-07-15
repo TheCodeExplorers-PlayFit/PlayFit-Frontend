@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 import { SportsModalComponent } from './sports-modal/sports-modal.component';
 import { LocationsModalComponent } from './locations-modal/locations-modal.component';
 import { StadiumsModalComponent } from './stadiums-modal/stadiums-modal.component';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-dashboard',
@@ -17,7 +18,7 @@ import { CommonModule } from '@angular/common';
 export class PlayerDashboardComponent implements OnInit {
   private apiUrl = 'http://localhost:5000/api';
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient, private dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -111,5 +112,21 @@ export class PlayerDashboardComponent implements OnInit {
         console.error('Error fetching locations:', error);
       }
     });
+  }
+
+  fileComplaint(): void {
+    this.router.navigate(['player/complaints']);
+  }
+
+  viewBookingHistory(): void {
+    this.router.navigate(['player/booking-history']);
+  }
+
+  navigateToStadium(): void {
+    this.router.navigate(['player/my-timetable']);
+  }
+
+  rateCoachesStadiums(): void {
+    this.router.navigate(['player/ratings']);
   }
 }

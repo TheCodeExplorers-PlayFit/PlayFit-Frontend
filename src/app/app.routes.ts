@@ -119,7 +119,8 @@ export const routes: Routes = [
       { path: 'booking-history', component: PlayerBookingHistoryComponent },
       { path: 'my-timetable', component: PlayerTimetableComponent },
       { path: 'complaints', component: PlayerComplaintsComponent },
-      { path: 'announcements', component: PlayerAnnouncementsComponent}
+      { path: 'announcements', component: PlayerAnnouncementsComponent},
+
     ]
   },
 
