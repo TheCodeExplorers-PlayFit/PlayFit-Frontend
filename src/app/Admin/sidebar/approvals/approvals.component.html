@@ -18,7 +18,7 @@
       <div class="actions">
         <a *ngIf="request.documentPath" [href]="request.documentPath" target="_blank" download>Download document</a>
         <button class="approve" (click)="approveRequest(request)">Approve</button>
-        <button class="pending">{{ request.status }}</button>
+       
         <button class="reject" (click)="rejectRequest(request)">Reject</button>
       </div>
     </div>

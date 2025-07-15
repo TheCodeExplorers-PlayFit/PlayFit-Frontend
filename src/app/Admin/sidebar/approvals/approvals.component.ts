@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApprovalsService } from '../../../services/approvals/approvals.service'; // Fixed import path
 
-type Status = 'Pending' | 'Approved' | 'Rejected';
+type Status = 'Pending' | 'Approved' | 'Rejected';//ustom type alias
 
 interface ApprovalRequest {
   id: number;
@@ -42,7 +42,12 @@ export class ApprovalsComponent implements OnInit {
           id: item.userId,
           name: item.facilityName || `${item.first_name} ${item.last_name}`,
           role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
-          photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+          photo: item.role === 'stadium'
+       ? 'https://th.bing.com/th?id=OIF.1w%2fVL%2fykHlIQu6UACxFPiA&rs=1&pid=ImgDetMain'
+       : item.role === 'coach'
+         ? 'https://randomuser.me/api/portraits/men/12.jpg'
+         : 'https://randomuser.me/api/portraits/women/44.jpg',
+
           status: 'Pending' as Status,
           createdAt: item.created_at ? new Date(item.created_at) : new Date(),
           documentPath: item.documentPath
@@ -96,11 +101,16 @@ export class ApprovalsComponent implements OnInit {
   }
 
   rejectRequest(request: ApprovalRequest): void {
-    this.approvalsService.rejectUser(request.id, request.role).subscribe({
-      next: () => {
-        this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
-      },
-      error: (err: any) => console.error('Error rejecting request:', err)
-    });
-  }
+  const confirmed = window.confirm(`Are you sure you want to reject ${request.name}?`);
+
+  if (!confirmed) return;
+
+  this.approvalsService.rejectUser(request.id, request.role).subscribe({
+    next: () => {
+      this.unverifiedRequests = this.unverifiedRequests.filter((r) => r.id !== request.id);
+    },
+    error: (err: any) => console.error('Error rejecting request:', err)
+  });
+}
+
 }

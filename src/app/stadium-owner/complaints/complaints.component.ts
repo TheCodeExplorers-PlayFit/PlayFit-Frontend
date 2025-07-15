@@ -16,7 +16,7 @@ export class ComplaintsComponent {
   bgcolor4 : string = '#F9C8F1';
   primarycolor : string = '#000080';
   buttongreen : string = '#76de1b63';
-  marginLeft = '270px';
+  marginLeft = '5px';
   marginTop = '78px';
   
 cards= [
