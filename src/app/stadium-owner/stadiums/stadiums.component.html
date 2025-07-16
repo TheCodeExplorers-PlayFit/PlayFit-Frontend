@@ -48,8 +48,10 @@
             <ng-template #noSchedules>No schedules available</ng-template>
           </td>
           <td>
-            <button class="edit-btn" (click)="enableEdit(stadium)">Edit</button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="edit-btn mx-" (click)="enableEdit(stadium)">Edit</button>
             <button class="delete-btn" (click)="deleteStadium(stadium.id)">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -147,10 +149,9 @@
             </tbody>
           </table>
         </div>
-        <button type="button" class="add-stadium-btn btn-sm" (click)="addSchedule()">Add Schedule</button>
-
-        <button type="submit" class="add-stadium-btn btn-sm">Save</button>
-        <button type="button" class="edit-btn btn-sm" (click)="cancelEdit()">Cancel</button>
+        <button type="button" class=" add-stadium-btn btn-sm mx-2" (click)="addSchedule()">Add Schedule</button>
+        <button type="submit" class="save-stadium-btn btn-sm mt mx-2" (click)="saveEdit()">Save</button>
+        <button type="button" class=" cancel-btn btn-sm mx-2" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
   </div>
