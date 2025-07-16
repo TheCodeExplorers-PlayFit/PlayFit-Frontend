@@ -58,6 +58,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password/
 import { ResetVerificationComponent } from './auth/reset-verification/reset-verification/reset-verification.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password/reset-password.component';
 import { RatingsComponent } from './common/ratings/ratings.component';
+import { ProfileComponent } from './common/profile/profile.component';
+
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
@@ -120,7 +122,8 @@ export const routes: Routes = [
       { path: 'my-timetable', component: PlayerTimetableComponent },
       { path: 'complaints', component: PlayerComplaintsComponent },
       { path: 'announcements', component: PlayerAnnouncementsComponent},
-      { path: 'ratings', component:RatingsComponent}
+      { path: 'ratings', component:RatingsComponent},
+      {path: 'profile', component: ProfileComponent},
 
     ]
   },
