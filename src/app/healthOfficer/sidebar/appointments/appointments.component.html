@@ -4,7 +4,6 @@
   <h3 class="mb-4" class="text-muted">Appointment Requests</h3>
   <table class="table table-bordered table-striped">
     <thead class="table table-primary">
-
       <tr>
         <th>ID</th>
         <th>Player</th>
@@ -16,7 +15,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let appointment of appointments || [];">
+      <tr *ngFor="let appointment of appointments || [];" 
+          (click)="onRowClick(appointment)"
+          [ngClass]="{'table-active': selectedAppointment?.id === appointment.id, 'appointment-row': true}"
+          style="cursor: pointer;">
         <td>{{ appointment.id }}</td>
         <td>{{ appointment.first_name }}</td>
         <td>{{ appointment.appointment_date }}</td>
@@ -24,9 +26,9 @@
         <td>{{ appointment.reason }}</td>
         <td [ngClass]="getStatusClass(appointment.status)">{{ appointment.status }}</td>
         <td>
-          <select class="form-select" (change)="onStatusChange($event, appointment)">
-
-
+          <select class="form-select" 
+                  (change)="onStatusChange($event, appointment)"
+                  (click)="$event.stopPropagation()">
             <option value="">Select Action</option>
             <option value="Approved">Approve</option>
             <option value="Rejected">Reject</option>
@@ -36,4 +38,3 @@
     </tbody>
   </table>
 </div>
-

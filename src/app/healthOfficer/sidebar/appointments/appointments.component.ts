@@ -1,9 +1,7 @@
 // File: src/app/healthOfficer/sidebar/appointments/appointments.component.ts
-
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentService, Appointment } from '../../../services/appointment/appointment.service';
-
 
 @Component({
   selector: 'app-appointments',
@@ -17,19 +15,22 @@ export class AppointmentsComponent implements OnInit {
   public tableHeader: string = '#E0E0EE';
   private appointmentService = inject(AppointmentService);
   appointments: Appointment[] = [];
+  selectedAppointment: Appointment | null = null;
 
   ngOnInit(): void {
     const healthOfficerId = 2; // Replace with dynamic ID as needed
     this.appointmentService.getAppointmentsByHealthOfficer(healthOfficerId).subscribe((data: Appointment[]) => {
       this.appointments = data;
     });
-    
+  }
+
+  onRowClick(appointment: Appointment): void {
+    this.selectedAppointment = appointment;
   }
 
   onStatusChange(event: Event, appointment: Appointment): void {
     const selectElement = event.target as HTMLSelectElement;
     const newStatus = selectElement.value;
-
     if (newStatus) {
       this.updateStatus(appointment, newStatus);
     }
@@ -56,6 +57,4 @@ export class AppointmentsComponent implements OnInit {
         return '';
     }
   }
-  
-  
-}     
+}
