@@ -1,3 +1,4 @@
+
 <div class="container mt-4">
   <!-- Achievements Topic and Cards -->
   <h1 style="color: black; margin-bottom: 20px;">Achievements</h1>
@@ -49,11 +50,11 @@
       </table>
     </div>
   </div>
-  <h3 style="color: black; text-align: center;">Top Achievers by Stadium</h3>
+  <h3 style="color: black; text-align: center;">Top 3 Achievers by Stadium</h3>
 
   <!-- Top Achievers by Stadium as Cards -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    @for (achiever of topAchieversByStadium; track achiever.stadiumName) {
+    @for (achiever of topAchieversByStadium; track $index) {
       <div class="col">
         <div class="card h-100" style="background-color: #d3d3e0; color: black;">
           <div class="card-body text-center">
