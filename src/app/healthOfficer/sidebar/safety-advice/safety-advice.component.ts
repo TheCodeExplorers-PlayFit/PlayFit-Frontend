@@ -15,7 +15,7 @@ export class SafetyAdviceComponent implements OnInit {
   cards: any[] = [];
   search: string = '';
   marginLeft = '300px';
-  marginTop = '78px';
+  marginTop = '80px';
   primaryColor: string = '#000080';
 
   constructor(
@@ -71,7 +71,7 @@ extractText(html: string): string {
   const div = document.createElement('div');
   div.innerHTML = html;
   const text = div.textContent || div.innerText || '';
-  return text.length > 200 ? text.substring(0, 200) + '...' : text;
+  return text.length > 100 ? text.substring(0, 100) + '...' : text;
 }
 
 get filteredCards() {

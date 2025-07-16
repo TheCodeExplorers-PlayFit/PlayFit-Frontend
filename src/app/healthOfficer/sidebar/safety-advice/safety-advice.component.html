@@ -1,18 +1,18 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Safety Advice & Tips</h2>
+  <h1 class="mb-4" [style.marginTop]="marginTop">Safety Advice & Tips</h1>
 
-  <div class="input-group mb-4">
-    <span class="input-group-text"><i class="bi bi-search"></i></span>
+  <div class="input-group mb-4" style="width: 40%">
+    <span class="input-group-text">🔍<i class="bi bi-search"></i></span>
     <input type="text" class="form-control" placeholder="Search safety tips..." [(ngModel)]="search">
   </div>
-
+<hr> <br>
   <div class="row">
     <div class="col-md-4 mb-4" *ngFor="let card of filteredCards">
       <div class="card h-100 shadow-sm" style="cursor: pointer;">
         <img *ngIf="card.image" [src]="card.image" class="card-img-top" alt="{{ card.title }}">
         <div class="card-body">
           <h5 class="card-title">{{ card.title }}</h5>
-          <p class="card-text">{{ card.description }}</p>
+          <p class="card-text" [innerHTML]="card.description"></p>
          <div class="d-flex justify-content-between">
               <button class="btn btn-primary" (click)="viewHealthTip(card.id)">Read More</button>
 
