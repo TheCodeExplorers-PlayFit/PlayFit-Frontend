@@ -161,6 +161,8 @@ export const routes: Routes = [
       { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'signout', component: SignOutComponent },
+      { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent }
+
     ]
   },
 

@@ -13,11 +13,13 @@
         <div class="card-body">
           <h5 class="card-title">{{ card.title }}</h5>
           <p class="card-text">{{ card.description }}</p>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-primary">Read More</button>
-            <button class="btn btn-outline-success">Edit</button> 
-            <button class="btn btn-outline-danger">Delete</button>
+         <div class="d-flex justify-content-between">
+              <button class="btn btn-primary" (click)="viewHealthTip(card.id)">Read More</button>
+
+              <button class="btn btn-outline-success" (click)="editHealthTip(card.id)">Edit</button>
+              <button class="btn btn-outline-danger" (click)="deleteHealthTip(card.id)">Delete</button>
           </div>
+
         </div>
         <div class="card-footer text-muted small">
           {{ card.updatedate }}
