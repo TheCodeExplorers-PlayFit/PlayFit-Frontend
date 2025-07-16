@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SafetyAdviceComponent implements OnInit {
   cards: any[] = [];
-  search: string = 'Search safety tips...';
+  search: string = '';
   marginLeft = '300px';
   marginTop = '78px';
   primaryColor: string = '#000080';
@@ -29,7 +29,7 @@ export class SafetyAdviceComponent implements OnInit {
         this.cards = res.data.map((tip: any) => ({
           id: tip.id,
           title: tip.title,
-          description: tip.content,
+          description: this.extractText(tip.content),
           image: tip.image_url,
           updatedate: `Last updated ${this.timeAgo(tip.createdAt)}`
         }));
@@ -66,5 +66,19 @@ export class SafetyAdviceComponent implements OnInit {
   viewHealthTip(id: number): void {
   this.router.navigate(['/health-tip', id]); // Adjust route as per your routing
 }
+
+extractText(html: string): string {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  const text = div.textContent || div.innerText || '';
+  return text.length > 200 ? text.substring(0, 200) + '...' : text;
+}
+
+get filteredCards() {
+  return this.cards.filter(card =>
+    card.title.toLowerCase().includes(this.search.toLowerCase())
+  );
+}
+
 
 }

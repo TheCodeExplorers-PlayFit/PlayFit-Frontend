@@ -7,7 +7,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let card of cards">
+    <div class="col-md-4 mb-4" *ngFor="let card of filteredCards">
       <div class="card h-100 shadow-sm" style="cursor: pointer;">
         <img *ngIf="card.image" [src]="card.image" class="card-img-top" alt="{{ card.title }}">
         <div class="card-body">

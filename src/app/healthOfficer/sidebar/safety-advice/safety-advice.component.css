@@ -4,3 +4,11 @@
   box-shadow: 0 4px 20px rgba(0, 0, 128, 0.3);
 }
 
+.card-text {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
