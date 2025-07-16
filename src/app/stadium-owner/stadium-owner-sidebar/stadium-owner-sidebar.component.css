@@ -3,7 +3,7 @@
   display: none; /* This is not needed anymore, as logo is removed */
 }
 
-.sidebar { 
+.sidebar {
   width: 250px;
   height: 100vh;
   background-color: #ffffff;
@@ -46,10 +46,10 @@ a:hover {
 a.active {
   background-color: #d8dfe6;
   border-left: 8px solid #000080;
-  padding-left: 16px; 
+  padding-left: 16px;
 }
 
 /* Sign Out spacing */
-ul li:nth-last-child(2) a {
-  margin-top: 25px;
+ul li:last-child a {
+  margin-top: 55px; /* Adjusted to target Sign Out link correctly */
 }

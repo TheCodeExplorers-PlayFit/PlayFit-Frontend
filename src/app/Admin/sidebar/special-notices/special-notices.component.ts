@@ -31,14 +31,14 @@ export class SpecialNoticesComponent implements OnInit {
   }
 
   loadNotices() {
-    this.announcementService.getNotices().subscribe(
-      (data) => {
+    this.announcementService.getNotices().subscribe({
+      next: (data) => {
         this.notices = data;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching notices:', error);
       }
-    );
+    });
   }
 
   createNotice() {
@@ -47,15 +47,15 @@ export class SpecialNoticesComponent implements OnInit {
       ...this.newNotice
     };
 
-    this.announcementService.createNotice(noticeData).subscribe(
-      () => {
+    this.announcementService.createNotice(noticeData).subscribe({
+      next: () => {
         this.loadNotices();
         this.resetForm();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error creating notice:', error);
       }
-    );
+    });
   }
 
   editNotice(notice: any) {
@@ -66,28 +66,28 @@ export class SpecialNoticesComponent implements OnInit {
   updateNotice() {
     if (!this.editingNotice) return;
 
-    this.announcementService.updateNotice(this.editingNotice.id, this.newNotice).subscribe(
-      () => {
+    this.announcementService.updateNotice(this.editingNotice.id, this.newNotice).subscribe({
+      next: () => {
         this.loadNotices();
         this.resetForm();
         this.editingNotice = null;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error updating notice:', error);
       }
-    );
+    });
   }
 
   deleteNotice(id: number) {
     if (confirm('Are you sure you want to delete this notice?')) {
-      this.announcementService.deleteNotice(id).subscribe(
-        () => {
+      this.announcementService.deleteNotice(id).subscribe({
+        next: () => {
           this.loadNotices();
         },
-        (error) => {
+        error: (error) => {
           console.error('Error deleting notice:', error);
         }
-      );
+      });
     }
   }
 

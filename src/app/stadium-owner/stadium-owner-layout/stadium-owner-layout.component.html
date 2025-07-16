@@ -1,7 +1,6 @@
 <div class="layout-wrapper">
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
-    <app-sidebar *ngIf="isStadiumOwner"></app-sidebar>
+  <div class="main-content">
+    <router-outlet></router-outlet>
   </div>
-
+  <app-stadium-owner-sidebar *ngIf="isStadiumOwner"></app-stadium-owner-sidebar>
+</div>

@@ -18,7 +18,7 @@ import { AchievementsComponent } from './stadium-owner/achievements/achievements
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
 import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
 import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
-
+import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 
 // ===== COACH =====
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
@@ -55,6 +55,7 @@ import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medic
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 import { BlogsDisplayComponent } from './common/blogs/blogs.component';
+import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
 
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
@@ -76,6 +77,7 @@ export const routes: Routes = [
   { path: 'signin', component: SignInPageComponent },
   { path: 'signup', component: RoleSelectionComponent },
   { path: 'sign-in-form-common', component: SignInFormCommonComponent },
+  { path: 'email-verification', component: EmailVerificationComponent },
   { path: 'sign-in-form', component: SignInFormComponent },
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
@@ -91,7 +93,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: AdmindashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
-      { path: 'blogs', component: adminblogscomponent  },
+      { path: 'blogs', component: adminblogscomponent },
       { path: 'special-notices', component: SpecialNoticesComponent },
       { path: 'calendar', component: CalenderComponent },
       { path: 'reports', component: ReportsComponent },
@@ -109,10 +111,10 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: PlayerDashboardComponent },
       { path: 'stadium-timetable/:stadiumId', component: StadiumTimetableComponent },
-      { path:  'transactions', component:PlayerTransactionsComponent },
-      { path:  'booking-history', component:PlayerBookingHistoryComponent },
-      { path: 'my-timetable', component:PlayerTimetableComponent},
-      { path: 'complaints', component:PlayerComplaintsComponent},
+      { path: 'transactions', component: PlayerTransactionsComponent },
+      { path: 'booking-history', component: PlayerBookingHistoryComponent },
+      { path: 'my-timetable', component: PlayerTimetableComponent },
+      { path: 'complaints', component: PlayerComplaintsComponent },
     ]
   },
 
@@ -127,13 +129,11 @@ export const routes: Routes = [
       { path: 'stadium-list', component: StadiumListComponent },
       { path: 'private-playing-requests', component: PrivateRequestsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
-      { path: 'coach-stadium-timetable/:id',component: CoachStadiumtimetableComponent},
+      { path: 'coach-stadium-timetable/:id', component: CoachStadiumtimetableComponent },
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
-
-      ]
-  
+    ]
   },
 
   // ===== STADIUM OWNER ROUTES =====
@@ -144,11 +144,11 @@ export const routes: Routes = [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
       { path: 'stadiums', component: StadiumsComponent },
       { path: 'add-stadium', component: AddStadiumComponent },
-      { path: '', redirectTo: '/stadium-owner/stadiums', pathMatch: 'full' },
       { path: 'complaints', component: ComplaintsComponent },
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
       { path: 'player-packages', component: PlayerPackagesComponent },
+      { path: 'waitlist', component: WaitlistComponent },
     ]
   },
 
