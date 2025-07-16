@@ -2,7 +2,7 @@
 .container {
   padding: 50px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin-left: 1px;
 }
 
 h3 {
@@ -102,7 +102,7 @@ h3 {
 }
 
 .edit-btn {
-  background-color: #007bff;
+  background-color: #000080;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -116,7 +116,7 @@ h3 {
 }
 
 .delete-btn {
-  background-color: #dc3545;
+  background-color: #ba1829;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -150,19 +150,19 @@ h3 {
 }
 
 .summary-box.total {
-  background-color: #ff6b6b;
+  background-color: #F3A4A4;
 }
 
 .summary-box.active {
-  background-color: #6b7280;
+  background-color: #C0C0DE;
 }
 
 .summary-box.expired {
-  background-color: #a3e4d7;
+  background-color: #CFEDC6;
 }
 
 .summary-box.popular {
-  background-color: #ff9ff3;
+  background-color: #F9C8F1;
 }
 
 .summary-box h3 {

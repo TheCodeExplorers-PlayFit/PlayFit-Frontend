@@ -1,8 +1,9 @@
 .container {
   padding: 50px;
   max-width: 1600px;
-  margin: 10px 0 0 400px; /* Reduced from 270px to 250px for more space */
   font-family: Arial, sans-serif;
+  margin-top: 5px;
+  margin-left: 0px;
 }
 
 .stadiums-card {
@@ -79,7 +80,7 @@ th {
 
 .add-stadium-btn {
   padding: 12px 24px;
-  background-color: #2337C6;
+  background-color: #000080;
   color: white;
   border: none;
   border-radius: 6px;

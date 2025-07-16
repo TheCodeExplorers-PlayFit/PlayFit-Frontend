@@ -30,6 +30,8 @@ import { CoachComplaintsComponent } from './coach/CoachComplaints/CoachComplaint
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
 import { SalaryDetailsComponent } from './coach/salary-details/salary-details.component';
+import {SessionDetailsComponent} from './coach/session-details/session-details.component';
+import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -53,6 +55,7 @@ import { SignInFormCoachComponent } from './register/sign-in-form-coach/sign-in-
 import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medical-officer/sign-in-form-medical-officer.component';
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
+import { BlogsDisplayComponent } from './common/blogs/blogs.component';
 import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password/forgot-password.component';
 import { ResetVerificationComponent } from './auth/reset-verification/reset-verification/reset-verification.component';
@@ -133,6 +136,7 @@ export const routes: Routes = [
     path: 'coach',
     component: CoachLayoutComponent,
     children: [
+      { path: 'view-session-details',component: SessionDetailsComponent},
       { path: 'dashboard', component: CoachDashboardComponent },
       { path: 'booking-history', component: BookingHistoryComponent },
       { path: 'stadium-list', component: StadiumListComponent },
@@ -140,6 +144,8 @@ export const routes: Routes = [
       { path: 'complaints', component: CoachComplaintsComponent },
       { path: 'coach-stadium-timetable/:id', component: CoachStadiumtimetableComponent },
       { path: 'salary-details', component: SalaryDetailsComponent },
+      { path: 'coach-blog-post', component: CoachBlogPostComponent },
+      { path: 'blogs', component: BlogsDisplayComponent },
     ]
   },
 
@@ -151,7 +157,6 @@ export const routes: Routes = [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
       { path: 'stadiums', component: StadiumsComponent },
       { path: 'add-stadium', component: AddStadiumComponent },
-      { path: '', redirectTo: '/stadium-owner/stadiums', pathMatch: 'full' },
       { path: 'complaints', component: ComplaintsComponent },
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },

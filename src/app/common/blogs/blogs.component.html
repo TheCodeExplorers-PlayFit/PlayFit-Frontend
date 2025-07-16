@@ -1,1 +1,15 @@
-<p>blogs works!</p>
+<div class="blogs-container" *ngIf="blogs.length; else noBlogs">
+  <div *ngFor="let blog of blogs" class="blog-card">
+    <h2 class="blog-title">{{ blog.title }}</h2>
+    <img [src]="blog.image" alt="Blog Image" class="blog-image" />
+    <p class="blog-content">{{ blog.content }}</p>
+    <p class="meta">
+      Posted by: <strong>{{ blog.first_name }} {{ blog.last_name }}</strong> ({{ blog.role }})<br />
+      On: {{ blog.created_at | date:'medium' }}
+    </p>
+  </div>
+</div>
+
+<ng-template #noBlogs>
+  <p>No approved blogs to display.</p>
+</ng-template>

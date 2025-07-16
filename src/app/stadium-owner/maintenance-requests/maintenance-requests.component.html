@@ -20,11 +20,9 @@
         <tr>
           <th>Task ID</th>
           <th>Description</th>
-          <th>Assigned To</th>
+          <th>Reported By</th>
           <th>Stadium Name</th>
-          <th>Start Date</th>
-          <th>Due Date</th>
-          <th>Completion Date</th>
+          <th>Created Date</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -33,19 +31,17 @@
         <tr *ngFor="let complaint of complaints">
           <td>{{ complaint.id }}</td>
           <td>{{ complaint.description }}</td>
-          <td>{{ getReportedByName(complaint.reported_by) }}</td>
-          <td>{{ getStadiumName(complaint.stadium_id) }}</td>
-          <td>{{ complaint.created_at }}</td>
-          <td>{{ complaint.created_at }}</td>
+          <td>{{ complaint.reported_by_name }}</td>
+          <td>{{ complaint.stadium_name || 'N/A' }}</td>
           <td>{{ complaint.created_at }}</td>
           <td><span class="status {{ complaint.status }}">{{ complaint.status }}</span></td>
           <td>
-            <button class="action-btn">👁️</button>
-            <button class="action-btn">✏️</button>
+            <button class="action-btn" (click)="viewRequest(complaint.id)">👁️</button>
+            <button class="action-btn" (click)="editRequest(complaint)">✏️</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button class="view-all">View All</button>
+    <button class="view-all" (click)="viewAllRequests()">View All</button>
   </div>
 </div>
