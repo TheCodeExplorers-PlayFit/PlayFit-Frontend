@@ -1,94 +1,276 @@
 .container {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  max-width: 1200px;
+  padding: 30px;
+  max-width: 1400px; /* Increased max width */
   margin: 0 auto;
-  padding-top: 80px; /* Adjust for fixed navbar */
-  padding-left: 300px; /* Sidebar width */
+  padding-top: 80px;
+  padding-left: 300px;
+  gap: 30px; /* Added gap between sections */
 }
 
 .section {
-  width: 45%;
+  width: 48%; /* Increased width for better horizontal space */
+  min-width: 500px; /* Minimum width to ensure professional spacing */
 }
 
 .search-card {
-  background-color: #ffffff; /* White background for card */
-  border: 1px solid #e5e7eb; /* Light gray border */
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 128, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #000080, #1e3a8a, #3b82f6);
+}
+
+.search-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 128, 0.15);
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #1e3a8a; /* Professional navy blue */
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #000080;
+  text-align: center;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #000080, #3b82f6);
+  border-radius: 2px;
 }
 
 .search-bar {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  position: relative;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 12px;
+  padding: 16px 20px;
   font-size: 16px;
-  border: 1px solid #d1d5db; /* Light gray border */
-  border-radius: 6px;
-  transition: border-color 0.3s;
+  font-weight: 500;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 128, 0.05);
 }
 
 .search-bar input:focus {
   outline: none;
-  border-color: #3b82f6; /* Blue focus border */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #000080;
+  box-shadow: 0 0 0 4px rgba(0, 0, 128, 0.1);
+  transform: translateY(-1px);
+}
+
+.search-bar input::placeholder {
+  color: #64748b;
+  font-weight: 400;
 }
 
 .results {
-  max-height: 300px;
+  max-height: 350px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.results::-webkit-scrollbar-thumb {
+  background: #000080;
+  border-radius: 3px;
 }
 
 .result-card {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  padding: 18px 20px;
+  border-bottom: 1px solid #e2e8f0;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #1e293b;
+  position: relative;
+}
+
+.result-card:last-child {
+  border-bottom: none;
 }
 
 .result-card:hover {
-  background-color: #f5f5f5;
+  background: linear-gradient(90deg, rgba(0, 0, 128, 0.05), rgba(59, 130, 246, 0.03));
+  color: #000080;
+  transform: translateX(8px);
+  padding-left: 28px;
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #000080;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.result-card:hover::before {
+  opacity: 1;
 }
 
 .recent-ratings {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .recent-ratings h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #1e3a8a; /* Navy blue */
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #000080;
+  text-align: center;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.recent-ratings h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #000080, #3b82f6);
+  border-radius: 1px;
 }
 
 .rating-card {
-  background-color: #f9fafb; /* Light gray background */
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 10px;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.rating-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #000080, #3b82f6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rating-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 128, 0.12);
+}
+
+.rating-card:hover::before {
+  opacity: 1;
 }
 
 .rating-card p {
-  margin: 5px 0;
-  color: #374151; /* Darker gray text */
+  margin: 8px 0;
+  color: #475569;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .rating-card p strong {
-  color: #1e3a8a; /* Navy blue for names */
+  color: #000080;
+  font-weight: 700;
 }
 
 .rating-card small {
-  color: #6b7280; /* Muted gray for dates */
+  color: #64748b;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+/* Professional scrollbar styling */
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #000080, #1e3a8a);
+  border-radius: 4px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .container {
+    flex-direction: column;
+    padding-left: 20px;
+    max-width: 100%;
+  }
+  
+  .section {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Loading state for empty results */
+.results p {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  padding: 20px;
+  font-weight: 500;
+}
+
+.recent-ratings p {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  padding: 20px;
+  font-weight: 500;
 }
