@@ -26,6 +26,32 @@ h2, h3 {
   cursor: pointer;
   margin-right: 10px;
 }
+.locate-btn {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 5px;
+}
+
+.confirm-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 5px;
+}
+
+.map-confirm-btn {
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
 
 .add-btn {
   background-color: #28a745;
