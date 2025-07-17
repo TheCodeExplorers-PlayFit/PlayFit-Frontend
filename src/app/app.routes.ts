@@ -41,7 +41,7 @@ import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.com
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-layout/health-officer-layout.component';
-import { SafetyAdviseReadmoreComponent } from './healthOfficer/sidebar/safety-advise-readmore/safety-advise-readmore/safety-advise-readmore.component';     
+import { SafetyAdviceReadmoreComponent } from './healthOfficer/sidebar/safety-advise-readmore/safety-advise-readmore/safety-advise-readmore.component';     
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
@@ -163,7 +163,7 @@ export const routes: Routes = [
       { path: 'settings', component: SettingsComponent },
       { path: 'signout', component: SignOutComponent },
       { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent },
-      { path: 'safety-advise-readmore/:id', component: SafetyAdviseReadmoreComponent }
+      { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent }
 
     ]
   },

@@ -49,11 +49,13 @@ getHealthTipsByOfficerId(officerId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  getHealthTipsByCategory(category: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?category=${category}`);
+   getHealthTipsByCategory(category: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/category/${encodeURIComponent(category)}`);
   }
 
   searchHealthTips(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/search?q=${query}`);
   }
+
+ 
 }

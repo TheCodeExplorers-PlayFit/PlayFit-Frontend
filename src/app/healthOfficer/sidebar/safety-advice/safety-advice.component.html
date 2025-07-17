@@ -15,7 +15,7 @@
           <small class="card-text" [innerHTML]="card.description"></small>
          <div class="d-flex justify-content-between align-items-center mt-3">
   <div>
-    <a [routerLink]="['/safety-advice', card.id]" class="btn btn-primary">Read More</a>
+     <a [routerLink]="['/health/safety-advise-readmore', card.id]" class="btn btn-outline-primary">Read More</a>
   </div>
   <div class="d-flex gap-2">
     <button class="btn btn-outline-success" (click)="editHealthTip(card.id)">Edit</button>
