@@ -1,13 +1,47 @@
-<div class="d-flex flex-row gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
-  <div class="card-container" *ngFor="let card of cards">
-    <div class="card" [style.backgroundColor]="card.backgroundColor">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center">
-          <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
+
+<div class="container">
+  <!-- Existing Cards Section -->
+  <div class="d-flex flex-row flex-wrap gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
+    <div class="card-container" *ngFor="let card of cards">
+      <div class="card" [style.backgroundColor]="card.backgroundColor">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
+          </div>
+          <hr class="card-divider">
+          <p class="card-text">{{ card.text }}</p>
         </div>
-        <hr class="card-divider">
-        <p class="card-text">{{ card.text }}</p>
       </div>
     </div>
+  </div>
+
+  <!-- Notices Section -->
+  <div class="notices-section mt-4">
+    <h3>Recent Notices</h3>
+    <div class="d-flex flex-row flex-wrap gap-3" *ngIf="notices.length > 0; else noNotices">
+      <div class="card-container" *ngFor="let notice of notices; trackBy: trackByNoticeId">
+        <div class="card notice-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h4 class="card-subtitle">{{ notice.title }}</h4>
+              <span class="notice-date">{{ notice.notice_date | date:'yyyy-MM-dd' }}</span>
+            </div>
+            <hr class="card-divider">
+            <p class="card-text">
+              {{ notice.description.length > 100 ? (notice.description | slice:0:100) + '...' : notice.description }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <p class="card-author"><i class="material-icons">person</i> {{ notice.author }}</p>
+              <a [routerLink]="['/stadium-owner/notices', notice.id]" class="btn btn-sm btn-info">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noNotices>
+      <div class="no-notices">
+        <p>No notices found for stadium owners.</p>
+      </div>
+    </ng-template>
   </div>
 </div>

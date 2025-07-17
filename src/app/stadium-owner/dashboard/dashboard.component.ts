@@ -1,7 +1,17 @@
+
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { StadiumOwnerAnnouncementService } from '../../services/stadium-owner-announcement/stadium-owner-announcement.service';
+import { Notice } from '../../models/notice.model';
+
+interface Card {
+  subtitle: string;
+  text: string;
+  backgroundColor: string;
+  route: string;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -10,11 +20,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   marginLeft = '5px';
   marginTop = '78px';
-  
-  cards = [
+
+  cards: Card[] = [
     {
       subtitle: 'Add a Stadium',
       text: 'Start managing your venues by adding your stadium details',
@@ -40,4 +50,27 @@ export class DashboardComponent {
       route: '/stadium-owner/waitlist'
     }
   ];
+
+  notices: Notice[] = [];
+
+  constructor(private announcementService: StadiumOwnerAnnouncementService) {}
+
+  ngOnInit() {
+    this.fetchNotices();
+  }
+
+  fetchNotices() {
+    this.announcementService.getNotices().subscribe({
+      next: (data) => {
+        this.notices = data;
+      },
+      error: (error) => {
+        console.error('Error fetching stadium owner announcements:', error);
+      }
+    });
+  }
+
+  trackByNoticeId(index: number, notice: Notice): number {
+    return notice.id;
+  }
 }

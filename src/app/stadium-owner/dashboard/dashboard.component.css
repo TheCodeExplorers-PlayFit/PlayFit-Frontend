@@ -1,54 +1,158 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css");
-
-.d-flex {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 1.5rem;
+/* Base styles */
+.container {
+  font-family: 'Roboto', sans-serif;
+  padding: 1.5rem;
+  background-color: #f3f4f6; /* Tailwind bg-gray-100 */
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
+h3, h4 {
+  font-family: 'Lora', serif;
+  color: #212529;
+}
+
+/* Cards */
 .card-container {
-  flex: 0 0 auto;
-  width: 16rem;
+  flex: 1 1 250px;
+  max-width: 300px;
 }
 
 .card {
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 16rem;
-  height: 10rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
 }
 
 .card-body {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  padding: 1rem;
 }
 
 .card-subtitle {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #000;
+  font-size: 1.1rem;
+  font-family: 'Lora', serif;
+  color: #212529;
   text-decoration: none;
 }
 
 .card-subtitle:hover {
-  text-decoration: underline;
+  color: #3b82f6; /* Tailwind bg-blue-500 */
 }
 
 .card-divider {
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-color: #e5e7eb; /* Tailwind bg-gray-200 */
   margin: 0.5rem 0;
 }
 
 .card-text {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
+  font-size: 0.9rem;
+  color: #4b5563; /* Tailwind text-gray-600 */
+}
+
+/* Notices section */
+.notices-section {
+  margin-top: 2rem;
+}
+
+.notice-card {
+  background-color: white;
+  max-width: 350px;
+}
+
+.notice-date {
   font-size: 0.85rem;
+  color: #6b7280; /* Tailwind text-gray-500 */
+}
+
+.card-author {
+  font-size: 0.85rem;
+  color: #6b7280; /* Tailwind text-gray-500 */
+  display: flex;
+  align-items: center;
   margin: 0;
-  flex-grow: 1;
-  line-height: 1.4;
+}
+
+.card-author .material-icons {
+  font-size: 1.2rem;
+  margin-right: 0.25rem;
+}
+
+.btn-info {
+  background-color: #3b82f6; /* Tailwind bg-blue-500 */
+  border: none;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.btn-info:hover {
+  background-color: #2563eb; /* Tailwind bg-blue-600 */
+}
+
+/* No notices */
+.no-notices {
+  text-align: center;
+  padding: 2rem;
+  background-color: #e5e7eb; /* Tailwind bg-gray-200 */
+  border-radius: 0.5rem;
+}
+
+.no-notices p {
+  font-size: 1rem;
+  color: #6b7280; /* Tailwind text-gray-500 */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .d-flex.flex-row.flex-wrap {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-container {
+    max-width: 100%;
+  }
+
+  .notice-card {
+    max-width: 100%;
+  }
+
+  .card-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .card-text {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .card-text, .notice-date, .card-author {
+    font-size: 0.8rem;
+  }
+
+  .btn-info {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
 }
