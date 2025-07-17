@@ -23,6 +23,7 @@ interface Card {
 export class DashboardComponent implements OnInit {
   marginLeft = '5px';
   marginTop = '78px';
+  viewingNotice: Notice | null = null;
 
   cards: Card[] = [
     {
@@ -68,6 +69,32 @@ export class DashboardComponent implements OnInit {
         console.error('Error fetching stadium owner announcements:', error);
       }
     });
+  }
+
+  openView(notice: Notice) {
+    console.log('Opening modal for notice:', notice); // Debug
+    this.viewingNotice = notice;
+  }
+
+  closeView() {
+    this.viewingNotice = null;
+  }
+
+  formatDate(date: string | Date): string {
+    const d = new Date(date);
+    return d.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }
+
+  formatDateTime(date: string | Date): string {
+    const d = new Date(date);
+    return d.toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }); // Format as MM/DD/YYYY, HH:MM AM/PM
   }
 
   trackByNoticeId(index: number, notice: Notice): number {
