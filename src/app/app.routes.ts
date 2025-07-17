@@ -65,6 +65,7 @@ import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
+import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -96,6 +97,7 @@ export const routes: Routes = [
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
+      { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
 
