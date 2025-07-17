@@ -49,8 +49,8 @@
       <input type="time" id="toTime" [(ngModel)]="selectedToTime" name="toTime" class="form-control" required>
     </div>
     <div class="form-group">
-      <label for="sportPercentage">Sport Percentage (%):</label>
-      <input type="number" id="sportPercentage" [(ngModel)]="selectedSportPercentage" name="sportPercentage" class="form-control" min="0" max="20" step="0.01" required>
+      <label for="sportCost">Cost Per Player (Rs):</label>
+      <input type="number" id="sportCost" [(ngModel)]="selectedSportCost" name="sportCost" class="form-control" min="0" step="0.01" required>
     </div>
     <button type="button" class="add-btn" (click)="addScheduleRow()">Add Schedule</button>
     <div *ngIf="newStadium.schedule.length > 0" class="schedule-table">
@@ -63,7 +63,7 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Max Players</th>
-            <th>Sport Percentage (%)</th>
+            <th>Cost Per Player (Rs)</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -74,7 +74,7 @@
             <td>{{ schedule.fromTime }}</td>
             <td>{{ schedule.toTime }}</td>
             <td>{{ schedule.maxPlayers }}</td>
-            <td>{{ schedule.sportPercentage }}</td>
+            <td>{{ schedule.sportCost | currency:'INR':'symbol':'1.2-2' }}</td>
             <td><button type="button" class="delete-btn" (click)="removeRow(i)">Remove</button></td>
           </tr>
         </tbody>
