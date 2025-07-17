@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { StadiumOwnerAnnouncementService } from '../../services/stadium-owner-announcement/stadium-owner-announcement.service';
 import { Notice } from '../../models/notice.model';
 
@@ -54,7 +54,10 @@ export class DashboardComponent implements OnInit {
 
   notices: Notice[] = [];
 
-  constructor(private announcementService: StadiumOwnerAnnouncementService) {}
+  constructor(
+    private announcementService: StadiumOwnerAnnouncementService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.fetchNotices();
@@ -95,6 +98,11 @@ export class DashboardComponent implements OnInit {
       minute: '2-digit',
       hour12: true
     }); // Format as MM/DD/YYYY, HH:MM AM/PM
+  }
+
+  navigateTo(route: string) {
+    console.log('Navigating to:', route); // Debug
+    this.router.navigate([route]);
   }
 
   trackByNoticeId(index: number, notice: Notice): number {
