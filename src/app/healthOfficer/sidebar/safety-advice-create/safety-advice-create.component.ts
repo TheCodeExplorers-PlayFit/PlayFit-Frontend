@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HealthTipsService } from '../../../services/healthtips/health-tips.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-safety-advice-create',
@@ -22,6 +22,9 @@ export class SafetyAdviceCreateComponent implements OnInit {
   submitting = false;
   isDragOver = false;
 
+  editMode = false;
+  tipId!: number;
+
   categoryList: string[] = [
     "Public Health & Safety",
     "Injury Prevention & First Aid",
@@ -33,55 +36,49 @@ export class SafetyAdviceCreateComponent implements OnInit {
   ];
 
   constructor(
-  private healthTipsService: HealthTipsService,
-  private route: ActivatedRoute,
-  private router: Router
-) {}
+    private healthTipsService: HealthTipsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-ngOnInit() {
-  this.route.paramMap.subscribe(params => {
-    const idParam = params.get('id');
-    if (idParam) {
-      this.editMode = true;
-      this.tipId = +idParam;
-      this.loadTipData(this.tipId);
-    }
-  });
-}
-editMode = false;
-tipId!: number;
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (idParam) {
+        this.editMode = true;
+        this.tipId = +idParam;
+        this.loadTipData(this.tipId);
+      }
+    });
+  }
 
-loadTipData(id: number) {
-  this.healthTipsService.getHealthTipById(id).subscribe({
-    next: (res) => {
-      const data = res.data;
-      this.title = data.title;
-      this.category = data.category;
-      this.selectedImage = data.image_url;
-      this.editor.nativeElement.innerHTML = data.content;
-    },
-    error: (err) => {
-      console.error('Error loading tip', err);
-      alert('❌ Failed to load tip data.');
-    }
-  });
-}
-
+  loadTipData(id: number) {
+    this.healthTipsService.getHealthTipById(id).subscribe({
+      next: (res) => {
+        const data = res.data;
+        this.title = data.title;
+        this.category = data.category;
+        this.selectedImage = data.image_url;
+        this.editor.nativeElement.innerHTML = data.content;
+      },
+      error: (err) => {
+        console.error('Error loading tip', err);
+        alert('❌ Failed to load tip data.');
+      }
+    });
+  }
 
   formatText(command: string) {
     document.execCommand(command, false);
     this.editor.nativeElement.focus();
   }
 
-  onContentChange() {
-    // Handle content changes if needed
-  }
+  onContentChange() {}
 
   onPaste(event: ClipboardEvent) {
-    // Handle paste events - you might want to clean HTML
     setTimeout(() => {
       const content = this.editor.nativeElement.innerHTML;
-      // Process pasted content if needed
     }, 0);
   }
 
@@ -98,7 +95,6 @@ loadTipData(id: number) {
   onDrop(event: DragEvent) {
     event.preventDefault();
     this.isDragOver = false;
-    
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
       this.processImageFile(files[0]);
@@ -129,7 +125,6 @@ loadTipData(id: number) {
   }
 
   onCancel() {
-    // Reset form or navigate away
     this.title = '';
     this.category = '';
     this.selectedImage = null;
@@ -143,53 +138,59 @@ loadTipData(id: number) {
   }
 
   async onSubmit() {
-  if (!this.isFormValid()) {
-    return;
-  }
-
-  this.submitting = true;
-  const content = this.editor.nativeElement.innerHTML.trim();
-  const imageFile = this.inputImage.nativeElement.files[0];
-
-  try {
-    let uploadedImageUrl = '';
-
-    if (imageFile) {
-      const cloudRes = await this.healthTipsService.uploadFileToCloudinary(imageFile).toPromise();
-      uploadedImageUrl = cloudRes.secure_url;
+    if (!this.isFormValid()) {
+      return;
     }
 
-    const healthTipData = {
-      title: this.title,
-      category: this.category,
-      content,
-      image_url: uploadedImageUrl || this.selectedImage || null,
-      healthOfficer_id: 2
-    };
+    this.submitting = true;
+    const content = this.editor.nativeElement.innerHTML.trim();
+    const imageFile = this.inputImage.nativeElement.files[0];
 
-    const submitObservable = this.editMode
-      ? this.healthTipsService.updateHealthTip(this.tipId, healthTipData)
-      : this.healthTipsService.createHealthTip(healthTipData);
+    try {
+      let uploadedImageUrl = '';
 
-    submitObservable.subscribe({
-      next: (res) => {
-        alert(this.editMode ? '✅ Tip updated successfully' : '✅ Tip published successfully');
-        this.onCancel(); // Reset form
+      if (imageFile) {
+        const cloudRes = await this.healthTipsService.uploadFileToCloudinary(imageFile).toPromise();
+        uploadedImageUrl = cloudRes.secure_url;
+      }
+
+      const user = this.authService.getUser();
+      if (!user || !user.id) {
+        alert('❌ Unable to identify logged-in health officer.');
         this.submitting = false;
-        this.router.navigate(['/health/safety-advice']);
-      },
-      error: (err) => {
-        console.error('❌ Failed to submit tip', err);
-        alert('❌ Submission failed. Please try again.');
-        this.submitting = false;
-      },
-    });
+        return;
+      }
 
-  } catch (err) {
-    console.error('❌ Image upload failed', err);
-    alert('❌ Image upload failed. Please try again.');
-    this.submitting = false;
+      const healthTipData = {
+        title: this.title,
+        category: this.category,
+        content,
+        image_url: uploadedImageUrl || this.selectedImage || null,
+        healthOfficer_id: user.id  // ✅ dynamic ID from AuthService
+      };
+
+      const submitObservable = this.editMode
+        ? this.healthTipsService.updateHealthTip(this.tipId, healthTipData)
+        : this.healthTipsService.createHealthTip(healthTipData);
+
+      submitObservable.subscribe({
+        next: (res) => {
+          alert(this.editMode ? '✅ Tip updated successfully' : '✅ Tip published successfully');
+          this.onCancel();
+          this.submitting = false;
+          this.router.navigate(['/health/safety-advice']);
+        },
+        error: (err) => {
+          console.error('❌ Failed to submit tip', err);
+          alert('❌ Submission failed. Please try again.');
+          this.submitting = false;
+        },
+      });
+
+    } catch (err) {
+      console.error('❌ Image upload failed', err);
+      alert('❌ Image upload failed. Please try again.');
+      this.submitting = false;
+    }
   }
-}
-
 }

@@ -1,9 +1,9 @@
-// players-health-records.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
 
 @Component({
   selector: 'app-players-health-records',
@@ -20,14 +20,24 @@ export class PlayersHealthRecordsComponent implements OnInit {
   searchTerm: string = '';
   injuries: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService // ✅ Inject AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchAppointments();
+    const user = this.authService.getUser(); // ✅ Get logged-in user
+    if (!user || !user.id) {
+      alert('❌ Unable to fetch user ID.');
+      return;
+    }
+
+    this.fetchAppointments(user.id);
   }
 
-  fetchAppointments() {
-    this.http.get<any>('http://localhost:5000/api/appointments/2/with-user-details').subscribe({
+  fetchAppointments(healthOfficerId: number) {
+    this.http.get<any>(`http://localhost:5000/api/appointments/${healthOfficerId}/with-user-details`).subscribe({
       next: (res) => {
         if (res.success) {
           this.appointments = res.data;
@@ -57,17 +67,13 @@ export class PlayersHealthRecordsComponent implements OnInit {
 
   selectPlayer(player: any) {
     this.selectedPlayer = player;
-    this.fetchInjuriesByPlayerId(player.player_id); // Important: use `player_id` not `id`
+    this.fetchInjuriesByPlayerId(player.player_id);
   }
 
   fetchInjuriesByPlayerId(playerId: number) {
     this.http.get<any>(`http://localhost:5000/api/injuries/player/${playerId}`).subscribe({
       next: (res) => {
-        if (res.success) {
-          this.injuries = res.data;
-        } else {
-          this.injuries = [];
-        }
+        this.injuries = res.success ? res.data : [];
       },
       error: (err) => {
         console.error('Failed to fetch injuries', err);

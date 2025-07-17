@@ -1,7 +1,7 @@
-// File: src/app/healthOfficer/sidebar/appointments/appointments.component.ts
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentService, Appointment } from '../../../services/appointment/appointment.service';
+import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
 
 @Component({
   selector: 'app-appointments',
@@ -13,12 +13,21 @@ import { AppointmentService, Appointment } from '../../../services/appointment/a
 export class AppointmentsComponent implements OnInit {
   marginTop = '72px';
   public tableHeader: string = '#E0E0EE';
+  
   private appointmentService = inject(AppointmentService);
+  private authService = inject(AuthService); // ✅ Inject AuthService
+
   appointments: Appointment[] = [];
   selectedAppointment: Appointment | null = null;
 
   ngOnInit(): void {
-    const healthOfficerId = 2; // Replace with dynamic ID as needed
+    const user = this.authService.getUser(); // ✅ Get logged-in user
+    if (!user || !user.id) {
+      alert('❌ Unable to fetch health officer ID.');
+      return;
+    }
+
+    const healthOfficerId = user.id;
     this.appointmentService.getAppointmentsByHealthOfficer(healthOfficerId).subscribe((data: Appointment[]) => {
       this.appointments = data;
     });
@@ -38,9 +47,9 @@ export class AppointmentsComponent implements OnInit {
 
   updateStatus(appointment: Appointment, newStatus: string): void {
     if (!newStatus) return;
-  
+
     this.appointmentService.updateAppointmentStatus(appointment.id, newStatus).subscribe(response => {
-      appointment.status = response.data.status;  // update the local list
+      appointment.status = response.data.status;
       console.log(`Updated appointment ${appointment.id} to: ${response.data.status}`);
     });
   }
@@ -48,11 +57,11 @@ export class AppointmentsComponent implements OnInit {
   getStatusClass(status: string): string {
     switch (status) {
       case 'Approved':
-        return 'text-success';  // Bootstrap green
+        return 'text-success';
       case 'Rejected':
-        return 'text-danger';   // Bootstrap red
+        return 'text-danger';
       case 'Pending':
-        return 'text-warning';  // Bootstrap yellow
+        return 'text-warning';
       default:
         return '';
     }

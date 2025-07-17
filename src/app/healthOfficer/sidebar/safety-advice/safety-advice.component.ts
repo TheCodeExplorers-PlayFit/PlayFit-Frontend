@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
 import { HealthTipsService } from '../../../services/healthtips/health-tips.service';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
 
 @Component({
   selector: 'app-safety-advice',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [CommonModule, FormsModule, RouterLink ],
   templateUrl: './safety-advice.component.html',
   styleUrl: './safety-advice.component.css'
 })
@@ -20,11 +21,18 @@ export class SafetyAdviceComponent implements OnInit {
 
   constructor(
     private healthTipService: HealthTipsService,
+    private authService: AuthService,         // ✅ Inject AuthService
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.healthTipService.getHealthTipsByOfficerId(2).subscribe((res: any) => {
+    const user = this.authService.getUser();  // ✅ Get user
+    if (!user || !user.id) {
+      alert('❌ Unable to fetch user info.');
+      return;
+    }
+
+    this.healthTipService.getHealthTipsByOfficerId(user.id).subscribe((res: any) => {
       if (res.success) {
         this.cards = res.data.map((tip: any) => ({
           id: tip.id,
@@ -45,9 +53,8 @@ export class SafetyAdviceComponent implements OnInit {
   }
 
   editHealthTip(id: number): void {
-  this.router.navigate(['/health/safety-advice-form', id]);
-}
-
+    this.router.navigate(['/health/safety-advice-form', id]);
+  }
 
   deleteHealthTip(id: number): void {
     if (confirm('Are you sure you want to delete this safety tip?')) {
@@ -64,21 +71,19 @@ export class SafetyAdviceComponent implements OnInit {
   }
 
   viewHealthTip(id: number): void {
-  this.router.navigate(['/health-tip', id]); // Adjust route as per your routing
-}
+    this.router.navigate(['/health-tip', id]); // Adjust route as per your routing
+  }
 
-extractText(html: string): string {
-  const div = document.createElement('div');
-  div.innerHTML = html;
-  const text = div.textContent || div.innerText || '';
-  return text.length > 100 ? text.substring(0, 75) + '...' : text;
-}
+  extractText(html: string): string {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const text = div.textContent || div.innerText || '';
+    return text.length > 100 ? text.substring(0, 75) + '...' : text;
+  }
 
-get filteredCards() {
-  return this.cards.filter(card =>
-    card.title.toLowerCase().includes(this.search.toLowerCase())
-  );
-}
-
-
+  get filteredCards() {
+    return this.cards.filter(card =>
+      card.title.toLowerCase().includes(this.search.toLowerCase())
+    );
+  }
 }
