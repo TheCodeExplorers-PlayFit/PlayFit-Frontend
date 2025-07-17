@@ -12,13 +12,16 @@
         <img *ngIf="card.image" [src]="card.image" class="card-img-top" alt="{{ card.title }}">
         <div class="card-body">
           <h5 class="card-title">{{ card.title }}</h5>
-          <p class="card-text" [innerHTML]="card.description"></p>
-         <div class="d-flex justify-content-between">
-              <button class="btn btn-primary" (click)="viewHealthTip(card.id)">Read More</button>
-
-              <button class="btn btn-outline-success" (click)="editHealthTip(card.id)">Edit</button>
-              <button class="btn btn-outline-danger" (click)="deleteHealthTip(card.id)">Delete</button>
-          </div>
+          <small class="card-text" [innerHTML]="card.description"></small>
+         <div class="d-flex justify-content-between align-items-center mt-3">
+  <div>
+    <a [routerLink]="['/safety-advice', card.id]" class="btn btn-primary">Read More</a>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-outline-success" (click)="editHealthTip(card.id)">Edit</button>
+    <button class="btn btn-outline-danger" (click)="deleteHealthTip(card.id)">Delete</button>
+  </div>
+</div>
 
         </div>
         <div class="card-footer text-muted small">
