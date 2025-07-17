@@ -31,6 +31,7 @@ import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/
 import { SalaryDetailsComponent } from './coach/salary-details/salary-details.component';
 import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
+import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -133,6 +134,7 @@ export const routes: Routes = [
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
+      { path: 'coach-announcement', component: CoachAnnouncementComponent}
     ]
   },
 

@@ -1,0 +1,36 @@
+<div class="container mt-5 pt-4">
+
+     <h2 class="text-success mt-5 mb-4 text-center">🎯 Coach-Specific Announcements</h2>
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 mb-4" *ngFor="let notice of coachNotices">
+      <div class="card shadow-sm border-start border-4 border-success mx-auto">
+        <div class="card-body">
+          <h5 class="card-title text-dark">{{ notice.title }}</h5>
+          <p class="card-text">{{ notice.description }}</p>
+          <div class="text-muted small">
+            📅 {{ notice.notice_date }} | ✍️ {{ notice.author }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="text-primary mb-4 text-center">📢 All Announcements</h2>
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 mb-4" *ngFor="let notice of allNotices">
+      <div class="card shadow-sm border-start border-4 border-primary mx-auto">
+        <div class="card-body">
+          <h5 class="card-title text-dark">{{ notice.title }}</h5>
+          <p class="card-subtitle mb-2 text-muted">
+            <strong>Category:</strong> {{ notice.category }}
+          </p>
+          <p class="card-text">{{ notice.description }}</p>
+          <div class="text-muted small">
+            🕒 {{ notice.created_at }} | 🖋️ {{ notice.author }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+</div>
