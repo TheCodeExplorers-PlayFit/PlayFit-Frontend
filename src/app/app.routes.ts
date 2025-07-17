@@ -65,10 +65,10 @@ import { UserManagementComponent } from './Admin/sidebar/user-management/user-ma
 import { ApprovalsComponent } from './Admin/sidebar/approvals/approvals.component';
 import { BlogsComponent as adminblogscomponent } from './Admin/sidebar/blogs/blogs.component';
 import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special-notices.component';
-import { CalenderComponent } from './Admin/sidebar/calender/calender.component';
+import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
-import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -95,11 +95,11 @@ export const routes: Routes = [
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
       { path: 'special-notices', component: SpecialNoticesComponent },
-      { path: 'calendar', component: CalenderComponent },
+      { path: 'calendar', component: CalendarComponent },
       { path: 'reports', component: ReportsComponent },
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
-      { path: 'feedback-management', component: FeedbackComponent },
+      { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
     ]
   },

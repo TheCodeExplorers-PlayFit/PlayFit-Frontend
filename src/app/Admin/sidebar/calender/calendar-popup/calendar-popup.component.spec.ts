@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbackRatingComponent } from './feedback-rating.component';
+import { CalendarPopupComponent } from './calendar-popup.component';
 
-describe('FeedbackRatingComponent', () => {
-  let component: FeedbackRatingComponent;
-  let fixture: ComponentFixture<FeedbackRatingComponent>;
+describe('CalendarPopupComponent', () => {
+  let component: CalendarPopupComponent;
+  let fixture: ComponentFixture<CalendarPopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FeedbackRatingComponent]
+      imports: [CalendarPopupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FeedbackRatingComponent);
+    fixture = TestBed.createComponent(CalendarPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
