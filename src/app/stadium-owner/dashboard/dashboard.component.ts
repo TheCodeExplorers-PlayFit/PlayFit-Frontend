@@ -25,7 +25,17 @@ export class DashboardComponent implements OnInit {
   marginLeft = '5px';
   marginTop = '78px';
   viewingNotice: Notice | null = null;
+  revenueMonthLabel: string = this.getPreviousMonthYear(); // Set it dynamically
 
+  
+  getPreviousMonthYear(): string {
+    const now = new Date();
+    now.setMonth(now.getMonth() - 1);
+    const month = now.toLocaleString('default', { month: 'long' });
+    const year = now.getFullYear();
+    return `${month} ${year}`;
+  }
+  
   cards: Card[] = [
     {
       subtitle: 'Add a Stadium',
@@ -65,8 +75,22 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+     this.setPreviousMonthLabel();
     this.fetchNotices();
     this.fetchRevenueData(); // New method to fetch revenue
+  }
+
+  setPreviousMonthLabel() {
+    const today = new Date();
+    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const monthName = monthNames[lastMonth.getMonth()];
+    const year = lastMonth.getFullYear();
+
+    this.revenueMonthLabel = `${monthName} ${year}`;
   }
 
   fetchNotices() {
@@ -130,50 +154,58 @@ export class DashboardComponent implements OnInit {
 
   // New method to create the chart
   createChart() {
-    if (this.chart) {
-      this.chart.destroy(); // Destroy previous chart instance if exists
-    }
-    const ctx = document.getElementById('revenueChart') as HTMLCanvasElement;
-    if (ctx) {
-      this.chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: this.revenueData.map((item: any) => item.stadium_name), // X-axis: stadium_name
-          datasets: [{
-            label: 'June 2025', // Previous month
-            data: this.revenueData.map((item: any) => item.total_revenue), // Y-axis: total_revenue
-            backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#F44336'], // Colors for multiple stadiums
-            borderColor: ['#4CAF50', '#2196F3', '#FF9800', '#F44336'],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Total Revenue ($)'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Stadium Name'
-              }
+  if (this.chart) {
+    this.chart.destroy(); // Destroy previous chart instance
+  }
+
+  const ctx = document.getElementById('revenueChart') as HTMLCanvasElement;
+  if (ctx) {
+    // Dynamically compute previous month
+    const now = new Date();
+    now.setMonth(now.getMonth() - 1);
+    const monthName = now.toLocaleString('default', { month: 'long' });
+    const year = now.getFullYear();
+    const chartLabel = `${monthName} ${year}`;
+
+    this.chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.revenueData.map((item: any) => item.stadium_name),
+        datasets: [{
+          label: chartLabel,
+          data: this.revenueData.map((item: any) => item.total_revenue),
+          backgroundColor: ['#4CAF50', '#2196F3', '#FF9800', '#F44336'],
+          borderColor: ['#4CAF50', '#2196F3', '#FF9800', '#F44336'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Total Revenue (Rs)'
             }
           },
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: true
+          x: {
+            title: {
+              display: true,
+              text: 'Stadium Name'
             }
           }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true
+          }
         }
-      });
-    }
+      }
+    });
   }
+}
 
   ngOnDestroy() {
     if (this.chart) {
