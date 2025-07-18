@@ -42,7 +42,9 @@ declare global {
 export class StadiumTimetableComponent implements OnInit {
   private apiUrl = 'http://localhost:5000/api';
   displayedColumns: string[] = ['date', 'day', 'sport', 'coach', 'startTime', 'endTime', 'status', 'totalCost', 'action'];
+  fullyBookedDisplayedColumns: string[] = ['date', 'day', 'sport', 'coach', 'startTime', 'endTime', 'status', 'totalCost', 'waitlistStatus', 'action'];
   sessions: any[] = [];
+  fullyBookedSessions: any[] = [];
   stadiumId: number | null = null;
   sportId: number | null = null;
   playerId: number | null = null;
@@ -67,6 +69,7 @@ export class StadiumTimetableComponent implements OnInit {
       this.route.queryParamMap.subscribe(queryParams => {
         this.sportId = queryParams.get('sportId') ? Number(queryParams.get('sportId')) : null;
         this.loadTimetable();
+        this.loadFullyBookedSessions();
       });
     });
   }
@@ -89,6 +92,51 @@ export class StadiumTimetableComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadFullyBookedSessions(): void {
+    if (this.stadiumId && this.playerId) {
+      this.http.get(`${this.apiUrl}/waitlist/fully-booked-sessions`, {
+        params: {
+          stadiumId: this.stadiumId.toString(),
+          playerId: this.playerId.toString()
+        }
+      }).subscribe({
+        next: (response: any) => {
+          console.log('Fully booked sessions response:', response);
+          this.fullyBookedSessions = response.fullyBookedSessions || [];
+        },
+        error: (error) => {
+          console.error('Error fetching fully booked sessions:', error);
+          this.snackBar.open('Failed to load fully booked sessions. Please try again.', 'Close', { duration: 3000 });
+        }
+      });
+    }
+  }
+
+  addToWaitlist(sessionId: number): void {
+    if (!this.playerId) {
+      this.snackBar.open('Player ID not found.', 'Close', { duration: 3000 });
+      return;
+    }
+    this.http.post(`${this.apiUrl}/waitlist/add-to-waitlist`, {
+      playerId: this.playerId,
+      sessionId
+    }).subscribe({
+      next: (response: any) => {
+        console.log('Add to waitlist response:', response);
+        if (response.success) {
+          this.snackBar.open('Added to waitlist successfully', 'Close', { duration: 3000 });
+          this.loadFullyBookedSessions(); // Refresh the fully booked sessions to update waitlist status
+        } else {
+          this.snackBar.open(response.message || 'Failed to add to waitlist', 'Close', { duration: 3000 });
+        }
+      },
+      error: (error) => {
+        console.error('Error adding to waitlist:', error);
+        this.snackBar.open('Failed to add to waitlist. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   bookSession(sessionId: number): void {
@@ -162,6 +210,7 @@ export class StadiumTimetableComponent implements OnInit {
                   if (response.success) {
                     this.showBookingDetails(sessionId);
                     this.loadTimetable();
+                    this.loadFullyBookedSessions(); // Refresh fully booked sessions
                   } else {
                     this.snackBar.open('Failed to finalize payment: ' + response.message, 'Close', { duration: 3000 });
                   }
