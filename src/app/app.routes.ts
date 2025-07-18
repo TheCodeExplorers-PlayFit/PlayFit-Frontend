@@ -85,7 +85,7 @@ export const routes: Routes = [
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
   { path: 'about', component: AboutComponent },
-
+  { path: 'blogs', component: BlogsDisplayComponent },
   // ===== ADMIN ROUTES =====
   {
     path: 'admin',
@@ -134,7 +134,7 @@ export const routes: Routes = [
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
-      { path: 'coach-announcement', component: CoachAnnouncementComponent}
+      { path: 'coach-announcement', component: CoachAnnouncementComponent},
     ]
   },
 

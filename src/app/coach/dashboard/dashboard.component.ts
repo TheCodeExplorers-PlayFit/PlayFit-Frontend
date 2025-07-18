@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardService, SalaryOverview, SessionsOverview } from '../../services/dashboard/dashboard.service';
 import { Chart, registerables } from 'chart.js';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule,RouterModule, HttpClientModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
@@ -15,9 +17,12 @@ export class DashboardComponent implements OnInit {
   salaryChart: Chart | undefined;
   sessionsChart: Chart | undefined;
 
-  constructor(private dashboardService: DashboardService) {
-    Chart.register(...registerables);
-  }
+  constructor(
+  private dashboardService: DashboardService,
+  private router: Router
+) {
+  Chart.register(...registerables);
+}
 
   ngOnInit(): void {
     this.loadSalaryChart();
@@ -58,6 +63,23 @@ export class DashboardComponent implements OnInit {
       });
     });
   }
+
+   navigateToBookSession(): void {
+    this.router.navigate(['coach/stadium-list']);
+  }
+
+  navigateToSchedule(): void {
+  this.router.navigate(['coach/booking-history']);
+}
+
+navigateToSessionDetails(): void {
+  this.router.navigate(['coach/view-session-details']);
+}
+
+navigateToReviewRatings(): void {
+  this.router.navigate(['coach/View ratings']);
+}
+
 
   loadSessionsChart(): void {
     this.dashboardService.getSessionsOverview().subscribe((data: SessionsOverview[]) => {

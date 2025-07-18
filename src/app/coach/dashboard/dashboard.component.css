@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(120deg, #e7eaef 0%, #edf3fc 100%);
+  background: white;
   min-height: 100vh;
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
@@ -8,7 +8,7 @@ body {
   max-width: 1000px;
   width: 97%;
   margin: 64px auto 32px auto;
-  background: rgba(250,252,255,0.93);
+  background: rgba(255, 255, 255, 0.93);
   border-radius: 32px;
   box-shadow: 0 8px 38px rgba(30,60,120,0.09), 0 2px 7px rgba(20,60,160,0.04);
   padding: 46px 32px 32px 32px;
