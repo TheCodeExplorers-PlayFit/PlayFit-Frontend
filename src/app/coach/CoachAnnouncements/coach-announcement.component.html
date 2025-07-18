@@ -1,36 +1,161 @@
-<div class="container mt-5 pt-4">
-
-     <h2 class="text-success mt-5 mb-4 text-center">🎯 Coach-Specific Announcements</h2>
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 mb-4" *ngFor="let notice of coachNotices">
-      <div class="card shadow-sm border-start border-4 border-success mx-auto">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coach & All Announcements</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(120deg, #e7eaef 0%, #edf3fc 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .notice-main-container {
+      max-width: 790px;
+      width: 100%;
+      background: rgba(248,251,255,0.89);
+      border-radius: 28px;
+      box-shadow: 0 8px 32px rgba(30,60,120,0.11), 0 1px 6px rgba(20,70,160,0.03);
+      padding: 40px 25px;
+      margin: 60px auto 32px auto;
+    }
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 34px 0;
+      padding-left: 0;
+    }
+    .section-title.coach {
+      color: #069c5a;
+    }
+    .section-title.all {
+      color: #000080;
+    }
+    .notice-card {
+      border: none;
+      border-left: 9px solid #16ba70;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 2px 18px rgba(19,40,80,0.07);
+      margin-bottom: 32px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      padding-left: 0; /* Ensures hard alignment on left */
+    }
+    .notice-card.all {
+      border-left: 9px solid #223dff;
+    }
+    .notice-card:hover {
+      box-shadow: 0 8px 30px rgba(40,60,130,0.13);
+      transform: translateY(-3px) scale(1.013);
+    }
+    .notice-card .card-body {
+      padding: 30px 30px 20px 25px;
+      /* Remove margin-left, ensure padding aligns text with heading */
+    }
+    .notice-card .card-title {
+      font-size: 1.26em;
+      font-weight: bold;
+      margin-bottom: 0.45em;
+      color: #21233a;
+      letter-spacing: 0.02em;
+    }
+    .notice-card .card-subtitle {
+      font-size: 1.05em;
+      margin-bottom: 0.5em;
+      color: #099;
+      font-weight: 600;
+    }
+    .notice-meta {
+      color: #596080;
+      font-size: 0.97em;
+      margin-top: 18px;
+      display: flex;
+      gap: 33px;
+      align-items: center;
+    }
+    .notice-card .card-text {
+      font-size: 1.055em;
+      color: #3b4154;
+      margin-bottom: 0.7em;
+    }
+    /* Remove Bootstrap's col/row paddings if used, for exact alignment */
+    .row, .col, [class*="col-"] {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    @media (max-width: 900px) {
+      .notice-main-container { padding: 25px 5vw; }
+    }
+    @media (max-width: 575px) {
+      .notice-card .card-body { padding: 16px 9px 12px 13px; }
+      .notice-main-container { padding: 10px 3vw 5vw 3vw; }
+      .section-title { font-size: 1.14em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="notice-main-container">
+    <!-- Coach-specific Announcements -->
+    <h2 class="section-title coach">
+      <i class="bi bi-bullseye me-2"></i>Coach-Specific Announcements
+    </h2>
+    <div *ngIf="coachNotices?.length; else noCoachNotices">
+      <div *ngFor="let notice of coachNotices" class="notice-card">
         <div class="card-body">
-          <h5 class="card-title text-dark">{{ notice.title }}</h5>
+          <h5 class="card-title">{{ notice.title }}</h5>
           <p class="card-text">{{ notice.description }}</p>
-          <div class="text-muted small">
-            📅 {{ notice.notice_date }} | ✍️ {{ notice.author }}
+          <div class="notice-meta">
+            <span>
+              <i class="bi bi-calendar4-week me-1"></i> {{ notice.notice_date }}
+            </span>
+            <span>
+              <i class="bi bi-person-badge me-1"></i> {{ notice.author }}
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <h2 class="text-primary mb-4 text-center">📢 All Announcements</h2>
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 mb-4" *ngFor="let notice of allNotices">
-      <div class="card shadow-sm border-start border-4 border-primary mx-auto">
+    <ng-template #noCoachNotices>
+      <div class="alert alert-info text-center my-4">No coach-specific announcements found.</div>
+    </ng-template>
+
+    <!-- All Announcements -->
+    <h2 class="section-title all">
+      <i class="bi bi-megaphone-fill me-2"></i>All Announcements
+    </h2>
+    <div *ngIf="allNotices?.length; else noAllNotices">
+      <div *ngFor="let notice of allNotices" class="notice-card all">
         <div class="card-body">
-          <h5 class="card-title text-dark">{{ notice.title }}</h5>
-          <p class="card-subtitle mb-2 text-muted">
+          <h5 class="card-title">{{ notice.title }}</h5>
+          <p class="card-subtitle">
             <strong>Category:</strong> {{ notice.category }}
           </p>
           <p class="card-text">{{ notice.description }}</p>
-          <div class="text-muted small">
-            🕒 {{ notice.created_at }} | 🖋️ {{ notice.author }}
+          <div class="notice-meta">
+            <span>
+              <i class="bi bi-clock-history me-1"></i> {{ notice.created_at }}
+            </span>
+            <span>
+              <i class="bi bi-person-badge me-1"></i> {{ notice.author }}
+            </span>
           </div>
         </div>
       </div>
     </div>
+    <ng-template #noAllNotices>
+      <div class="alert alert-info text-center my-4">No general announcements found.</div>
+    </ng-template>
   </div>
-
- 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
