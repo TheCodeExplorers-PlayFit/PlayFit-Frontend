@@ -1,1 +1,35 @@
-<p>calender works!</p>
+<!-- frontend/src/app/components/calendar/calender.component.html -->
+<div class="calendar-container" *ngIf="authService.getUser()?.role === 'admin'">
+  <h2>{{ monthNames[currentMonth] }} {{ currentYear }}</h2>
+  <div class="calendar-controls">
+    <button (click)="prevMonth()">Previous</button>
+    <button (click)="nextMonth()">Next</button>
+  </div>
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (week of daysInMonth; track $index; let i = $index) {
+        <tr>
+          @for (day of daysInMonth | slice:(i*7):(i*7)+7; track $index) {
+            <td (click)="onDateClick(day)" [class.empty]="day === 0">
+              {{ day === 0 ? '' : day }}
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<div *ngIf="!authService.getUser() || authService.getUser()?.role !== 'admin'">
+  <p>You do not have permission to view this page.</p>
+</div>
