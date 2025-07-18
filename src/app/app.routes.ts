@@ -9,6 +9,7 @@ import { PlayerBookingHistoryComponent } from './player/player-booking-history/p
 import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
 import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
 import { PlayerAnnouncementsComponent } from './player/player-announcements/player-announcements.component';
+import { PlayerHealthComponent } from './player/player-health/player-health.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -127,8 +128,8 @@ export const routes: Routes = [
       { path: 'complaints', component: PlayerComplaintsComponent },
       { path: 'announcements', component: PlayerAnnouncementsComponent},
       { path: 'ratings', component:RatingsComponent},
-      {path: 'profile', component: ProfileComponent},
-
+      { path: 'profile', component: ProfileComponent},
+      { path: 'Player-Health', component: PlayerHealthComponent},
     ]
   },
 
