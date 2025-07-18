@@ -1,0 +1,323 @@
+<!-- admin-ratings.component.html -->
+<div class="admin-ratings-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="page-title">
+      <h1>📊 Rating Management</h1>
+      <p>Monitor and manage ratings for stadiums and coaches</p>
+    </div>
+    <div class="header-actions">
+      <button (click)="refreshData()" class="btn btn-secondary">
+        🔄 Refresh
+      </button>
+      <button (click)="toggleStatistics()" class="btn btn-primary">
+        {{ showStatistics ? 'Hide' : 'Show' }} Statistics
+      </button>
+    </div>
+  </div>
+
+  <!-- Statistics Section -->
+  <div class="statistics-section" *ngIf="showStatistics && statistics">
+    <div class="stats-grid">
+      <!-- Overall Stats -->
+      <div class="stat-card overview-card">
+        <h3>📈 Overall Statistics</h3>
+        <div class="stat-items">
+          <div class="stat-item">
+            <span class="stat-label">Total Ratings:</span>
+            <span class="stat-value">{{ statistics.overall.total_ratings }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Average Rating:</span>
+            <span class="stat-value rating-avg">
+              {{ statistics.overall.average_rating | number:'1.1-1' }} 
+              <span class="stars">{{ getStarDisplay(statistics.overall.average_rating) }}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating Distribution -->
+      <div class="stat-card distribution-card">
+        <h3>⭐ Rating Distribution</h3>
+        <div class="distribution-bars">
+          <div *ngFor="let dist of statistics.distribution" class="distribution-item">
+            <span class="rating-label">{{ dist.rating }}★</span>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="dist.percentage"></div>
+            </div>
+            <span class="percentage">{{ dist.percentage }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Entity Type Stats -->
+      <div class="stat-card entity-stats-card">
+        <h3>📊 By Entity Type</h3>
+        <div *ngFor="let entityStat of statistics.byEntityType" class="entity-stat">
+          <div class="entity-header">
+            <span class="entity-icon">{{ getEntityTypeIcon(entityStat.entity_type) }}</span>
+            <span class="entity-name">{{ entityStat.entity_type | titlecase }}s</span>
+          </div>
+          <div class="entity-details">
+            <span>{{ entityStat.total_ratings }} ratings</span>
+            <span class="avg-rating">{{ entityStat.average_rating | number:'1.1-1' }}★</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Rated -->
+      <div class="stat-card top-rated-card">
+        <h3>🏆 Top Rated</h3>
+        <div class="top-rated-section">
+          <h4>Stadiums</h4>
+          <div *ngFor="let stadium of statistics.topStadiums" class="top-item">
+            <span class="name">{{ stadium.name }}</span>
+            <span class="rating">{{ stadium.average_rating | number:'1.1-1' }}★ ({{ stadium.rating_count }})</span>
+          </div>
+        </div>
+        <div class="top-rated-section">
+          <h4>Coaches</h4>
+          <div *ngFor="let coach of statistics.topCoaches" class="top-item">
+            <span class="name">{{ coach.name }}</span>
+            <span class="rating">{{ coach.average_rating | number:'1.1-2' }}★ ({{ coach.rating_count }})</span>
+          </div>
+          <div *ngIf="!statistics.topCoaches || statistics.topCoaches.length === 0" class="no-data-small">
+            No coach ratings yet
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search Section -->
+  <div class="filters-section">
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search by stadium/coach name..." 
+        [value]="searchTerm"
+        (input)="onSearchChange($any($event.target).value)"
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-container">
+      <select [(ngModel)]="entityTypeFilter" (change)="onEntityTypeFilterChange()" class="filter-select">
+        <option value="">All Types</option>
+        <option value="stadium">Stadiums Only</option>
+        <option value="coach">Coaches Only</option>
+      </select>
+    </div>
+
+    <div class="items-per-page">
+      <label>Show:</label>
+      <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()" class="items-select">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+      </select>
+      <span>per page</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    ⚠️ {{ error }}
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading ratings...</p>
+  </div>
+
+  <!-- Ratings Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="ratings-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Entity Type</th>
+          <th>Entity Name</th>
+          <th>Rating</th>
+          <th>Comment</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rating of ratings; trackBy: trackByRatingId" class="rating-row">
+          <td>{{ rating.id }}</td>
+          <td>
+            <div class="user-info">
+              <span class="user-name">{{ rating.user_name }}</span>
+              <span class="user-email">{{ rating.user_email }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="entity-type">
+              {{ getEntityTypeIcon(rating.entity_type) }} {{ rating.entity_type | titlecase }}
+            </span>
+          </td>
+          <td>
+            <div class="entity-info">
+              <span class="entity-name">{{ rating.entity_name }}</span>
+              <span class="entity-details">{{ rating.entity_details }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="rating-display">
+              <span class="rating-number" [class]="getRatingColorClass(rating.rating)">
+                {{ rating.rating }}
+              </span>
+              <span class="rating-stars">{{ getStarDisplay(rating.rating) }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="comment-cell">
+              <span class="comment-preview" [title]="rating.comment">
+                {{ rating.comment.length > 50 ? (rating.comment | slice:0:50) + '...' : rating.comment }}
+              </span>
+            </div>
+          </td>
+          <td>{{ formatDate(rating.created_at) }}</td>
+          <td>
+            <div class="action-buttons">
+              <button (click)="viewRating(rating)" class="btn btn-info btn-sm" title="View Details">
+                👁️
+              </button>
+              <button (click)="confirmDeleteRating(rating.id)" class="btn btn-danger btn-sm" title="Delete">
+                🗑️
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- No Data Message -->
+    <div *ngIf="ratings.length === 0" class="no-data">
+      <p>📭 No ratings found</p>
+      <p *ngIf="searchTerm || entityTypeFilter">Try adjusting your search criteria</p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="totalPages > 1" class="pagination-container">
+    <div class="pagination-info">
+      Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to 
+      {{ getMaxDisplayItems() }} of {{ totalItems }} ratings
+    </div>
+    
+    <div class="pagination-controls">
+      <button 
+        (click)="onPageChange(1)" 
+        [disabled]="currentPage === 1"
+        class="btn btn-pagination">
+        ⏮️ First
+      </button>
+      
+      <button 
+        (click)="onPageChange(currentPage - 1)" 
+        [disabled]="currentPage === 1"
+        class="btn btn-pagination">
+        ⬅️ Previous
+      </button>
+
+      <div class="page-numbers">
+        <button 
+          *ngFor="let page of getPaginationArray()"
+          (click)="onPageChange(page)"
+          [class.active]="page === currentPage"
+          class="btn btn-page-number">
+          {{ page }}
+        </button>
+      </div>
+
+      <button 
+        (click)="onPageChange(currentPage + 1)" 
+        [disabled]="currentPage === totalPages"
+        class="btn btn-pagination">
+        Next ➡️
+      </button>
+      
+      <button 
+        (click)="onPageChange(totalPages)" 
+        [disabled]="currentPage === totalPages"
+        class="btn btn-pagination">
+        Last ⏭️
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Rating Details Modal -->
+<div *ngIf="selectedRating" class="modal-overlay" (click)="closeRatingDetails()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>📝 Rating Details</h3>
+      <button (click)="closeRatingDetails()" class="close-btn">✖️</button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="detail-section">
+        <h4>👤 User Information</h4>
+        <p><strong>Name:</strong> {{ selectedRating.user_name }}</p>
+        <p><strong>Email:</strong> {{ selectedRating.user_email }}</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>🎯 Entity Information</h4>
+        <p><strong>Type:</strong> {{ getEntityTypeIcon(selectedRating.entity_type) }} {{ selectedRating.entity_type | titlecase }}</p>
+        <p><strong>Name:</strong> {{ selectedRating.entity_name }}</p>
+        <p><strong>Details:</strong> {{ selectedRating.entity_details }}</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>⭐ Rating</h4>
+        <div class="rating-detail">
+          <span class="rating-number large" [class]="getRatingColorClass(selectedRating.rating)">
+            {{ selectedRating.rating }}
+          </span>
+          <span class="rating-stars large">{{ getStarDisplay(selectedRating.rating) }}</span>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h4>💬 Comment</h4>
+        <p class="full-comment">{{ selectedRating.comment }}</p>
+      </div>
+
+      <div class="detail-section">
+        <h4>📅 Created</h4>
+        <p>{{ formatDate(selectedRating.created_at) }}</p>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="closeRatingDetails()" class="btn btn-secondary">Close</button>
+      <button (click)="confirmDeleteRating(selectedRating.id)" class="btn btn-danger">Delete Rating</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="showDeleteConfirm" class="modal-overlay">
+  <div class="modal-content delete-confirm">
+    <div class="modal-header">
+      <h3>⚠️ Confirm Delete</h3>
+    </div>
+    
+    <div class="modal-body">
+      <p>Are you sure you want to delete this rating?</p>
+      <p class="warning-text">This action cannot be undone.</p>
+    </div>
+
+    <div class="modal-footer">
+      <button (click)="cancelDelete()" class="btn btn-secondary">Cancel</button>
+      <button (click)="deleteRating()" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</div>

@@ -17,7 +17,7 @@ import { AddStadiumComponent } from './stadium-owner/add-stadium/add-stadium.com
 import { StadiumsComponent } from './stadium-owner/stadiums/stadiums.component';
 import { AchievementsComponent } from './stadium-owner/achievements/achievements.component';
 import { MaintenanceRequestsComponent } from './stadium-owner/maintenance-requests/maintenance-requests.component';
-import { ComplaintsComponent } from './stadium-owner/complaints/complaints.component';
+import { BlogsComponent as StadiumOwnerBlogsComponent} from './stadium-owner/blogs/blogs.component';
 import { PlayerPackagesComponent } from './stadium-owner/player-packages/player-packages.component';
 import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 
@@ -32,6 +32,7 @@ import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/
 import { SalaryDetailsComponent } from './coach/salary-details/salary-details.component';
 import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
+import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -71,10 +72,10 @@ import { UserManagementComponent } from './Admin/sidebar/user-management/user-ma
 import { ApprovalsComponent } from './Admin/sidebar/approvals/approvals.component';
 import { BlogsComponent as adminblogscomponent } from './Admin/sidebar/blogs/blogs.component';
 import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special-notices.component';
-import { CalenderComponent } from './Admin/sidebar/calender/calender.component';
+import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
-import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -104,11 +105,11 @@ export const routes: Routes = [
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
       { path: 'special-notices', component: SpecialNoticesComponent },
-      { path: 'calendar', component: CalenderComponent },
+      { path: 'calendar', component: CalendarComponent },
       { path: 'reports', component: ReportsComponent },
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
-      { path: 'feedback-management', component: FeedbackComponent },
+      { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
     ]
   },
@@ -146,6 +147,7 @@ export const routes: Routes = [
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
+      { path: 'coach-announcement', component: CoachAnnouncementComponent}
     ]
   },
 
@@ -157,7 +159,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: StadiumOwnerDashboardComponent },
       { path: 'stadiums', component: StadiumsComponent },
       { path: 'add-stadium', component: AddStadiumComponent },
-      { path: 'complaints', component: ComplaintsComponent },
+      { path: 'blogs', component:BlogsComponent},
       { path: 'achievements', component: AchievementsComponent },
       { path: 'maintenance-requests', component: MaintenanceRequestsComponent },
       { path: 'player-packages', component: PlayerPackagesComponent },
