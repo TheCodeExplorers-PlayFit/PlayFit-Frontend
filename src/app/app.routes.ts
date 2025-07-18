@@ -33,6 +33,7 @@ import {SessionDetailsComponent} from './coach/session-details/session-details.c
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
 import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
 
+
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
 import { AppointmentsComponent } from './healthOfficer/sidebar/appointments/appointments.component';
@@ -70,6 +71,7 @@ import { CalenderComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
 import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -135,6 +137,7 @@ export const routes: Routes = [
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
       { path: 'coach-announcement', component: CoachAnnouncementComponent},
+      {path: 'stadium-ratings', component:StadiumRatingsForCoachComponent}, // Assuming this is a placeholder for ratings
     ]
   },
 
