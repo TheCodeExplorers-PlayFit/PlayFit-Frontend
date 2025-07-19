@@ -7,8 +7,8 @@
 }
 
 /* Main Title */
-h1.fw-bold {
-  color: #000080;
+h1 {
+  color: #060673;
   font-weight: 500;
   letter-spacing: -0.5px;
   font-size: 2.5rem;
@@ -17,10 +17,10 @@ h1.fw-bold {
 
 /* Search Input Container */
 .input-group {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 6px #00000016;
   border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .input-group:focus-within {
@@ -73,20 +73,20 @@ h1.fw-bold {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 8px 25px #00008073 !important;
 }
 
 .card:hover::before {
-  background: #3f51b5;
+  background: #162fba;
 }
 
 .card.border-primary {
-  box-shadow: 0 6px 20px rgba(63, 81, 181, 0.25) !important;
+  box-shadow: 0 6px 20px rgba(3, 25, 148, 0.25) !important;
   transform: translateY(-2px);
 }
 
 .card.border-primary::before {
-  background: #3f51b5;
+  background: #0a2cef;
 }
 
 .card-body {
@@ -94,8 +94,8 @@ h1.fw-bold {
   position: relative;
 }
 
-.fw-semibold {
-  color: #2c3e50;
+.fw {
+  color: #000080e7;
   font-weight: 500;
   font-size: 16px;
   margin-bottom: 4px;
@@ -114,14 +114,14 @@ h1.fw-bold {
 
 .card:hover .text-secondary.fs-5 {
   transform: translateX(4px);
-  color: #3f51b5 !important;
+  color: #6675ceb5 !important;
 }
 
 /* Right Panel */
 .bg-light {
   background: white !important;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px #0000001a;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   position: relative;
@@ -152,7 +152,7 @@ h1.fw-bold {
 
 /* Profile Info */
 h4.mb-0 {
-  color: #2c3e50;
+  color: #040d6e;
   font-weight: 500;
   letter-spacing: -0.3px;
 }
@@ -176,7 +176,8 @@ p a[href^="tel:"]:hover {
 
 /* Add Injury Button */
 .btn-primary {
-  background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+  /* background: linear-gradient(135deg, #000080 0%, #061464 100%); */
+  background-color: #000080;
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -184,7 +185,7 @@ p a[href^="tel:"]:hover {
   letter-spacing: 0.5px;
   text-transform: uppercase;
   font-size: 14px;
-  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+ 
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -197,7 +198,7 @@ p a[href^="tel:"]:hover {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, #ffffff7c, transparent);
   transition: left 0.5s;
 }
 
@@ -217,7 +218,7 @@ p a[href^="tel:"]:hover {
 
 /* Section Headings */
 h5 {
-  color: #2c3e50;
+  color: #040d6e;
   font-weight: 500;
   margin-bottom: 20px;
   position: relative;
@@ -245,7 +246,7 @@ h5::before {
 }
 
 .table thead th {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+  background: linear-gradient(135deg, #3d70df 0%, #7bb6e6 100%) !important;
   color: white;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -254,6 +255,7 @@ h5::before {
   padding: 16px 12px;
   border: none;
   position: relative;
+ 
 }
 
 .table thead th:first-child {
