@@ -12,7 +12,7 @@
 .chart-card {
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(23, 25, 137, 0.1);
   padding: 24px;
   margin-bottom: 24px;
   border: 1px solid #e0e0e0;
@@ -20,7 +20,7 @@
 }
 
 .chart-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.181);
 }
 
 .chart-header {
@@ -85,7 +85,7 @@ canvas {
 .chart-loading .spinner-border {
   width: 3rem;
   height: 3rem;
-  color: #6200EE;
+  color: #6300ee00;
 }
 
 .chart-error i {
@@ -107,11 +107,11 @@ canvas {
 /* ------------------------- */
 /* Summary Statistics */
 .summary-card {
-  background: linear-gradient(135deg, #6200EE 0%, #3700B3 100%);
+  background: linear-gradient(135deg, #4d98ed 0%, #000080 100%);
   border-radius: 12px;
   padding: 24px;
   color: white;
-  box-shadow: 0 4px 12px rgba(98, 0, 238, 0.3);
+  box-shadow: 0 4px 12px rgba(102, 6, 236, 0.3);
 }
 
 .summary-header {
@@ -253,28 +253,29 @@ canvas {
 }
 
 .action-buttons .btn-outline-primary:hover {
-  background-color: #6200EE;
-  border-color: #6200EE;
+  background-color: #0717a2;
+  border-color: #0717a2;
   color: white;
 }
 
 .btn-outline-primary {
-  border-color: #6200EE;
-  color: #6200EE;
+  border-color: #0717a2;
+  color: #0717a2;
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .btn-outline-primary:hover {
-  background-color: #6200EE;
-  border-color: #6200EE;
+  background-color: #0717a2;
+  border-color: #0717a2;
   transform: translateY(-1px);
+  color: #ffffff;
 }
 
 .btn-primary {
-  background-color: #6200EE;
-  border-color: #6200EE;
+  background-color: #0717a2;
+  border-color: #0717a2;
   font-weight: 500;
   border-radius: 8px;
   transition: all 0.2s ease;
@@ -375,7 +376,7 @@ canvas {
 /* Table Cell Specific Styles */
 .time-cell {
   font-weight: 600;
-  color: #6200EE;
+  color: #258dee;
   font-size: 0.9rem;
   white-space: nowrap;
   min-width: 80px;
@@ -399,10 +400,13 @@ canvas {
   border: 2px solid #e0e0e0;
   transition: border-color 0.2s ease;
   flex-shrink: 0;
+   
 }
 
 .appointments-table tbody tr:hover .patient-avatar {
-  border-color: #6200EE;
+  border-color: #e258ef;
+ 
+
 }
 
 .patient-name {
@@ -521,7 +525,7 @@ canvas {
 .table-responsive {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.199);
   margin-bottom: 24px;
 }
 
