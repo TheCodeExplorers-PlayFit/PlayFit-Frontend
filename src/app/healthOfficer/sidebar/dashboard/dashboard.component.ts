@@ -344,4 +344,6 @@ export class DashboardComponent implements OnInit {
   get hasWeeklyData(): boolean {
     return this.weeklyData.length > 0;
   }
+
+  
 }
