@@ -1,77 +1,7 @@
-/* dashboard.component.css */
+/* Add these styles to your existing dashboard.component.css */
 
-/* Existing styles */
-.style1 {
-    width: 100px;
-    border-radius: 20px;
-    background-color: #76de1b63;
-}
-
-/* Chart Card Styles - Material Design */
-.chart-card {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-bottom: 24px;
-  border: 1px solid #e0e0e0;
-  transition: box-shadow 0.3s ease;
-}
-
-.chart-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.chart-title {
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-}
-
-.chart-title i {
-  color: #6200EE;
-}
-
-.chart-info {
-  display: flex;
-  align-items: center;
-}
-
-.chart-container {
-  position: relative;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chart-wrapper {
-  position: relative;
-  width: 100%;
-  height: 400px;
-}
-
-/* Canvas Styles */
-canvas {
-  width: 100% !important;
-  height: 400px !important;
-  user-select: none;
-}
-
-/* Loading State */
-.chart-loading {
+/* Loading and Error States */
+.chart-loading, .chart-error {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,218 +13,91 @@ canvas {
 .chart-loading .spinner-border {
   width: 3rem;
   height: 3rem;
-}
-
-/* Error State */
-.chart-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  text-align: center;
-  color: #666;
+  color: #6200EE;
 }
 
 .chart-error i {
   font-size: 3rem;
   margin-bottom: 1rem;
+  color: #ccc;
 }
 
-/* Summary Statistics */
-.summary-card {
-  background: linear-gradient(135deg, #6200EE 0%, #3700B3 100%);
-  border-radius: 12px;
-  padding: 24px;
-  color: white;
-  box-shadow: 0 4px 12px rgba(98, 0, 238, 0.3);
-}
-
-.summary-header {
-  margin-bottom: 20px;
-}
-
-.summary-title {
-  font-weight: 600;
-  margin: 0;
+.chart-error p {
   font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-}
-
-.summary-body {
-  padding: 0;
-}
-
-.stat-item {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 20px 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.stat-item:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.stat-number {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #ffffff;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.9;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .chart-card {
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  
-  .chart-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  
-  .chart-title {
-    font-size: 1rem;
-  }
-  
-  .chart-container {
-    min-height: 300px;
-  }
-  
-  .chart-wrapper {
-    height: 300px;
-  }
-  
-  canvas {
-    height: 300px !important;
-  }
-  
-  .stat-item {
-    padding: 16px 12px;
-  }
-  
-  .stat-number {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .chart-container {
-    min-height: 250px;
-  }
-  
-  .chart-wrapper {
-    height: 250px;
-  }
-  
-  canvas {
-    height: 250px !important;
-  }
-}
-
-/* Custom Button Styles */
-.btn-outline-primary {
-  border-color: #6200EE;
-  color: #6200EE;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn-outline-primary:hover {
-  background-color: #6200EE;
-  border-color: #6200EE;
-  transform: translateY(-1px);
-}
-
-.btn-primary {
-  background-color: #6200EE;
-  border-color: #6200EE;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn-primary:hover {
-  background-color: #3700B3;
-  border-color: #3700B3;
-  transform: translateY(-1px);
-}
-
-.btn-info {
-  background-color: #03DAC6;
-  border-color: #03DAC6;
-  color: #000;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn-info:hover {
-  background-color: #018786;
-  border-color: #018786;
-  color: #fff;
-  transform: translateY(-1px);
-}
-
-/* Container Adjustments */
-.container-fluid {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Card Container Improvements */
-.card-container {
-  margin-bottom: 8px;
-}
-
-.card {
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.card-title {
-  color: #333;
-  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.card-subtitle {
-  font-weight: 500;
+.chart-error small {
   font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.card-text {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 0;
+/* Badge Styles */
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.bg-primary {
+  background-color: #6200EE !important;
+}
+
+/* Enhanced Status Badges */
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Enhanced Action Buttons */
+.action-buttons .btn-outline-success {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.action-buttons .btn-outline-success:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.action-buttons .btn-outline-primary:hover {
+  background-color: #6200EE;
+  border-color: #6200EE;
+  color: white;
+}
+
+/* Spinner Animations */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+/* Button States */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Enhanced Table Responsiveness */
+@media (max-width: 768px) {
+  .appointments-table {
+    font-size: 0.75rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: 8px 4px;
+  }
+  
+  .patient-avatar {
+    width: 24px
+  }
 }
