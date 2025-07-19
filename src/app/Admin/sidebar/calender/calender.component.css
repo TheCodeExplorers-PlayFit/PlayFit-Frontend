@@ -1,0 +1,49 @@
+/* frontend/src/app/components/calendar/calender.component.css */
+.calendar-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 80px;
+}
+
+.calendar-controls {
+  margin-bottom: 20px;
+}
+
+.calendar-controls button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.calendar-controls button:hover {
+  background-color: #0056b3;
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar-table th, .calendar-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.calendar-table td {
+  cursor: pointer;
+}
+
+.calendar-table td.empty {
+  background-color: #f8f8f8;
+  cursor: default;
+}
+
+.calendar-table td:hover:not(.empty) {
+  background-color: #e0e0e0;
+}
