@@ -54,7 +54,7 @@ import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 
 // ===== ADMIN =====
-import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
+import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
 import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
@@ -86,7 +86,7 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdmindashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent  },
@@ -96,7 +96,6 @@ export const routes: Routes = [
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
-      { path: 'settings', component: AdmindashboardComponent },
       { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
