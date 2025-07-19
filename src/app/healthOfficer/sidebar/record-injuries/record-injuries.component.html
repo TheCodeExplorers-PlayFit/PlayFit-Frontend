@@ -1,6 +1,6 @@
-
+<br><br>
 <form [formGroup]="injuryForm" (ngSubmit)="submitInjury()" class="container mt-4 border p-4 rounded shadow-sm bg-light">
-  <h1 class="mb-4" [style.marginTop]="marginTop">Record Injury Details</h1>
+  <h1 class="mb-4">Record Injury Details</h1>
   <h4>1. Player Information</h4>
   <br>
   <div class="row mb-3">
@@ -71,7 +71,7 @@
     <div class="col-md-6">
       <label for="first_aid_given" class="form-label d-block">First Aid Given:</label>
       <div class="form-check form-switch">
-        <input type="checkbox" id="first_aid_given" class="form-check-input" formControlName="first_aid_given">
+        <input type="checkbox" style="margin-left: 3px;" id="first_aid_given" class="form-check-input" formControlName="first_aid_given">
         <label class="form-check-label" for="first_aid_given"></label>
       </div>
     </div>

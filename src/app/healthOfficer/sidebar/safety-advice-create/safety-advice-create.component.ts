@@ -13,6 +13,7 @@ import { AuthService } from '../../../services/auth/auth.service';
   styleUrl: './safety-advice-create.component.css'
 })
 export class SafetyAdviceCreateComponent implements OnInit {
+  marginTop = '65px';
   @ViewChild('editor') editor!: ElementRef;
   @ViewChild('inputImage') inputImage!: ElementRef;
 

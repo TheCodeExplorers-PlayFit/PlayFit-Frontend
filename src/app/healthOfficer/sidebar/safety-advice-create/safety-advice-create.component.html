@@ -1,6 +1,6 @@
-<form (ngSubmit)="onSubmit()" class="container-fluid p-4" style="max-width: 600px; margin: 0 auto;">
+<form (ngSubmit)="onSubmit()" class="container-fluid p-4" style="max-width: 600px; margin: 0 auto;" [style.marginTop]="marginTop">
   <div class="mb-4">
-    <h2 class="fw-bold mb-2">{{ editMode ? 'Edit Safety Advice & Tips' : 'Add Safety Advice & Tips' }}</h2>
+    <h1 class="mb-2">{{ editMode ? 'Edit Safety Advice & Tips' : 'Add Safety Advice & Tips' }}</h1>
 <p class="text-muted">Share your expertise on sports health, recovery, and wellness.</p>
 
   </div>

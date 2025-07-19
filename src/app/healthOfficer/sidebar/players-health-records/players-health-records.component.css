@@ -17,14 +17,14 @@ h1 {
 
 /* Search Input Container */
 .input-group {
-  box-shadow: 0 4px 6px #00000016;
+  box-shadow: 0 4px 6px #00000009;
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.2s ease;
 }
 
 .input-group:focus-within {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px #0000000e;
   transform: translateY(-1px);
 }
 
@@ -58,6 +58,7 @@ h1 {
   background: white;
   overflow: hidden;
   position: relative;
+
 }
 
 .card::before {
@@ -81,7 +82,7 @@ h1 {
 }
 
 .card.border-primary {
-  box-shadow: 0 6px 20px rgba(3, 25, 148, 0.25) !important;
+  box-shadow: 0 6px 20px #03199440 !important;
   transform: translateY(-2px);
 }
 
