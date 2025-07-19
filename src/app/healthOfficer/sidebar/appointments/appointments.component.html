@@ -20,7 +20,12 @@
           [ngClass]="{'table-active': selectedAppointment?.id === appointment.id, 'appointment-row': true}"
           style="cursor: pointer;">
         <td>{{ appointment.id }}</td>
-        <td>👤{{ appointment.first_name }}</td>
+        <td class="player-cell">
+  <div class="player-info">
+    <div class="avatar">{{ getInitials(appointment.first_name) }}</div>
+    <span class="player-name">{{ appointment.first_name }}</span>
+  </div>
+</td>
         <td>{{ appointment.appointment_date }}</td>
         <td>{{ appointment.appointment_time }}</td>
         <td>{{ appointment.reason }}</td>
