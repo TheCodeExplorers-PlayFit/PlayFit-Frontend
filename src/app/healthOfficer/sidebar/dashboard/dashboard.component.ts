@@ -50,6 +50,7 @@ interface StatsResponse {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  marginTop = '72px';
   @ViewChild('appointmentsChart', { static: true })
   private chartRef!: ElementRef;
 
