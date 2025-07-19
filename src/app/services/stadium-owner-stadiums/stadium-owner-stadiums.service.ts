@@ -54,7 +54,7 @@ export class StadiumOwnerStadiumsService {
         fromTime: schedule.fromTime,
         toTime: schedule.toTime,
         maxPlayers: schedule.maxPlayers,
-        sportPercentage: schedule.sportPercentage
+        sportCost: schedule.sportCost
       }))
     };
 

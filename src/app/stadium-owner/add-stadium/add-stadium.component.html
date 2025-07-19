@@ -8,9 +8,10 @@
     <div class="form-group">
       <label for="address">Address:</label>
       <input type="text" id="address" [(ngModel)]="newStadium.address" name="address" class="form-control" required (ngModelChange)="locateAddress()">
-      <button type="button" (click)="locateAddress()">Locate</button>
-      <button type="button" [disabled]="!newStadium.google_maps_link || locationConfirmed" (click)="confirmLocation()">Confirm Location</button>
-      <button type="button" [disabled]="!hasNavigatedToMap || locationConfirmed" (click)="confirmLocationInMap()">Confirm Location in Map</button>
+        <button type="button" class="locate-btn" (click)="locateAddress()">Locate</button>
+        <button type="button" class="confirm-btn" [disabled]="!newStadium.google_maps_link || locationConfirmed" (click)="confirmLocation()">Confirm Location</button>
+        <button type="button" class="map-confirm-btn" [disabled]="!hasNavigatedToMap || locationConfirmed" (click)="confirmLocationInMap()">Confirm Location in Map</button>
+
       <div *ngIf="locationConfirmed" class="confirmation">Location confirmed!</div>
       <div *ngIf="addressError" class="error">{{ addressError }}</div>
     </div>
@@ -49,8 +50,8 @@
       <input type="time" id="toTime" [(ngModel)]="selectedToTime" name="toTime" class="form-control" required>
     </div>
     <div class="form-group">
-      <label for="sportPercentage">Sport Percentage (%):</label>
-      <input type="number" id="sportPercentage" [(ngModel)]="selectedSportPercentage" name="sportPercentage" class="form-control" min="0" max="20" step="0.01" required>
+      <label for="sportCost">Cost Per Player (Rs):</label>
+      <input type="number" id="sportCost" [(ngModel)]="selectedSportCost" name="sportCost" class="form-control" min="0" step="0.01" required>
     </div>
     <button type="button" class="add-btn" (click)="addScheduleRow()">Add Schedule</button>
     <div *ngIf="newStadium.schedule.length > 0" class="schedule-table">
@@ -63,7 +64,7 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Max Players</th>
-            <th>Sport Percentage (%)</th>
+            <th>Cost Per Player (Rs)</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -74,7 +75,7 @@
             <td>{{ schedule.fromTime }}</td>
             <td>{{ schedule.toTime }}</td>
             <td>{{ schedule.maxPlayers }}</td>
-            <td>{{ schedule.sportPercentage }}</td>
+            <td>{{ schedule.sportCost | currency:'INR':'symbol':'1.2-2' }}</td>
             <td><button type="button" class="delete-btn" (click)="removeRow(i)">Remove</button></td>
           </tr>
         </tbody>
@@ -96,8 +97,10 @@
     </div>
     <div class="form-group">
       <label>
-        <input type="checkbox" [(ngModel)]="agreed" name="agreed" [disabled]="!locationConfirmed"> I agree to the terms and conditions
+        <input type="checkbox" [(ngModel)]="agreed" name="agreed" [disabled]="!locationConfirmed">
+        I agree to the <a href="/terms-and-conditions" target="_blank">terms and conditions</a>
       </label>
+
     </div>
     <button type="submit" class="submit-btn" [disabled]="!agreed || !locationConfirmed">Submit</button>
     <button type="button" class="reset-btn" (click)="resetForm()">Reset</button>

@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { StadiumOwnerStadiumsService } from '../../services/stadium-owner-stadiums/stadium-owner-stadiums.service';
 import { Stadium } from '../../models/stadium';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-stadiums',
   templateUrl: './stadiums.component.html',
   styleUrls: ['./stadiums.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [CommonModule, FormsModule, RouterModule, CurrencyPipe]
 })
 export class StadiumsComponent implements OnInit {
   stadiums: Stadium[] = [];
   editedStadium: Stadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
+  originalSchedule: any[] = []; // Store original schedule to preserve sportCost
   showEdit = false;
   weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   uploadProgress: number = 0;
@@ -116,7 +118,7 @@ export class StadiumsComponent implements OnInit {
     this.stadiumService.getStadiums(token).subscribe({
       next: (data) => {
         this.stadiums = data;
-        console.log('Fetched stadiums with schedule:', this.stadiums);
+        console.log('Fetched stadiums with schedule:', JSON.stringify(this.stadiums, null, 2));
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -135,26 +137,31 @@ export class StadiumsComponent implements OnInit {
   }
 
   enableEdit(stadium: Stadium) {
-    console.log('enableEdit called with stadium:', stadium);
+    console.log('enableEdit called with stadium:', JSON.stringify(stadium, null, 2));
     if (!stadium) {
       console.error('Stadium is undefined or null');
       return;
     }
     this.editedStadium = {
       ...stadium,
-      schedule: Array.isArray(stadium.schedule) ? stadium.schedule.map(s => ({
-        sport: s.sport || '',
-        day: s.day || '',
-        fromTime: s.fromTime || '',
-        toTime: s.toTime || '',
-        maxPlayers: s.maxPlayers || 0,
-        sportPercentage: s.sportPercentage || 0
-      })) : [],
+      schedule: Array.isArray(stadium.schedule) ? stadium.schedule.map(s => {
+        const sportCost = typeof s.sportCost === 'number' && !isNaN(s.sportCost) && s.sportCost >= 0 ? s.sportCost : 0;
+        console.log(`Processing schedule for ${s.sport || 'unknown sport'}: original sportCost = ${s.sportCost}, assigned sportCost = ${sportCost}`);
+        return {
+          sport: s.sport || '',
+          day: s.day || '',
+          fromTime: s.fromTime || '',
+          toTime: s.toTime || '',
+          maxPlayers: s.maxPlayers || 0,
+          sportCost: s.sportCost ?? 0
+        };
+      }) : [],
       images: Array.isArray(stadium.images) ? [...stadium.images] : []
     };
+    this.originalSchedule = JSON.parse(JSON.stringify(stadium.schedule || [])); // Deep copy original schedule
+    console.log('Original schedule stored:', JSON.stringify(this.originalSchedule, null, 2));
+    console.log('Edited stadium set:', JSON.stringify(this.editedStadium, null, 2));
     this.showEdit = true;
-    console.log('showEdit set to:', this.showEdit);
-    console.log('Edited stadium set:', this.editedStadium);
     this.cdr.detectChanges();
   }
 
@@ -162,12 +169,13 @@ export class StadiumsComponent implements OnInit {
     console.log('cancelEdit called');
     this.showEdit = false;
     this.editedStadium = { id: 0, name: '', address: '', google_maps_link: '', facilities: '', images: [], schedule: [] };
+    this.originalSchedule = [];
     this.cdr.detectChanges();
-    console.log('showEdit set to:', this.showEdit);
   }
 
   saveEdit() {
-    console.log('Saving edit with editedStadium:', this.editedStadium);
+    console.log('Saving edit with editedStadium:', JSON.stringify(this.editedStadium, null, 2));
+    console.log('Original schedule:', JSON.stringify(this.originalSchedule, null, 2));
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Please log in to save changes.');
@@ -180,6 +188,10 @@ export class StadiumsComponent implements OnInit {
     }
     if (this.editedStadium.schedule && this.editedStadium.schedule.length > 0) {
       for (const schedule of this.editedStadium.schedule) {
+        if (!schedule.sport) {
+          alert('Sport is required for all schedules.');
+          return;
+        }
         if (schedule.day && !this.weekdayOptions.includes(schedule.day)) {
           alert(`Invalid day: ${schedule.day}. Choose a valid day of the week.`);
           return;
@@ -188,8 +200,38 @@ export class StadiumsComponent implements OnInit {
           alert(`Start time must be earlier than end time for ${schedule.sport || 'schedule'}.`);
           return;
         }
+        const parsedCost = Number(schedule.sportCost);
+if (isNaN(parsedCost) || parsedCost < 0) {
+  alert(`Cost per player for ${schedule.sport} must be a non-negative number.`);
+  return;
+}
+schedule.sportCost = parsedCost;
+
       }
+      // Preserve original sportCost for unchanged schedules
+      this.editedStadium.schedule = this.editedStadium.schedule.map((sched, i) => {
+        // Find matching original schedule by sport, day, times, and maxPlayers
+        
+        const original = this.originalSchedule.find(os => 
+          os.sport === sched.sport &&
+          os.day === sched.day &&
+          os.fromTime === sched.fromTime &&
+          os.toTime === sched.toTime &&
+          os.maxPlayers === sched.maxPlayers
+        );
+        if (original && typeof original.sportCost === 'number' && !isNaN(original.sportCost) && original.sportCost > 0) {
+          // Only preserve if current sportCost is 0 or unchanged
+          const currentSportCost = typeof sched.sportCost === 'number' && !isNaN(sched.sportCost) ? sched.sportCost : 0;
+          if (currentSportCost === 0 || currentSportCost === original.sportCost) {
+            console.log(`Preserving original sportCost for ${sched.sport}: ${original.sportCost} (current: ${currentSportCost})`);
+            return { ...sched, sportCost: original.sportCost };
+          }
+        }
+        console.log(`Using current sportCost for ${sched.sport}: ${sched.sportCost}`);
+        return sched;
+      });
     }
+    console.log('Final editedStadium before update:', JSON.stringify(this.editedStadium, null, 2));
     this.stadiumService.updateStadium(this.editedStadium, token).subscribe({
       next: (response) => {
         console.log('Update response:', response);
@@ -198,6 +240,7 @@ export class StadiumsComponent implements OnInit {
           this.stadiums[index] = { ...this.editedStadium };
         }
         this.showEdit = false;
+        this.originalSchedule = [];
         alert('Stadium updated successfully!');
         this.fetchStadiums();
         this.cdr.detectChanges();
@@ -247,7 +290,7 @@ export class StadiumsComponent implements OnInit {
       fromTime: '',
       toTime: '',
       maxPlayers: 0,
-      sportPercentage: 0
+      sportCost: 0
     });
     this.cdr.detectChanges();
   }

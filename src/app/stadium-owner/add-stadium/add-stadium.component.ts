@@ -4,13 +4,14 @@ import { AddStadiumService } from '../../services/add-stadium/add-stadium.servic
 import { Stadium } from '../../models/stadium';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-stadium',
   templateUrl: './add-stadium.component.html',
   styleUrls: ['./add-stadium.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, CurrencyPipe]
 })
 export class AddStadiumComponent implements OnInit {
   newStadium: Stadium = {
@@ -35,7 +36,7 @@ export class AddStadiumComponent implements OnInit {
   selectedMaxPlayers: number = 0;
   selectedFromTime: string = '';
   selectedToTime: string = '';
-  selectedSportPercentage: number = 0;
+  selectedSportCost: number = 0;
   locationConfirmed: boolean = false;
   hasNavigatedToMap: boolean = false;
   agreed: boolean = false;
@@ -81,8 +82,8 @@ export class AddStadiumComponent implements OnInit {
           alert(`Start time must be earlier than end time for ${schedule.sport || 'schedule'}.`);
           return;
         }
-        if (schedule.sportPercentage > 20) {
-          alert(`Sport percentage for ${schedule.sport} must be 20% or less.`);
+        if (schedule.sportCost < 0) {
+          alert(`Cost per player for ${schedule.sport} must be non-negative.`);
           return;
         }
       }
@@ -137,8 +138,8 @@ export class AddStadiumComponent implements OnInit {
 
   addScheduleRow() {
     this.newStadium.schedule = this.newStadium.schedule || [];
-    if (!this.selectedSport || !this.selectedDay || !this.selectedFromTime || !this.selectedToTime || !this.selectedMaxPlayers || !this.selectedSportPercentage) {
-      alert('Please fill in all schedule fields.');
+    if (!this.selectedSport || !this.selectedDay || !this.selectedFromTime || !this.selectedToTime || !this.selectedMaxPlayers || this.selectedSportCost < 0) {
+      alert('Please fill in all schedule fields with valid values.');
       return;
     }
     if (this.selectedFromTime >= this.selectedToTime) {
@@ -149,17 +150,13 @@ export class AddStadiumComponent implements OnInit {
       alert('Max players must be at least 1.');
       return;
     }
-    if (this.selectedSportPercentage > 20) {
-      alert('Sport percentage must be 20% or less.');
-      return;
-    }
     this.newStadium.schedule.push({
       sport: this.selectedSport,
       day: this.selectedDay,
       fromTime: this.selectedFromTime,
       toTime: this.selectedToTime,
       maxPlayers: this.selectedMaxPlayers,
-      sportPercentage: this.selectedSportPercentage
+      sportCost: this.selectedSportCost
     });
     this.resetScheduleInputs();
     this.cdr.detectChanges();
@@ -224,7 +221,7 @@ export class AddStadiumComponent implements OnInit {
     this.selectedMaxPlayers = 0;
     this.selectedFromTime = '';
     this.selectedToTime = '';
-    this.selectedSportPercentage = 0;
+    this.selectedSportCost = 0;
   }
 
   resetForm() {
