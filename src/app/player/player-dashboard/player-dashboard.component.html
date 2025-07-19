@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <!-- Second Row: New Four Cards -->
+  <!-- Second Row: Four Cards -->
   <div class="row">
     <!-- Rectangle 3: Complaints -->
     <div class="rectangle">
@@ -51,6 +51,23 @@
   <div class="row">
     <div class="rectangle notification">
       <h2>Notifications</h2>
+    </div>
+  </div>
+
+  <!-- Fourth Row: New Leaderboards and Special Offers Cards -->
+  <div class="row">
+    <!-- Rectangle 7: Leaderboards -->
+    <div class="rectangle">
+      <h2>Leaderboards</h2>
+      <p>Check top players with the most session bookings at your favorite stadiums.</p>
+      <button class="btn-leaderboard" mat-raised-button (click)="openLeaderboardsModal()">View Leaderboards</button>
+    </div>
+
+    <!-- Rectangle 8: Special Offers -->
+    <div class="rectangle">
+      <h2>Special Offers</h2>
+      <p>Explore exclusive packages and deals for your sports training.</p>
+      <button class="btn-packages" mat-raised-button (click)="viewSpecialOffers()">Check for Packages</button>
     </div>
   </div>
 </div>

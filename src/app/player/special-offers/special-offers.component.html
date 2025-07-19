@@ -1,0 +1,41 @@
+<div class="special-offers-container">
+  <h2>Special Offers</h2>
+  <div class="offers-content">
+    <!-- Available Packages -->
+    <div class="offers-section">
+      <h3>Available Packages</h3>
+      <div *ngIf="availablePackages.length === 0" class="no-packages">No packages available</div>
+      <div class="package-list">
+        <div *ngFor="let package of availablePackages" class="package-card">
+          <h4>{{ package.name }}</h4>
+          <p>{{ package.description }}</p>
+          <p><strong>Sport:</strong> {{ package.sport }}</p>
+          <p><strong>Stadium:</strong> {{ package.stadium_name }}</p>
+          <p><strong>Price:</strong> LKR {{ package.price }}</p>
+          <p><strong>Duration:</strong> {{ package.duration }} days</p>
+          <p><strong>Start Date:</strong> {{ package.start_date }}</p>
+          <p><strong>End Date:</strong> {{ package.end_date }}</p>
+          <button mat-raised-button class="assign-btn" (click)="assignPackage(package.id, package.price)">Assign</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Assigned Packages -->
+    <div class="offers-section">
+      <h3>Assigned Packages</h3>
+      <div *ngIf="assignedPackages.length === 0" class="no-packages">No packages assigned</div>
+      <div class="package-list">
+        <div *ngFor="let package of assignedPackages" class="package-card">
+          <h4>{{ package.name }}</h4>
+          <p>{{ package.description }}</p>
+          <p><strong>Sport:</strong> {{ package.sport }}</p>
+          <p><strong>Stadium:</strong> {{ package.stadium_name }}</p>
+          <p><strong>Price:</strong> LKR {{ package.price }}</p>
+          <p><strong>Duration:</strong> {{ package.duration }} days</p>
+          <p><strong>Start Date:</strong> {{ package.start_date }}</p>
+          <p><strong>End Date:</strong> {{ package.end_date }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

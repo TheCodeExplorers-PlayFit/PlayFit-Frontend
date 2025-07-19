@@ -1,0 +1,78 @@
+.leaderboards-modal {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.search-bar:focus {
+  border-color: #1e3a8a;
+}
+
+.leaderboard-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.leaderboard-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.rank {
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+.player-name, .stadium-name {
+  flex: 1;
+  text-align: left;
+}
+
+.booking-count {
+  color: #555;
+}
+
+.no-results, .loading {
+  text-align: center;
+  color: #555;
+  padding: 20px;
+}
+
+.close-btn {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  align-self: center;
+  width: 100px;
+}
+
+.close-btn:hover {
+  background-color: #3b82f6;
+}

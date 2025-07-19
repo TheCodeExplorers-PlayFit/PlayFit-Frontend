@@ -56,9 +56,18 @@
 
 /* Third row: Notifications card styling */
 .row:nth-child(3) .rectangle.notification {
-  background-color: #dbeafe; /* Light blue for Notifications, distinct and professional */
+  background-color: #dbeafe; /* Light blue for Notifications */
   height: 150px; /* 3/4 of 200px */
   width: 100%; /* Full width of the row */
+}
+
+/* Fourth row card styling */
+.row:nth-child(4) .rectangle:nth-child(1) {
+  background-color: #fef3c7; /* Light yellow for Leaderboards */
+}
+
+.row:nth-child(4) .rectangle:nth-child(2) {
+  background-color: #cffafe; /* Light cyan for Special Offers */
 }
 
 /* Title styling */
@@ -123,6 +132,18 @@ button {
   color: white;
 }
 
+/* Leaderboards Button */
+.btn-leaderboard {
+  background-color: #92400e; /* Professional dark brown, matches Leaderboards card */
+  color: white;
+}
+
+/* Special Offers Button */
+.btn-packages {
+  background-color: #0e7490; /* Professional dark cyan, matches Special Offers card */
+  color: white;
+}
+
 /* Button hover effects */
 .btn-book:hover,
 .btn-explore:hover {
@@ -145,9 +166,18 @@ button {
   background-color: #d97706; /* Lighter amber */
 }
 
+.btn-leaderboard:hover {
+  background-color: #b45309; /* Lighter brown */
+}
+
+.btn-packages:hover {
+  background-color: #0e9d57; /* Lighter cyan */
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 1200px) {
-  .row:first-child {
+  .row:first-child,
+  .row:nth-child(4) {
     flex-direction: row; /* Keep two cards side by side */
   }
 
@@ -178,7 +208,8 @@ button {
 
   .row:first-child .rectangle,
   .row:nth-child(2) .rectangle,
-  .row:nth-child(3) .rectangle.notification {
+  .row:nth-child(3) .rectangle.notification,
+  .row:nth-child(4) .rectangle {
     width: 100%; /* Full width on small screens */
   }
 }
