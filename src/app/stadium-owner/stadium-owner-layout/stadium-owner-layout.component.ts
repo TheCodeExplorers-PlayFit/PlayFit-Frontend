@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
-import { SidebarComponent } from '../stadium-owner-sidebar/stadium-owner-sidebar.component';
+import { StadiumOwnerSidebarComponent } from '../stadium-owner-sidebar/stadium-owner-sidebar.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-stadium-owner-layout',
-  imports: [RouterOutlet, SidebarComponent,CommonModule],
+  standalone: true,
+  imports: [RouterOutlet, StadiumOwnerSidebarComponent, CommonModule],
   templateUrl: './stadium-owner-layout.component.html',
-  styleUrl: './stadium-owner-layout.component.css'
+  styleUrls: ['./stadium-owner-layout.component.css']
 })
 export class StadiumOwnerLayoutComponent {
   isStadiumOwner: boolean = false;
 
   constructor(private authService: AuthService) {
     const user = this.authService.getUser();
-    console.log('PlayerLayout user:', user); // Debug
-    this.isStadiumOwner = user?.role === 'player';
+    console.log('StadiumOwnerLayout user:', JSON.stringify(user, null, 2)); 
+    this.isStadiumOwner = user?.role === 'stadiumOwner'; 
     if (!this.isStadiumOwner) {
-      console.warn('Not a player role:', user?.role || 'undefined');
+      console.warn('Not a stadium-owner role:', user?.role || 'undefined');
     }
   }
 }

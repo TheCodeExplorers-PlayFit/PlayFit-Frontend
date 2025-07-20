@@ -1,8 +1,10 @@
 .container {
   padding: 50px;
   max-width: 1600px;
-  margin: 10px 0 0 400px; /* Reduced from 270px to 250px for more space */
   font-family: Arial, sans-serif;
+  font-family: 'Lora', serif;
+  margin-left: 5px;
+  margin-top: 10px;
 }
 
 .stadiums-card {
@@ -79,7 +81,7 @@ th {
 
 .add-stadium-btn {
   padding: 12px 24px;
-  background-color: #2337C6;
+  background-color: #000080;
   color: white;
   border: none;
   border-radius: 6px;
@@ -248,4 +250,45 @@ th {
   right: 0;
   padding: 2px 5px;
   font-size: 12px;
+}
+.add-stadium-btn {
+  background-color: #28a745; /* green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.add-stadium-btn:hover {
+  background-color: #218838;
+}
+
+.save-stadium-btn {
+  background-color: #007bff; /* blue */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.save-stadium-btn:hover {
+  background-color: #0056b3;
+}
+
+.cancel-btn {
+  background-color: #dc3545; /* red */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background-color: #bd2130;
 }

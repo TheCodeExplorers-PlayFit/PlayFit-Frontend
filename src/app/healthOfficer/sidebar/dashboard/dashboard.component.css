@@ -1,6 +1,729 @@
+/* dashboard.component.css */
+
+/* Existing style */
 .style1 {
-    width: 100px;
-    border-radius: 20px;
-    background-color: #76de1b63;
+  width: 100px;
+  border-radius: 20px;
+  background-color: #76de1b63;
 }
 
+/* ------------------------- */
+/* Chart Card Styles */
+.chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(23, 25, 137, 0.1);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.3s ease;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.181);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.chart-title {
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.chart-title i {
+  color: #6200EE;
+}
+
+.chart-info {
+  display: flex;
+  align-items: center;
+}
+
+.chart-container {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 400px !important;
+  user-select: none;
+}
+
+/* ------------------------- */
+/* Loading and Error States */
+.chart-loading,
+.chart-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: #666;
+}
+
+.chart-loading .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: #c4b5db00;
+}
+
+.chart-error i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ccc;
+}
+
+.chart-error p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.chart-error small {
+  font-size: 0.9rem;
+}
+
+/* ------------------------- */
+/* Summary Statistics */
+.summary-card {
+  background: linear-gradient(135deg, #4d98ed 0%, #000080 100%);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 6, 236, 0.3);
+}
+
+.summary-header {
+  margin-bottom: 20px;
+}
+
+.summary-title {
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.summary-body {
+  padding: 0;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ------------------------- */
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chart-card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .chart-title {
+    font-size: 1rem;
+  }
+
+  .chart-container {
+    min-height: 300px;
+  }
+
+  .chart-wrapper {
+    height: 300px;
+  }
+
+  canvas {
+    height: 300px !important;
+  }
+
+  .stat-item {
+    padding: 16px 12px;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .appointments-table {
+    font-size: 0.75rem;
+  }
+
+  .appointments-table th,
+  .appointments-table td {
+    padding: 8px 4px;
+  }
+
+  .patient-avatar {
+    width: 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .chart-container {
+    min-height: 250px;
+  }
+
+  .chart-wrapper {
+    height: 250px;
+  }
+
+  canvas {
+    height: 250px !important;
+  }
+}
+
+/* ------------------------- */
+/* Button & Badge Styles */
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.bg-primary {
+  background-color: #6200EE !important;
+}
+
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.action-buttons .btn-outline-success {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.action-buttons .btn-outline-success:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.action-buttons .btn-outline-primary:hover {
+  background-color: #0717a2;
+  border-color: #0717a2;
+  color: white;
+}
+
+.btn-outline-primary {
+  border-color: #0717a2;
+  color: #0717a2;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0717a2;
+  border-color: #0717a2;
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.btn-primary {
+  background-color: #0717a2;
+  border-color: #0717a2;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #3700B3;
+  border-color: #3700B3;
+  transform: translateY(-1px);
+}
+
+.btn-info {
+  background-color: #03DAC6;
+  border-color: #03DAC6;
+  color: #000;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-info:hover {
+  background-color: #018786;
+  border-color: #018786;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ------------------------- */
+/* Spinner Animations */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+/* ------------------------- */
+/* Container & Card */
+.container-fluid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.card-container {
+  margin-bottom: 8px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  color: #333;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+
+/* ------------------------- */
+/* Table Cell Specific Styles */
+.time-cell {
+  font-weight: 600;
+  color: #258dee;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.name-cell {
+  min-width: 180px;
+}
+
+.patient-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+  transition: border-color 0.2s ease;
+  flex-shrink: 0;
+   
+}
+
+.appointments-table tbody tr:hover .patient-avatar {
+  border-color: #e258ef;
+ 
+
+}
+
+.patient-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.875rem;
+}
+
+.reason-cell {
+  min-width: 150px;
+}
+
+.reason-text {
+  font-size: 0.875rem;
+  color: #666;
+  background: rgba(98, 0, 238, 0.08);
+  padding: 4px 12px;
+  border-radius: 16px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.reason-text.routine {
+  background: rgba(76, 175, 80, 0.1);
+  color: #388E3C;
+}
+
+.reason-text.urgent {
+  background: rgba(244, 67, 54, 0.1);
+  color: #C62828;
+}
+
+.reason-text.follow-up {
+  background: rgba(255, 152, 0, 0.1);
+  color: #F57C00;
+}
+
+.reason-text.consultation {
+  background: rgba(63, 81, 181, 0.1);
+  color: #3949AB;
+}
+
+.status-cell {
+  min-width: 120px;
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  text-align: center;
+  min-width: 80px;
+}
+
+.status-badge.scheduled {
+  background: rgba(33, 150, 243, 0.1);
+  color: #1976D2;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+.status-badge.confirmed {
+  background: rgba(76, 175, 80, 0.1);
+  color: #388E3C;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.status-badge.pending {
+  background: rgba(255, 193, 7, 0.1);
+  color: #F57C00;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.status-badge.cancelled {
+  background: rgba(244, 67, 54, 0.1);
+  color: #C62828;
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.status-badge.completed {
+  background: rgba(156, 39, 176, 0.1);
+  color: #7B1FA2;
+  border: 1px solid rgba(156, 39, 176, 0.3);
+}
+
+/* ------------------------- */
+/* No Appointments State */
+.no-appointments td {
+  text-align: center !important;
+  padding: 48px 24px !important;
+  color: #9e9e9e;
+}
+
+.no-appointments i {
+  color: #bdbdbd;
+  margin-bottom: 16px;
+}
+
+.no-appointments div {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #757575;
+  margin-bottom: 8px;
+}
+
+.no-appointments small {
+  font-size: 0.875rem;
+  color: #9e9e9e;
+}
+
+/* ------------------------- */
+/* Table Responsive Container */
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.199);
+  margin-bottom: 24px;
+}
+
+/* ------------------------- */
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .appointments-table {
+    font-size: 0.75rem;
+  }
+  
+  .appointments-table thead th {
+    padding: 12px 16px;
+    font-size: 0.75rem;
+  }
+  
+  .appointments-table thead th:first-child {
+    padding-left: 20px;
+  }
+  
+  .appointments-table thead th:last-child {
+    padding-right: 20px;
+  }
+  
+  .appointments-table td {
+    padding: 12px 16px;
+  }
+  
+  .appointments-table tbody tr:first-child td:first-child {
+    padding-left: 20px;
+  }
+  
+  .appointments-table tbody tr:first-child td:last-child {
+    padding-right: 20px;
+  }
+  
+  .patient-avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .patient-info {
+    gap: 8px;
+  }
+  
+  .patient-name {
+    font-size: 0.75rem;
+  }
+  
+  .time-cell {
+    font-size: 0.75rem;
+    min-width: 70px;
+  }
+  
+  .reason-text {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+  }
+  
+  .status-badge {
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    min-width: 70px;
+  }
+  
+  .name-cell {
+    min-width: 140px;
+  }
+  
+  .reason-cell {
+    min-width: 120px;
+  }
+  
+  .status-cell {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Stack table for very small screens */
+  .appointments-table,
+  .appointments-table thead,
+  .appointments-table tbody,
+  .appointments-table th,
+  .appointments-table td,
+  .appointments-table tr {
+    display: block;
+  }
+  
+  .appointments-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .appointments-table tr {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .appointments-table tr:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .appointments-table td {
+    border: none;
+    padding: 8px 0;
+    text-align: left;
+    position: relative;
+    padding-left: 90px;
+  }
+  
+  .appointments-table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 80px;
+    font-weight: 600;
+    color: #6200EE;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .time-cell:before {
+    content: "Time:";
+  }
+  
+  .name-cell:before {
+    content: "Patient:";
+  }
+  
+  .reason-cell:before {
+    content: "Reason:";
+  }
+  
+  .status-cell:before {
+    content: "Status:";
+  }
+  
+  .patient-info {
+    justify-content: flex-start;
+  }
+  
+  .patient-avatar {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .no-appointments td {
+    padding-left: 0 !important;
+  }
+  
+  .no-appointments td:before {
+    display: none;
+  }
+}
+
+/* ------------------------- */
+/* Loading State */
+.appointments-table.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.appointments-table.loading tbody tr {
+  background: #f5f5f5;
+}
+
+.appointments-table.loading tbody tr:hover {
+  background: #f5f5f5;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ------------------------- */
+/* Enhanced Hover Effects */
+@media (hover: hover) {
+  .appointments-table tbody tr:hover .time-cell {
+    color: #3700B3;
+  }
+  
+  .appointments-table tbody tr:hover .patient-name {
+    color: #6200EE;
+  }
+  
+  .appointments-table tbody tr:hover .reason-text {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointments-table tbody tr:hover .status-badge {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

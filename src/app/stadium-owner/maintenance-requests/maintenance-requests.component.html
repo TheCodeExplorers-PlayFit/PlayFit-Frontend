@@ -1,6 +1,7 @@
 <div class="container">
-  <h2>Maintenance Requests</h2>
-  <div class="d-flex flex-row gap-3" style="margin-left: 0; margin-top: 20px;">
+  <h1 class="dashboard-title">Maintenance Requests</h1>
+
+  <div class="d-flex flex-row gap-3 card-row">
     <div class="card-container" *ngFor="let card of cards">
       <div class="card" [style.backgroundColor]="card.backgroundColor">
         <div class="card-body">
@@ -13,39 +14,66 @@
       </div>
     </div>
   </div>
-  <div class="maintenance-details">
+
+  <div class="requests-details">
     <h3>Maintenance Task Details</h3>
     <table>
       <thead>
         <tr>
-          <th>Task ID</th>
-          <th>Description</th>
-          <th>Assigned To</th>
-          <th>Stadium Name</th>
-          <th>Start Date</th>
-          <th>Due Date</th>
-          <th>Completion Date</th>
-          <th>Status</th>
-          <th>Action</th>
+          <th data-label="Task ID">Task ID</th>
+          <th data-label="Description">Description</th>
+          <th data-label="Reported By">Reported By</th>
+          <th data-label="Stadium Name">Stadium Name</th>
+          <th data-label="Created Date">Created Date</th>
+          <th data-label="Status">Status</th>
+          <th data-label="Action">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let complaint of complaints">
-          <td>{{ complaint.id }}</td>
-          <td>{{ complaint.description }}</td>
-          <td>{{ getReportedByName(complaint.reported_by) }}</td>
-          <td>{{ getStadiumName(complaint.stadium_id) }}</td>
-          <td>{{ complaint.created_at }}</td>
-          <td>{{ complaint.created_at }}</td>
-          <td>{{ complaint.created_at }}</td>
-          <td><span class="status {{ complaint.status }}">{{ complaint.status }}</span></td>
-          <td>
-            <button class="action-btn">👁️</button>
-            <button class="action-btn">✏️</button>
+        <tr *ngFor="let complaint of complaints; trackBy: trackByComplaintId">
+          <td data-label="Task ID">{{ complaint.id }}</td>
+          <td data-label="Description">{{ complaint.description | slice:0:50 }}...</td>
+          <td data-label="Reported By">{{ complaint.reported_by_name }}</td>
+          <td data-label="Stadium Name">{{ complaint.stadium_name || 'N/A' }}</td>
+          <td data-label="Created Date">{{ formatDateTime(complaint.created_at) }}</td>
+          <td data-label="Status">
+            <span class="status {{ complaint.status }}">{{ complaint.status }}</span>
+          </td>
+          <td data-label="Action">
+            <button class="action-btn" (click)="openView(complaint)">👁️</button>
+            <button class="action-btn" (click)="editRequest(complaint)">✏️</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button class="view-all">View All</button>
+  </div>
+
+  <!-- Modal for Viewing Full Request Details -->
+  <div *ngIf="viewingRequest" class="modal-overlay" (click)="closeView()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Maintenance Request #{{ viewingRequest.id }}</h3>
+        <button class="close-btn" (click)="closeView()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="request-meta">
+          <div class="meta-item">
+            <strong>Description:</strong> {{ viewingRequest.description }}
+          </div>
+          <div class="meta-item">
+            <strong>Reported By:</strong> {{ viewingRequest.reported_by_name }}
+          </div>
+          <div class="meta-item">
+            <strong>Stadium Name:</strong> {{ viewingRequest.stadium_name || 'N/A' }}
+          </div>
+          <div class="meta-item">
+            <strong>Created:</strong> {{ formatDateTime(viewingRequest.created_at) }}
+          </div>
+          <div class="meta-item">
+            <strong>Status:</strong> {{ viewingRequest.status }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

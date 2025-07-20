@@ -1,1 +1,99 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Search users by name..."
+      [(ngModel)]="searchTerm"
+      (input)="searchUsers()"
+      class="search-input"
+    />
+    <div class="search-results" *ngIf="searchResults.length > 0 && searchTerm">
+      <div
+        *ngFor="let user of searchResults"
+        class="search-result-item"
+        (click)="openUserModal(user)"
+      >
+        {{ user.firstName }} {{ user.lastName }} ({{ user.role }})
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Section -->
+  <div class="profile-card">
+    <div class="profile-picture">
+      <img
+        *ngIf="user?.profile_picture"
+        [src]="user.profile_picture"
+        alt="Profile Picture"
+        class="profile-img"
+      />
+      <div *ngIf="!user?.profile_picture" class="placeholder-img">
+        {{ user?.firstName?.charAt(0) }}{{ user?.lastName?.charAt(0) }}
+      </div>
+      <input
+        type="file"
+        #fileInput
+        (change)="uploadProfilePicture($event)"
+        accept="image/*"
+        style="display: none"
+      />
+      <button class="upload-btn" (click)="fileInput.click()">Change Picture</button>
+    </div>
+
+    <div class="profile-info">
+      <div class="name-section">
+        <h2 *ngIf="!isEditing">{{ user?.firstName }} {{ user?.lastName }}</h2>
+        <div *ngIf="isEditing" class="edit-form">
+          <input
+            [(ngModel)]="user.firstName"
+            placeholder="First Name"
+            class="form-control"
+          />
+          <input
+            [(ngModel)]="user.lastName"
+            placeholder="Last Name"
+            class="form-control"
+          />
+          <input
+            [(ngModel)]="user.mobile_number"
+            placeholder="Mobile Number"
+            class="form-control"
+          />
+          <button (click)="saveProfile()" class="save-btn">Save</button>
+          <button (click)="isEditing = false" class="cancel-btn">Cancel</button>
+        </div>
+        <button (click)="isEditing = true" class="edit-btn" *ngIf="!isEditing">
+          Edit Profile
+        </button>
+      </div>
+
+      <div class="info-details">
+        <p><strong>Role:</strong> {{ user?.role }}</p>
+        <p><strong>Email:</strong> {{ user?.email }}</p>
+        <p><strong>Age:</strong> {{ user?.age || 'Not specified' }}</p>
+        <p><strong>Mobile:</strong> {{ user?.mobile_number || 'Not specified' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Other User Profile -->
+  <div class="modal" *ngIf="selectedUser" (click)="closeUserModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeUserModal()">×</span>
+      <h2>{{ selectedUser.firstName }} {{ selectedUser.lastName }}</h2>
+      <img
+        *ngIf="selectedUser.profile_picture"
+        [src]="selectedUser.profile_picture"
+        class="modal-img"
+      />
+      <div *ngIf="!selectedUser.profile_picture" class="modal-placeholder-img">
+        {{ selectedUser.firstName.charAt(0) }}{{ selectedUser.lastName.charAt(0) }}
+      </div>
+      <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+      <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+      <p><strong>Age:</strong> {{ selectedUser.age || 'Not specified' }}</p>
+      <p><strong>Mobile:</strong> {{ selectedUser.mobile_number || 'Not specified' }}</p>
+    </div>
+  </div>
+</div>
