@@ -66,7 +66,7 @@ import { RatingsComponent } from './common/ratings/ratings.component';
 import { ProfileComponent } from './common/profile/profile.component';
 
 // ===== ADMIN =====
-import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
+import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
 import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
@@ -77,6 +77,7 @@ import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
+import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -101,7 +102,7 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdmindashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
@@ -111,7 +112,7 @@ export const routes: Routes = [
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
-      { path: 'settings', component: AdmindashboardComponent },
+      { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
 

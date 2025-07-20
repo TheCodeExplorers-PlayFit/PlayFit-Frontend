@@ -1,83 +1,140 @@
 .user-management-container {
-  padding: 5rem;
+  padding-top: 80px;
   font-family: 'Roboto', sans-serif;
-  background: #f5f5f5;
+  background: #f8f9fa;
+  min-height: 100vh;
 }
 
 .user-management-container h2 {
   color: #000080;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  border-bottom: 3px solid #000080;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+  width: 100%;
 }
 
 .counts-container {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.15);
+  color: white;
 }
 
 .total-count {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #000080;
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+  text-align: center;
 }
 
 .role-counts {
   font-size: 1rem;
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  line-height: 1.6;
 }
 
 .filters {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 .filters mat-form-field {
   flex: 1;
+  min-width: 250px;
+}
+
+/* Custom Material Form Field Styling */
+.filters mat-form-field .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(0, 0, 128, 0.04);
+}
+
+.filters mat-form-field.mat-focused .mat-mdc-form-field-outline-thick {
+  color: #000080;
+}
+
+.filters mat-form-field .mat-mdc-form-field-label {
+  color: #000080;
+}
+
+.filters mat-form-field.mat-focused .mat-mdc-form-field-label {
+  color: #000080;
 }
 
 mat-table {
   width: 100%;
   background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  table-layout: fixed; /* fixes column widths */
+  box-shadow: 0 6px 20px rgba(0, 0, 128, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+mat-header-row {
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
 }
 
 mat-header-cell {
-  background: #3f51b5;
-  color: #000080;
-  font-weight: bold;
-  padding: 12px;
-  white-space: nowrap; /* prevent header text wrap */
+  background: transparent;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 16px 12px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 mat-cell {
   color: #333;
-  padding: 12px;
-  white-space: nowrap; /* prevent cell text wrap */
+  padding: 16px 12px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+mat-row {
+  transition: background-color 0.2s ease;
+}
+
+mat-row:hover {
+  background-color: rgba(0, 0, 128, 0.04);
+}
+
+mat-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+mat-row:nth-child(even):hover {
+  background-color: rgba(0, 0, 128, 0.06);
 }
 
 /* Column widths */
-
 .mat-column-name {
   width: 25%;
   max-width: 25%;
-  white-space: normal; /* allow line wrap */
-  word-break: break-word; /* break long words if needed */
+  white-space: normal;
+  word-break: break-word;
 }
 
 .mat-column-email {
   width: 30%;
   max-width: 30%;
-  white-space: normal; /* allow line wrap */
-  word-break: break-word; /* break long words if needed */
+  white-space: normal;
+  word-break: break-word;
 }
 
 .mat-column-phone {
@@ -96,6 +153,99 @@ mat-cell {
   text-align: center;
 }
 
+/* Action Button Styling */
 mat-icon-button {
-  margin-right: 8px;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+mat-icon-button[color="primary"] {
+  color: #000080;
+}
+
+mat-icon-button[color="primary"]:hover {
+  background-color: rgba(0, 0, 128, 0.1);
+  transform: scale(1.1);
+}
+
+mat-icon-button[color="warn"]:hover {
+  transform: scale(1.1);
+}
+
+/* Role Badge Styling */
+.mat-column-role mat-cell {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-management-container {
+    padding: 1rem;
+  }
+  
+  .user-management-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .filters {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .filters mat-form-field {
+    min-width: unset;
+  }
+  
+  .counts-container {
+    padding: 1rem;
+  }
+  
+  .total-count {
+    font-size: 1.1rem;
+  }
+  
+  .role-counts {
+    font-size: 0.9rem;
+  }
+  
+  mat-header-cell,
+  mat-cell {
+    padding: 12px 8px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Loading and Empty State Styling */
+.mat-table-no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Enhanced Focus States */
+.filters input:focus,
+.filters mat-select:focus {
+  outline: 2px solid #000080;
+  outline-offset: 2px;
+}
+
+/* Custom Scrollbar */
+.user-management-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.user-management-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.user-management-container::-webkit-scrollbar-thumb {
+  background: #000080;
+  border-radius: 4px;
+}
+
+.user-management-container::-webkit-scrollbar-thumb:hover {
+  background: #1a1a9e;
 }

@@ -8,9 +8,12 @@ export interface Blog {
   title: string;
   content: string;
   created_at: string;
+  image?: string;
+  verified?: number;
   first_name: string;
   last_name: string;
   role: string;
+  email?: string;
 }
 
 @Injectable({
@@ -23,6 +26,10 @@ export class AdminBlogsService {
 
   getPendingBlogs(): Observable<Blog[]> {
     return this.http.get<Blog[]>(`${this.apiUrl}/pending`);
+  }
+
+  getBlogById(id: number): Observable<Blog> {
+    return this.http.get<Blog>(`${this.apiUrl}/blog/${id}`);
   }
 
   approveBlog(id: number): Observable<any> {
