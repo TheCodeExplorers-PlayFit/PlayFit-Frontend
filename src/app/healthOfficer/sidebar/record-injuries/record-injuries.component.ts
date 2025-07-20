@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { InjuryService } from '../../../services/injury/injury.service'; // assumes your path
 import { HttpClient } from '@angular/common/http';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-record-injuries',
@@ -57,7 +58,7 @@ injuryCause: string[] = [
       type_of_injury: ['', Validators.required],
       injury_severity: ['', Validators.required],
       first_aid_given: [false, Validators.required],
-      health_officer_id: ['', Validators.required],
+      health_officer_id: [''],
       treatment_plan: ['']
     });
   }
@@ -108,36 +109,43 @@ injuryCause: string[] = [
   }
 
   async submitInjury() {
-    if (this.injuryForm.valid) {
-      try {
-        this.uploading = true;
-        let fileUrls: string[] = [];
+  if (this.injuryForm.valid) {
+    try {
+      this.uploading = true;
+      let fileUrls: string[] = [];
 
-        for (const file of this.selectedFiles) {
-          const res = await this.injuryService.uploadFileToCloudinary(file).toPromise();
-          fileUrls.push(res.secure_url);
-        }
-
-        this.uploading = false;
-
-        const formValue = {
-          ...this.injuryForm.value,
-          medical_files: fileUrls.join(',')
-        };
-
-        this.injuryService.createInjury(formValue).subscribe({
-          next: res => {
-            console.log('Injury record created:', res);
-            this.injuryForm.reset();
-            this.selectedFiles = [];
-          },
-          error: err => console.error('Error creating injury record:', err)
-        });
-
-      } catch (err) {
-        this.uploading = false;
-        console.error('File upload failed:', err);
+      for (const file of this.selectedFiles) {
+        const res = await this.injuryService.uploadFileToCloudinary(file).toPromise();
+        fileUrls.push(res.secure_url);
       }
+
+      this.uploading = false;
+
+      const formValue = {
+        ...this.injuryForm.value,
+        medical_files: fileUrls.join(',')
+      };
+
+      this.injuryService.createInjury(formValue).subscribe({
+        next: res => {
+          console.log('Injury record created:', res);
+          this.injuryForm.reset();
+          this.selectedFiles = [];
+          swal("✅ Success", "Injury record created successfully!", "success");
+        },
+        error: err => {
+          console.error('Error creating injury record:', err);
+          swal("❌ Error", "Failed to create injury record.", "error");
+        }
+      });
+
+    } catch (err) {
+      this.uploading = false;
+      console.error('File upload failed:', err);
+      swal("❌ Upload Error", "Failed to upload medical files.", "error");
     }
+  } else {
+    swal("⚠️ Invalid Form", "Please fill out all required fields correctly.", "warning");
   }
+}
 }

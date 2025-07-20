@@ -2,6 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentService, Appointment } from '../../../services/appointment/appointment.service';
 import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
+import swal from 'sweetalert';
+
 
 @Component({
   selector: 'app-appointments',
@@ -37,14 +39,30 @@ export class AppointmentsComponent implements OnInit {
     this.selectedAppointment = appointment;
   }
 
-  onStatusChange(event: Event, appointment: Appointment): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const newStatus = selectElement.value;
-    if (newStatus) {
-      this.updateStatus(appointment, newStatus);
-    }
-  }
+ onStatusChange(event: Event, appointment: Appointment): void {
+  const selectElement = event.target as HTMLSelectElement;
+  const newStatus = selectElement.value;
 
+  if (newStatus) {
+    swal({
+      title: `Are you sure?`,
+      text: `Do you want to change the status to "${newStatus}"?`,
+      icon: "warning",
+      buttons: ["Cancel", "Yes"],
+      dangerMode: true,
+    }).then((willUpdate) => {
+      if (willUpdate) {
+        this.updateStatus(appointment, newStatus);
+        swal("✅ Status updated successfully!", {
+          icon: "success",
+        });
+      } else {
+        // Optionally reset the dropdown to its previous value
+        selectElement.value = appointment.status;
+      }
+    });
+  }
+}
   updateStatus(appointment: Appointment, newStatus: string): void {
     if (!newStatus) return;
 

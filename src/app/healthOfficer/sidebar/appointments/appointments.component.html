@@ -26,7 +26,7 @@
     <span class="player-name">{{ appointment.first_name }}</span>
   </div>
 </td>
-        <td>{{ appointment.appointment_date }}</td>
+        <td>{{ appointment.appointment_date | date:'d/M/yyyy' }}</td>
         <td>{{ appointment.appointment_time }}</td>
         <td>{{ appointment.reason }}</td>
         <td [ngClass]="getStatusClass(appointment.status)">{{ appointment.status }}</td>

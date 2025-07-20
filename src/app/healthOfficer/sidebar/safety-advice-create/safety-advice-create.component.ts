@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { HealthTipsService } from '../../../services/healthtips/health-tips.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
+import swal from 'sweetalert';
+
 
 @Component({
   selector: 'app-safety-advice-create',
@@ -176,7 +178,12 @@ export class SafetyAdviceCreateComponent implements OnInit {
 
       submitObservable.subscribe({
         next: (res) => {
-          alert(this.editMode ? '✅ Tip updated successfully' : '✅ Tip published successfully');
+          if (this.editMode) {
+  swal("✅ Tip Updated!", "The tip was successfully updated.", "success");
+} else {
+  swal("✅ Tip Published!", "The new tip was successfully published.", "success");
+}
+
           this.onCancel();
           this.submitting = false;
           this.router.navigate(['/health/safety-advice']);

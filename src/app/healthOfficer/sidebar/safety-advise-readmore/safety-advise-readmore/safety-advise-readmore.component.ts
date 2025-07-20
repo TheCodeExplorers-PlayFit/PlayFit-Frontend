@@ -17,7 +17,7 @@ export class SafetyAdviceReadmoreComponent implements OnInit {
   loading = true;
   error = '';
   tipId!: number;
-  marginTop = '80px';
+  marginTop = '50px';
 
   constructor(
     private route: ActivatedRoute,

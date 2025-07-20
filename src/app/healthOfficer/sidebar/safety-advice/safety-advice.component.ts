@@ -4,6 +4,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/rou
 import { HealthTipsService } from '../../../services/healthtips/health-tips.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
+import swal from 'sweetalert';
+
 
 @Component({
   selector: 'app-safety-advice',
@@ -16,7 +18,7 @@ export class SafetyAdviceComponent implements OnInit {
   cards: any[] = [];
   search: string = '';
   marginLeft = '300px';
-  marginTop = '80px';
+  marginTop = '60px';
   primaryColor: string = '#000080';
 
   constructor(
@@ -57,18 +59,31 @@ export class SafetyAdviceComponent implements OnInit {
   }
 
   deleteHealthTip(id: number): void {
-    if (confirm('Are you sure you want to delete this safety tip?')) {
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this tip!",
+    icon: "warning",
+    buttons: ["Cancel", "Delete"],
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
       this.healthTipService.deleteHealthTip(id).subscribe({
         next: () => {
+          // Remove the deleted tip from the UI
           this.cards = this.cards.filter(card => card.id !== id);
+          swal("Deleted!", "The health tip has been deleted.", "success");
         },
         error: (err) => {
           console.error('Delete failed', err);
-          alert('Failed to delete the tip.');
+          swal("Error", "Failed to delete the health tip.", "error");
         }
       });
+    } else {
+      swal("Cancelled", "The health tip is safe!", "info");
     }
-  }
+  });
+}
 
   viewHealthTip(id: number): void {
     this.router.navigate(['/health-tip', id]); // Adjust route as per your routing
