@@ -32,6 +32,7 @@ import { SalaryDetailsComponent } from './coach/salary-details/salary-details.co
 import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
 import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
+import { CoachAchievementsComponent } from './coach/CoachAchievements/coach-achievements/coach-achievements.component';
 
 
 // ===== HEALTH OFFICER =====
@@ -71,7 +72,7 @@ import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
 
-import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+//import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
 import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
 
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
@@ -107,7 +108,7 @@ export const routes: Routes = [
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
-      { path: 'feedback', component: FeedbackComponent },
+      //{ path: 'feedback', component: FeedbackComponent },
     ]
   },
 
@@ -141,7 +142,9 @@ export const routes: Routes = [
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
       { path: 'coach-announcement', component: CoachAnnouncementComponent},
-      {path: 'stadium-ratings', component:StadiumRatingsForCoachComponent}, // Assuming this is a placeholder for ratings
+      {path: 'stadium-ratings', component:StadiumRatingsForCoachComponent}, 
+      {path: 'coach-achievements', component: CoachAchievementsComponent},
+
     ]
   },
 
