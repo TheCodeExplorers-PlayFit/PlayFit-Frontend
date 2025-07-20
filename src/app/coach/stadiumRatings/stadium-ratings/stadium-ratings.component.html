@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="section">
+    <div class="search-card">
+      <h2>Rate Stadiums</h2>
+      <div class="search-bar">
+        <input
+          type="text"
+          [(ngModel)]="stadiumSearchQuery"
+          (ngModelChange)="onStadiumSearchChange($event)"
+          placeholder="Search for a stadium..."
+          class="form-control"
+        />
+      </div>
+    </div>
+    <div class="results">
+      <div *ngFor="let stadium of stadiums" class="result-card" (click)="openRatingPopup(stadium)">
+        {{ stadium.name }}
+      </div>
+      <p *ngIf="stadiumSearchQuery && !stadiums.length">No stadiums found.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="recent-ratings">
+      <h3>Recent Stadium Ratings</h3>
+      <div *ngFor="let rating of recentStadiumRatings" class="rating-card">
+        <p>
+          <strong>{{ rating.first_name }} {{ rating.last_name }}</strong> rated
+          <strong>{{ rating.stadium_name }}</strong> {{ rating.rating }}/5
+        </p>
+        <p>{{ rating.comment }}</p>
+        <p><small>{{ rating.created_at | date: 'medium' }}</small></p>
+      </div>
+      <p *ngIf="!recentStadiumRatings.length">No recent stadium ratings.</p>
+    </div>
+  </div>
+</div>
