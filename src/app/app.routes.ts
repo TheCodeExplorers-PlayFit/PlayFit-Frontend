@@ -11,6 +11,7 @@ import { PlayerComplaintsComponent } from './player/player-complaints/player-com
 import { PlayerAnnouncementsComponent } from './player/player-announcements/player-announcements.component';
 import { PlayerHealthComponent } from './player/player-health/player-health.component';
 import { SpecialOffersComponent } from './player/special-offers/special-offers.component';
+import { PlayerPrivateSessionsComponent } from './player/player-private-sessions/player-private-sessions.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -27,7 +28,7 @@ import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
 import { StadiumListComponent } from './coach/stadium-list/stadium-list.component';
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
-import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
+import { CoachPrivateSessionsComponent } from './coach/coach-private-sessions/coach-private-sessions.component';
 import { CoachComplaintsComponent } from './coach/CoachComplaints/CoachComplaints.component';
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
@@ -131,6 +132,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent},
       { path: 'Player-Health', component: PlayerHealthComponent},
       { path: 'special-offers', component: SpecialOffersComponent },
+      { path: 'private-playing', component: PlayerPrivateSessionsComponent}
     ]
   },
 
@@ -143,7 +145,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: CoachDashboardComponent },
       { path: 'booking-history', component: BookingHistoryComponent },
       { path: 'stadium-list', component: StadiumListComponent },
-      { path: 'private-playing-requests', component: PrivateRequestsComponent },
+      { path: 'private-playing-requests', component: CoachPrivateSessionsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
       { path: 'coach-stadium-timetable/:id', component: CoachStadiumtimetableComponent },
       { path: 'salary-details', component: SalaryDetailsComponent },
