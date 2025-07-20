@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Player Packages</h2>
+  <h1>Player Packages</h1>
   <button class="add-package-btn" (click)="enableAdd()">Add New Package</button>
 
   <!-- Existing Table: Package Templates -->
@@ -25,10 +25,11 @@
           <td>{{ pkg.duration }}</td>
           <td>{{ pkg.sport }}</td>
           <td>{{ pkg.stadium_name }}</td>
-          <td>
-            <button class="edit-btn" (click)="enableEdit(pkg)">Edit</button>
-            <button class="delete-btn" (click)="deletePackage(pkg.id)">Delete</button>
-          </td>
+          <td class="d-flex gap-2">
+  <button class="btn edit-btn" (click)="enableEdit(pkg)">Edit</button>
+  <button class="btn delete-btn" (click)="deletePackage(pkg.id)">Delete</button>
+</td>
+
         </tr>
       </tbody>
     </table>

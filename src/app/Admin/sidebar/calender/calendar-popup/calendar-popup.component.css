@@ -1,0 +1,45 @@
+/* frontend/src/app/components/calendar/calendar-popup.component.css */
+.popup-container {
+  padding: 20px;
+  max-width: 760px;
+}
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.stadium-list, .session-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.session-list mat-list-item {
+  white-space: normal;
+  word-break: break-word;
+  padding: 10px 0;
+  cursor: pointer; /* Indicate clickability */
+}
+
+.session-list mat-list-item:hover {
+  background-color: #f5f5f5; /* Hover effect for better UX */
+}
+
+.session-content {
+  display: block; /* Ensure content takes full width for clickability */
+}
+
+.loading, .error {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.actions {
+  text-align: right;
+}
+
+mat-list-item {
+  cursor: pointer;
+  margin-bottom: 10px;
+}

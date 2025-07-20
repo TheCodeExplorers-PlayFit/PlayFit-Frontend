@@ -107,6 +107,7 @@
     </div>
   
     <!-- System Complaint Modal -->
+  <div class = "table-container">
     <div class="modal complaint-modal" *ngIf="showModal && selectedModal === 'system'" [style.display]="showModal ? 'block' : 'none'" (click)="closeModal()">
       <div class="modal-dialog" (click)="$event.stopPropagation()">
         <div class="modal-content">
@@ -131,3 +132,33 @@
       </div>
     </div>
   </div>
+
+  <!--table of complaints by user-->
+  <div class="mt-4" *ngIf="complaintHistory.length > 0">
+  <h3>Your Complaint History</h3>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let complaint of complaintHistory; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ complaint.type }}</td>
+        <td>{{ complaint.description }}</td>
+        <td>
+          <span [ngClass]="{'text-success': complaint.status === 'resolved', 'text-warning': complaint.status === 'pending'}">
+            {{ complaint.status }}
+          </span>
+        </td>
+        <td>{{ complaint.created_at | date: 'medium' }}</td>
+      </tr>
+    </tbody>
+  </table>
+ </div>
+</div> 

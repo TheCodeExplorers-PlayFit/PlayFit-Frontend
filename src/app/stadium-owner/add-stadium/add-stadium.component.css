@@ -1,172 +1,141 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  padding-top: 40px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  font-family: 'Poppins', sans-serif;
-}
-
-.content {
   max-width: 800px;
-  margin: auto;
-  padding: 20px;
+  margin: 0 auto;
+  padding: 50px;
+  font-family: 'Lora', serif;
 }
 
-h2 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+h2, h3 {
+  color: #333;
 }
 
-h3 {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-p {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-input, select, button {
-  margin-top: 5px;
+.form-group {
   margin-bottom: 15px;
-  width: 100%;
-  padding: 10px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box;
 }
 
-button {
-  background-color: #000080;
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-btn, .submit-btn, .reset-btn, .delete-btn, .confirm-map-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.locate-btn {
+  background-color: #17a2b8;
   color: white;
   border: none;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-button:hover:not(:disabled) {
-  background-color: #0000a0;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.confirm-button {
-  background-color: #4CAF50;
-}
-
-.confirm-button:hover:not(:disabled) {
-  background-color: #45a049;
-}
-
-.confirm-button:disabled {
-  background-color: #ccc;
-}
-
-.image-preview img {
-  width: 100px;
-  height: auto;
-  margin-right: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-}
-
-.terms-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.terms-link {
-  color: #000080;
-  text-decoration: underline;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.chip {
   padding: 8px 16px;
-  background-color: #eee;
-  border-radius: 20px;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 0.85rem;
+  margin-right: 8px;
+  border-radius: 5px;
 }
 
-.chip:hover {
-  background-color: #ddd;
+.confirm-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 8px;
+  border-radius: 5px;
 }
 
-.chip.selected {
+.map-confirm-btn {
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+
+.add-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+}
+
+.submit-btn {
   background-color: #000080;
   color: white;
 }
 
-table {
+.submit-btn:hover {
+  background-color: #020271;
+}
+
+.reset-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.reset-btn:hover {
+  background-color: #5a6268;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.confirm-map-btn {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.confirm-map-btn:hover {
+  background-color: #138496;
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  font-family: 'Poppin', sans-serif;
 }
 
-th, td {
+.table th, .table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: center;
-  font-weight: 400;
-  font-size: 0.85rem;
+  text-align: left;
 }
 
-th {
+.table th {
   background-color: #f2f2f2;
-  font-weight: 700;
 }
 
-.time-range {
+.image-preview {
+  margin-top: 10px;
+}
+
+.image-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 10px;
 }
 
-.time-range > div {
-  flex: 1;
+.img-fluid {
+  max-width: 100px;
+  height: auto;
+}
+
+.error {
+  color: #dc3545;
+  margin-top: 5px;
+}
+
+.confirmation {
+  color: #28a745;
+  margin-top: 5px;
 }

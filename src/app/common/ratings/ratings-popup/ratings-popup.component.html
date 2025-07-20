@@ -1,0 +1,22 @@
+<div class="popup">
+  <h2>Ratings for {{ data.entityName }}</h2>
+  <div class="ratings-list">
+    <div *ngFor="let rating of ratings" class="rating-item">
+      <p><strong>{{ rating.first_name }} {{ rating.last_name }}</strong> rated {{ rating.rating }}/5</p>
+      <p>{{ rating.comment }}</p>
+      <p><small>{{ rating.created_at | date:'medium' }}</small></p>
+    </div>
+    <p *ngIf="!ratings.length">No ratings yet.</p>
+  </div>
+  <div class="new-rating">
+    <h3>Add Your Rating</h3>
+    <div class="rating-stars">
+      <span *ngFor="let star of [1,2,3,4,5]" (click)="newRating = star" [class.active]="star <= newRating">★</span>
+    </div>
+    <textarea [(ngModel)]="newComment" placeholder="Add your comment..."></textarea>
+    <div class="actions">
+      <button mat-button (click)="submitRating()">Submit</button>
+      <button mat-button (click)="close()">Close</button>
+    </div>
+  </div>
+</div>

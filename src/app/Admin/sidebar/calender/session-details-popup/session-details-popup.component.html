@@ -1,0 +1,22 @@
+<!-- frontend/src/app/components/calendar/session-details-popup/session-details-popup.component.html -->
+<div class="session-details-container">
+  <h2>Session Details</h2>
+  <div class="session-info">
+    <p><strong>Stadium:</strong> {{ data.stadium.name }} ({{ data.stadium.address }})</p>
+    <p><strong>Sport:</strong> {{ data.session.sport_name }}</p>
+    <p><strong>Date:</strong> {{ data.session.session_date }}</p>
+    <p><strong>Time:</strong> {{ data.session.start_time | date: 'shortTime' }} - {{ data.session.end_time | date: 'shortTime' }}</p>
+    <p><strong>Coach:</strong> {{ data.session.coach_first_name }} {{ data.session.coach_last_name }}</p>
+    <p><strong>Status:</strong> {{ data.session.status }}</p>
+    <p><strong>Max Players:</strong> {{ data.session.max_players }}</p>
+    <p><strong>Current Players:</strong> {{ data.session.no_of_players || 0 }}</p>
+    <p><strong>Total Cost:</strong> {{ data.session.total_cost | currency: 'LKR' }}</p>
+    <p><strong>Stadium Cost:</strong> {{ data.session.stadium_sport_cost | currency: 'LKR' }}</p>
+    <p><strong>Coach Cost:</strong> {{ data.session.coach_cost | currency: 'LKR' }}</p>
+    <p><strong>Recurring:</strong> {{ data.session.recurring ? 'Yes' : 'No' }}</p>
+    <p><strong>Day of Week:</strong> {{ getDayOfWeek(data.session.day_of_week) }}</p>
+  </div>
+  <div class="actions">
+    <button mat-button color="warn" (click)="close()">Close</button>
+  </div>
+</div>

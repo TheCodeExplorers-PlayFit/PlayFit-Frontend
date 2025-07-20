@@ -1,0 +1,45 @@
+<!-- frontend/src/app/components/calendar/calendar-popup.component.html -->
+<div class="popup-container">
+  <h2>Sessions for {{ data.date }}</h2>
+
+  <mat-form-field appearance="fill" class="search-bar">
+    <mat-label>Search Stadiums</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Type to search..." />
+  </mat-form-field>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="stadium-list" *ngIf="!selectedStadium">
+    <mat-list>
+      <mat-list-item *ngFor="let stadium of stadiums" (click)="selectStadium(stadium)">
+        <span>{{ stadium.name }} - {{ stadium.address }}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="session-list" *ngIf="selectedStadium">
+    <h3>Sessions at {{ selectedStadium.name }} on {{ data.date }}</h3>
+    <button mat-button color="primary" (click)="selectedStadium = null">Back to Stadiums</button>
+    <mat-list>
+      <mat-list-item *ngFor="let session of sessions" (click)="selectSession(session)" class="session-item">
+        <span class="session-content">
+          {{ session.sport_name }} |
+          {{ session.session_date }} ({{ getDayOfWeek(session.day_of_week) }}) |
+          {{ session.start_time | date: 'shortTime' }} - {{ session.end_time | date: 'shortTime' }} |
+          Coach: {{ session.coach_first_name || 'N/A' }} {{ session.coach_last_name || '' }} |
+          Status: {{ session.status }} |
+          Max Players: {{ session.max_players }} |
+          Total Cost: {{ session.total_cost | currency:'USD' }} |
+          Stadium Cost: {{ session.stadium_sport_cost | currency:'USD' }} |
+          Coach Cost: {{ session.coach_cost | currency:'USD' }}
+        </span>
+      </mat-list-item>
+      <mat-list-item *ngIf="sessions.length === 0">No sessions available for {{ data.date }}</mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="actions">
+    <button mat-button color="warn" (click)="close()">Close</button>
+  </div>
+</div>

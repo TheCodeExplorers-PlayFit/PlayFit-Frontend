@@ -1,61 +1,184 @@
 /* Dashboard container to style the main content */
 .dashboard-container {
-  display: flex; /* Space between the two rectangles */
+  display: flex;
+  flex-direction: column; /* Stack rows vertically */
   margin: 20px;
-  justify-content: space-between; /* To create space between rectangles */
-  padding-left: 300px; /* Creates space for the sidebar */
-  padding-top: 80px; /* Creates space for the navbar */
-  gap: 20px; /* Adjust the space between the two rectangles as desired */
+  padding-left: 300px; /* Space for sidebar */
+  padding-top: 80px; /* Space for navbar */
+  gap: 20px; /* Space between rows */
+}
+
+/* Row container for cards */
+.row {
+  display: flex;
+  justify-content: space-between; /* Space between cards */
+  gap: 20px; /* Space between cards in a row */
 }
 
 /* Style for each rectangle */
 .rectangle {
-  background-color: #d0c5f7;
   padding: 20px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 50%; /* Adjusting the width to fit two rectangles in one row */
+  flex: 1; /* Equal width within row */
+  height: 200px; /* Fixed height for uniformity */
+  justify-content: space-between; /* Distributes content evenly */
+}
+
+/* First row card styling */
+.row:first-child .rectangle:nth-child(1) {
+  background-color: #d0c5f7; /* Original light purple for Book a Session */
+}
+
+.row:first-child .rectangle:nth-child(2) {
+  background-color: #d0c5f7; /* Original light purple for Explore Nearest Stadiums */
+}
+
+/* Second row card styling */
+.row:nth-child(2) .rectangle:nth-child(1) {
+  background-color: #fee2e2; /* Light red for Complaints */
+}
+
+.row:nth-child(2) .rectangle:nth-child(2) {
+  background-color: #d1fae5; /* Light teal for Booking History */
+}
+
+.row:nth-child(2) .rectangle:nth-child(3) {
+  background-color: #e9d5ff; /* Light violet for Navigate to Session */
+}
+
+.row:nth-child(2) .rectangle:nth-child(4) {
+  background-color: #ffedd5; /* Light amber for Ratings */
+}
+
+/* Third row: Notifications card styling */
+.row:nth-child(3) .rectangle.notification {
+  background-color: #dbeafe; /* Light blue for Notifications, distinct and professional */
+  height: 150px; /* 3/4 of 200px */
+  width: 100%; /* Full width of the row */
 }
 
 /* Title styling */
 .rectangle h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
+  font-size: 20px; /* Adjusted for balance */
+  margin-bottom: 10px;
+  color: #333; /* Darker text for contrast */
 }
 
 /* Content paragraph styling */
 .rectangle p {
-  font-size: 16px;
-  margin-bottom: 20px;
+  font-size: 14px; /* Adjusted for balance */
+  margin-bottom: 15px;
+  color: #555; /* Subtle text color */
 }
 
 /* Button styles */
 button {
-  padding: 10px 20px;
+  padding: 8px 16px; /* Adjusted for balance */
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   transition: background-color 0.3s;
+  width: 80%; /* Consistent button width */
 }
 
 /* Start Booking Button */
 .btn-book {
-  background-color: #000080;
+  background-color: #1e3a8a; /* Original deep blue */
   color: white;
 }
 
 /* Explore Nearest Stadiums Button */
 .btn-explore {
-  background-color: #000080;
+  background-color: #1e3a8a; /* Original deep blue */
   color: white;
 }
 
-/* Button hover effect */
-button:hover {
-  background-color: #3333cc; /* A slightly lighter shade of blue */
+/* File Complaint Button */
+.btn-complaint {
+  background-color: #991b1b; /* Professional dark red, matches Complaints card */
+  color: white;
+}
+
+/* View Booking History Button */
+.btn-history {
+  background-color: #065f46; /* Professional dark teal, matches Booking History card */
+  color: white;
+}
+
+/* Navigate to Stadium Button */
+.btn-navigate {
+  background-color: #6d28d9; /* Professional dark violet, matches Navigate card */
+  color: white;
+}
+
+/* Rate Coaches & Stadiums Button */
+.btn-rate {
+  background-color: #b45309; /* Professional dark amber, matches Ratings card */
+  color: white;
+}
+
+/* Button hover effects */
+.btn-book:hover,
+.btn-explore:hover {
+  background-color: #3b82f6; /* Original lighter blue */
+}
+
+.btn-complaint:hover {
+  background-color: #b91c1c; /* Lighter red */
+}
+
+.btn-history:hover {
+  background-color: #047857; /* Lighter teal */
+}
+
+.btn-navigate:hover {
+  background-color: #7c3aed; /* Lighter violet */
+}
+
+.btn-rate:hover {
+  background-color: #d97706; /* Lighter amber */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 1200px) {
+  .row:first-child {
+    flex-direction: row; /* Keep two cards side by side */
+  }
+
+  .row:nth-child(2) {
+    flex-wrap: wrap; /* Allow four cards to wrap */
+    justify-content: space-around;
+  }
+
+  .row:nth-child(2) .rectangle {
+    width: 45%; /* Two cards per row on medium screens */
+    margin-bottom: 20px;
+  }
+
+  .row:nth-child(3) .rectangle.notification {
+    width: 100%; /* Maintain full width */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding-left: 20px; /* Minimal sidebar space */
+    padding-top: 100px; /* Adjust for navbar */
+  }
+
+  .row {
+    flex-direction: column; /* Stack all cards vertically */
+  }
+
+  .row:first-child .rectangle,
+  .row:nth-child(2) .rectangle,
+  .row:nth-child(3) .rectangle.notification {
+    width: 100%; /* Full width on small screens */
+  }
 }

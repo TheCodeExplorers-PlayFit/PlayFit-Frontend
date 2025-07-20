@@ -1,16 +1,18 @@
-<div class="timetable-container" *ngIf="!loading">
-  <h2>Stadium Timetable for {{ stadiumId }}</h2>
-  <div *ngIf="error" class="error-state">
-    <p>{{ error }}</p>
+<div class="container my-4 timetable-container" *ngIf="!loading">
+  <h2 class="mb-4 text-center">Stadium Timetable for {{ stadiumId }}</h2>
+
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
   </div>
-  <table *ngIf="timetable.length > 0">
-    <thead>
+
+  <table *ngIf="timetable.length > 0" class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
       <tr>
-        <th>Date</th>
-        <th>Sport</th>
-        <th>Time</th>
-        <th>Availability</th>
-        <th>Action</th>
+        <th scope="col">Date</th>
+        <th scope="col">Sport</th>
+        <th scope="col">Time</th>
+        <th scope="col">Availability</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -18,28 +20,68 @@
         <td>{{ session.session_date }}</td>
         <td>{{ session.sport_name }}</td>
         <td>{{ session.start_time }} - {{ session.end_time }}</td>
-        <td>{{ session.status }}</td>
         <td>
-          <button *ngIf="session.status === 'available'" (click)="openPopup(session.id)" class="book-btn">Book</button>
+          <span [class]="'badge ' + (session.status === 'available' ? 'bg-success' : 'bg-secondary')">
+            {{ session.status | titlecase }}
+          </span>
+        </td>
+        <td>
+          <button
+            *ngIf="session.status === 'available'"
+            (click)="openPopup(session.id)"
+            class="btn btn-primary btn-sm"
+          >
+            Book
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <div *ngIf="timetable.length === 0 && !error" class="empty-state">
-    <p>No sessions available.</p>
+
+  <div *ngIf="timetable.length === 0 && !error" class="alert alert-warning text-center">
+    No sessions available.
   </div>
 </div>
-<div *ngIf="loading" class="loading-state">
-  <p>Loading timetable...</p>
+
+<div *ngIf="loading" class="alert alert-info text-center my-5">
+  Loading timetable...
 </div>
 
 <!-- Popup Modal -->
-<div *ngIf="showPopup" class="modal-overlay">
-  <div class="modal-content">
-    <h3>Enter Coach Cost</h3>
-    <input type="number" [(ngModel)]="coachCost" placeholder="Enter coach cost" min="0" />
-    <button (click)="CoachCost()" class="cost-btn">Enter session fees</button>
-    <button [disabled]="coachCost === null" (click)="confirmBooking()" class="confirm-btn">Confirm Booking</button>
-    <button (click)="closePopup()" class="close-btn">Cancel</button>
+<div
+  class="modal fade show"
+  tabindex="-1"
+  [ngClass]="{ 'd-block': showPopup, 'd-none': !showPopup }"
+  (click)="closePopup()"
+  aria-modal="true"
+  role="dialog"
+  style="background: rgba(0, 0, 0, 0.5);"
+>
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content p-4">
+      <h5 class="modal-title mb-3">Enter Coach Cost</h5>
+
+      <input
+        type="number"
+        [(ngModel)]="coachCost"
+        placeholder="Enter coach cost"
+        min="0"
+        class="form-control mb-3"
+      />
+
+      <div class="d-flex gap-2 justify-content-end">
+        <button (click)="CoachCost()" class="btn btn-outline-primary">
+          Enter session fees
+        </button>
+        <button
+          [disabled]="coachCost === null || coachCost === undefined || coachCost < 0"
+          (click)="confirmBooking()"
+          class="btn btn-success"
+        >
+          Confirm Booking
+        </button>
+        <button (click)="closePopup()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>

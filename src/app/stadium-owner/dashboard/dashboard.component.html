@@ -1,12 +1,79 @@
-<div class="d-flex flex-row gap-3" [style.marginLeft]="marginLeft" [style.marginTop]="marginTop">
-  <div class="card-container" *ngFor="let card of cards">
-    <div class="card" [style.backgroundColor]="card.backgroundColor">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center">
-          <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
+<div class="container">
+  <h1 class="dashboard-title">Dashboard</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-12 mt-4" *ngFor="let card of cards">
+          <div class="card clickable-card uniform-card" (click)="navigateTo(card.route)">
+            <div class="card-body" [style.background-color]="card.backgroundColor">
+              <h5 class="card-title">{{ card.subtitle }}</h5>
+              <p class="card-text">{{ card.text }}</p>
+            </div>
+          </div>
         </div>
-        <hr class="card-divider">
-        <p class="card-text">{{ card.text }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card notices-card">
+        <div class="card-body">
+          <h5 class="card-title">Notices</h5>
+          <div class="row">
+            <div class="col-md-4 col-sm-6 col-12 mt-3" *ngFor="let notice of notices; trackBy: trackByNoticeId">
+              <div class="card uniform-card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ notice.title }}</h5>
+                  <p class="card-text">{{ notice.description | slice:0:100 }}...</p>
+                  <a (click)="openView(notice)" class="btn btn-sm btn-info">View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card revenue-card">
+        <div class="card-body">
+          <h5 class="card-title">Monthly Revenue By Stadium ({{ revenueMonthLabel }})</h5>
+          <canvas id="revenueChart" width="400" height="200"></canvas>
+          <p class="text-muted">Revenue data is based on bookings for your stadiums.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Viewing Full Notice -->
+<div *ngIf="viewingNotice" class="modal-overlay" (click)="closeView()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ viewingNotice.title }}</h3>
+      <button class="close-btn" (click)="closeView()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="notice-meta">
+        <div class="meta-item">
+          <strong>Category:</strong> {{ viewingNotice.category }}
+        </div>
+        <div class="meta-item">
+          <strong>Date:</strong> {{ formatDate(viewingNotice.notice_date) }}
+        </div>
+        <div class="meta-item">
+          <strong>Author:</strong> {{ viewingNotice.author }}
+        </div>
+        <div class="meta-item">
+          <strong>Created:</strong> {{ formatDateTime(viewingNotice.created_at) }}
+        </div>
+      </div>
+      <div class="notice-content">
+        <p>{{ viewingNotice.description }}</p>
       </div>
     </div>
   </div>
