@@ -1,44 +1,49 @@
+<br><br>
+<div class="container mt-4" [style.marginTop]="marginTop">
+  <h1 class="mb-4" [style.marginTop]="marginTop">Safety Advice & Tips</h1>
 
-<h1 [style.marginTop]="marginTop">Safety Adive & Tips</h1>
-
-<!-- <input class="form-control bg-light" type="search" [placeholder]="search" aria-label="Search" style="width: 300px;"  [style.marginLeft]="marginLeft" [style.marginTop]="marginTop"  > -->
-
-<br>
-<!-- search bar -->
-<div class="input-group" style="width: 300px; height:50px ;">
-    <span class="input-group-text" id="basic-addon1">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path>
-</svg>
-    </span>
-    <input type="text" class="form-control bg-light" [placeholder]="search" aria-label="Input group example" aria-describedby="basic-addon1">
+  <div class="input-group mb-4" style="width: 40%">
+    <span class="input-group-text"><i class="bi bi-search"></i></span>
+    <input type="text" class="form-control" placeholder="Search safety tips..." [(ngModel)]="search">
   </div>
-
-  <br><br>
-  <hr >
- <!-- cards -->
-  <div class="d-flex justify ">
-    <div class="col-4" *ngFor="let card of cards">
-      <div class="card" style="width: 18rem; max-height: 432px;">
-        <img class="card-img-top" [src]="card.image" [alt]="card.name" style="width: 286px; height: 180px;">
-        <div class="card-body">
-          <h5 class="card-title">{{card.title}}</h5>
-          <p class="card-text">{{card.description}}</p>
-          <a href="#" class="btn mx-1" [style.backgroundColor]="primaryColor" style="color: white;">Read More</a>
-          <a  [routerLink]="'/safetyAdvice-create'" routerLinkActive="active" class="btn " [style.borderColor]="primaryColor">Edit </a>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">{{card.updatedate}}</small>
+<hr> <br>
+  <div class="row">
+   <div class="col-md-4 mb-4" *ngFor="let card of filteredCards">
+  <div class="card h-100 shadow-sm" style="cursor: pointer; position: relative;">
+    <!-- Floating Action Icons - Only visible on hover -->
+    <div class="card-actions">
+      <button class="icon-btn edit-btn" 
+              (click)="editHealthTip(card.id)" 
+              type="button"
+              aria-label="Edit">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <button class="icon-btn delete-btn" 
+              (click)="deleteHealthTip(card.id)" 
+              type="button"
+              aria-label="Delete">
+        <i class="bi bi-trash3"></i>
+      </button>
+    </div>
+    
+    <img *ngIf="card.image" [src]="card.image" class="card-img-top" alt="{{ card.title }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ card.title }}</h5>
+      <small class="card-text" [innerHTML]="card.description"></small>
+      <div class="d-flex justify-content-start align-items-center mt-3">
+        <div>
+           <a [routerLink]="['/health/safety-advise-readmore', card.id]" 
+             class="read-more-link">
+            Read More
+            <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
-    
     </div>
-
-  
+    <div class="card-footer text-muted small">
+      {{ card.updatedate }}
+    </div>
   </div>
-
-  <router-outlet></router-outlet>
- 
-
-   
-      
+</div>
+  </div>
+</div>

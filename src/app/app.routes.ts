@@ -8,6 +8,7 @@ import { PlayerTransactionsComponent } from './player/player-transactions/player
 import { PlayerBookingHistoryComponent } from './player/player-booking-history/player-booking-history.component';
 import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
 import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
+import { PlayerAnnouncementsComponent } from './player/player-announcements/player-announcements.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -46,6 +47,7 @@ import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.com
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-layout/health-officer-layout.component';
+import { SafetyAdviceReadmoreComponent } from './healthOfficer/sidebar/safety-advise-readmore/safety-advise-readmore/safety-advise-readmore.component';     
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
@@ -59,9 +61,14 @@ import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 import { BlogsDisplayComponent } from './common/blogs/blogs.component';
 import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password/forgot-password.component';
+import { ResetVerificationComponent } from './auth/reset-verification/reset-verification/reset-verification.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password/reset-password.component';
+import { RatingsComponent } from './common/ratings/ratings.component';
+import { ProfileComponent } from './common/profile/profile.component';
 
 // ===== ADMIN =====
-import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
+import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
 import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
@@ -76,6 +83,7 @@ import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-c
 import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
 
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
+import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -85,6 +93,9 @@ export const routes: Routes = [
   { path: 'signup', component: RoleSelectionComponent },
   { path: 'sign-in-form-common', component: SignInFormCommonComponent },
   { path: 'email-verification', component: EmailVerificationComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-verification', component: ResetVerificationComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'sign-in-form', component: SignInFormComponent },
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
@@ -97,7 +108,7 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdmindashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
@@ -109,6 +120,7 @@ export const routes: Routes = [
       { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
       //{ path: 'feedback', component: FeedbackComponent },
+      { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
 
@@ -123,6 +135,10 @@ export const routes: Routes = [
       { path: 'booking-history', component: PlayerBookingHistoryComponent },
       { path: 'my-timetable', component: PlayerTimetableComponent },
       { path: 'complaints', component: PlayerComplaintsComponent },
+      { path: 'announcements', component: PlayerAnnouncementsComponent},
+      { path: 'ratings', component:RatingsComponent},
+      {path: 'profile', component: ProfileComponent},
+
     ]
   },
 
@@ -171,13 +187,16 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: HealthOfficerDashboardComponent },
       { path: 'appointments', component: AppointmentsComponent },
-      { path: 'record-injuries', component: RecordInjuriesComponent },
+      { path: 'record-injuries/:id', component: RecordInjuriesComponent },
       { path: 'players-health-records', component: PlayersHealthRecordsComponent },
       { path: 'blogs', component: BlogsComponent },
       { path: 'safety-advice', component: SafetyAdviceComponent },
       { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'signout', component: SignOutComponent },
+      { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent },
+      { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent }
+
     ]
   },
 

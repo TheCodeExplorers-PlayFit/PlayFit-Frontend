@@ -1,0 +1,49 @@
+.popup {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.ratings-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.rating-item {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.new-rating {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.rating-stars span {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.rating-stars span.active {
+  color: #ffd700;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

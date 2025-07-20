@@ -147,3 +147,7 @@
       opacity: 1;
     }
   }
+
+  .table-container {
+    padding-left: 300px;
+  }

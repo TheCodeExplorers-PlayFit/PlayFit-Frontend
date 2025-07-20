@@ -1,23 +1,184 @@
-<!-- cards -->
-<div class="d-flex justify-content-start gap-4 flex-nowrap "  [style.marginTop]="marginTop">
-    <div class="card-container mx-3" *ngFor="let card of cards">
-        <div class="card" style="width: 15rem;" [style.backgroundColor]="card.backgroundColor">
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-muted">{{card.subtiitle}}</h6>
-              <h2 class="card-title">{{card.value}}</h2>  
-      
-             <div class="d-flex justify-content-between align-items-center">
-                <p class="card-text pt-1">{{ card.text }}</p>
-                <i [class]="card.icon" style="font-size: 1.2rem; color: #000080;"></i>
-    
+<!-- dashboard.component.html -->
+<div class="container-fluid" [style.marginTop]="marginTop">
+  <!-- Quick Statistics Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="summary-card">
+        <div class="summary-header">
+          <h5 class="summary-title">
+            <i class="fas fa-chart-line me-2"></i>
+            Quick Statistics
+          </h5>
+        </div>
+        <div class="summary-body">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">
+                  {{ statsLoading ? '...' : getTotalAppointments() }}
+                </div>
+                <div class="stat-label">Total Appointments</div>
+              </div>
             </div>
-          
+            <div class="col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">
+                  {{ statsLoading ? '...' : getAveragePerWeek() }}
+                </div>
+                <div class="stat-label">Avg per Week</div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">
+                  {{ statsLoading ? '...' : getPeakWeek() }}
+                </div>
+                <div class="stat-label">Peak Week</div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">
+                  {{ statsLoading ? '...' : getGrowthTrend() }}
+                </div>
+                <div class="stat-label">Growth Trend</div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="row">
+    <!-- Left Side - Bar Chart -->
+    <div class="col-md-8">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h5 class="chart-title">
+            <i class="fas fa-chart-bar me-2"></i>
+            Weekly Appointments Overview
+          </h5>
+          <div class="chart-info">
+            <button 
+              class="btn btn-outline-primary btn-sm" 
+              (click)="refresh()"
+              [disabled]="isLoading">
+              <i class="fas fa-sync-alt me-1" 
+                 [class.fa-spin]="chartLoading"></i>
+              Refresh
+            </button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <!-- Loading State -->
+          <div *ngIf="chartLoading" class="chart-loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading chart...</span>
+            </div>
+            <p class="mt-3">Loading chart data...</p>
+          </div>
+          
+          <!-- Chart -->
+          <div class="chart-wrapper" [style.display]="chartLoading ? 'none' : 'block'">
+            <canvas #appointmentsChart></canvas>
+          </div>
+          
+          <!-- No Data State -->
+          <div *ngIf="!chartLoading && !hasWeeklyData" class="chart-error">
+            <i class="fas fa-chart-bar"></i>
+            <p class="mt-2">No appointment data available</p>
+            <small class="text-muted">Create some appointments to see the chart</small>
+          </div>
+        </div>
+      </div>
     </div>
 
-    
+    <!-- Right Side - Today's Appointments Table -->
+    <div class="col-md-4">
+      <div class="appointments-card">
+        <div class="appointments-header">
+          <h5 class="appointments-title">
+            Today's Appointments
+            <span class="badge bg-primary ms-2" *ngIf="!appointmentsLoading">
+              {{ todaysAppointments.length }}
+            </span>
+          </h5>
+          <button class="btn btn-link btn-sm text-primary" (click)="viewAllAppointments()">
+            View All
+          </button>
+        </div>
+        <div class="appointments-body">
+          <!-- Loading State -->
+          <div *ngIf="appointmentsLoading" class="text-center py-4">
+            <div class="spinner-border spinner-border-sm text-primary" role="status">
+              <span class="visually-hidden">Loading appointments...</span>
+            </div>
+            <p class="mt-2 mb-0 small text-muted">Loading today's appointments...</p>
+          </div>
+
+          <!-- Appointments Table -->
+          <div class="table-responsive" *ngIf="!appointmentsLoading">
+            <table class="table table-hover appointments-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Name</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let appointment of todaysAppointments" class="appointment-row">
+                  <td class="time-cell">{{ appointment.time }}</td>
+                  <td class="name-cell">
+                    <div class="patient-info">
+                      <img [src]="appointment.avatar" 
+                           [alt]="appointment.name" 
+                           class="patient-avatar"
+                           onerror="this.src='https://ui-avatars.com/api/?name=U&background=ddd&color=999&size=32'">
+                      <span class="patient-name">{{ appointment.name }}</span>
+                    </div>
+                  </td>
+                  <td class="reason-cell">
+                    <span class="reason-text" [ngClass]="getReasonClass(appointment.reason)">
+                      {{ appointment.reason }}
+                    </span>
+                  </td>
+                  <td class="status-cell">
+                    <span class="status-badge" [ngClass]="getStatusClass(appointment.status)">
+                      {{ appointment.status }}
+                    </span>
+                  </td>
+                </tr>
+                
+                <!-- No Appointments State -->
+                <tr *ngIf="!appointmentsLoading && todaysAppointments.length === 0" class="no-appointments">
+                  <td colspan="4" class="text-center text-muted py-4">
+                    <i class="fas fa-calendar-times fa-2x mb-2"></i>
+                    <div>No appointments scheduled for today</div>
+                    <small class="text-muted">Check back later or schedule new appointments</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Debug Info (Remove in production) -->
+  <div class="row mt-4" *ngIf="false"> <!-- Set to true for debugging -->
+    <div class="col-12">
+      <div class="alert alert-info">
+        <h6>Debug Info:</h6>
+        <!-- <p><strong>Health Officer ID:</strong> {{ healthOfficerId }}</p>  -->
+        <p><strong>Weekly Data Points:</strong> {{ weeklyData.length }}</p>
+        <p><strong>Today's Appointments:</strong> {{ todaysAppointments.length }}</p>
+        <p><strong>Loading States:</strong> Chart: {{ chartLoading }}, Appointments: {{ appointmentsLoading }}, Stats: {{ statsLoading }}</p>
+      </div>
+    </div>
+  </div>
 </div>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-

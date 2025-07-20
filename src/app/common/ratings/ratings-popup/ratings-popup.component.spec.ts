@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayerRatingsComponent } from './player-ratings.component';
+import { RatingsPopupComponent } from './ratings-popup.component';
 
-describe('PlayerRatingsComponent', () => {
-  let component: PlayerRatingsComponent;
-  let fixture: ComponentFixture<PlayerRatingsComponent>;
+describe('RatingsPopupComponent', () => {
+  let component: RatingsPopupComponent;
+  let fixture: ComponentFixture<RatingsPopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlayerRatingsComponent]
+      imports: [RatingsPopupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PlayerRatingsComponent);
+    fixture = TestBed.createComponent(RatingsPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

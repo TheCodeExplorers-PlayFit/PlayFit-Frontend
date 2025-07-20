@@ -1,54 +1,196 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css");
-
-.d-flex {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 1.5rem;
+.container {
+  margin-left: 5px;
+  margin-top: 55px;
+  font-family: 'Lora', serif;
 }
 
-.card-container {
-  flex: 0 0 auto;
-  width: 16rem;
+.dashboard-title {
+  font-family: 'Lora', serif;
+  color: #212529;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .card {
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 16rem;
-  height: 10rem;
+  transition: transform 0.2s;
 }
 
-.card-body {
+.uniform-card {
+  height: 150px; /* Fixed height for uniformity */
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
-.card-subtitle {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.2rem;
+.uniform-card .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.notices-card {
+  padding-bottom: 0;
+}
+
+.card-title {
+  font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  color: #000;
-  text-decoration: none;
-}
-
-.card-subtitle:hover {
-  text-decoration: underline;
-}
-
-.card-divider {
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 0.5rem 0;
 }
 
 .card-text {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 0.85rem;
-  margin: 0;
+  font-size: 0.9rem;
   flex-grow: 1;
-  line-height: 1.4;
+}
+
+.btn-info {
+  align-self: flex-end;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .col-md-3, .col-md-4 {
+    flex: 1 1 300px; /* Increased min-width for consistent card width */
+  }
+
+  .uniform-card {
+    height: 180px; /* Slightly smaller for mobile */
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-family: 'Lora', serif;
+  color: #212529;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+.close-btn:hover {
+  color: #212529;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.notice-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.notice-content p {
+  color: #212529;
+  margin: 0;
+  font-size: 1rem;
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .modal-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .notice-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .meta-item {
+    font-size: 0.85rem;
+  }
+
+  .notice-content p {
+    font-size: 0.9rem;
+  }
+}
+
+/* New styles for revenue card */
+.revenue-card {
+  padding-bottom: 0;
+}
+
+/* Set a fixed height for the revenue chart */
+#revenueChart {
+  max-width: 100%;
+  height: 250px !important; /* Try 200px, 250px, or even 180px */
+}
+
+
+@media (max-width: 768px) {
+  #revenueChart {
+    height: 150px !important;
+  }
 }

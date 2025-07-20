@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MaintenanceRequestsService } from '../../services/maintenance-requests/maintenance-requests.service';
 import { Complaint, Card } from '@models/maintenance-requests';
 
@@ -17,6 +17,7 @@ export class MaintenanceRequestsComponent implements OnInit {
   pendingTasks = 0;
   completedTasks = 0;
   inProgressTasks = 0;
+  viewingRequest: Complaint | null = null;
 
   cards: Card[] = [
     { subtitle: 'Total Tasks', text: this.totalTasks.toString(), backgroundColor: '#F3A4A4', route: '/stadium-owner/maintenance-requests' },
@@ -68,9 +69,15 @@ export class MaintenanceRequestsComponent implements OnInit {
     this.cards[3].text = this.inProgressTasks.toString();
   }
 
-  viewRequest(id: number) {
-    console.log('View request:', id);
-    this.router.navigate([`/stadium-owner/maintenance-requests/${id}`]);
+  openView(complaint: Complaint) {
+    console.log('Opening modal for complaint:', complaint);
+    this.viewingRequest = complaint;
+    this.cdr.detectChanges();
+  }
+
+  closeView() {
+    this.viewingRequest = null;
+    this.cdr.detectChanges();
   }
 
   editRequest(complaint: Complaint) {
@@ -96,8 +103,19 @@ export class MaintenanceRequestsComponent implements OnInit {
     });
   }
 
-  viewAllRequests() {
-    console.log('View all requests called');
-    this.fetchComplaints();
+  formatDateTime(date: string | Date): string {
+    const d = new Date(date);
+    return d.toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    }); // Format as MM/DD/YYYY, HH:MM AM/PM
+  }
+
+  trackByComplaintId(index: number, complaint: Complaint): number {
+    return complaint.id;
   }
 }

@@ -1,0 +1,23 @@
+<div class="verification-container">
+  <h2>Verify Reset Code</h2>
+  <p>A verification code has been sent to {{ email }}. Please enter it below.</p>
+
+  <div class="form-group">
+    <label for="verificationCode">Verification Code</label>
+    <input
+      type="text"
+      id="verificationCode"
+      [(ngModel)]="verificationCode"
+      placeholder="Enter 6-digit code"
+      class="input-field"
+    />
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+
+  <button class="primary-btn" (click)="verifyResetCode()">Verify</button>
+  <p class="back-to-login">
+    <a routerLink="/sign-in">Back to Sign In</a>
+  </p>
+</div>

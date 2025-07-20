@@ -30,7 +30,7 @@
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Max Players</th>
-                    <th>Sport Percentage (%)</th>
+                    <th>Cost Per Player (Rs)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
                     <td>{{ schedule.fromTime }}</td>
                     <td>{{ schedule.toTime }}</td>
                     <td>{{ schedule.maxPlayers }}</td>
-                    <td>{{ schedule.sportPercentage }}%</td>
+                    <td>{{ schedule.sportCost | currency:'INR':'symbol':'1.2-2' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -49,8 +49,8 @@
           </td>
           <td>
             <div style="display: flex; gap: 8px; align-items: center;">
-            <button class="edit-btn mx-" (click)="enableEdit(stadium)">Edit</button>
-            <button class="delete-btn" (click)="deleteStadium(stadium.id)">Delete</button>
+              <button class="edit-btn mx-" (click)="enableEdit(stadium)">Edit</button>
+              <button class="delete-btn" (click)="deleteStadium(stadium.id)">Delete</button>
             </div>
           </td>
         </tr>
@@ -128,7 +128,7 @@
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Max Players</th>
-                <th>Sport Percentage (%)</th>
+                <th>Cost Per Player (Rs)</th>
                 <th>Remove</th>
               </tr>
             </thead>
@@ -143,15 +143,15 @@
                 <td><input type="time" class="form-control" [(ngModel)]="schedule.fromTime" [name]="'fromTime' + i" required /></td>
                 <td><input type="time" class="form-control" [(ngModel)]="schedule.toTime" [name]="'toTime' + i" required /></td>
                 <td><input type="number" class="form-control" [(ngModel)]="schedule.maxPlayers" [name]="'maxPlayers' + i" min="1" required /></td>
-                <td><input type="number" class="form-control" [(ngModel)]="schedule.sportPercentage" [name]="'sportPercentage' + i" min="0" max="100" step="0.01" required /></td>
+                <td><input type="number" class="form-control" [(ngModel)]="schedule.sportCost" [name]="'sportCost' + i" min="0" step="0.01" required /></td>
                 <td><button type="button" class="delete-btn btn-sm" (click)="removeSchedule(i)">Remove</button></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <button type="button" class=" add-stadium-btn btn-sm mx-2" (click)="addSchedule()">Add Schedule</button>
+        <button type="button" class="add-stadium-btn btn-sm mx-2" (click)="addSchedule()">Add Schedule</button>
         <button type="submit" class="save-stadium-btn btn-sm mt mx-2" (click)="saveEdit()">Save</button>
-        <button type="button" class=" cancel-btn btn-sm mx-2" (click)="cancelEdit()">Cancel</button>
+        <button type="button" class="cancel-btn btn-sm mx-2" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
   </div>

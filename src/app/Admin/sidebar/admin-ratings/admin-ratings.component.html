@@ -57,9 +57,9 @@
         <div *ngFor="let entityStat of statistics.byEntityType" class="entity-stat">
           <div class="entity-header">
             <span class="entity-icon">{{ getEntityTypeIcon(entityStat.entity_type) }}</span>
-            <span class="entity-name">{{ entityStat.entity_type | titlecase }}s</span>
+            <span class="entity-name1">{{ entityStat.entity_type | titlecase }}s</span>
           </div>
-          <div class="entity-details">
+          <div class="entity-details1">
             <span>{{ entityStat.total_ratings }} ratings</span>
             <span class="avg-rating">{{ entityStat.average_rating | number:'1.1-1' }}★</span>
           </div>

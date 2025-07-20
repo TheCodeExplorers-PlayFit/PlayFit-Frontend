@@ -18,7 +18,23 @@ export class AddStadiumService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(`${this.apiUrl}/add`, stadiumData, { headers }).pipe(
+    const payload = {
+      name: stadiumData.name,
+      address: stadiumData.address,
+      google_maps_link: stadiumData.google_maps_link,
+      facilities: stadiumData.facilities || null,
+      images: stadiumData.images || [],
+      schedule: stadiumData.schedule.map(schedule => ({
+        sport: schedule.sport,
+        day: schedule.day,
+        fromTime: schedule.fromTime,
+        toTime: schedule.toTime,
+        maxPlayers: schedule.maxPlayers,
+        sportCost: schedule.sportCost
+      }))
+    };
+
+    return this.http.post(`${this.apiUrl}/add`, payload, { headers }).pipe(
       catchError(error => {
         const message = error.error?.message || error.message || 'An unexpected error occurred';
         console.error('Error adding stadium:', {

@@ -11,6 +11,6 @@ export interface Stadium {
       fromTime: string;
       toTime: string;
       maxPlayers: number;
-      sportPercentage: number;
+      sportCost: number;
     }[];
-  }
+}

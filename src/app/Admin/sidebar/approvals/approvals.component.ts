@@ -43,10 +43,10 @@ export class ApprovalsComponent implements OnInit {
           name: item.facilityName || `${item.first_name} ${item.last_name}`,
           role: item.role === 'medicalOfficer' ? 'Medical Officer' : item.role === 'coach' ? 'Coach' : 'Stadium',
           photo: item.role === 'stadium'
-       ? 'https://th.bing.com/th?id=OIF.1w%2fVL%2fykHlIQu6UACxFPiA&rs=1&pid=ImgDetMain'
+       ? 'https://tse3.mm.bing.net/th/id/OIP.OpgfkTh7PYBKf27nBvQXmQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3'
        : item.role === 'coach'
-         ? 'https://randomuser.me/api/portraits/men/12.jpg'
-         : 'https://randomuser.me/api/portraits/women/44.jpg',
+         ? 'https://tse4.mm.bing.net/th/id/OIP.-gcltiTd5LW5Y3jwHdaQJAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'
+         : 'https://tse4.mm.bing.net/th/id/OIP.7BmgXoEcOTn3JD9rHuHqaAHaJI?rs=1&pid=ImgDetMain&o=7&rm=3',
 
           status: 'Pending' as Status,
           createdAt: item.created_at ? new Date(item.created_at) : new Date(),
