@@ -1,242 +1,247 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { AddStadiumService } from '../../services/add-stadium/add-stadium.service';
+import { Stadium } from '../../models/stadium';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-stadium',
   templateUrl: './add-stadium.component.html',
-  imports: [CommonModule, FormsModule, HttpClientModule],
   styleUrls: ['./add-stadium.component.css'],
-  standalone: true
+  standalone: true,
+  imports: [CommonModule, FormsModule, CurrencyPipe]
 })
-export class AddStadiumComponent {
-  stadium: any = {
+export class AddStadiumComponent implements OnInit {
+  newStadium: Stadium = {
+    id: 0,
     name: '',
     address: '',
+    google_maps_link: '',
     facilities: '',
-    locationText: '',
-    locationUrl: ''
+    images: [],
+    schedule: []
   };
-
-  agreed = false;
-  imageUrls: string[] = [];
+  sportsOptions: string[] = [
+    'Football', 'Basketball', 'Tennis', 'Cricket', 'Swimming',
+    'Volleyball', 'Badminton', 'Rugby', 'Hockey'
+  ];
+  weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   uploadProgress: number = 0;
   uploadError: string | null = null;
-  locationConfirmed = false;
-  sportsOptions: string[] = ['Football', 'Basketball', 'Tennis', 'Cricket', 'Swimming', 'Volleyball', 'Badminton', 'Rugby', 'Hockey'];
-  weekdayOptions: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  selectedSport: string | null = null;
+  addressError: string | null = null;
+  selectedSport: string = '';
   selectedDay: string = '';
+  selectedMaxPlayers: number = 0;
   selectedFromTime: string = '';
   selectedToTime: string = '';
-  selectedMaxPlayers: number | null = null;
-  selectedSportPercentage: number | null = null;
-  scheduleRows: { sport: string; day: string; fromTime: string; toTime: string; maxPlayers: number; sportPercentage: number }[] = [];
+  selectedSportCost: number = 0;
+  locationConfirmed: boolean = false;
+  hasNavigatedToMap: boolean = false;
+  agreed: boolean = false;
+  imageUrls: string[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private addStadiumService: AddStadiumService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  locateAddress() {
-    if (!this.stadium.locationText) {
-      alert('Please enter a location.');
+  ngOnInit() {
+    this.resetForm();
+  }
+
+  onSubmit() {
+    console.log('Submitting stadium:', this.newStadium);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in to add a stadium.');
+      this.router.navigate(['/login']);
       return;
     }
-
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${this.stadium.locationText}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.length > 0) {
-          const lat = parseFloat(data[0].lat);
-          const lon = parseFloat(data[0].lon);
-          const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-          this.stadium.locationUrl = googleMapsUrl;
-          window.open(googleMapsUrl, '_blank');
-          console.log('Location URL set:', googleMapsUrl);
-        } else {
-          alert('Location not found!');
-        }
-      })
-      .catch(err => {
-        console.error('Error fetching location:', err);
-        alert('Error finding location. Please try again.');
-      });
-  }
-
-  confirmLocation() {
-    if (this.stadium.locationUrl) {
-      this.locationConfirmed = true;
-      alert('Location confirmed!');
-      console.log('locationConfirmed:', this.locationConfirmed);
-    } else {
-      alert('Please find a location on the map first.');
+    if (!this.newStadium.name || !this.newStadium.address || !this.newStadium.google_maps_link) {
+      alert('Name, Address, and Google Maps Link are required.');
+      return;
     }
+    if (!this.locationConfirmed) {
+      alert('Please confirm the location in Google Maps before submitting.');
+      return;
+    }
+    if (!this.agreed) {
+      alert('Please agree to the terms and conditions.');
+      return;
+    }
+    if (this.newStadium.schedule && this.newStadium.schedule.length > 0) {
+      for (const schedule of this.newStadium.schedule) {
+        if (schedule.day && !this.weekdayOptions.includes(schedule.day)) {
+          alert(`Invalid day: ${schedule.day}. Choose a valid day of the week.`);
+          return;
+        }
+        if (schedule.fromTime && schedule.toTime && schedule.fromTime >= schedule.toTime) {
+          alert(`Start time must be earlier than end time for ${schedule.sport || 'schedule'}.`);
+          return;
+        }
+        if (schedule.sportCost < 0) {
+          alert(`Cost per player for ${schedule.sport} must be non-negative.`);
+          return;
+        }
+      }
+    }
+    this.addStadiumService.addStadium(this.newStadium, token).subscribe({
+      next: () => {
+        alert('Stadium added successfully!');
+        this.router.navigate(['/stadium-owner/stadiums']);
+      },
+      error: (error) => {
+        console.error('Error adding stadium:', error);
+        alert(`Error adding stadium: ${error.message}`);
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.uploadProgress = 0;
       this.uploadError = null;
       const files = Array.from(input.files);
-      files.forEach(file => this.uploadToCloudinary(file));
-    }
-  }
-
-  uploadToCloudinary(file: File): void {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'imageuploading'); // Replace with your preset
-    formData.append('cloud_name', 'dubclskme'); // Replace with your Cloud Name
-    formData.append('folder', 'Uploads'); // Optional: organize in a folder
-
-    const uploadUrl = 'https://api.cloudinary.com/v1_1/dubclskme/image/upload'; // Replace with your Cloud Name
-
-    fetch(uploadUrl, {
-      method: 'POST',
-      body: formData
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.secure_url) {
-          this.imageUrls.push(data.secure_url);
-          this.uploadProgress = 100;
-        } else {
-          throw new Error('Upload failed');
-        }
-      })
-      .catch(error => {
-        this.uploadError = `Upload failed: ${error.message}`;
-        this.uploadProgress = 0;
+      let completed = 0;
+      files.forEach(file => {
+        this.addStadiumService.uploadImage(file).subscribe({
+          next: (url) => {
+            this.newStadium.images = [...this.newStadium.images, url];
+            this.imageUrls = [...this.imageUrls, url];
+            completed++;
+            this.uploadProgress = (completed / files.length) * 100;
+            console.log('Uploaded image URL:', url);
+            this.cdr.detectChanges();
+          },
+          error: (error) => {
+            this.uploadError = error.message;
+            this.uploadProgress = 0;
+            console.error('Upload error:', error);
+            this.cdr.detectChanges();
+          }
+        });
       });
+    }
   }
 
   selectSport(sport: string) {
     this.selectedSport = sport;
-    this.selectedDay = '';
-    this.selectedFromTime = '';
-    this.selectedToTime = '';
-    this.selectedMaxPlayers = null;
-    this.selectedSportPercentage = null;
+    console.log('Selected sport:', sport);
   }
 
   addScheduleRow() {
-    if (
-      this.selectedSport &&
-      this.selectedDay &&
-      this.selectedFromTime &&
-      this.selectedToTime &&
-      this.selectedMaxPlayers !== null &&
-      this.selectedMaxPlayers > 0 &&
-      this.selectedSportPercentage !== null &&
-      this.selectedSportPercentage >= 0 && this.selectedSportPercentage <= 100
-    ) {
-      if (this.selectedFromTime >= this.selectedToTime) {
-        alert('From time must be earlier than To time');
-        return;
-      }
-      this.scheduleRows.push({
-        sport: this.selectedSport,
-        day: this.selectedDay,
-        fromTime: this.selectedFromTime,
-        toTime: this.selectedToTime,
-        maxPlayers: this.selectedMaxPlayers,
-        sportPercentage: this.selectedSportPercentage
-      });
-      console.log('Schedule Rows:', this.scheduleRows);
-      this.selectedSport = null;
-      this.selectedDay = '';
-      this.selectedFromTime = '';
-      this.selectedToTime = '';
-      this.selectedMaxPlayers = null;
-      this.selectedSportPercentage = null;
-    } else {
-      alert('Please select sport, day, from time, to time, a valid number of max players, and a sport cost percentage (0-100)');
-      console.log('Schedule fields:', {
-        sport: this.selectedSport,
-        day: this.selectedDay,
-        fromTime: this.selectedFromTime,
-        toTime: this.selectedToTime,
-        maxPlayers: this.selectedMaxPlayers,
-        sportPercentage: this.selectedSportPercentage
-      });
+    this.newStadium.schedule = this.newStadium.schedule || [];
+    if (!this.selectedSport || !this.selectedDay || !this.selectedFromTime || !this.selectedToTime || !this.selectedMaxPlayers || this.selectedSportCost < 0) {
+      alert('Please fill in all schedule fields with valid values.');
+      return;
     }
+    if (this.selectedFromTime >= this.selectedToTime) {
+      alert('Start time must be earlier than end time.');
+      return;
+    }
+    if (this.selectedMaxPlayers < 1) {
+      alert('Max players must be at least 1.');
+      return;
+    }
+    this.newStadium.schedule.push({
+      sport: this.selectedSport,
+      day: this.selectedDay,
+      fromTime: this.selectedFromTime,
+      toTime: this.selectedToTime,
+      maxPlayers: this.selectedMaxPlayers,
+      sportCost: this.selectedSportCost
+    });
+    this.resetScheduleInputs();
+    this.cdr.detectChanges();
   }
 
   removeRow(index: number) {
-    this.scheduleRows.splice(index, 1);
+    this.newStadium.schedule.splice(index, 1);
+    this.cdr.detectChanges();
   }
 
-  onSubmit(form: NgForm) {
-    console.log('Form Valid:', form.valid);
-    console.log('Form Value:', form.value);
-    console.log('locationConfirmed:', this.locationConfirmed);
-    console.log('scheduleRows:', this.scheduleRows);
-    console.log('agreed:', this.agreed);
-    if (form.valid && this.locationConfirmed && this.agreed && this.scheduleRows.length > 0 && this.imageUrls.length > 0) {
-      const stadiumData = {
-        name: this.stadium.name,
-        address: this.stadium.address,
-        google_maps_link: this.stadium.locationUrl,
-        facilities: this.stadium.facilities,
-        images: this.imageUrls,
-        schedule: this.scheduleRows.map(row => ({
-          sport: row.sport,
-          day: row.day,
-          fromTime: row.fromTime,
-          toTime: row.toTime,
-          maxPlayers: row.maxPlayers,
-          sportPercentage: row.sportPercentage
-        }))
-      };
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please log in to submit the form.');
-        this.router.navigate(['/login']);
-        return;
-      }
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+  locateAddress() {
+    if (this.newStadium.address) {
+      this.addStadiumService.getLocationUrl(this.newStadium.address).subscribe({
+        next: (url) => {
+          this.newStadium.google_maps_link = url;
+          this.addressError = null;
+          this.locationConfirmed = false;
+          this.hasNavigatedToMap = false;
+          console.log('Google Maps URL:', url);
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          this.addressError = error.message;
+          this.newStadium.google_maps_link = '';
+          this.hasNavigatedToMap = false;
+          console.error('Address error:', error);
+          this.cdr.detectChanges();
+        }
       });
-      console.log('Submitting stadium data:', stadiumData);
-      this.http.post('http://localhost:5000/api/stadiums/add', stadiumData, { headers })
-        .subscribe({
-          next: (response: any) => {
-            console.log('Stadium added successfully!', response);
-            alert('Stadium added successfully!');
-            form.reset();
-            this.stadium = { name: '', address: '', facilities: '', locationText: '', locationUrl: '' };
-            this.imageUrls = [];
-            this.scheduleRows = [];
-            this.locationConfirmed = false;
-            this.agreed = false;
-            this.router.navigate(['/stadium-owner/stadiums']);
-          },
-          error: (error: any) => {
-            console.error('Error adding stadium:', error);
-            const message = error.error?.message || error.message || 'An unexpected error occurred';
-            console.log('Error details:', {
-              status: error.status,
-              statusText: error.statusText,
-              error: error.error,
-              message
-            });
-            alert(`Error adding stadium: ${message}`);
-            if (error.status === 401) {
-              this.router.navigate(['/login']);
-            }
-          }
-        });
     } else {
-      let errorMessage = 'Please fix the following:';
-      if (!form.valid) errorMessage += '\n- Fill all required fields (Name, Address, Facilities).';
-      if (!this.locationConfirmed) errorMessage += '\n- Confirm the location.';
-      if (!this.agreed) errorMessage += '\n- Agree to terms and conditions.';
-      if (!this.scheduleRows.length) errorMessage += '\n- Add at least one schedule row.';
-      if (!this.imageUrls.length) errorMessage += '\n- Upload at least one image.';
-      alert(errorMessage);
-      console.log('Form submission failed:', errorMessage);
+      this.newStadium.google_maps_link = '';
+      this.addressError = 'Please enter an address.';
+      this.locationConfirmed = false;
+      this.hasNavigatedToMap = false;
     }
+  }
+
+  confirmLocation() {
+    if (this.newStadium.google_maps_link) {
+      window.open(this.newStadium.google_maps_link, '_blank');
+      this.hasNavigatedToMap = true;
+      console.log('Navigated to Google Maps:', this.newStadium.google_maps_link);
+      this.cdr.detectChanges();
+    } else {
+      alert('Please generate a valid Google Maps link first.');
+    }
+  }
+
+  confirmLocationInMap() {
+    if (this.newStadium.google_maps_link && this.hasNavigatedToMap) {
+      this.locationConfirmed = true;
+      console.log('Location confirmed in map:', this.newStadium.google_maps_link);
+      this.cdr.detectChanges();
+    } else {
+      alert('Please navigate to Google Maps first.');
+    }
+  }
+
+  resetScheduleInputs() {
+    this.selectedSport = '';
+    this.selectedDay = '';
+    this.selectedMaxPlayers = 0;
+    this.selectedFromTime = '';
+    this.selectedToTime = '';
+    this.selectedSportCost = 0;
+  }
+
+  resetForm() {
+    this.newStadium = {
+      id: 0,
+      name: '',
+      address: '',
+      google_maps_link: '',
+      facilities: '',
+      images: [],
+      schedule: []
+    };
+    this.imageUrls = [];
+    this.uploadProgress = 0;
+    this.uploadError = null;
+    this.addressError = null;
+    this.locationConfirmed = false;
+    this.hasNavigatedToMap = false;
+    this.agreed = false;
+    this.resetScheduleInputs();
+    this.cdr.detectChanges();
   }
 }

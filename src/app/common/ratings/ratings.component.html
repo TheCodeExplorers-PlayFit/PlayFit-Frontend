@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="section">
+    <div class="search-card">
+      <h2>Rate Stadiums</h2>
+      <div class="search-bar">
+        <input type="text" [(ngModel)]="stadiumSearchQuery" (ngModelChange)="onStadiumSearchChange($event)" placeholder="Search for a stadium...">
+      </div>
+    </div>
+    <div class="results">
+      <div *ngFor="let stadium of stadiums" class="result-card" (click)="openRatingsPopup('stadium', stadium.id, stadium.name)">
+        {{ stadium.name }}
+      </div>
+      <p *ngIf="stadiumSearchQuery && !stadiums.length">No stadiums found.</p>
+    </div>
+    <div class="recent-ratings">
+      <h3>Recent Stadium Ratings</h3>
+      <div *ngFor="let rating of recentStadiumRatings" class="rating-card">
+        <p><strong>{{ rating.first_name }} {{ rating.last_name }}</strong> rated <strong>{{ rating.entity_name }}</strong> {{ rating.rating }}/5</p>
+        <p>{{ rating.comment }}</p>
+        <p><small>{{ rating.created_at | date:'medium' }}</small></p>
+      </div>
+      <p *ngIf="!recentStadiumRatings.length">No recent stadium ratings.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="search-card">
+      <h2>Rate Coaches</h2>
+      <div class="search-bar">
+        <input type="text" [(ngModel)]="coachSearchQuery" (ngModelChange)="onCoachSearchChange($event)" placeholder="Search for a coach...">
+      </div>
+    </div>
+    <div class="results">
+      <div *ngFor="let coach of coaches" class="result-card" (click)="openRatingsPopup('coach', coach.id, coach.first_name + ' ' + coach.last_name)">
+        {{ coach.first_name }} {{ coach.last_name }}
+      </div>
+      <p *ngIf="coachSearchQuery && !coaches.length">No coaches found.</p>
+    </div>
+    <div class="recent-ratings">
+      <h3>Recent Coach Ratings</h3>
+      <div *ngFor="let rating of recentCoachRatings" class="rating-card">
+        <p><strong>{{ rating.first_name }} {{ rating.last_name }}</strong> rated <strong>{{ rating.entity_name }}</strong> {{ rating.rating }}/5</p>
+        <p>{{ rating.comment }}</p>
+        <p><small>{{ rating.created_at | date:'medium' }}</small></p>
+      </div>
+      <p *ngIf="!recentCoachRatings.length">No recent coach ratings.</p>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class PlayerComplaintsComponent implements OnInit {
   stadiums: any[] = [];
   coaches: any[] = [];
+  complaintHistory: any[] = [];
   selectedModal: 'stadium' | 'coach' | 'system' | null = null;
   showModal: boolean = false;
   selectedStadiumId: number | null = null;
@@ -29,6 +30,7 @@ export class PlayerComplaintsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchStadiums();
     this.fetchCoaches();
+     this.fetchComplaintHistory();
   }
 
   fetchStadiums(): void {
@@ -64,6 +66,19 @@ export class PlayerComplaintsComponent implements OnInit {
       }
     });
   }
+
+  fetchComplaintHistory(): void {
+  const playerId = this.playerId;
+  this.http.get<any[]>(`${this.apiBaseUrl}/my-complaints/${playerId}`).subscribe({
+    next: (data) => {
+      console.log('Complaint history:', data);
+      this.complaintHistory = data;
+    },
+    error: (err) => {
+      console.error('Error fetching complaint history:', err);
+    }
+  });
+}
 
   openModal(type: 'stadium' | 'coach' | 'system'): void {
     console.log('Opening modal:', type);

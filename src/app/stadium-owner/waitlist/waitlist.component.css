@@ -1,94 +1,84 @@
-/* waitlist.component.css */
-h1 {
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 20px;
-    margin-top: 50px;
-  }
-  
-  h3, h4 {
-    color: #34495e;
-    margin-top: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ecf0f1;
-  }
-  
-  th {
-    background-color: #3498db;
-    color: #ffffff;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  tr:hover {
-    background-color: #ecf0f1;
-  }
-  
-  button {
-    padding: 8px 16px;
-    background-color: #2ecc71;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #27ae60;
-  }
-  
-  .edit-form {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .edit-form label {
-    display: block;
-    margin-bottom: 5px;
-    color: #34495e;
-  }
-  
-  .edit-form input,
-  .edit-form select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .edit-form button[type="submit"] {
-    background-color: #3498db;
-  }
-  
-  .edit-form button[type="submit"]:hover {
-    background-color: #2980b9;
-  }
-  
-  .edit-form button[type="button"] {
-    background-color: #e74c3c;
-    margin-left: 10px;
-  }
-  
-  .edit-form button[type="button"]:hover {
-    background-color: #c0392b;
-  }
+.waitlist-container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .reject-btn {
+      margin-left: 8px;
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-approved {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .status-text {
+      color: #666;
+      font-style: italic;
+    }
+
+    mat-card {
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: #1976d2;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .action-buttons {
+        flex-direction: column;
+        gap: 4px;
+      }
+      
+      .reject-btn {
+        margin-left: 0;
+      }
+    }

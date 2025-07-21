@@ -1,0 +1,27 @@
+/* frontend/src/app/components/calendar/session-details-popup/session-details-popup.component.css */
+.session-details-container {
+  padding: 20px;
+  max-width: 560px; /* Matches modal width minus padding */
+}
+
+.session-info {
+  margin-bottom: 20px;
+}
+
+.session-info p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.session-info p strong {
+  display: inline-block;
+  width: 150px; /* Align labels for readability */
+}
+
+.actions {
+  text-align: right;
+}
+
+button {
+  margin-left: 10px;
+}

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth/auth.service'; 
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-coach-complaints',
@@ -19,11 +19,15 @@ export class CoachComplaintsComponent implements OnInit {
   selectedStadiumId: number | null = null;
   complaintDescription: string = '';
   searchQuery: string = '';
-  coachId: number | null = null; // Retrieved from AuthService
+  coachId: number | null = null;
   errorMessage: string = '';
-  private apiBaseUrl = 'http://localhost:5000/api/complaints'; // Updated to port 5000
+  private apiBaseUrl = 'http://localhost:5000/api/coach-sessions';
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     const user = this.authService.getUser();
@@ -38,32 +42,36 @@ export class CoachComplaintsComponent implements OnInit {
   }
 
   fetchStadiums(): void {
-    console.log(`Fetching stadiums from ${this.apiBaseUrl}/stadiums at ${new Date().toLocaleString()}`);
-    this.http.get<any>(`${this.apiBaseUrl}/stadiums`).subscribe({
-      next: (response) => {
-        console.log('Raw response from backend:', response);
-        // Handle different response structures
-        let data = response;
-        if (!Array.isArray(response)) {
-          // If response is an object with a 'data' property, use that
-          data = response.data || [];
-          console.log('Extracted data from response:', data);
-        }
-        // Validate and assign stadiums
-        this.stadiums = Array.isArray(data) ? data.filter(item => item && typeof item === 'object' && 'id' in item && 'name' in item) : [];
-        console.log('Processed stadiums:', this.stadiums);
-        if (this.stadiums.length === 0) {
-          this.errorMessage = 'No stadiums found in the database. Please ensure the backend endpoint is returning data.';
-        } else {
-          this.errorMessage = ''; // Clear error if data is received
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching stadiums:', err, `at ${new Date().toLocaleString()}`);
-        this.errorMessage = `Failed to load stadiums: ${err.statusText || err.message || 'Server not reachable. Check if backend is running on port 5000.'}`;
+  const token = localStorage.getItem('token');
+  console.log(`Fetching stadiums from ${this.apiBaseUrl}/stadiums at ${new Date().toLocaleString()}`);
+
+  this.http.get<any>(`${this.apiBaseUrl}/stadiums`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).subscribe({
+    next: (response) => {
+      console.log('Raw response from backend:', response);
+      let data = response;
+      if (!Array.isArray(response)) {
+        data = response.data || [];
+        console.log('Extracted data from response:', data);
       }
-    });
-  }
+      this.stadiums = Array.isArray(data)
+        ? data.filter(item => item && typeof item === 'object' && 'id' in item && 'name' in item)
+        : [];
+      console.log('Processed stadiums:', this.stadiums);
+      this.errorMessage = this.stadiums.length === 0
+        ? 'No stadiums found in the database.'
+        : '';
+    },
+    error: (err) => {
+      console.error('Error fetching stadiums:', err, `at ${new Date().toLocaleString()}`);
+      this.errorMessage = `Failed to load stadiums: ${err.statusText || err.message}`;
+    }
+  });
+}
+
 
   openModal(type: 'stadium' | 'system'): void {
     console.log('Opening modal:', type, `at ${new Date().toLocaleString()}`);
@@ -81,48 +89,56 @@ export class CoachComplaintsComponent implements OnInit {
     this.selectedModal = null;
   }
 
-  submitComplaint(): void {
-    console.log('Submitting complaint:', {
-      selectedModal: this.selectedModal,
-      stadiumId: this.selectedStadiumId,
-      description: this.complaintDescription
-    }, `at ${new Date().toLocaleString()}`);
-    if (!this.complaintDescription.trim()) {
-      this.errorMessage = 'Please enter a complaint description';
-      return;
-    }
+ submitComplaint(): void {
+  console.log('Submitting complaint:', {
+    selectedModal: this.selectedModal,
+    stadiumId: this.selectedStadiumId,
+    description: this.complaintDescription
+  }, `at ${new Date().toLocaleString()}`);
 
-    if (!this.coachId) {
-      this.errorMessage = 'Coach ID not available. Please log in.';
-      return;
-    }
-
-    const payload: any = {
-      coach_id: this.coachId,
-      type: this.selectedModal,
-      description: this.complaintDescription
-    };
-
-    if (this.selectedModal === 'stadium') {
-      if (!this.selectedStadiumId) {
-        this.errorMessage = 'Please select a stadium';
-        return;
-      }
-      payload.stadium_id = this.selectedStadiumId;
-    }
-
-    this.http.post(`${this.apiBaseUrl}/submit`, payload).subscribe({
-      next: () => {
-        console.log('Complaint submitted successfully', `at ${new Date().toLocaleString()}`);
-        this.closeModal();
-        alert('Complaint submitted successfully');
-      },
-      error: (err) => {
-        console.error('Error submitting complaint:', err, `at ${new Date().toLocaleString()}`);
-        this.errorMessage = `Failed to submit complaint: ${err.statusText || err.message || 'Server not reachable.'}`;
-      }
-    });
+  if (!this.complaintDescription.trim()) {
+    this.errorMessage = 'Please enter a complaint description';
+    return;
   }
+
+  if (!this.coachId) {
+    this.errorMessage = 'Coach ID not available. Please log in.';
+    return;
+  }
+
+  const payload: any = {
+    coach_id: this.coachId,
+    type: this.selectedModal,
+    description: this.complaintDescription
+  };
+
+  if (this.selectedModal === 'stadium') {
+    if (!this.selectedStadiumId) {
+      this.errorMessage = 'Please select a stadium';
+      return;
+    }
+    payload.stadium_id = this.selectedStadiumId;
+  }
+
+  const token = localStorage.getItem('token');
+
+  this.http.post(`${this.apiBaseUrl}/submit-complaint`, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).subscribe({
+    next: () => {
+      console.log('Complaint submitted successfully', `at ${new Date().toLocaleString()}`);
+      this.closeModal();
+      alert('Complaint submitted successfully');
+    },
+    error: (err) => {
+      console.error('Error submitting complaint:', err, `at ${new Date().toLocaleString()}`);
+      this.errorMessage = `Failed to submit complaint: ${err.statusText || err.message || 'Server not reachable.'}`;
+    }
+  });
+}
+
 
   filteredStadiums(): any[] {
     const filtered = this.stadiums.filter(s =>
