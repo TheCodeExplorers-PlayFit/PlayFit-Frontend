@@ -20,7 +20,7 @@
     <table>
       <thead>
         <tr>
-          <th data-label="Task ID">Task ID</th>
+          
           <th data-label="Description">Description</th>
           <th data-label="Reported By">Reported By</th>
           <th data-label="Stadium Name">Stadium Name</th>
@@ -31,7 +31,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let complaint of complaints; trackBy: trackByComplaintId">
-          <td data-label="Task ID">{{ complaint.id }}</td>
           <td data-label="Description">{{ complaint.description | slice:0:50 }}...</td>
           <td data-label="Reported By">{{ complaint.reported_by_name }}</td>
           <td data-label="Stadium Name">{{ complaint.stadium_name || 'N/A' }}</td>
