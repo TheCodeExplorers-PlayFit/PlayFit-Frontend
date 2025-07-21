@@ -17,23 +17,18 @@
     </div>
     
     <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
-      @for (card of cards; track card.subtitle) {
-        <div class="col">
-          <div class="card h-100" [style.background-color]="card.backgroundColor">
-            <div class="card-body text-center">
-              <h5 class="card-title text-muted">{{card.subtitle}}</h5>
-              <hr class="bg-secondary">
-              <h3 class="card-text">{{card.value}}</h3>
-            </div>
+      <div class="col" *ngFor="let card of cards">
+        <div [ngClass]="card.class" class="h-100">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ card.subtitle }}</h5>
+            <hr class="bg-light">
+            <h3 class="card-text">{{ card.value }}</h3>
           </div>
         </div>
-      } @empty {
-        <div class="col">
-          <div class="alert alert-warning">No cards available.</div>
-        </div>
-      }
+      </div>
     </div>
 
+    
     <h2>Achievement List</h2>
     <!-- Achievement List Table -->
     <div class="card mb-4">
