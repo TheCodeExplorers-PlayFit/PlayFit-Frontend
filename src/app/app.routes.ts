@@ -120,7 +120,7 @@ export const routes: Routes = [
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
-      { path: 'settings', component: AdmindashboardComponent },
+      //{ path: 'settings', component: AdmindashboardComponent },
       //{ path: 'feedback', component: FeedbackComponent },
       { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
