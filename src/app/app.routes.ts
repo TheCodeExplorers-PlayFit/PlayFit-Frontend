@@ -54,6 +54,8 @@ import { SignInFormMedicalOfficerComponent } from './register/sign-in-form-medic
 import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium-owner/sign-in-from-stadium-owner.component';
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
+import { HealthTipsComponent } from './common/health-tips/health-tips.component';
+import { HealthTipsDetailsComponent } from './common/health-tips-details/health-tips-details.component';
 
 // ===== ADMIN =====
 import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
@@ -82,6 +84,8 @@ export const routes: Routes = [
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'sign-out', component: SignOutComponent },
   { path: 'about', component: AboutComponent },
+  {path: 'health-tips', component: HealthTipsComponent},
+ {path: 'health-tips-details/:id', component: HealthTipsDetailsComponent},
 
   // ===== ADMIN ROUTES =====
   {

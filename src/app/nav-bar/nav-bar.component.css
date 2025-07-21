@@ -73,3 +73,35 @@
     width: 24px;
     height: 24px;
   }
+
+  .dropdown-menu.health-tips-dropdown {
+  width: 280px;
+  padding: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.tip-category-select {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tip-category-select button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tip-category-select button:hover {
+  background: #145ea8;
+}
+
+.dropdown-item {
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}

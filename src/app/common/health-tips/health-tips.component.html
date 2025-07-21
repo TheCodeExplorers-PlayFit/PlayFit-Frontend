@@ -1,0 +1,36 @@
+<br><br>
+<div class="container mt-4" [style.marginTop]="marginTop">
+  <h1 class="mb-4" [style.marginTop]="marginTop">Safety Advice & Tips</h1>
+
+  <div class="input-group mb-4" style="width: 40%">
+    <span class="input-group-text"><i class="bi bi-search"></i></span>
+    <input type="text" class="form-control" placeholder="Search safety tips..." [(ngModel)]="search">
+  </div>
+<hr> <br>
+  <div class="row">
+   <div class="col-md-4 mb-4" *ngFor="let card of filteredCards">
+  <div class="card h-100 shadow-sm" style="cursor: pointer; position: relative;">
+  
+    
+    <img *ngIf="card.image" [src]="card.image" class="card-img-top" alt="{{ card.title }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ card.title }}</h5>
+      <small class="card-text" [innerHTML]="card.description"></small>
+      <div class="d-flex justify-content-start align-items-center mt-3">
+        <div>
+           <a [routerLink]="['health-tips-details',card.id]" 
+             class="read-more-link">
+            Read More
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-muted small">
+      {{ card.updatedate }}
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
