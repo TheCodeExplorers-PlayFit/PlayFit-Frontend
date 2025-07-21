@@ -87,7 +87,7 @@
                 <div class="card-body">
                   <h6 class="card-title">{{ tip.title }}</h6>
                   <p class="card-text text-muted small">{{ extractText(tip.content) }}</p>
-                  <a [routerLink]="['/health-tip', tip.id]" class="btn btn-sm btn-primary">
+                  <a [routerLink]="['/health-tips-details', tip.id]" class="btn btn-sm btn-primary">
                     Read More
                   </a>
                 </div>
