@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 mt-4">
+      
+      <!-- My Achievements Section -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">🏅 My Achievements</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let ach of myAchievements" class="list-group-item d-flex justify-content-between align-items-center">
+            <span><strong>{{ ach.stadium_name }}</strong> – {{ ach.points }} points</span>
+            <span class="badge bg-secondary">{{ ach.dateEarned | date: 'mediumDate' }}</span>
+          </li>
+          <li *ngIf="myAchievements.length === 0" class="list-group-item text-muted">
+            No achievements yet.
+          </li>
+        </ul>
+      </div>
+
+      <!-- All Coaches' Achievements Section -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h2 class="mb-0">🌍 All Coaches' Achievements</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let ach of allAchievements" class="list-group-item d-flex justify-content-between align-items-center">
+            <span><strong>{{ ach.coach_name }}</strong> at {{ ach.stadium_name }} – {{ ach.points }} pts</span>
+            <span class="badge bg-secondary">{{ ach.dateEarned | date: 'mediumDate' }}</span>
+          </li>
+          <li *ngIf="allAchievements.length === 0" class="list-group-item text-muted">
+            No achievements available.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Top Achievers Section -->
+      <div class="card shadow-sm mb-5">
+        <div class="card-header bg-warning text-dark">
+          <h2 class="mb-0">🏆 Top Achievers</h2>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li *ngFor="let top of topAchievers; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <span class="badge bg-primary me-2">{{ i + 1 }}</span>
+              <strong>{{ top.coach_name }}</strong> – Total Points: {{ top.total_points }}
+            </span>
+            <span class="badge bg-success">{{ top.total_points }} pts</span>
+          </li>
+          <li *ngIf="topAchievers.length === 0" class="list-group-item text-muted">
+            No top achievers available.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

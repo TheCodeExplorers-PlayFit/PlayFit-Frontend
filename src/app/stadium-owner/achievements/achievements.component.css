@@ -1,4 +1,9 @@
 /* Custom styles for dynamic backgrounds */
+.container {
+  font-family: 'Lora', serif;
+  margin-left: 5px;
+  margin-top: 55px;
+}
 .card {
   transition: transform 0.2s;
 }
@@ -13,7 +18,7 @@
 /* Header styles */
 h1 {
   margin-top: 50px;
-  color: black(31, 24, 24) !important;
+  color: black(31, 24, 24) 
   
 }
 

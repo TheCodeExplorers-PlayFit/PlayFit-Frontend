@@ -1,2 +1,89 @@
- 
-  
+/* appointments.component.css */
+
+.appointment-row {
+  transition: all 0.3s ease;
+}
+
+.appointment-row:hover {
+  background-color: #6562f7cb !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-active {
+  background-color: #e3f2fd !important;
+  border-left: 4px solid #213df3 !important;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+  font-weight: 500;
+}
+
+.table-active:hover {
+  background-color: #e3f2fd !important;
+}
+
+/* Enhanced emphasis for selected row */
+.table-active td {
+  border-color: #440deb !important;
+}
+
+/* Smooth transition for all table rows */
+tbody tr {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Additional emphasis effects */
+.table-active {
+  animation: emphasize 0.3s ease-in-out;
+}
+
+@keyframes emphasize {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Player cell container */
+.player-cell {
+  padding: 12px !important;
+}
+
+/* Option 1: Avatar with Name */
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #000080, #42a5f5);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4);
+}
+
+.player-name {
+  font-weight: 500;
+  color: #424242;
+  font-size: 0.875rem;
+}

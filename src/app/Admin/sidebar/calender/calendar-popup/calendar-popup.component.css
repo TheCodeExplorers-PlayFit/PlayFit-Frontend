@@ -1,45 +1,414 @@
 /* frontend/src/app/components/calendar/calendar-popup.component.css */
 .popup-container {
-  padding: 20px;
-  max-width: 760px;
+  padding: 2rem;
+  max-width: 800px;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
 }
 
+.popup-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
+}
+
+/* Search Bar Styling */
 .search-bar {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
+.search-bar mat-form-field {
+  width: 100%;
+}
+
+.search-bar .mat-mdc-form-field {
+  width: 100%;
+}
+
+.search-bar .mat-mdc-form-field-outline-thick {
+  color: #000080;
+}
+
+.search-bar .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(0, 0, 128, 0.04);
+}
+
+.search-bar .mat-mdc-form-field-label {
+  color: #000080;
+}
+
+.search-bar .mat-mdc-form-field.mat-focused .mat-mdc-form-field-label {
+  color: #000080;
+}
+
+.search-bar input {
+  color: #333;
+  font-size: 1rem;
+}
+
+.search-bar input::placeholder {
+  color: rgba(0, 0, 128, 0.5);
+}
+
+/* Stadium and Session Lists */
 .stadium-list, .session-list {
-  max-height: 300px;
+  max-height: 350px;
   overflow-y: auto;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  border: 2px solid rgba(0, 0, 128, 0.1);
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.08);
+}
+
+.stadium-list::-webkit-scrollbar,
+.session-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.stadium-list::-webkit-scrollbar-track,
+.session-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.stadium-list::-webkit-scrollbar-thumb,
+.session-list::-webkit-scrollbar-thumb {
+  background: #000080;
+  border-radius: 4px;
+}
+
+.stadium-list::-webkit-scrollbar-thumb:hover,
+.session-list::-webkit-scrollbar-thumb:hover {
+  background: #1a1a9e;
+}
+
+/* List Items */
+mat-list-item {
+  cursor: pointer;
+  margin-bottom: 0;
+  padding: 16px 20px !important;
+  border-bottom: 1px solid rgba(0, 0, 128, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+mat-list-item:last-child {
+  border-bottom: none;
+}
+
+mat-list-item:hover {
+  background: linear-gradient(135deg, rgba(0, 0, 128, 0.05) 0%, rgba(0, 0, 128, 0.1) 100%);
+  transform: translateX(4px);
+  border-left: 4px solid #000080;
+  padding-left: 16px !important;
 }
 
 .session-list mat-list-item {
   white-space: normal;
   word-break: break-word;
-  padding: 10px 0;
-  cursor: pointer; /* Indicate clickability */
+  padding: 16px 20px !important;
+  cursor: pointer;
+  line-height: 1.5;
 }
 
 .session-list mat-list-item:hover {
-  background-color: #f5f5f5; /* Hover effect for better UX */
+  background: linear-gradient(135deg, rgba(0, 0, 128, 0.05) 0%, rgba(0, 0, 128, 0.1) 100%);
+  color: #000080;
+  font-weight: 500;
 }
 
 .session-content {
-  display: block; /* Ensure content takes full width for clickability */
+  display: block;
+  width: 100%;
+  color: #333;
+  font-size: 0.95rem;
 }
 
+.session-content:hover {
+  color: #000080;
+}
+
+/* Stadium List Specific Styling */
+.stadium-list mat-list-item {
+  font-weight: 500;
+  color: #000080;
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.stadium-list mat-list-item:hover {
+  border-left-color: #000080;
+  background: linear-gradient(135deg, rgba(0, 0, 128, 0.05) 0%, rgba(0, 0, 128, 0.1) 100%);
+  color: #000080;
+  font-weight: 600;
+}
+
+/* Loading and Error States */
 .loading, .error {
   text-align: center;
-  margin: 20px 0;
+  margin: 2rem 0;
+  padding: 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
+.loading {
+  color: #000080;
+  background: rgba(0, 0, 128, 0.05);
+  border: 2px dashed rgba(0, 0, 128, 0.2);
+}
+
+.loading::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 0, 128, 0.3);
+  border-radius: 50%;
+  border-top-color: #000080;
+  animation: spin 1s ease-in-out infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+  border: 2px dashed rgba(220, 53, 69, 0.2);
+}
+
+/* Actions Section */
 .actions {
   text-align: right;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(0, 0, 128, 0.1);
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.actions .mat-mdc-button-base {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.actions .mat-primary {
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
+  color: white;
+  border: 2px solid #000080;
+}
+
+.actions .mat-primary:hover {
+  background: linear-gradient(135deg, #1a1a9e 0%, #000080 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 128, 0.3);
+}
+
+.actions .mat-stroked-button {
+  color: #000080;
+  border: 2px solid #000080;
+  background: white;
+}
+
+.actions .mat-stroked-button:hover {
+  background: rgba(0, 0, 128, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.2);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #000080;
+  font-style: italic;
+  background: rgba(0, 0, 128, 0.05);
+  border-radius: 12px;
+  border: 2px dashed rgba(0, 0, 128, 0.2);
+  margin: 1rem 0;
+}
+
+.empty-state h3 {
+  color: #000080;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.empty-state p {
+  color: rgba(0, 0, 128, 0.7);
+  margin: 0;
+}
+
+/* Section Headers */
+.section-header {
+  color: #000080;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 0, 128, 0.1);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Enhanced List Items with Icons */
+mat-list-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
+  transition: width 0.3s ease;
+}
+
+mat-list-item:hover::before {
+  width: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .popup-container {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  
+  .stadium-list, .session-list {
+    max-height: 250px;
+    margin-bottom: 1.5rem;
+  }
+  
+  mat-list-item {
+    padding: 12px 16px !important;
+  }
+  
+  .actions {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .actions button,
+  .actions .mat-mdc-button-base {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-header {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-container {
+    padding: 1rem;
+  }
+  
+  .stadium-list, .session-list {
+    max-height: 200px;
+  }
+  
+  mat-list-item {
+    padding: 10px 12px !important;
+    font-size: 0.9rem;
+  }
+  
+  .section-header {
+    font-size: 1rem;
+  }
+  
+  .loading, .error, .empty-state {
+    padding: 1.5rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Focus states for accessibility */
+mat-list-item:focus {
+  outline: 3px solid rgba(0, 0, 128, 0.3);
+  outline-offset: 2px;
+}
+
+.actions button:focus,
+.actions .mat-mdc-button-base:focus {
+  outline: 3px solid rgba(0, 0, 128, 0.3);
+  outline-offset: 2px;
+}
+
+/* Animation for list items */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 mat-list-item {
-  cursor: pointer;
-  margin-bottom: 10px;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Enhanced hover effects */
+.session-list mat-list-item::after {
+  content: '👁️';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.session-list mat-list-item:hover::after {
+  opacity: 1;
+}
+
+/* Stadium list icon */
+.stadium-list mat-list-item::after {
+  content: '🏟️';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.stadium-list mat-list-item:hover::after {
+  opacity: 1;
 }

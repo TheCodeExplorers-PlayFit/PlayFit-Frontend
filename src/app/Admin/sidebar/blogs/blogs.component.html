@@ -21,10 +21,45 @@
         <td>{{ blog.created_at | date:'MM/dd/yyyy, hh:mm a' }}</td>
         <td>{{ blog.title }}</td>
         <td>
+          <button class="view-btn" (click)="viewBlog(blog)">View</button>
           <button class="approve-btn" (click)="approveBlog(blog)">Approve</button>
           <button class="decline-btn" (click)="rejectBlog(blog)">Reject</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Blog View Modal -->
+  <div *ngIf="selectedBlog" class="modal-overlay" (click)="closeBlogView()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ selectedBlog.title }}</h3>
+        <button class="close-btn" (click)="closeBlogView()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="blog-meta">
+          <div class="author-info">
+            <strong>Author:</strong> {{ selectedBlog.first_name }} {{ selectedBlog.last_name }}
+            <span class="role-badge">{{ selectedBlog.role }}</span>
+          </div>
+          <div class="date-info">
+            <strong>Date:</strong> {{ selectedBlog.created_at | date:'MM/dd/yyyy, hh:mm a' }}
+          </div>
+        </div>
+        
+        <div class="blog-image" *ngIf="selectedBlog.image">
+          <img [src]="selectedBlog.image" [alt]="selectedBlog.title" />
+        </div>
+        
+        <div class="blog-content">
+          <p>{{ selectedBlog.content }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="approve-btn" (click)="approveBlog(selectedBlog)">Approve</button>
+        <button class="decline-btn" (click)="rejectBlog(selectedBlog)">Reject</button>
+        <button class="cancel-btn" (click)="closeBlogView()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

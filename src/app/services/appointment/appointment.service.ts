@@ -11,6 +11,7 @@ export interface Appointment {
   health_officer_id: number;
   appointment_date: string;
   appointment_time: string;
+  first_name: string;
   reason: string;
   action: string;
   status: string;
@@ -23,7 +24,7 @@ export class AppointmentService {
 
   // GET /api/healthofficers/:id/appointments
   getAppointmentsByHealthOfficer(id: number): Observable<Appointment[]> {
-    return this.http.get<{ success: boolean, data: Appointment[] }>(`${this.baseUrl}/appointments/${id}`)
+    return this.http.get<{ success: boolean, data: Appointment[] }>(`${this.baseUrl}/appointments/${id}/with-user-details`)
       .pipe(
         map(res => res.data)
       );

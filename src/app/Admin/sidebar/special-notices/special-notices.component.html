@@ -2,58 +2,198 @@
 <div class="special-notices-container">
   <!-- Form Section -->
   <h2>{{ editingNotice ? 'Edit Notice' : 'Create New Notice' }}</h2>
-  <form (ngSubmit)="editingNotice ? updateNotice() : createNotice()" class="notice-form">
+  <form #noticeForm="ngForm" (ngSubmit)="onSubmit(noticeForm)" class="notice-form">
     <div class="form-group">
-      <label for="category">Category</label>
-      <input type="text" id="category" [(ngModel)]="newNotice.category" name="category" required />
+      <label for="category">Category *</label>
+      <input 
+        type="text" 
+        id="category" 
+        [(ngModel)]="newNotice.category" 
+        name="category" 
+        #category="ngModel"
+        required 
+        minlength="3"
+        maxlength="100"
+        placeholder="Enter category (e.g., about players, about coaches)"
+        class="form-control"
+        [class.is-invalid]="category.invalid && (category.dirty || category.touched)"
+      />
+      <div class="invalid-feedback" *ngIf="category.invalid && (category.dirty || category.touched)">
+        <div *ngIf="category.errors && category.errors['required']">Category is required</div>
+        <div *ngIf="category.errors && category.errors['minlength']">Category must be at least 3 characters long</div>
+        <div *ngIf="category.errors && category.errors['maxlength']">Category cannot exceed 100 characters</div>
+      </div>
     </div>
+
     <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" id="title" [(ngModel)]="newNotice.title" name="title" required />
+      <label for="title">Title *</label>
+      <input 
+        type="text" 
+        id="title" 
+        [(ngModel)]="newNotice.title" 
+        name="title" 
+        #title="ngModel"
+        required 
+        minlength="5"
+        maxlength="255"
+        placeholder="Enter notice title"
+        class="form-control"
+        [class.is-invalid]="title.invalid && (title.dirty || title.touched)"
+      />
+      <div class="invalid-feedback" *ngIf="title.invalid && (title.dirty || title.touched)">
+        <div *ngIf="title.errors && title.errors['required']">Title is required</div>
+        <div *ngIf="title.errors && title.errors['minlength']">Title must be at least 5 characters long</div>
+        <div *ngIf="title.errors && title.errors['maxlength']">Title cannot exceed 255 characters</div>
+      </div>
     </div>
+
     <div class="form-group">
-      <label for="description">Description</label>
-      <textarea id="description" [(ngModel)]="newNotice.description" name="description" required></textarea>
+      <label for="description">Description *</label>
+      <textarea 
+        id="description" 
+        [(ngModel)]="newNotice.description" 
+        name="description" 
+        #description="ngModel"
+        required 
+        minlength="10"
+        maxlength="1000"
+        placeholder="Enter detailed description of the notice"
+        class="form-control"
+        [class.is-invalid]="description.invalid && (description.dirty || description.touched)"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="description.invalid && (description.dirty || description.touched)">
+        <div *ngIf="description.errors && description.errors['required']">Description is required</div>
+        <div *ngIf="description.errors && description.errors['minlength']">Description must be at least 10 characters long</div>
+        <div *ngIf="description.errors && description.errors['maxlength']">Description cannot exceed 1000 characters</div>
+      </div>
+      <div class="character-count">
+        {{ newNotice.description.length }}/1000 characters
+      </div>
     </div>
+
     <div class="form-group">
-      <label for="notice_date">Date (mm/dd/yyyy)</label>
-      <input type="text" id="notice_date" [(ngModel)]="newNotice.notice_date" name="notice_date" required />
+      <label for="notice_date">Notice Date *</label>
+      <div class="date-input-wrapper">
+        <input 
+          type="date" 
+          id="notice_date" 
+          [(ngModel)]="newNotice.notice_date" 
+          name="notice_date" 
+          #noticeDate="ngModel"
+          required 
+          [min]="minDate"
+          [max]="maxDate"
+          class="form-control date-input"
+          [class.is-invalid]="noticeDate.invalid && (noticeDate.dirty || noticeDate.touched)"
+        />
+        <i class="calendar-icon">📅</i>
+      </div>
+      <div class="invalid-feedback" *ngIf="noticeDate.invalid && (noticeDate.dirty || noticeDate.touched)">
+        <div *ngIf="noticeDate.errors && noticeDate.errors['required']">Notice date is required</div>
+      </div>
+      <div class="form-hint">Select the date when this notice should be displayed</div>
     </div>
+
     <div class="form-group">
-      <label for="author">Author</label>
-      <input type="text" id="author" [(ngModel)]="newNotice.author" name="author" required />
+      <label for="author">Author *</label>
+      <input 
+        type="text" 
+        id="author" 
+        [(ngModel)]="newNotice.author" 
+        name="author" 
+        #author="ngModel"
+        required 
+        minlength="2"
+        maxlength="100"
+        placeholder="Enter author name"
+        class="form-control"
+        [class.is-invalid]="author.invalid && (author.dirty || author.touched)"
+      />
+      <div class="invalid-feedback" *ngIf="author.invalid && (author.dirty || author.touched)">
+        <div *ngIf="author.errors && author.errors['required']">Author is required</div>
+        <div *ngIf="author.errors && author.errors['minlength']">Author name must be at least 2 characters long</div>
+        <div *ngIf="author.errors && author.errors['maxlength']">Author name cannot exceed 100 characters</div>
+      </div>
     </div>
+
     <div class="form-actions">
-      <button type="submit">{{ editingNotice ? 'Update Notice' : 'Add Notice' }}</button>
-      <button type="button" *ngIf="editingNotice" (click)="cancelEdit()">Cancel</button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="!noticeForm.valid || isSubmitting"
+      >
+        <span *ngIf="isSubmitting" class="spinner"></span>
+        {{ editingNotice ? 'Update Notice' : 'Add Notice' }}
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        *ngIf="editingNotice" 
+        (click)="cancelEdit()"
+        [disabled]="isSubmitting"
+      >
+        Cancel
+      </button>
     </div>
   </form>
 
   <!-- Notices Display Section -->
-  <div class="notices-list">
-    <div *ngFor="let notice of notices" class="notice-box">
-      <h3>{{ notice.category }}</h3>
-      <p class="title">{{ notice.title }}</p>
-      <p class="description">{{ notice.description.length > 100 ? (notice.description | slice:0:100) + '...' : notice.description }}</p>
-      <p class="date"><strong>📅</strong> {{ notice.notice_date }}</p>
-      <p class="author"><strong>✍️</strong> {{ notice.author }}</p>
-      <div class="notice-actions">
-        <button (click)="editNotice(notice)">Edit</button>
-        <button (click)="deleteNotice(notice.id)">Remove</button>
-        <button (click)="viewNotice(notice)">View</button>
+  <div class="notices-section">
+    <h3>Recent Notices</h3>
+    <div class="notices-list" *ngIf="notices.length > 0; else noNotices">
+      <div *ngFor="let notice of notices; trackBy: trackByNoticeId" class="notice-box">
+        <div class="notice-header">
+          <h4>{{ notice.category }}</h4>
+          <span class="notice-date"><strong>📅</strong>{{ formatDate(notice.notice_date) }}</span>
+        </div>
+        <p class="notice-title">{{ notice.title }}</p>
+        <p class="notice-description">
+          {{ notice.description.length > 100 ? (notice.description | slice:0:100) + '...' : notice.description }}
+        </p>
+        <div class="notice-footer">
+          <p class="notice-author"><strong>✍️</strong> {{ notice.author }}</p>
+          <div class="notice-actions">
+            <button class="btn btn-sm btn-info" (click)="viewNotice(notice)">View</button>
+            <button class="btn btn-sm btn-warning" (click)="editNotice(notice)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteNotice(notice.id)">Remove</button>
+          </div>
+        </div>
       </div>
     </div>
+
+    <ng-template #noNotices>
+      <div class="no-notices">
+        <p>No notices found. Create your first notice using the form above.</p>
+      </div>
+    </ng-template>
   </div>
 
   <!-- Modal for Viewing Full Notice -->
-  <div *ngIf="viewingNotice" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeView()">&times;</span>
-      <h3>{{ viewingNotice.category }}</h3>
-      <p class="title">{{ viewingNotice.title }}</p>
-      <p class="description">{{ viewingNotice.description }}</p>
-      <p class="date"><strong>📅</strong> {{ viewingNotice.notice_date }}</p>
-      <p class="author"><strong>✍️</strong> {{ viewingNotice.author }}</p>
+  <div *ngIf="viewingNotice" class="modal-overlay" (click)="closeView()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ viewingNotice.title }}</h3>
+        <button class="close-btn" (click)="closeView()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="notice-meta">
+          <div class="meta-item">
+            <strong>Category:</strong> {{ viewingNotice.category }}
+          </div>
+          <div class="meta-item">
+            <strong>Date:</strong> {{ formatDate(viewingNotice.notice_date) }}
+          </div>
+          <div class="meta-item">
+            <strong>Author:</strong> {{ viewingNotice.author }}
+          </div>
+          <div class="meta-item">
+            <strong>Created:</strong> {{ formatDateTime(viewingNotice.created_at) }}
+          </div>
+        </div>
+        <div class="notice-content">
+          <p>{{ viewingNotice.description }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

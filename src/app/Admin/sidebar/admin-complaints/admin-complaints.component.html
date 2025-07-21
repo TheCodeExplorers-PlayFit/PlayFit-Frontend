@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>Admin Complaints Dashboard</h2>
+
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <h3>Coach Complaints</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Reported By</th>
+        <th>Coach</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let complaint of coachComplaints">
+        <td>{{ complaint.id }}</td>
+        <td>{{ complaint.reported_by }}</td>
+        <td>{{ complaint.coach_first_name }} {{ complaint.coach_last_name }}</td>
+        <td>{{ complaint.description }}</td>
+        <td>{{ complaint.status }}</td>
+        <td>{{ complaint.created_at | date:'short' }}</td>
+        <td>
+          <button class="btn btn-success" 
+                  [disabled]="complaint.status === 'resolved'"
+                  (click)="resolveComplaint(complaint.id)">Resolve</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>System Complaints</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Reported By</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let complaint of systemComplaints">
+        <td>{{ complaint.id }}</td>
+        <td>{{ complaint.reported_by }}</td>
+        <td>{{ complaint.description }}</td>
+        <td>{{ complaint.status }}</td>
+        <td>{{ complaint.created_at | date:'short' }}</td>
+        <td>
+          <button class="btn btn-success" 
+                  [disabled]="complaint.status === 'resolved'"
+                  (click)="resolveComplaint(complaint.id)">Resolve</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

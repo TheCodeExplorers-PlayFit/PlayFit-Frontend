@@ -36,6 +36,8 @@ import { SalaryDetailsComponent } from './coach/salary-details/salary-details.co
 import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
 import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
+import { CoachAchievementsComponent } from './coach/CoachAchievements/coach-achievements/coach-achievements.component';
+
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -48,6 +50,7 @@ import { SettingsComponent } from './healthOfficer/sidebar/settings/settings.com
 import { SignOutComponent } from './healthOfficer/sidebar/sign-out/sign-out.component';
 import { SafetyAdviceCreateComponent } from './healthOfficer/sidebar/safety-advice-create/safety-advice-create.component';
 import { HealthOfficerLayoutComponent } from './healthOfficer/health-officer-layout/health-officer-layout.component';
+import { SafetyAdviceReadmoreComponent } from './healthOfficer/sidebar/safety-advise-readmore/safety-advise-readmore/safety-advise-readmore.component';     
 
 // ===== AUTH + COMMON =====
 import { HomeComponent } from './nav-bar/home/home.component';
@@ -68,7 +71,7 @@ import { RatingsComponent } from './common/ratings/ratings.component';
 import { ProfileComponent } from './common/profile/profile.component';
 
 // ===== ADMIN =====
-import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
+import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
 import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
@@ -78,7 +81,12 @@ import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special
 import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
+
+//import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
+
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
+import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -96,13 +104,13 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'about', component: AboutComponent },
-
+  { path: 'blogs', component: BlogsDisplayComponent },
   // ===== ADMIN ROUTES =====
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdmindashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
@@ -113,6 +121,8 @@ export const routes: Routes = [
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
       { path: 'settings', component: AdmindashboardComponent },
+      //{ path: 'feedback', component: FeedbackComponent },
+      { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
 
@@ -151,7 +161,10 @@ export const routes: Routes = [
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
-      { path: 'coach-announcement', component: CoachAnnouncementComponent}
+      { path: 'coach-announcement', component: CoachAnnouncementComponent},
+      {path: 'stadium-ratings', component:StadiumRatingsForCoachComponent}, 
+      {path: 'coach-achievements', component: CoachAchievementsComponent},
+
     ]
   },
 
@@ -178,13 +191,16 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: HealthOfficerDashboardComponent },
       { path: 'appointments', component: AppointmentsComponent },
-      { path: 'record-injuries', component: RecordInjuriesComponent },
+      { path: 'record-injuries/:id', component: RecordInjuriesComponent },
       { path: 'players-health-records', component: PlayersHealthRecordsComponent },
       { path: 'blogs', component: BlogsComponent },
       { path: 'safety-advice', component: SafetyAdviceComponent },
       { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'signout', component: SignOutComponent },
+      { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent },
+      { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent }
+
     ]
   },
 
