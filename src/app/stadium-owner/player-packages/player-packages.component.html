@@ -1,6 +1,28 @@
 <div class="container">
   <h1>Player Packages</h1>
-  <button class="add-package-btn" (click)="enableAdd()">Add New Package</button>
+   <button class="add-package-btn" (click)="enableAdd()">Add New Package</button>
+
+    <!-- Subscription Summary Boxes -->
+  <div class="summary-boxes">
+    <div class="summary-box total">
+      <h3>Total Players Subscribed</h3>
+      <p>{{ stats.totalPlayers }}</p>
+    </div>
+    <div class="summary-box active">
+      <h3>Active Subscriptions</h3>
+      <p>{{ stats.activeSubscriptions }}</p>
+    </div>
+    <div class="summary-box expired">
+      <h3>Expired Subscriptions</h3>
+      <p>{{ stats.expiredSubscriptions }}</p>
+    </div>
+    <div class="summary-box popular">
+      <h3>Most Popular Package</h3>
+      <p>{{ stats.mostPopularPackage || 'N/A' }}</p>
+    </div>
+  </div>
+
+ 
 
   <!-- Existing Table: Package Templates -->
   <h3>Package Templates</h3>
@@ -76,25 +98,6 @@
     <p>No player package assignments available.</p>
   </ng-template>
 
-  <!-- Subscription Summary Boxes -->
-  <div class="summary-boxes">
-    <div class="summary-box total">
-      <h3>Total Players Subscribed</h3>
-      <p>{{ stats.totalPlayers }}</p>
-    </div>
-    <div class="summary-box active">
-      <h3>Active Subscriptions</h3>
-      <p>{{ stats.activeSubscriptions }}</p>
-    </div>
-    <div class="summary-box expired">
-      <h3>Expired Subscriptions</h3>
-      <p>{{ stats.expiredSubscriptions }}</p>
-    </div>
-    <div class="summary-box popular">
-      <h3>Most Popular Package</h3>
-      <p>{{ stats.mostPopularPackage || 'N/A' }}</p>
-    </div>
-  </div>
 
   <!-- Add Modal -->
   <div class="modal" [ngClass]="{'show': showAdd}">
@@ -166,8 +169,8 @@
         <label>End Date:</label>
         <input type="date" class="form-control" [(ngModel)]="editedPackage.end_date" name="end_date" required />
 
-        <button type="submit" class="add-package-btn btn-sm">Save</button>
-        <button type="button" class="edit-btn btn-sm" (click)="cancelEdit()">Cancel</button>
+        <button type="submit" class="add-package-btn btn-smx-2">Save</button>
+        <button type="button" class="edit-btn btn-smx-2" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
   </div>
