@@ -9,6 +9,9 @@ import { PlayerBookingHistoryComponent } from './player/player-booking-history/p
 import { PlayerTimetableComponent } from './player/player-timetable/player-timetable.component';
 import { PlayerComplaintsComponent } from './player/player-complaints/player-complaints.component';
 import { PlayerAnnouncementsComponent } from './player/player-announcements/player-announcements.component';
+import { PlayerHealthComponent } from './player/player-health/player-health.component';
+import { SpecialOffersComponent } from './player/special-offers/special-offers.component';
+import { PlayerPrivateSessionsComponent } from './player/player-private-sessions/player-private-sessions.component';
 
 // ===== STADIUM OWNER =====
 import { DashboardComponent as StadiumOwnerDashboardComponent } from './stadium-owner/dashboard/dashboard.component';
@@ -25,7 +28,7 @@ import { WaitlistComponent } from './stadium-owner/waitlist/waitlist.component';
 import { BookingHistoryComponent } from './coach/booking-history/booking-history.component';
 import { StadiumListComponent } from './coach/stadium-list/stadium-list.component';
 import { DashboardComponent as CoachDashboardComponent } from './coach/dashboard/dashboard.component';
-import { PrivateRequestsComponent } from './coach/private-requests/private-requests.component';
+import { CoachPrivateSessionsComponent } from './coach/coach-private-sessions/coach-private-sessions.component';
 import { CoachComplaintsComponent } from './coach/CoachComplaints/CoachComplaints.component';
 import { CoachLayoutComponent } from './coach/coach-layout/coach-layout.component';
 import { CoachStadiumtimetableComponent } from './coach/coach-stadium-timetable/coach-stadium-timetable.component';
@@ -33,6 +36,8 @@ import { SalaryDetailsComponent } from './coach/salary-details/salary-details.co
 import {SessionDetailsComponent} from './coach/session-details/session-details.component';
 import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.component';
 import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
+import { CoachAchievementsComponent } from './coach/CoachAchievements/coach-achievements/coach-achievements.component';
+
 
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
@@ -69,7 +74,7 @@ import { ProfileComponent } from './common/profile/profile.component';
 
 
 // ===== ADMIN =====
-import { AdmindashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
+import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
 import { AdminLayoutComponent } from './Admin/admin-layout/admin-layout.component';
 import { AnalyticsComponent } from './Admin/sidebar/analytics/analytics.component';
 import { UserManagementComponent } from './Admin/sidebar/user-management/user-management.component';
@@ -79,7 +84,12 @@ import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special
 import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
+
+//import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
+import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
+
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
+import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
 export const routes: Routes = [
   // ===== COMMON ROUTES =====
@@ -96,17 +106,17 @@ export const routes: Routes = [
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
-  { path: 'sign-out', component: SignOutComponent },
   { path: 'about', component: AboutComponent },
   {path: 'health-tips', component: HealthTipsComponent},
  {path: 'health-tips-details/:id', component: HealthTipsDetailsComponent},
-
+  { path: 'blogs', component: BlogsDisplayComponent },
+ 
   // ===== ADMIN ROUTES =====
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'dashboard', component: AdmindashboardComponent },
+      { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'approvals', component: ApprovalsComponent },
       { path: 'blogs', component: adminblogscomponent },
@@ -116,7 +126,9 @@ export const routes: Routes = [
       { path: 'analytics', component: AnalyticsComponent },
       { path: 'system-maintenance', component: SystemMaintainCreateComponent },
       { path: 'admin-ratings', component: AdminRatingsComponent },
-      { path: 'settings', component: AdmindashboardComponent },
+      //{ path: 'settings', component: AdmindashboardComponent },
+      //{ path: 'feedback', component: FeedbackComponent },
+      { path: 'handle-complaints', component: AdminComplaintsComponent },
     ]
   },
 
@@ -133,8 +145,10 @@ export const routes: Routes = [
       { path: 'complaints', component: PlayerComplaintsComponent },
       { path: 'announcements', component: PlayerAnnouncementsComponent},
       { path: 'ratings', component:RatingsComponent},
-      {path: 'profile', component: ProfileComponent},
-
+      { path: 'profile', component: ProfileComponent},
+      { path: 'Player-Health', component: PlayerHealthComponent},
+      { path: 'special-offers', component: SpecialOffersComponent },
+      { path: 'private-playing', component: PlayerPrivateSessionsComponent}
     ]
   },
 
@@ -147,13 +161,16 @@ export const routes: Routes = [
       { path: 'dashboard', component: CoachDashboardComponent },
       { path: 'booking-history', component: BookingHistoryComponent },
       { path: 'stadium-list', component: StadiumListComponent },
-      { path: 'private-playing-requests', component: PrivateRequestsComponent },
+      { path: 'private-playing-requests', component: CoachPrivateSessionsComponent },
       { path: 'complaints', component: CoachComplaintsComponent },
       { path: 'coach-stadium-timetable/:id', component: CoachStadiumtimetableComponent },
       { path: 'salary-details', component: SalaryDetailsComponent },
       { path: 'coach-blog-post', component: CoachBlogPostComponent },
       { path: 'blogs', component: BlogsDisplayComponent },
-      { path: 'coach-announcement', component: CoachAnnouncementComponent}
+      { path: 'coach-announcement', component: CoachAnnouncementComponent},
+      {path: 'stadium-ratings', component:StadiumRatingsForCoachComponent}, 
+      {path: 'coach-achievements', component: CoachAchievementsComponent},
+
     ]
   },
 

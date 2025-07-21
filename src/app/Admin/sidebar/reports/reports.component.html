@@ -1,24 +1,321 @@
-<div class="reports-wrapper">
-    <h2>Reports</h2>
-  
-    <div class="report-grid">
-      <div class="report-card" *ngFor="let report of reports" [style.background]="report.color">
-        <h3>{{ report.category }}</h3>
-        <p class="desc">{{ report.description }}</p>
-  
-        <ul>
-          <li *ngFor="let link of report.links">
-            <a (click)="viewReport(link.url)">{{ link.label }}</a>
-          </li>
-        </ul>
-  
-        <div class="actions">
-          <button (click)="viewReport(report.links[0].url)">view</button>
-          <button (click)="editReport(report.id)">edit</button>
-          <button (click)="uploadReport(report.id)">upload</button>
-          <button (click)="downloadReport(report.id)">download</button>
+<!-- reports.component.html -->
+<div class="reports-container">
+  <!-- Header -->
+  <div class="reports-header">
+    <h1>📊 Monthly Admin Reports</h1>
+    <p>Comprehensive monthly analytics for sports management system</p>
+  </div>
+
+  <!-- Controls Section -->
+  <div class="controls-section">
+    <!-- Report Type Selection -->
+    <div class="control-group">
+      <label>Report Type:</label>
+      <select [(ngModel)]="selectedReportType" (change)="onReportTypeChange()" class="control-select">
+        <option value="financial">💰 Financial Reports</option>
+        <option value="health">🏥 Health & Safety Reports</option>
+        <option value="operations">⚽ Operations Reports</option>
+        <option value="content">📝 Content & Engagement Reports</option>
+      </select>
+    </div>
+
+    <!-- Single Month/Year Selection -->
+    <div class="control-group" *ngIf="!showRangeSelector">
+      <label>Month & Year:</label>
+      <select [(ngModel)]="selectedMonth" (change)="onMonthYearChange()" class="control-select">
+        <option *ngFor="let month of monthNames; let i = index" [value]="i + 1">
+          {{ month }}
+        </option>
+      </select>
+      <select [(ngModel)]="selectedYear" (change)="onMonthYearChange()" class="control-select">
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+      </select>
+    </div>
+
+    <!-- Range Selection -->
+    <div class="control-group" *ngIf="showRangeSelector">
+      <label>Date Range:</label>
+      <div class="date-range">
+        <select [(ngModel)]="startMonth" class="control-select">
+          <option *ngFor="let month of monthNames; let i = index" [value]="i + 1">
+            {{ month }}
+          </option>
+        </select>
+        <select [(ngModel)]="startYear" class="control-select">
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+        <span class="to">to</span>
+        <select [(ngModel)]="endMonth" class="control-select">
+          <option *ngFor="let month of monthNames; let i = index" [value]="i + 1">
+            {{ month }}
+          </option>
+        </select>
+        <select [(ngModel)]="endYear" class="control-select">
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+        <button (click)="applyDateRange()" class="apply-btn">Apply</button>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button (click)="toggleRangeSelector()" class="range-btn">
+        {{ showRangeSelector ? 'Single Month' : 'Date Range' }}
+      </button>
+      <button (click)="refreshData()" class="refresh-btn" [disabled]="loading">
+        🔄 Refresh
+      </button>
+      <button (click)="exportCurrentReport()" class="export-btn" [disabled]="loading || !hasData()">
+        📥 Export CSV
+      </button>
+      <button (click)="exportComprehensiveReport()" class="comprehensive-btn" [disabled]="loading || !hasData()">
+        📋 Full Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="loading-section">
+    <div class="spinner"></div>
+    <p>Loading {{ selectedReportType }} reports...</p>
+  </div>
+
+  <!-- Report Content -->
+  <div *ngIf="!loading" class="report-content">
+    <h2>{{ getReportTitle() }}</h2>
+
+    <!-- No Data Message -->
+    <div *ngIf="!hasData()" class="no-data">
+      <h3>📭 No Data Available</h3>
+      <p>No {{ selectedReportType }} data found for the selected period.</p>
+      <p>Try selecting a different month or date range.</p>
+    </div>
+
+    <!-- Financial Reports -->
+    <div *ngIf="selectedReportType === 'financial' && financialReports.length > 0" class="report-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Total Revenue</th>
+            <th>Transactions</th>
+            <th>Unique Players</th>
+            <th>Avg Transaction</th>
+            <th>Popular Session</th>
+            <th>Growth Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of financialReports">
+            <td class="month-cell">{{ report.month_name }}</td>
+            <td class="currency">{{ formatCurrency(report.total_revenue) }}</td>
+            <td class="center">{{ report.total_transactions }}</td>
+            <td class="center">{{ report.unique_players }}</td>
+            <td class="currency">{{ formatCurrency(report.avg_transaction_value) }}</td>
+            <td>{{ report.popular_session_type }}</td>
+            <td class="center" [class.positive]="report.growth_rate > 0" [class.negative]="report.growth_rate < 0">
+              {{ formatPercent(report.growth_rate) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Health Reports -->
+    <div *ngIf="selectedReportType === 'health' && healthReports.length > 0" class="report-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Total Injuries</th>
+            <th>Minor</th>
+            <th>Moderate</th>
+            <th>Severe</th>
+            <th>Appointments</th>
+            <th>Most Common Injury</th>
+            <th>First Aid Rate</th>
+            <th>Officer Utilization</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of healthReports">
+            <td class="month-cell">{{ report.month_name }}</td>
+            <td class="center">{{ report.total_injuries }}</td>
+            <td class="center minor">{{ report.minor_injuries }}</td>
+            <td class="center moderate">{{ report.moderate_injuries }}</td>
+            <td class="center severe">{{ report.severe_injuries }}</td>
+            <td class="center">{{ report.total_appointments }}</td>
+            <td>{{ report.most_common_injury }}</td>
+            <td class="center">{{ formatPercent(report.first_aid_rate) }}</td>
+            <td class="center">{{ formatPercent(report.health_officer_utilization) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Operations Reports -->
+    <div *ngIf="selectedReportType === 'operations' && operationsReports.length > 0" class="report-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Total Bookings</th>
+            <th>Active Players</th>
+            <th>Active Coaches</th>
+            <th>Stadium Utilization</th>
+            <th>Total Sessions</th>
+            <th>Avg Rating</th>
+            <th>New Registrations</th>
+            <th>Completion Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of operationsReports">
+            <td class="month-cell">{{ report.month_name }}</td>
+            <td class="center">{{ report.total_bookings }}</td>
+            <td class="center">{{ report.active_players }}</td>
+            <td class="center">{{ report.active_coaches }}</td>
+            <td class="center">{{ formatPercent(report.stadium_utilization) }}</td>
+            <td class="center">{{ report.total_sessions }}</td>
+            <td class="center">{{ report.avg_rating }}/5</td>
+            <td class="center">{{ report.new_registrations }}</td>
+            <td class="center">{{ formatPercent(report.completion_rate) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Content Reports -->
+    <div *ngIf="selectedReportType === 'content' && contentReports.length > 0" class="report-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Blogs Published</th>
+            <th>Verified Blogs</th>
+            <th>Announcements</th>
+            <th>Total Ratings</th>
+            <th>Avg Content Rating</th>
+            <th>Most Active Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let report of contentReports">
+            <td class="month-cell">{{ report.month_name }}</td>
+            <td class="center">{{ report.blogs_published }}</td>
+            <td class="center verified">{{ report.verified_blogs }}</td>
+            <td class="center">{{ report.announcements_posted }}</td>
+            <td class="center">{{ report.total_ratings_given }}</td>
+            <td class="center">{{ report.avg_content_rating }}/5</td>
+            <td>{{ report.most_active_author }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Summary Cards for Current Selection -->
+  <div *ngIf="!loading && hasData() && !showRangeSelector" class="summary-cards">
+    <div *ngIf="selectedReportType === 'financial' && financialReports[0]" class="summary-grid">
+      <div class="summary-card revenue">
+        <div class="card-icon">💰</div>
+        <div class="card-content">
+          <h3>Monthly Revenue</h3>
+          <p class="card-value">{{ formatCurrency(financialReports[0].total_revenue) }}</p>
+        </div>
+      </div>
+      <div class="summary-card transactions">
+        <div class="card-icon">📊</div>
+        <div class="card-content">
+          <h3>Total Transactions</h3>
+          <p class="card-value">{{ financialReports[0].total_transactions }}</p>
+        </div>
+      </div>
+      <div class="summary-card growth">
+        <div class="card-icon">📈</div>
+        <div class="card-content">
+          <h3>Growth Rate</h3>
+          <p class="card-value" [class.positive]="financialReports[0].growth_rate > 0" [class.negative]="financialReports[0].growth_rate < 0">
+            {{ formatPercent(financialReports[0].growth_rate) }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedReportType === 'health' && healthReports[0]" class="summary-grid">
+      <div class="summary-card injuries">
+        <div class="card-icon">🏥</div>
+        <div class="card-content">
+          <h3>Total Injuries</h3>
+          <p class="card-value">{{ healthReports[0].total_injuries }}</p>
+        </div>
+      </div>
+      <div class="summary-card appointments">
+        <div class="card-icon">📅</div>
+        <div class="card-content">
+          <h3>Health Appointments</h3>
+          <p class="card-value">{{ healthReports[0].total_appointments }}</p>
+        </div>
+      </div>
+      <div class="summary-card first-aid">
+        <div class="card-icon">⛑️</div>
+        <div class="card-content">
+          <h3>First Aid Rate</h3>
+          <p class="card-value">{{ formatPercent(healthReports[0].first_aid_rate) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedReportType === 'operations' && operationsReports[0]" class="summary-grid">
+      <div class="summary-card bookings">
+        <div class="card-icon">📋</div>
+        <div class="card-content">
+          <h3>Total Bookings</h3>
+          <p class="card-value">{{ operationsReports[0].total_bookings }}</p>
+        </div>
+      </div>
+      <div class="summary-card utilization">
+        <div class="card-icon">🏟️</div>
+        <div class="card-content">
+          <h3>Stadium Utilization</h3>
+          <p class="card-value">{{ formatPercent(operationsReports[0].stadium_utilization) }}</p>
+        </div>
+      </div>
+      <div class="summary-card rating">
+        <div class="card-icon">⭐</div>
+        <div class="card-content">
+          <h3>Average Rating</h3>
+          <p class="card-value">{{ operationsReports[0].avg_rating }}/5</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedReportType === 'content' && contentReports[0]" class="summary-grid">
+      <div class="summary-card blogs">
+        <div class="card-icon">📝</div>
+        <div class="card-content">
+          <h3>Blogs Published</h3>
+          <p class="card-value">{{ contentReports[0].blogs_published }}</p>
+        </div>
+      </div>
+      <div class="summary-card verified">
+        <div class="card-icon">✅</div>
+        <div class="card-content">
+          <h3>Verified Content</h3>
+          <p class="card-value">{{ contentReports[0].verified_blogs }}</p>
+        </div>
+      </div>
+      <div class="summary-card engagement">
+        <div class="card-icon">👥</div>
+        <div class="card-content">
+          <h3>Content Rating</h3>
+          <p class="card-value">{{ contentReports[0].avg_content_rating }}/5</p>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

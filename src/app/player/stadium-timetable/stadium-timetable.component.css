@@ -8,6 +8,7 @@
 table {
   width: 100%;
   table-layout: auto; /* Ensure columns adjust to content */
+  margin-bottom: 40px; /* Space between tables */
 }
 
 th, td {
@@ -23,4 +24,9 @@ th, td {
 .highlighted-session {
   background-color: #e0f7fa; /* Light cyan background for highlighted sessions */
   font-weight: bold; /* Make text bolder */
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }

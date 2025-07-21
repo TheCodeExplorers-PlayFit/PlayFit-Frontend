@@ -1,0 +1,126 @@
+/* player-health.component.css */
+.health-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  padding-left: 300px; /* Space for sidebar */
+  padding-top: 80px; /* Space for navbar */
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.rectangle {
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  height: 200px;
+  justify-content: space-between;
+}
+
+.row:first-child .rectangle:nth-child(1) {
+  background-color: #dbeafe; /* Light blue for Make an Appointment */
+}
+
+.row:first-child .rectangle:nth-child(2) {
+  background-color: #d1fae5; /* Light teal for Health Tips */
+}
+
+.table-container {
+  width: 100%;
+  background-color: #f3e8ff; /* Light purple for table */
+}
+
+.rectangle h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.rectangle p {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s;
+  width: 80%;
+}
+
+.btn-appointment {
+  background-color: #1e40af; /* Dark blue */
+  color: white;
+}
+
+.btn-tips {
+  background-color: #065f46; /* Dark teal */
+  color: white;
+}
+
+.btn-appointment:hover {
+  background-color: #3b82f6; /* Lighter blue */
+}
+
+.btn-tips:hover {
+  background-color: #047857; /* Lighter teal */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #1e3a8a; /* Dark blue header */
+  color: black; /* Changed from white to black */
+}
+
+tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+@media (max-width: 1200px) {
+  .row:first-child {
+    flex-direction: row;
+  }
+
+  .table-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .health-container {
+    padding-left: 20px;
+    padding-top: 100px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .row .rectangle,
+  .table-container {
+    width: 100%;
+  }
+}

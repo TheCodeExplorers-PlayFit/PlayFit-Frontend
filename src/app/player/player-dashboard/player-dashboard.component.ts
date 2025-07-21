@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { SportsModalComponent } from './sports-modal/sports-modal.component';
 import { LocationsModalComponent } from './locations-modal/locations-modal.component';
 import { StadiumsModalComponent } from './stadiums-modal/stadiums-modal.component';
+import { LeaderboardsModalComponent } from './leaderboards-modal/leaderboards-modal.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-dashboard',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, SportsModalComponent, LocationsModalComponent, StadiumsModalComponent],
+  imports: [CommonModule, MatButtonModule, SportsModalComponent, LocationsModalComponent, StadiumsModalComponent, LeaderboardsModalComponent],
   templateUrl: './player-dashboard.component.html',
   styleUrls: ['./player-dashboard.component.css']
 })
@@ -128,5 +129,15 @@ export class PlayerDashboardComponent implements OnInit {
 
   rateCoachesStadiums(): void {
     this.router.navigate(['player/ratings']);
+  }
+
+  openLeaderboardsModal(): void {
+    this.dialog.open(LeaderboardsModalComponent, {
+      width: '600px'
+    });
+  }
+
+  viewSpecialOffers(): void {
+    this.router.navigate(['player/special-offers']);
   }
 }

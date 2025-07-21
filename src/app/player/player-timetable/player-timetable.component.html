@@ -1,3 +1,4 @@
+<!-- player-timetable.component.html -->
 <div class="timetable-container">
     <h2>My Timetable</h2>
     <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
@@ -48,9 +49,12 @@
             <button type="button" class="btn btn-primary" (click)="navigateToStadium(selectedSession.google_maps_link)" [disabled]="!selectedSession.google_maps_link">
               Navigate to Stadium
             </button>
+            <button type="button" class="btn btn-danger" (click)="cancelBooking()">
+              Cancel Booking
+            </button>
             <button type="button" class="btn btn-secondary" (click)="closeSessionModal()">Close</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+</div>

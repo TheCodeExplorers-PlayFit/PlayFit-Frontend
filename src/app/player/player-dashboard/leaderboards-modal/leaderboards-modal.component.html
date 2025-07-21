@@ -1,0 +1,25 @@
+<div class="leaderboards-modal">
+  <h2>Leaderboards</h2>
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="searchLeaderboards()"
+      placeholder="Search by player or stadium name"
+      class="search-bar"
+    />
+  </div>
+  <div class="leaderboard-list">
+    <div *ngIf="leaderboards.length === 0 && !isLoading" class="no-results">
+      No results found
+    </div>
+    <div *ngIf="isLoading" class="loading">Loading...</div>
+    <div *ngFor="let entry of filteredLeaderboards; let i = index" class="leaderboard-entry">
+      <span class="rank">{{ i + 1 }}</span>
+      <span class="player-name">{{ entry.player_name }}</span>
+      <span class="stadium-name">{{ entry.stadium_name }}</span>
+      <span class="booking-count">{{ entry.booking_count }} bookings</span>
+    </div>
+  </div>
+  <button mat-raised-button class="close-btn" (click)="closeModal()">Close</button>
+</div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrivateRequestsComponent } from './private-requests.component';
+import { SpecialOffersComponent } from './special-offers.component';
 
-describe('PrivateRequestsComponent', () => {
-  let component: PrivateRequestsComponent;
-  let fixture: ComponentFixture<PrivateRequestsComponent>;
+describe('SpecialOffersComponent', () => {
+  let component: SpecialOffersComponent;
+  let fixture: ComponentFixture<SpecialOffersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PrivateRequestsComponent]
+      imports: [SpecialOffersComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PrivateRequestsComponent);
+    fixture = TestBed.createComponent(SpecialOffersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
