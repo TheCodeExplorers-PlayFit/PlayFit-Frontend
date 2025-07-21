@@ -19,6 +19,6 @@ export interface Complaint {
 export interface Card {
   subtitle: string;
   text: string;
-  backgroundColor: string;
+  class: string;
   route: string;
 }

@@ -3,7 +3,7 @@
 
   <div class="d-flex flex-row gap-3 card-row">
     <div class="card-container" *ngFor="let card of cards">
-      <div class="card" [style.backgroundColor]="card.backgroundColor">
+      <div class="card status" [ngClass]="card.class">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>

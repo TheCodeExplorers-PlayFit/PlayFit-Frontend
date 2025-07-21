@@ -1,7 +1,7 @@
 .container {
   padding: 40px;
   font-family: 'Lora', serif;
-  margin-left: 5px;
+  margin-left: 10px;
   margin-top: 10px;
   background-color: #f8fafc;
   min-height: 100vh;
@@ -34,19 +34,21 @@
 
 .card-container {
   flex: 1;
-  min-width: 280px;
+  min-width: 250px;
   max-width: 320px;
 }
 
 .card {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 128, 0.08);
-  height: 160px;
+  height: 180px;
   transition: all 0.3s ease;
   background: #ffffff;
   border: 1px solid rgba(0, 0, 128, 0.1);
   position: relative;
   overflow: hidden;
+  margin-right: 30px;
+  margin-left: 35px;
 }
 
 .card::before {
@@ -56,7 +58,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #000080, #4169E1);
+  
 }
 
 .card:hover {
@@ -66,34 +68,31 @@
 }
 
 .card-body {
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  margin-right: 20px;
 }
 
 .card-subtitle {
   font-size: 1.55rem;
-  color: #000080;
+  color: white;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
   text-align: center;
 }
 
-.card-subtitle:hover {
-  color: #4169E1;
-}
-
 .card-divider {
-  margin: 12px 0;
+  margin: 10px 10px;
   border-top: 1px solid rgba(0, 0, 128, 0.1);
 }
 
 .card-text {
   font-size: 2.05rem;
-  color: #060c14;
+  color: white;
   margin: 0;
   flex-grow: 1;
   line-height: 1.5;
@@ -176,19 +175,27 @@ tr:hover td {
   text-align: center;
 }
 
-.status.pending {
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+.status:hover {
+  transform: translateY(-3px);
+}
+
+.status.total {
+  background: linear-gradient(135deg, #000080, #4169e1);
+  
 }
 
 .status.resolved {
-  background: linear-gradient(135deg, #059669, #10b981);
-  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.2);
+  background: linear-gradient(135deg, #dc3545, #fd7e14);
+}
+
+.status.pending {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  
 }
 
 .status.in_progress {
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
-  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.2);
+  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+  
 }
 
 .action-btn {

@@ -19,12 +19,13 @@ export class MaintenanceRequestsComponent implements OnInit {
   inProgressTasks = 0;
   viewingRequest: Complaint | null = null;
 
-  cards: Card[] = [
-    { subtitle: 'Total Tasks', text: this.totalTasks.toString(), backgroundColor: '#F3A4A4', route: '/stadium-owner/maintenance-requests' },
-    { subtitle: 'Pending Tasks', text: this.pendingTasks.toString(), backgroundColor: '#C0C0DE', route: '/stadium-owner/maintenance-requests' },
-    { subtitle: 'Completed Tasks', text: this.completedTasks.toString(), backgroundColor: '#CFEDC6', route: '/stadium-owner/maintenance-requests' },
-    { subtitle: 'In Progress', text: this.inProgressTasks.toString(), backgroundColor: '#F9C8F1', route: '/stadium-owner/maintenance-requests' }
-  ];
+cards: Card[] = [
+  { subtitle: 'Total Tasks', text: this.totalTasks.toString(), class: 'total', route: '/stadium-owner/maintenance-requests' },
+  { subtitle: 'Pending Tasks', text: this.pendingTasks.toString(), class: 'pending', route: '/stadium-owner/maintenance-requests' },
+  { subtitle: 'Completed Tasks', text: this.completedTasks.toString(), class: 'resolved', route: '/stadium-owner/maintenance-requests' },
+  { subtitle: 'In Progress', text: this.inProgressTasks.toString(), class: 'in_progress', route: '/stadium-owner/maintenance-requests' }
+];
+
 
   constructor(
     private maintenanceRequestsService: MaintenanceRequestsService,
