@@ -54,3 +54,7 @@
     margin-top: 55px;
   }
   
+  .sidebar i {
+  color: #000080; /* Navy blue */
+  margin-right: 10px;
+}
