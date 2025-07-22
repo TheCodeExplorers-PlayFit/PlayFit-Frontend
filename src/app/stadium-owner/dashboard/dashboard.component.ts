@@ -60,8 +60,8 @@ export class DashboardComponent implements OnInit {
     statusClass: 'pending'
   },
   {
-    subtitle: 'Explore Analytics',
-    text: 'View data and performance insights for your stadiums.',
+    subtitle: 'Waitlist System',
+    text: 'Notify players the moment a slot opens.',
     backgroundColor: '#F9C8F1',
     route: '/stadium-owner/waitlist',
     statusClass: 'in_progress'

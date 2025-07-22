@@ -43,7 +43,6 @@
   background-color: #8f86cc;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 128, 0.06);
 }
 
 th, td {
@@ -54,7 +53,7 @@ th, td {
 }
 
 th {
-  background: linear-gradient(135deg, #000080 0%, #1e40af 100%);
+  background-color:  #3f62bb;
   font-weight: 600;
   font-size: 0.95rem;
   color: white;
@@ -63,30 +62,36 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #fafbfc;
+  background-color: #cacfd4;
 }
 
-tr:hover {
-  background-color: rgba(0, 0, 128, 0.02);
-}
+
 
 .nested-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #8e92d8;
+  background-color: #d9dde8;
   border-radius: 6px;
   overflow: hidden;
 }
+.nested-table th{
+  border: 1px solid #a7b1bc;
+  background: #cacfd4;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  text-align: left;
+}
 
-.nested-table th, .nested-table td {
-  border: 1px solid #488acd;
+ .nested-table td {
+  border: 1px solid #a7b1bc;
+  background-color: #cacfd4;
   padding: 12px 16px;
   font-size: 0.9rem;
   text-align: left;
 }
 
 .nested-table th {
-  background-color: #0a1928;
+  background-color: #6f7b9b;
   font-weight: 600;
   color: white;
   font-size: 0.85rem;
@@ -125,7 +130,7 @@ tr:hover {
 
 .edit-btn {
   padding: 8px 16px;
-  background-color: #2f0be3;
+  background-color: #2525c3;
   color: white;
   border-radius: 6px;
   cursor: pointer;
@@ -135,7 +140,7 @@ tr:hover {
 }
 
 .edit-btn:hover {
-  background-color: #000080;
+  background-color: #2121ac;
   color: white;
   transform: translateY(-1px);
 }
