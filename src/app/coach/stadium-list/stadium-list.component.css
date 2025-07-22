@@ -1,227 +1,194 @@
+/* ---------- Container & Layout ---------- */
 .stadium-list-container {
   padding: 20px;
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: 1140px;
+  margin: 90px auto 40px auto;
   box-sizing: border-box;
-}
-
-.search-bar-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 3px solid #0a0466;
-  border-radius: 10px;
-  padding: 5px 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
-}
-
-.filter-input {
-  flex: 1;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  background: #f5f5f5;
-  color: #333;
-  margin: 0 5px;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.filter-input:focus {
-  outline: none;
-  background: #e8ecef;
-}
-
-.search-btn {
-  padding: 10px 20px;
-  background: #0a0466;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.search-btn:hover {
-  background: #080120;
-}
-
-.stadium-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
 }
 
 .stadium-list-container h2 {
   text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0a0466;
   margin-bottom: 30px;
+}
+
+/* ---------- Filters / Form ---------- */
+form .form-select {
+  min-width: 150px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  border: 2px solid #0a0466;
+  font-size: 14px;
+  color: #333;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+}
+
+form .form-select:focus {
+  outline: none;
+  background: #e8ecef;
+}
+
+button.btn-primary,
+button.btn-outline-primary {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+button.btn-outline-primary {
+  border-color: #0a0466;
+  color: #0a0466;
+  background-color: transparent;
+}
+
+button.btn-outline-primary:hover {
+  background-color: #0a0466;
+  color: white;
+}
+
+/* ---------- Grid and Cards ---------- */
+.row-cols-1 .col,
+.row-cols-md-2 .col,
+.row-cols-lg-3 .col {
+  display: flex;
 }
 
 .stadium-card {
   border: none;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 16px;
   background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .stadium-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 6px 15px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
-.stadium-card img {
+.stadium-preview-image {
   width: 100%;
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 15px;
-  max-height: 200px;
+  height: 180px;
   object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   transition: opacity 0.3s ease;
 }
 
-.stadium-card img:hover {
+.stadium-preview-image:hover {
   opacity: 0.9;
 }
 
-.stadium-card h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
+.card-body {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
   color: #2c3e50;
-  font-size: 1.5em;
 }
 
-.stadium-card p {
-  color: #7f8c8d;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.stadium-card .location {
-  font-weight: 500;
+.card-text {
+  font-size: 14px;
   color: #6f7376;
 }
 
-.stadium-card .sports-tags {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-
-.stadium-card .sport-tag {
-  color: #141414;
-  padding: 4px 10px;
-  border-radius: 12px;
+/* ---------- Tags ---------- */
+.sport-tag {
+  background-color: #0a0466;
+  color: white;
   font-size: 12px;
-}
-
-.stadium-card a {
+  border-radius: 12px;
+  padding: 4px 10px;
   display: inline-block;
+}
+
+/* ---------- States ---------- */
+.loading-state,
+.error-state,
+.empty-state {
   text-align: center;
-  color: #fff;
-  background: #0a0466;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.stadium-card a:hover {
-  background: #0a0466;
-  transform: scale(1.05);
+.alert {
+  padding: 16px;
+  font-size: 15px;
 }
 
-.stadium-actions {
+/* ---------- Modal ---------- */
+.modal.d-block {
+  display: block !important;
+}
+
+.modal-content {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: #0a0466;
+  color: white;
+}
+
+.modal-footer {
   display: flex;
-  gap: 10px;
   justify-content: space-between;
 }
 
-.view-details-btn {
-  display: inline-block;
-  text-align: center;
-  color: #fff;
-  background: #0a0466; /* Slightly lighter blue for distinction */
+/* ---------- Buttons ---------- */
+.view-details-btn,
+.book-stadium-btn,
+.book-btn,
+.close-btn {
   padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
   font-size: 14px;
-  cursor: pointer;
+  border-radius: 5px;
+  border: none;
   transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.view-details-btn:hover {
-  background: #0a0466;
-  transform: scale(1.05);
-}
-
-.book-stadium-btn {
-  display: inline-block;
+  cursor: pointer;
   text-align: center;
-  color: #fff;
-  background: #0a0466;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.book-stadium-btn:hover {
+.view-details-btn,
+.book-stadium-btn,
+.book-btn {
+  background: #0a0466;
+  color: white;
+}
+
+.view-details-btn:hover,
+.book-stadium-btn:hover,
+.book-btn:hover {
   background: #080120;
   transform: scale(1.05);
 }
 
-.loading-state, .error-state, .empty-state {
-  text-align: center;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.close-btn {
+  background: #dc3545;
+  color: white;
 }
 
-.loading-state p, .error-state p, .empty-state p {
-  color: #555;
-  margin: 0 0 10px 0;
+.close-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
 }
 
-.error-state .login-btn {
-  display: inline-block;
-  padding: 8px 16px;
-  color: #007bff;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.error-state .login-btn:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-
+/* ---------- Popup (Alternative Modal Style) ---------- */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -246,64 +213,51 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.popup-content h3 {
-  margin-top: 0;
-  color: #2c3e50;
-  font-size: 1.8em;
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .stadium-list-container {
+    padding: 12px;
+    margin-top: 70px;
+  }
+
+  .stadium-preview-image {
+    height: 160px;
+  }
+
+  .popup-content {
+    width: 95%;
+  }
+}
+.stadium-list-container {
+  padding-left: 270px; /* Adjust 270px based on your sidebar width */
+  max-width: 100%; /* so it can use more width */
+  box-sizing: border-box;
 }
 
-.popup-content p {
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 20px;
+.btn-custom-primary {
+  background-color: #0a0466;
+  border-color: #0a0466;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-.popup-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+.btn-custom-primary:hover {
+  background-color: #080120;
+  border-color: #080120;
+  color: white;
+}
+.modal-footer {
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px; /* Add some space between buttons */
 }
 
-.book-btn {
-  padding: 10px 20px;
-  background: #0a0466;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+.modal-footer .btn-success {
+  background-color: #0a0466 !important; /* Make Book button blue */
+  border-color: #0a0466 !important;
 }
 
-.book-btn:hover {
-  background: #080120;
-  transform: scale(1.05);
+.modal-footer .btn-success:hover {
+  background-color: #080120 !important;
+  border-color: #080120 !important;
 }
 
-.close-btn {
-  padding: 10px 20px;
-  background: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.close-btn:hover {
-  background: #c82333;
-  transform: scale(1.05);
-}
-
-.stadium-preview-image {
-  width: 150px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 5px;
-  transition: opacity 0.3s ease;
-}
-
-.stadium-preview-image:hover {
-  opacity: 0.9;
-}

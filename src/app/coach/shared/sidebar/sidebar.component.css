@@ -50,6 +50,11 @@ a.active {
 }
 
 /* Sign Out spacing */
-ul li:nth-last-child(2) a {
+ul li:nth-last-child(1) a {
   margin-top: 25px;
+}
+
+.sidebar i {
+  color: navy;
+  margin-right: 8px;
 }

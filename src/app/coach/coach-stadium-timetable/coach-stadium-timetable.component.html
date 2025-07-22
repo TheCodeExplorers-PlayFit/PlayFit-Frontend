@@ -1,5 +1,5 @@
-<div class="container my-4 timetable-container" *ngIf="!loading">
-  <h2 class="mb-4 text-center">Stadium Timetable for {{ stadiumId }}</h2>
+<div class="my-4 timetable-container" *ngIf="!loading" style="margin-top: 300px;">
+  <h2 class="mb-4 text-center" style="text-align: left;">Stadium Timetable </h2>
 
   <div *ngIf="error" class="alert alert-danger text-center">
     {{ error }}
@@ -29,7 +29,7 @@
           <button
             *ngIf="session.status === 'available'"
             (click)="openPopup(session.id)"
-            class="btn btn-primary btn-sm"
+            class="book-btn"
           >
             Book
           </button>

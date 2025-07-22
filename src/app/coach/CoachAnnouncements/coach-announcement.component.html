@@ -13,13 +13,14 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .notice-main-container {
       max-width: 790px;
       width: 100%;
-      background: rgba(248,251,255,0.89);
+      background: rgba(243, 246, 250, 0.9); /* light blue-ish */
       border-radius: 28px;
-      box-shadow: 0 8px 32px rgba(30,60,120,0.11), 0 1px 6px rgba(20,70,160,0.03);
+      box-shadow: 0 8px 32px rgba(0, 0, 128, 0.11), 0 1px 6px rgba(0, 0, 128, 0.03); /* navy shadows */
       padding: 40px 25px;
       margin: 60px auto 32px auto;
     }
@@ -34,47 +35,47 @@
       padding-left: 0;
     }
     .section-title.coach {
-      color: #069c5a;
+      color: #000080; /* navy */
     }
     .section-title.all {
-      color: #000080;
+      color: #000080; /* navy */
     }
     .notice-card {
       border: none;
-      border-left: 9px solid #16ba70;
+      border-left: 9px solid #000080; /* navy */
       border-radius: 18px;
       background: #fff;
-      box-shadow: 0 2px 18px rgba(19,40,80,0.07);
+      box-shadow: 0 2px 18px rgba(0, 0, 128, 0.07);
       margin-bottom: 32px;
       transition: box-shadow 0.2s, transform 0.2s;
-      padding-left: 0; /* Ensures hard alignment on left */
+      padding-left: 0;
     }
     .notice-card.all {
-      border-left: 9px solid #223dff;
+      border-left: 9px solid #000080; /* navy */
+      box-shadow: 0 2px 18px rgba(0, 0, 128, 0.07);
     }
     .notice-card:hover {
-      box-shadow: 0 8px 30px rgba(40,60,130,0.13);
+      box-shadow: 0 8px 30px rgba(0, 0, 128, 0.13);
       transform: translateY(-3px) scale(1.013);
     }
     .notice-card .card-body {
       padding: 30px 30px 20px 25px;
-      /* Remove margin-left, ensure padding aligns text with heading */
     }
     .notice-card .card-title {
       font-size: 1.26em;
-      font-weight: bold;
+      font-weight: 700;
       margin-bottom: 0.45em;
-      color: #21233a;
+      color: #000080; /* navy */
       letter-spacing: 0.02em;
     }
     .notice-card .card-subtitle {
       font-size: 1.05em;
       margin-bottom: 0.5em;
-      color: #099;
+      color: #000080; /* navy */
       font-weight: 600;
     }
     .notice-meta {
-      color: #596080;
+      color: #222222; /* dark black */
       font-size: 0.97em;
       margin-top: 18px;
       display: flex;
@@ -83,7 +84,7 @@
     }
     .notice-card .card-text {
       font-size: 1.055em;
-      color: #3b4154;
+      color: #000000; /* black */
       margin-bottom: 0.7em;
     }
     /* Remove Bootstrap's col/row paddings if used, for exact alignment */
