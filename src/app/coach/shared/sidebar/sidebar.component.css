@@ -53,3 +53,8 @@ a.active {
 ul li:nth-last-child(2) a {
   margin-top: 25px;
 }
+
+.sidebar i {
+  color: navy;
+  margin-right: 8px;
+}
