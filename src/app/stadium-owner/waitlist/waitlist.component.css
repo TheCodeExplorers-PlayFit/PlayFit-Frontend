@@ -1,13 +1,13 @@
 .waitlist-container {
       padding: 24px;
       max-width: 1200px;
-      margin-top: 20px;
+      margin-top: 40px;
       background-color: #f8f9fa;
       min-height: 100vh;
     }
     
     .waitlist-title {
-      font-size: 35px; 
+      font-size: 40px; 
       font-family: 'Roboto', sans-serif;
       font-weight: 500;
       margin-bottom: 8px;

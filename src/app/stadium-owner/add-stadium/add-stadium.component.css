@@ -1,141 +1,349 @@
+/* Stadium Form CSS Styles - Primary Color: #000080 */
+
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 50px;
-  font-family: 'Lora', serif;
+  margin-top: 80px;
+  padding: 20px;
+  background-color: #ece9e964;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 128, 0.1);
 }
 
-h2, h3 {
-  color: #333;
+h2 {
+  color: #000080;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 600;
+  border-bottom: 3px solid #000080;
+  padding-bottom: 10px;
 }
 
+h3 {
+  color: #000080;
+  font-size: 1.3rem;
+  margin: 20px 0 15px 0;
+  font-weight: 500;
+}
+
+/* Form Groups */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #000080;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Input Styles */
 .form-control {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border: 2px solid #e0e6ff;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
-.add-btn, .submit-btn, .reset-btn, .delete-btn, .confirm-map-btn {
-  padding: 8px 16px;
+.form-control:focus {
+  outline: none;
+  border-color: #000080;
+  box-shadow: 0 0 0 3px rgba(0, 0, 128, 0.1);
+}
+
+.form-control:hover {
+  border-color: #0000a0;
+}
+
+/* Readonly inputs */
+.form-control[readonly] {
+  background-color: #f8f9ff;
+  border-color: #d1d9ff;
+  color: #666;
+}
+
+/* Select dropdown styles */
+select.form-control {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23000080' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* Button Base Styles */
+button {
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  margin-right: 10px;
-}
-.locate-btn {
-  background-color: #17a2b8;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  margin-right: 8px;
-  border-radius: 5px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.confirm-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  margin-right: 8px;
-  border-radius: 5px;
-}
-
-.map-confirm-btn {
-  background-color: #ffc107;
-  color: black;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-}
-
-
-.add-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.add-btn:hover {
-  background-color: #218838;
-}
-
-.submit-btn {
+/* Primary Buttons */
+.locate-btn, .add-btn, .submit-btn {
   background-color: #000080;
   color: white;
+  margin-right: 10px;
+  margin-top: 8px;
 }
 
-.submit-btn:hover {
-  background-color: #020271;
+.locate-btn:hover, .add-btn:hover, .submit-btn:hover {
+  background-color: #000060;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 128, 0.3);
 }
 
-.reset-btn {
-  background-color: #6c757d;
+/* Secondary Buttons */
+.confirm-btn, .map-confirm-btn {
+  background-color: #4a4aa0;
   color: white;
+  margin-right: 10px;
+  margin-top: 8px;
 }
 
-.reset-btn:hover {
-  background-color: #5a6268;
+.confirm-btn:hover, .map-confirm-btn:hover {
+  background-color: #3838a0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 74, 160, 0.3);
 }
 
+/* Danger Button */
 .delete-btn {
   background-color: #dc3545;
   color: white;
+  padding: 6px 12px;
+  font-size: 0.9rem;
 }
 
 .delete-btn:hover {
   background-color: #c82333;
+  transform: translateY(-1px);
 }
 
-.confirm-map-btn {
-  background-color: #17a2b8;
+/* Reset Button */
+.reset-btn {
+  background-color: #6c757d;
   color: white;
+  margin-left: 10px;
 }
 
-.confirm-map-btn:hover {
-  background-color: #138496;
+.reset-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* Disabled Button States */
+button:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+button:disabled:hover {
+  background-color: #e9ecef;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Confirmation Message */
+.confirmation {
+  color: #28a745;
+  font-weight: 500;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+}
+
+/* Error Message */
+.error {
+  color: #dc3545;
+  font-weight: 500;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+/* Schedule Table */
+.schedule-table {
+  margin-top: 30px;
+  background-color: #f8f9ff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e6ff;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.table th, .table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  margin-top: 15px;
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 128, 0.1);
 }
 
 .table th {
-  background-color: #f2f2f2;
+  background-color: #000080;
+  color: white;
+  padding: 15px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e6ff;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9ff;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Image Upload Section */
 .image-preview {
-  margin-top: 10px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9ff;
+  border-radius: 8px;
+  border: 1px solid #e0e6ff;
 }
 
 .image-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .img-fluid {
-  max-width: 100px;
-  height: auto;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #e0e6ff;
+  transition: all 0.3s ease;
 }
 
-.error {
-  color: #dc3545;
-  margin-top: 5px;
+.img-fluid:hover {
+  border-color: #000080;
+  transform: scale(1.02);
 }
 
-.confirmation {
-  color: #28a745;
-  margin-top: 5px;
+/* File Input Styling */
+input[type="file"] {
+  padding: 10px;
+  border: 2px dashed #000080;
+  border-radius: 6px;
+  background-color: #f8f9ff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="file"]:hover {
+  background-color: #f0f2ff;
+  border-color: #0000a0;
+}
+
+/* Checkbox Styling */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  accent-color: #000080;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Links */
+a {
+  color: #000080;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  color: #000060;
+  text-decoration: underline;
+}
+
+/* Progress Indicator */
+.form-group div {
+  font-weight: 500;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .table {
+    font-size: 0.9rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 6px;
+  }
+  
+  button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .image-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .form-control {
+    padding: 10px 12px;
+  }
+  
+  .image-container {
+    grid-template-columns: 1fr;
+  }
 }
