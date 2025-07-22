@@ -1,17 +1,17 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoachAchievementService {
-  private baseUrl = 'http://localhost:5000/api/coach-sessions/achievements';
+  private baseUrl = 'http://localhost:5000/api/coach-sessions';
 
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // Replace with AuthService if needed
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('No authentication token found');
       return new HttpHeaders();
@@ -26,7 +26,7 @@ export class CoachAchievementService {
     if (!headers.has('Authorization')) {
       return throwError(() => new Error('Authentication token is missing'));
     }
-    return this.http.get(`${this.baseUrl}?coachId=${coachId}`, { headers });
+    return this.http.get(`${this.baseUrl}/achievements?coachId=${coachId}`, { headers });
   }
 
   getAllAchievements(): Observable<any> {
@@ -34,7 +34,7 @@ export class CoachAchievementService {
     if (!headers.has('Authorization')) {
       return throwError(() => new Error('Authentication token is missing'));
     }
-    return this.http.get(`${this.baseUrl}/all`, { headers });
+    return this.http.get(`${this.baseUrl}/achievements/all`, { headers });
   }
 
   getTopAchievements(): Observable<any> {
@@ -42,6 +42,6 @@ export class CoachAchievementService {
     if (!headers.has('Authorization')) {
       return throwError(() => new Error('Authentication token is missing'));
     }
-    return this.http.get(`${this.baseUrl}/top`, { headers });
+    return this.http.get(`${this.baseUrl}/achievements/top`, { headers });
   }
 }

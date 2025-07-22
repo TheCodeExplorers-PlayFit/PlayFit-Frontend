@@ -38,7 +38,6 @@ import { CoachBlogPostComponent } from './coach/coach-blog-post/coach-blog-post.
 import { CoachAnnouncementComponent } from './coach/CoachAnnouncements/coach-announcement.component';
 import { CoachAchievementsComponent } from './coach/CoachAchievements/coach-achievements/coach-achievements.component';
 
-
 // ===== HEALTH OFFICER =====
 import { DashboardComponent as HealthOfficerDashboardComponent } from './healthOfficer/sidebar/dashboard/dashboard.component';
 import { AppointmentsComponent } from './healthOfficer/sidebar/appointments/appointments.component';
