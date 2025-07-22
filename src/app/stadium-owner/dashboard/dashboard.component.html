@@ -1,15 +1,16 @@
 <div class="container">
-  <h1 class="dashboard-title">Dashboard</h1>
+  <h1 class="dashboard-title">Stadium Owner Dashboard</h1>
 
   <div class="row">
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-3 col-sm-6 col-12 mt-4" *ngFor="let card of cards">
           <div class="card clickable-card uniform-card" (click)="navigateTo(card.route)">
-            <div class="card-body" [style.background-color]="card.backgroundColor">
-              <h5 class="card-title">{{ card.subtitle }}</h5>
-              <p class="card-text">{{ card.text }}</p>
-            </div>
+           <div class="card-body status" [ngClass]="card.statusClass">
+            <h5 class="card-title1">{{ card.subtitle }}</h5>
+            <p class="card-text1">{{ card.text }}</p>
+          </div>
+
           </div>
         </div>
       </div>

@@ -1,78 +1,101 @@
 .container {
-  padding: 50px;
+  padding: 40px;
   max-width: 1600px;
-  font-family: Arial, sans-serif;
-  font-family: 'Lora', serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-left: 5px;
   margin-top: 10px;
+  background-color: #fafbfc;
 }
 
 .stadiums-card {
-  background-color: #E6E6F2;
+  background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  padding: 30px;
-  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 128, 0.08);
+  padding: 32px;
+  margin-bottom: 32px;
   width: 100%;
   margin-right: 0;
+  border: 1px solid #e8eaed;
 }
 
 .stadiums-header {
-  background-color: white;
-  padding: 15px;
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
+  color: white;
+  padding: 20px 24px;
   border-radius: 12px 12px 0 0;
-  margin: -30px -30px 30px -30px;
+  margin: -32px -32px 32px -32px;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .total-stadiums {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
   font-size: 1.25rem;
-  color: #333;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin: 30px;
-  background-color: #6060b5;
+  margin: 32px 0;
+  background-color: #8f86cc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 128, 0.06);
 }
 
 th, td {
-  border: 1px solid #E6E6FA;
-  padding: 15px;
+  border: 1px solid #e8eaed;
+  padding: 16px 20px;
   text-align: left;
   vertical-align: middle;
 }
 
 th {
-  background-color: #CCCCE6;
+  background: linear-gradient(135deg, #000080 0%, #1e40af 100%);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+tr:hover {
+  background-color: rgba(0, 0, 128, 0.02);
 }
 
 .nested-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #E6E6FA;
+  background-color: #8e92d8;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .nested-table th, .nested-table td {
-  border: 1px solid #CCCCE6;
-  padding: 8px;
-  font-size: 0.95rem;
+  border: 1px solid #488acd;
+  padding: 12px 16px;
+  font-size: 0.9rem;
   text-align: left;
 }
 
 .nested-table th {
-  background-color: #D3D3FA;
-  font-weight: 500;
+  background-color: #0a1928;
+  font-weight: 600;
+  color: white;
+  font-size: 0.85rem;
 }
 
 .list-unstyled li {
   margin-bottom: 0.75rem;
   font-size: 1rem;
+  color: #495057;
 }
 
 .me-2 {
@@ -81,48 +104,58 @@ th {
 
 .add-stadium-btn {
   padding: 12px 24px;
-  background-color: #000080;
+  background: linear-gradient(135deg, #000080 0%, #1a1a9e 100%);
   color: white;
   border: none;
-  border-radius: 6px;
-  margin-top: 15px;
+  border-radius: 8px;
+  margin-top: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 128, 0.2);
 }
 
 .add-stadium-btn:hover {
-  background-color: #094381;
+  background: linear-gradient(135deg, #1a1a9e 0%, #333399 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 128, 0.3);
 }
 
 .edit-btn {
-  padding: 7px 14px;
-  background-color: #3DE0F2;
-  color: blue;
-  border: none;
+  padding: 8px 16px;
+  background-color: #2f0be3;
+  color: white;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .edit-btn:hover {
-  background-color: #16bbcd;
+  background-color: #000080;
+  color: white;
+  transform: translateY(-1px);
 }
 
 .delete-btn {
-  padding: 7px 14px;
-  background-color: #ed3a3a;
+  padding: 8px 16px;
+  background-color: #dc3545;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .delete-btn:hover {
-  background-color: #b11212;
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 /* Modal Styles */
@@ -132,7 +165,8 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 128, 0.1);
+  backdrop-filter: blur(4px);
   z-index: 1050;
 }
 
@@ -141,64 +175,109 @@ th {
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #e1e2e9 100%); 
+  padding: 32px;
   margin: 50px auto;
-  width: 80%;
-  max-width: 900px;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 1000px;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 128, 0.15);
+  border: 1px solid #e8eaed;
+}
+
+.modal-content h3 {
+  color: #000080;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
-  padding: 30px;
+  padding: 32px;
 }
 
 .image-gallery {
-  margin-top: 20px;
+  margin-top: 32px;
+  padding: 24px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e8eaed;
+}
+
+.image-gallery h3 {
+  color: #000080;
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .image-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
 
 .image-gallery img {
-  width: 200px;
-  height: auto;
+  width: 100%;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 128, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.02);
 }
 
 .btn-sm {
-  padding: 7px 14px;
-  font-size: 1rem;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .form-control {
-  border-radius: 6px;
-  border: 1px solid #ced4da;
-  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #e8eaed;
+  padding: 12px 16px;
   font-size: 1rem;
   width: 100%;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: #2337C6;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  border-color: #000080;
+  box-shadow: 0 0 0 3px rgba(0, 0, 128, 0.1);
+  background-color: #fafbfc;
+}
+
+.form-control:hover {
+  border-color: #000080;
+}
+
+/* Label Styles */
+label {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  display: block;
+  font-size: 0.95rem;
 }
 
 /* Compact sidebar styles */
 .col-md-3 .card {
-  padding: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e8eaed;
 }
 
 .col-md-3 .card-body {
-  padding: 15px;
+  padding: 16px;
 }
 
 .col-md-3 .card-title,
@@ -206,22 +285,19 @@ th {
   font-size: 0.95rem;
 }
 
-.image-gallery .image-container img {
-  max-width: 200px;
-  margin: 5px;
-}
-
 .image-placeholder {
   width: 150px;
   height: 150px;
-  background-color: #f0f0f0;
+  background-color: #285d93;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #666;
+  color: #6c757d;
   font-size: 14px;
-  border: 1px solid #ccc;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  font-weight: 500;
 }
 
 .image-placeholder::after {
@@ -229,66 +305,112 @@ th {
 }
 
 .image-preview {
-  margin-top: 10px;
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.image-preview h4 {
+  color: #000080;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .image-item {
   display: inline-block;
-  margin: 5px;
+  margin: 8px;
   position: relative;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .img-thumbnail {
   max-width: 100px;
   max-height: 100px;
   object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #e8eaed;
 }
 
 .image-item .delete-btn {
   position: absolute;
-  top: 0;
-  right: 0;
-  padding: 2px 5px;
+  top: 4px;
+  right: 4px;
+  padding: 4px 8px;
   font-size: 12px;
-}
-.add-stadium-btn {
-  background-color: #28a745; /* green */
-  color: white;
-  border: none;
   border-radius: 4px;
-  padding: 6px 14px;
-  font-weight: 500;
-  transition: background-color 0.3s;
 }
 
-.add-stadium-btn:hover {
-  background-color: #218838;
-}
-
+/* Specialized button styles */
 .save-stadium-btn {
-  background-color: #007bff; /* blue */
+  background: rgb(12, 172, 12);
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 6px 14px;
-  font-weight: 500;
-  transition: background-color 0.3s;
+  border-radius: 8px;
+  padding: 6px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 128, 0.2);
 }
 
 .save-stadium-btn:hover {
-  background-color: #0056b3;
+  background: rgb(9, 146, 9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 128, 0.3);
 }
 
 .cancel-btn {
-  background-color: #dc3545; /* red */
+  background-color: #d4161c;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 6px 14px;
+  border-radius: 8px;
+  padding: 6px 24px;
   font-weight: 500;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 .cancel-btn:hover {
-  background-color: #bd2130;
+  background-color: #a60f0f;
+  transform: translateY(-1px);
+}
+
+/* Error message styling */
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+}
+
+/* Action button container */
+div[style*="display: flex"] {
+  gap: 12px !important;
+}
+
+/* Link styling */
+a {
+  color: #000080;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #1a1a9e;
+  text-decoration: underline;
+}
+
+/* Progress indicator */
+div[style*="Uploading"] {
+  color: #000080;
+  font-weight: 500;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 128, 0.1);
+  border-radius: 6px;
+  margin-top: 8px;
 }
