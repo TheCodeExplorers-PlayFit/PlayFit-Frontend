@@ -1,59 +1,124 @@
-/* appointments.component.css */
+/* appointments.component.css - Material Design with Bootstrap */
 
+/* Main container styling */
+.container {
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-top: 16px;
+}
+
+/* Header styling */
+h1 {
+  color: #010a13;
+  font-weight: 500;
+  font-size: 2rem;
+  letter-spacing: 0.5px;
+}
+
+h3 {
+  color: #424242;
+  font-weight: 400;
+  font-size: 1.25rem;
+  margin-bottom: 24px !important;
+}
+
+/* Table container with elevation */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+/* Table styling */
+.table {
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Table header */
+.table thead th {
+  background: linear-gradient(135deg, #020272d7, #334ddb);
+  color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  padding: 16px 12px;
+  position: relative;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Table body */
+.table tbody td {
+  padding: 16px 12px;
+  border-top: 1px solid #e0e0e0;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  color: #424242;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Row styling with Material Design elevation */
 .appointment-row {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
 }
 
 .appointment-row:hover {
-  background-color: #6562f7cb !important;
+  background: #f5f5f5 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.appointment-row:hover td {
+  background: #f5f5f5 !important;
+}
+
+/* Active/Selected row with Material Design emphasis */
 .table-active {
-  background-color: #e3f2fd !important;
-  border-left: 4px solid #213df3 !important;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+  background: #e3f2fd !important;
+  position: relative;
+  border-left: 4px solid #000080 !important;
+}
+
+.table-active td {
+  background: #e3f2fd !important;
+  border-color: #bbdefb !important;
+  color: #000080;
   font-weight: 500;
 }
 
-.table-active:hover {
-  background-color: #e3f2fd !important;
+.table-active td:first-child {
+  border-left: 3px solid #000080 !important;
 }
 
-/* Enhanced emphasis for selected row */
-.table-active td {
-  border-color: #440deb !important;
+.table-active:hover td {
+  background: #e1f5fe !important;
 }
 
-/* Smooth transition for all table rows */
-tbody tr {
-  transition: all 0.2s ease-in-out;
-}
-
-/* Additional emphasis effects */
-.table-active {
-  animation: emphasize 0.3s ease-in-out;
-}
-
-@keyframes emphasize {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.01);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Player cell container */
+/* Player cell with Material Design avatar */
 .player-cell {
   padding: 12px !important;
 }
 
-/* Option 1: Avatar with Name */
 .player-info {
   display: flex;
   align-items: center;
@@ -61,9 +126,9 @@ tbody tr {
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #000080, #42a5f5);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -75,15 +140,174 @@ tbody tr {
   flex-shrink: 0;
   box-shadow: 0 2px 4px rgba(25, 118, 210, 0.3);
   transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border: 2px solid white;
 }
 
 .avatar:hover {
   transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 .player-name {
   font-weight: 500;
   color: #424242;
   font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Status badges with Material Design colors */
+.text-success {
+  color: #2e7d32 !important;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: #e8f5e8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-danger {
+  color: #d32f2f !important;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: #ffebee;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.text-warning {
+  color: #f57c00 !important;
+  font-weight: 600;
+  padding: 4px 8px;
+  background: #fff3e0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Form select with Material Design styling */
+.form-select {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: #424242;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  min-width: 120px;
+}
+
+.form-select:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+  outline: none;
+}
+
+.form-select:hover {
+  border-color: #1976d2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+    margin: 8px;
+    border-radius: 8px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+  
+  .player-info {
+    gap: 8px;
+  }
+}
+
+/* Loading state */
+.table-loading {
+  position: relative;
+}
+
+.table-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: #757575;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* Smooth animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.appointment-row {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Focus states for accessibility */
+.appointment-row:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
+.form-select:focus {
+  outline: none;
+}
+
+/* Print styles */
+@media print {
+  .container {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .appointment-row:hover {
+    background: white !important;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .table-active::before {
+    display: none;
+  }
 }

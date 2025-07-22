@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
+import { AppointmentService } from 'app/services/appointment/appointment.service';
 
 @Component({
   selector: 'app-players-health-records',
@@ -19,12 +20,15 @@ export class PlayersHealthRecordsComponent implements OnInit {
   selectedPlayer: any = null;
   searchTerm: string = '';
   injuries: any[] = [];
+apt: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService // ✅ Inject AuthService
+    private authService: AuthService, // ✅ Inject AuthService
   ) {}
+  
+  private appointmentService = inject(AppointmentService);
 
   ngOnInit(): void {
     const user = this.authService.getUser(); // ✅ Get logged-in user
@@ -33,23 +37,36 @@ export class PlayersHealthRecordsComponent implements OnInit {
       return;
     }
 
-    this.fetchAppointments(user.id);
+
+    this.appointmentService
+        .getAppointmentsByHealthOfficer(user.id)
+        .subscribe({
+           next: data => {
+             // keep only approved
+             this.appointments = data.filter(a => a.status.toLowerCase() === 'approved');
+             this.filteredAppointments = [...this.appointments];
+             if (this.filteredAppointments.length) {
+               this.selectPlayer(this.filteredAppointments[0]);
+             }
+           },
+           error: err => console.error('Failed to fetch appointments', err)
+        });
   }
 
-  fetchAppointments(healthOfficerId: number) {
-    this.http.get<any>(`http://localhost:5000/api/appointments/${healthOfficerId}/with-user-details`).subscribe({
-      next: (res) => {
-        if (res.success) {
-          this.appointments = res.data;
-          this.filteredAppointments = [...this.appointments];
-          if (this.filteredAppointments.length > 0) {
-            this.selectPlayer(this.filteredAppointments[0]);
-          }
-        }
-      },
-      error: (err) => console.error('Failed to fetch appointments', err)
-    });
-  }
+  // fetchAppointments(healthOfficerId: number) {
+  //   this.http.get<any>(`http://localhost:5000/api/appointments/${healthOfficerId}/with-user-details`).subscribe({
+  //     next: (res) => {
+  //       if (res.success) {
+  //         this.appointments = res.data;
+  //         this.filteredAppointments = [...this.appointments];
+  //         if (this.filteredAppointments.length > 0) {
+  //           this.selectPlayer(this.filteredAppointments[0]);
+  //         }
+  //       }
+  //     },
+  //     error: (err) => console.error('Failed to fetch appointments', err)
+  //   });
+  // }
 
   filterPlayers() {
     const term = this.searchTerm.toLowerCase();
