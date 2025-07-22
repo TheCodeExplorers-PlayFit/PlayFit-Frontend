@@ -20,12 +20,12 @@
     }
     .center-container {
       width: 100%;
-      max-width: 900px;       /* increased width */
+      max-width: 1200px;       /* wider container for 3 cards */
       padding: 40px 20px;
       background: #f3f6fa;
       border-radius: 18px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      margin-left: 240px;      /* shift right */
+      margin-left: 240px;
     }
     .booking-card {
       transition: all 0.3s ease-in-out;
@@ -73,8 +73,8 @@
     </div>
 
     <!-- Booking Cards -->
-    <div *ngIf="!loading && bookings.length > 0" class="row justify-content-end g-4">
-      <div class="col-md-6" *ngFor="let booking of bookings; let i = index">
+    <div *ngIf="!loading && bookings.length > 0" class="row justify-content-start g-4">
+      <div class="col-12 col-md-4" *ngFor="let booking of bookings; let i = index">
         <div class="card booking-card shadow-sm rounded-4 bg-white border-0 custom-navy-border">
           <div class="card-body">
             <h5 class="card-title custom-navy">
