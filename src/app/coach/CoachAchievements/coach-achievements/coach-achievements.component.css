@@ -1,0 +1,24 @@
+.achievements-container {
+  max-width: 600px;
+  margin: 100px auto;
+  background: #fdfdfd;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.achievements-container h2 {
+  color: #0a0466;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: #24087a;
+  border-color: #24087a;
+}
+
+.btn-primary:hover {
+  background-color: #0a0466;
+  border-color: #0a0466;
+}
