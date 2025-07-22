@@ -64,11 +64,14 @@ import { SignInFromStadiumOwnerComponent } from './register/sign-in-from-stadium
 import { SignInFormCommonComponent } from './register/sign-in-form-common/sign-in-form-common.component';
 import { BlogsDisplayComponent } from './common/blogs/blogs.component';
 import { EmailVerificationComponent } from './register/email-verification/email-verification.component';
+import { HealthTipsComponent } from './common/health-tips/health-tips.component';
+import { HealthTipsDetailsComponent } from './common/health-tips-details/health-tips-details.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password/forgot-password.component';
 import { ResetVerificationComponent } from './auth/reset-verification/reset-verification/reset-verification.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password/reset-password.component';
 import { RatingsComponent } from './common/ratings/ratings.component';
 import { ProfileComponent } from './common/profile/profile.component';
+
 
 // ===== ADMIN =====
 import { AdminDashboardComponent } from './Admin/sidebar/admindashboard/admindashboard.component';
@@ -104,7 +107,10 @@ export const routes: Routes = [
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
   { path: 'about', component: AboutComponent },
+  {path: 'health-tips', component: HealthTipsComponent},
+ {path: 'health-tips-details/:id', component: HealthTipsDetailsComponent},
   { path: 'blogs', component: BlogsDisplayComponent },
+ 
   // ===== ADMIN ROUTES =====
   {
     path: 'admin',

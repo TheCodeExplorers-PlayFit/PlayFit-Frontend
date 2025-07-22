@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
 
+
 interface WeeklyAppointmentData {
   week: string;
   total: number;
@@ -124,8 +125,8 @@ export class DashboardComponent implements OnInit {
             datasets: [{
               label: 'Appointments',
               data: totals,
-              backgroundColor: 'rgba(98, 0, 238, 0.7)',
-              borderColor: 'rgba(98, 0, 238, 1)',
+              backgroundColor: '#000080',
+              borderColor: '#000080',
               borderWidth: 1,
               borderRadius: 4,
               borderSkipped: false,
