@@ -1,58 +1,162 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-8 offset-md-2 mt-4">
-      
-      <!-- My Achievements Section -->
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <h2 class="mb-0">🏅 My Achievements</h2>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let ach of myAchievements" class="list-group-item d-flex justify-content-between align-items-center">
-            <span><strong>{{ ach.stadium_name }}</strong> – {{ ach.points }} points</span>
-            <span class="badge bg-secondary">{{ ach.dateEarned | date: 'mediumDate' }}</span>
-          </li>
-          <li *ngIf="myAchievements.length === 0" class="list-group-item text-muted">
-            No achievements yet.
-          </li>
-        </ul>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Achievements</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-      <!-- All Coaches' Achievements Section -->
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-success text-white">
-          <h2 class="mb-0">🌍 All Coaches' Achievements</h2>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let ach of allAchievements" class="list-group-item d-flex justify-content-between align-items-center">
-            <span><strong>{{ ach.coach_name }}</strong> at {{ ach.stadium_name }} – {{ ach.points }} pts</span>
-            <span class="badge bg-secondary">{{ ach.dateEarned | date: 'mediumDate' }}</span>
-          </li>
-          <li *ngIf="allAchievements.length === 0" class="list-group-item text-muted">
-            No achievements available.
-          </li>
-        </ul>
-      </div>
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      <!-- Top Achievers Section -->
-      <div class="card shadow-sm mb-5">
-        <div class="card-header bg-warning text-dark">
-          <h2 class="mb-0">🏆 Top Achievers</h2>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li *ngFor="let top of topAchievers; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
-            <span>
-              <span class="badge bg-primary me-2">{{ i + 1 }}</span>
-              <strong>{{ top.coach_name }}</strong> – Total Points: {{ top.total_points }}
-            </span>
-            <span class="badge bg-success">{{ top.total_points }} pts</span>
-          </li>
-          <li *ngIf="topAchievers.length === 0" class="list-group-item text-muted">
-            No top achievers available.
-          </li>
-        </ul>
-      </div>
+    .achievements-container {
+      background: #f3f6fa;
+      max-width: 600px;
+      width: 100%;
+      margin: 60px auto;
+      padding: 36px 28px;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      border: 1.5px solid #ececff;
+    }
 
-    </div>
+    .achievements-container h2 {
+      color: #000080;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 28px;
+      letter-spacing: 0.01em;
+    }
+
+    .list-group-item {
+      background: transparent;
+      border: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .text-dark {
+      color: #1b185a !important;
+    }
+
+    .text-secondary {
+      color: #6c757d !important;
+    }
+
+    .badge {
+      font-size: 0.9rem;
+    }
+
+    .badge.bg-success {
+      background-color: #28a745 !important;
+    }
+
+    .badge.bg-secondary {
+      background-color: #adb5bd !important;
+    }
+
+    .badge.bg-primary {
+      background-color: #2e3192 !important;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #2e3192 70%, #000080 100%);
+      border-color: #2e3192;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 36px;
+      border-radius: 10px;
+      font-size: 1.04em;
+      box-shadow: 0 2px 8px 0 rgba(41,51,140,0.11);
+      transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #000080;
+      border-color: #000080;
+      box-shadow: 0 7px 16px 0 rgba(41,51,140,0.12);
+      color: #fff;
+    }
+
+    @media (max-width: 700px) {
+      .achievements-container {
+        padding: 20px 5vw;
+        margin: 25px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="achievements-container">
+
+    <!-- My Achievements -->
+    <h2><i class="bi bi-patch-check-fill me-2"></i>My Achievements</h2>
+    <ul class="list-group list-group-flush mb-5">
+      <li *ngFor="let ach of myAchievements"
+          class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark">
+          {{ ach.stadium_name }}
+          <small class="text-secondary">– {{ ach.points }} pts</small>
+        </span>
+        <span class="badge rounded-pill bg-secondary px-3 py-2">
+          {{ ach.dateEarned | date:'mediumDate' }}
+        </span>
+      </li>
+      <li *ngIf="myAchievements.length === 0"
+          class="list-group-item text-secondary fst-italic text-center">
+        No achievements yet.
+      </li>
+    </ul>
+
+    <!-- All Coaches' Achievements -->
+    <h2><i class="bi bi-trophy me-2"></i>All Coaches' Achievements</h2>
+    <ul class="list-group list-group-flush mb-5">
+      <li *ngFor="let ach of allAchievements"
+          class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark">
+          {{ ach.coach_name }}
+          <small class="text-secondary">at {{ ach.stadium_name }} – {{ ach.points }} pts</small>
+        </span>
+        <span class="badge rounded-pill bg-secondary px-3 py-2">
+          {{ ach.dateEarned | date:'mediumDate' }}
+        </span>
+      </li>
+      <li *ngIf="allAchievements.length === 0"
+          class="list-group-item text-secondary fst-italic text-center">
+        No achievements available.
+      </li>
+    </ul>
+
+    <!-- Top Achievers -->
+    <h2><i class="bi bi-star-fill me-2"></i>Top Achievers</h2>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let top of topAchievers; let i = index"
+          class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="fw-semibold text-dark">
+          <span class="badge bg-primary rounded-pill me-2 px-3 py-2">{{ i + 1 }}</span>
+          {{ top.coach_name }}
+          <small class="text-secondary">– {{ top.total_points }} pts</small>
+        </span>
+        <span class="badge bg-success rounded-pill px-3 py-2">
+          {{ top.total_points }}
+        </span>
+      </li>
+      <li *ngIf="topAchievers.length === 0"
+          class="list-group-item text-secondary fst-italic text-center">
+        No top achievers available.
+      </li>
+    </ul>
+
   </div>
-</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

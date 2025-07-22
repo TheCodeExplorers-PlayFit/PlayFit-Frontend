@@ -15,7 +15,7 @@
   display: flex;
   align-items: center;
   background: #fff;
-  border: 3px solid #24087a;
+  border: 3px solid #0a0466;
   border-radius: 10px;
   padding: 5px 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -145,7 +145,7 @@
 }
 
 .stadium-card a:hover {
-  background: #080120;
+  background: #0a0466;
   transform: scale(1.05);
 }
 
@@ -159,7 +159,7 @@
   display: inline-block;
   text-align: center;
   color: #fff;
-  background: #24087a; /* Slightly lighter blue for distinction */
+  background: #0a0466; /* Slightly lighter blue for distinction */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -170,7 +170,7 @@
 }
 
 .view-details-btn:hover {
-  background: #1a065c;
+  background: #0a0466;
   transform: scale(1.05);
 }
 
