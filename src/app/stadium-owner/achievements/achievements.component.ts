@@ -8,7 +8,7 @@ import { NgFor, NgIf } from '@angular/common';
 interface Card {
   subtitle: string;
   value: string | number;
-  backgroundColor: string;
+  class: string;
 }
 
 export interface ExtendedAchievement extends Achievement {
@@ -31,11 +31,7 @@ export interface ExtendedAchievement extends Achievement {
   styleUrls: ['./achievements.component.css']
 })
 export class AchievementsComponent implements OnInit, OnDestroy {
-  bgcolor1: string = '#F3A4A4';
-  bgcolor2: string = '#C0C0DE';
-  bgcolor3: string = '#CFEDC6';
-  bgcolor4: string = '#F9C8F1';
-  primarycolor: string = '#000080';
+ 
 
   cards: Card[] = [];
   achievements: ExtendedAchievement[] = [];
@@ -101,31 +97,16 @@ export class AchievementsComponent implements OnInit, OnDestroy {
     console.log('Processing achievements data:', data);
     
     if (data) {
-      this.cards = [
-        { 
-          subtitle: 'Total Achievements Unlocked', 
-          value: data.totalUnlocked || 0, 
-          backgroundColor: this.bgcolor1 
-        },
-        { 
-          subtitle: 'Top Achiever of the Month', 
-          value: data.topAchiever || 'N/A', 
-          backgroundColor: this.bgcolor2 
-        },
-        { 
-          subtitle: 'Most Active Module', 
-          value: data.mostActiveModule || 'N/A', 
-          backgroundColor: this.bgcolor3 
-        },
-        { 
-          subtitle: 'Most Recent Achievement', 
-          value: data.mostRecent || 'N/A', 
-          backgroundColor: this.bgcolor4 
-        }
-      ];
+     this.cards = [
+      { subtitle: 'Total Achievements Unlocked', value: data.totalUnlocked || 0, class: 'card total' },
+      { subtitle: 'Top Achiever of the Month', value: data.topAchiever || 'N/A', class: 'card active' },
+      { subtitle: 'Most Active Module', value: data.mostActiveModule || 'N/A', class: 'card expired' },
+      { subtitle: 'Most Recent Achievement', value: data.mostRecent || 'N/A', class: 'card popular' }
+];
+
     } else {
       this.cards = [
-        { subtitle: 'Error', value: 'No data available', backgroundColor: '#FF6347' }
+        { subtitle: 'Error', value: 'No data available', class: '' }
       ];
     }
     
@@ -204,7 +185,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
 
   private handleError() {
     this.cards = [
-      { subtitle: 'Error', value: 'Failed to load data', backgroundColor: '#FF6347' }
+      { subtitle: 'Error', value: 'Failed to load data',class:'' }
     ];
     this.achievements = [];
     this.topAchieversByStadium = [];
