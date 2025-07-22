@@ -1,7 +1,8 @@
 <!-- Outer wrapper for vertical/horizontal positioning with right shift -->
 <div
-  class="d-flex justify-content-center align-items-start"
-  style="min-height: 80vh; padding-top: 60px; transform: translateX(15px);"
+  class="d-flex justify-content-end align-items-start"
+  style="min-height: 80vh; padding-top: 60px; padding-right: 20px;"
+>
 >
   <div class="container my-4 stadium-list-container">
     <h2 class="mb-4 text-center">Available Stadiums for Your Sports</h2>
@@ -31,8 +32,8 @@
 
         <!-- Search Button -->
         <div class="col-auto">
-          <button (click)="filterStadiums()" type="button" class="btn btn-primary">
-            Search
+        <button (click)="filterStadiums()" type="button" class="btn btn-custom-primary">
+         Search
           </button>
         </div>
       </form>

@@ -52,7 +52,7 @@ td {
 
 /* Book button */
 button.book-btn {
-  background-color: #3498db;
+  background-color: #0a0466;
   color: white;
   border: none;
   border-radius: 24px;
@@ -63,7 +63,7 @@ button.book-btn {
 }
 
 button.book-btn:hover {
-  background-color: #1f78c1;
+  background-color: #0a0466;
 }
 
 /* Modal overlay */
@@ -204,4 +204,31 @@ button.confirm-btn:disabled {
     max-width: 200px;
     font-size: 14px;
   }
+}
+button.confirm-btn {
+  background: #0a0466;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 25px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+button.confirm-btn:hover {
+  background: #080120;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+button.confirm-btn:disabled {
+  background: #b0bec5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
