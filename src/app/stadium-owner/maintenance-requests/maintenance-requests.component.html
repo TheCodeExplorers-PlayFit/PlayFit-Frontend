@@ -3,7 +3,7 @@
 
   <div class="d-flex flex-row gap-3 card-row">
     <div class="card-container" *ngFor="let card of cards">
-      <div class="card" [style.backgroundColor]="card.backgroundColor">
+      <div class="card status" [ngClass]="card.class">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <a [routerLink]="card.route" class="card-subtitle">{{ card.subtitle }}</a>
@@ -20,7 +20,7 @@
     <table>
       <thead>
         <tr>
-          <th data-label="Task ID">Task ID</th>
+          
           <th data-label="Description">Description</th>
           <th data-label="Reported By">Reported By</th>
           <th data-label="Stadium Name">Stadium Name</th>
@@ -31,7 +31,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let complaint of complaints; trackBy: trackByComplaintId">
-          <td data-label="Task ID">{{ complaint.id }}</td>
           <td data-label="Description">{{ complaint.description | slice:0:50 }}...</td>
           <td data-label="Reported By">{{ complaint.reported_by_name }}</td>
           <td data-label="Stadium Name">{{ complaint.stadium_name || 'N/A' }}</td>
@@ -39,10 +38,12 @@
           <td data-label="Status">
             <span class="status {{ complaint.status }}">{{ complaint.status }}</span>
           </td>
-          <td data-label="Action">
-            <button class="action-btn" (click)="openView(complaint)">👁️</button>
-            <button class="action-btn" (click)="editRequest(complaint)">✏️</button>
-          </td>
+      <td data-label="Action">
+        <div class="action-buttons-container">
+          <button class="action-btn view-btn" (click)="openView(complaint)">View</button>
+          <button class="action-btn edit-btn" (click)="editRequest(complaint)">Edit</button>
+        </div>
+      </td>
         </tr>
       </tbody>
     </table>

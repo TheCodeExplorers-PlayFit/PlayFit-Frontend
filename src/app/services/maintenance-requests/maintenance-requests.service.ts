@@ -31,6 +31,8 @@ export class MaintenanceRequestsService {
 
   updateMaintenanceRequest(id: number, status: string): Observable<any> {
     const payload = { id, status };
+    console.log('Updating maintenance request:', payload);
+    
     return this.http.put(this.apiUrl, payload, { headers: this.getHeaders() }).pipe(
       catchError(error => {
         console.error('Error updating maintenance request:', error);
