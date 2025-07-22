@@ -79,7 +79,6 @@ export const routes: Routes = [
   { path: 'sign-in-form-coach', component: SignInFormCoachComponent },
   { path: 'sign-in-form-stadium-owner', component: SignInFromStadiumOwnerComponent },
   { path: 'sign-in-form-medical-officer', component: SignInFormMedicalOfficerComponent },
-  { path: 'sign-out', component: SignOutComponent },
   { path: 'about', component: AboutComponent },
 
   // ===== ADMIN ROUTES =====
