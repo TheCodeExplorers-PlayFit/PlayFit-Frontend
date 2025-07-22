@@ -83,10 +83,8 @@ import { SpecialNoticesComponent } from './Admin/sidebar/special-notices/special
 import { CalendarComponent } from './Admin/sidebar/calender/calender.component';
 import { ReportsComponent } from './Admin/sidebar/reports/reports.component';
 import { SystemMaintainCreateComponent } from './Admin/sidebar/system-maintain-create/system-maintain-create.component';
-
 //import { FeedbackComponent } from './Admin/sidebar/feedback/feedback.component';
 import { StadiumRatingsForCoachComponent } from './coach/stadiumRatings/stadium-ratings/stadium-ratings.component';
-
 import { AdminRatingsComponent } from './Admin/sidebar/admin-ratings/admin-ratings.component';
 import { AdminComplaintsComponent } from './Admin/sidebar/admin-complaints/admin-complaints.component';
 
@@ -202,7 +200,6 @@ export const routes: Routes = [
       { path: 'safety-advice', component: SafetyAdviceComponent },
       { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
       { path: 'settings', component: SettingsComponent },
-      { path: 'signout', component: SignOutComponent },
       { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent },
       { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent }
 

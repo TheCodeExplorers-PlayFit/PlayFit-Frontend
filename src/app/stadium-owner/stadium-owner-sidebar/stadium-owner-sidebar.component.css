@@ -53,3 +53,8 @@ a.active {
 ul li:last-child a {
   margin-top: 55px; /* Adjusted to target Sign Out link correctly */
 }
+.sidebar i {
+  font-size: 1.1rem;
+  color: #000080;
+  vertical-align: middle;
+}

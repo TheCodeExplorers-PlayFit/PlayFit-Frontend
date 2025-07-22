@@ -12,9 +12,12 @@ export interface Appointment {
   appointment_date: string;
   appointment_time: string;
   first_name: string;
+  last_name: string;
+   age: number;
   reason: string;
   action: string;
   status: string;
+  approved_at?: string; 
 }
 
 @Injectable({ providedIn: 'root' })
