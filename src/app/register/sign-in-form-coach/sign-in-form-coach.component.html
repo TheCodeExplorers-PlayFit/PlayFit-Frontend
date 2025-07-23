@@ -1,96 +1,104 @@
-<div class="signup-container">
-  <!-- Left Section: Image -->
-  <div class="left-section">
-    <img src="https://i.postimg.cc/FHdKFZmm/c14df25b7b8798e175fa54d794f18618.jpg" alt="Coach Background" class="background-image">
-  </div>
-
-  <!-- Right Section: Form -->
-  <div class="right-section">
-    <h1 class="form-title">Coach Information</h1>
-
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
+<div class="container-fluid vh-100">
+  <div class="row h-100">
+    <!-- Left Section: Image -->
+    <div class="col-md-6 d-none d-md-block p-0">
+      <img src="https://i.postimg.cc/FHdKFZmm/c14df25b7b8798e175fa54d794f18618.jpg"
+        alt="Coach Background" class="img-fluid h-100 w-100 object-fit-cover">
     </div>
 
-    <!-- Mobile Number -->
-    <div class="form-group">
-      <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" [(ngModel)]="userData.mobileNumber" placeholder="Enter your mobile number" class="input-field">
-    </div>
+    <!-- Right Section: Form -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center bg-light overflow-auto py-4">
+      <div class="w-100 px-4" style="max-width: 500px;">
+        <h1 class="form-title text-center mb-4"></h1>
 
-    <!-- Age -->
-    <div class="form-group">
-      <label for="age">Age</label>
-      <input type="number" id="age" [(ngModel)]="userData.age" placeholder="Enter your age" class="input-field">
-    </div>
-
-    <!-- Gender -->
-    <div class="form-group">
-      <label for="gender">Gender</label>
-      <select id="gender" [(ngModel)]="userData.gender" class="input-field">
-        <option value="" disabled selected>Select gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-
-    <!-- NIC -->
-    <div class="form-group">
-      <label for="nic">NIC</label>
-      <input type="text" id="nic" [(ngModel)]="userData.nic" placeholder="Enter your NIC" class="input-field">
-      <p class="hint-text">Must be at least 8 characters</p>
-    </div>
-
-    <!-- Sports Selection -->
-    <div class="form-group">
-      <label>Which sports can you coach?</label>
-      <div class="sports-selection">
-        <select [(ngModel)]="userData.sport1" (change)="onSportChange()" class="sport-field">
-          <option value="" disabled selected>Select Sport 1</option>
-          <option *ngFor="let sport of sports" [value]="sport.id">{{ sport.name }}</option>
-        </select>
-        <select [(ngModel)]="userData.sport2" (change)="onSportChange()" class="sport-field">
-          <option value="" disabled selected>Select Sport 2 (Optional)</option>
-          <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport3])" [value]="sport.id">{{ sport.name }}</option>
-        </select>
-        <select [(ngModel)]="userData.sport3" (change)="onSportChange()" class="sport-field">
-          <option value="" disabled selected>Select Sport 3 (Optional)</option>
-          <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport2])" [value]="sport.id">{{ sport.name }}</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Years of Experience -->
-    <div class="form-group">
-      <label for="experience">Years of Experience</label>
-      <input type="number" id="experience" [(ngModel)]="userData.experience" placeholder="Enter years of experience" class="input-field">
-    </div>
-
-    <!-- Coach Verification -->
-    <div class="form-group">
-      <label>Coach Verification</label>
-      <p class="hint-text">To verify your designation as a coach, please upload the necessary proof documents.</p>
-      <p class="hint-text warning">Only scanned copies of original documents can be uploaded.</p>
-      <div class="file-upload-box">
-        <div class="file-upload-content">
-          <span>Drag and drop or <input type="file" (change)="onFileSelected($event)" accept=".pdf" class="file-input"> to select files</span>
-          <p *ngIf="selectedFileName">{{ selectedFileName }}</p>
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
         </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group mb-3">
+          <label for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" [(ngModel)]="userData.mobileNumber" placeholder="Enter your mobile number" class="form-control input-field">
+        </div>
+
+        <!-- Age -->
+        <div class="form-group mb-3">
+          <label for="age">Age</label>
+          <input type="number" id="age" [(ngModel)]="userData.age" placeholder="Enter your age" class="form-control input-field">
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group mb-3">
+          <label for="gender">Gender</label>
+          <select id="gender" [(ngModel)]="userData.gender" class="form-select input-field">
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- NIC -->
+        <div class="form-group mb-3">
+          <label for="nic">NIC</label>
+          <input type="text" id="nic" [(ngModel)]="userData.nic" placeholder="Enter your NIC" class="form-control input-field">
+          <p class="hint-text">Must be at least 8 characters</p>
+        </div>
+
+        <!-- Sports Selection -->
+        <div class="form-group mb-3">
+          <label>Which sports can you coach?</label>
+          <div class="sports-selection d-flex flex-column flex-md-row gap-2">
+            <select [(ngModel)]="userData.sport1" (change)="onSportChange()" class="form-select sport-field">
+              <option value="" disabled selected>Select Sport 1</option>
+              <option *ngFor="let sport of sports" [value]="sport.id">{{ sport.name }}</option>
+            </select>
+            <select [(ngModel)]="userData.sport2" (change)="onSportChange()" class="form-select sport-field">
+              <option value="" disabled selected>Select Sport 2 (Optional)</option>
+              <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport3])" [value]="sport.id">{{ sport.name }}</option>
+            </select>
+            <select [(ngModel)]="userData.sport3" (change)="onSportChange()" class="form-select sport-field">
+              <option value="" disabled selected>Select Sport 3 (Optional)</option>
+              <option *ngFor="let sport of getAvailableSports([userData.sport1, userData.sport2])" [value]="sport.id">{{ sport.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group mb-3">
+          <label for="experience">Years of Experience</label>
+          <input type="number" id="experience" [(ngModel)]="userData.experience" placeholder="Enter years of experience" class="form-control input-field">
+        </div>
+
+        <!-- File Upload -->
+<div class="form-group mb-3">
+  <label>Coach Verification</label>
+  <p class="hint-text">To verify your designation as a coach, please upload the necessary proof documents.</p>
+  <p class="hint-text warning">Only scanned copies of original documents can be uploaded.</p>
+
+  <div class="file-upload-box position-relative">
+    <label class="file-upload-content w-100 h-100 m-0" for="fileInput">
+      <span>Drag and drop or click to select files</span>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" accept=".pdf" class="hidden-file-input" />
+      <p *ngIf="selectedFileName">{{ selectedFileName }}</p>
+    </label>
+  </div>
+</div>
+        <!-- Terms -->
+        <div class="form-group form-check mb-3">
+          <input type="checkbox" id="terms" [(ngModel)]="termsAccepted" class="form-check-input">
+          <label class="form-check-label" for="terms">
+            I agree to the <a href="#" class="terms-link">terms & conditions</a>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary w-100 primary-btn" (click)="onSubmit()">Sign Up</button>
+
+        <!-- Already Have Account -->
+        <p class="account-text mt-3">Already have an account? <a routerLink="/signin" class="accent-link">Sign In</a></p>
       </div>
     </div>
-
-    <!-- Terms & Conditions -->
-    <div class="form-group terms-group">
-      <input type="checkbox" id="terms" [(ngModel)]="termsAccepted">
-      <label for="terms">I agree to the <a href="#" class="terms-link">terms & conditions</a></label>
-    </div>
-
-    <!-- Submit Button -->
-    <button class="primary-btn" (click)="onSubmit()">Sign Up</button>
-
-    <!-- Already Have an Account -->
-    <p class="account-text">Already have an account? <a routerLink="/signin" class="accent-link">Sign In</a></p>
   </div>
 </div>

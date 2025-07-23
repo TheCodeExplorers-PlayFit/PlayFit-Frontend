@@ -1,20 +1,19 @@
-/* Import common styles */
 @import '../sign-in-form-common/sign-in-form-common.component.css';
 
-/* Additional styles specific to coach form */
+/* Sports Select Layout */
 .sports-selection {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 }
 
 .sport-field {
-  width: 100%;
+  flex: 1 1 30%;
+  min-width: 100px;
   padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
   border-radius: 8px;
-  outline: none;
+  font-size: 1rem;
   transition: border-color 0.3s ease;
 }
 
@@ -23,6 +22,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 128, 0.3);
 }
 
+/* File Upload */
 .file-upload-box {
   border: 2px dashed #ccc;
   border-radius: 8px;
@@ -31,7 +31,6 @@
   background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.3s ease;
-  margin-top: 10px;
 }
 
 .file-upload-box:hover {
@@ -50,6 +49,7 @@
   opacity: 0;
 }
 
+/* Text Hint Color */
 .hint-text.warning {
   color: #ff0000;
 }
