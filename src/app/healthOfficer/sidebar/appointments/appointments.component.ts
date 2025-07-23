@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppointmentService, Appointment } from '../../../services/appointment/appointment.service';
 import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -39,25 +39,32 @@ export class AppointmentsComponent implements OnInit {
     this.selectedAppointment = appointment;
   }
 
- onStatusChange(event: Event, appointment: Appointment): void {
+
+onStatusChange(event: Event, appointment: Appointment): void {
   const selectElement = event.target as HTMLSelectElement;
   const newStatus = selectElement.value;
 
   if (newStatus) {
-    swal({
-      title: `Are you sure?`,
+    Swal.fire({
+      title: 'Are you sure?',
       text: `Do you want to change the status to "${newStatus}"?`,
-      icon: "warning",
-      buttons: ["Cancel", "Yes"],
-      dangerMode: true,
-    }).then((willUpdate) => {
-      if (willUpdate) {
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
         this.updateStatus(appointment, newStatus);
-        swal("✅ Status updated successfully!", {
-          icon: "success",
+        Swal.fire({
+          title: 'Success!',
+          text: '✅ Status updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
         });
       } else {
-        // Optionally reset the dropdown to its previous value
+        // Reset the dropdown to its previous value
         selectElement.value = appointment.status;
       }
     });

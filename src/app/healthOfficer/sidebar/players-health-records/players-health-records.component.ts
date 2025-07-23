@@ -5,6 +5,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service'; // ✅ Import AuthService
 import { AppointmentService } from 'app/services/appointment/appointment.service';
+import * as moment from 'moment-timezone';
+
+
+
 
 @Component({
   selector: 'app-players-health-records',
@@ -30,28 +34,38 @@ apt: any;
   
   private appointmentService = inject(AppointmentService);
 
-  ngOnInit(): void {
-    const user = this.authService.getUser(); // ✅ Get logged-in user
-    if (!user || !user.id) {
-      alert('❌ Unable to fetch user ID.');
-      return;
-    }
-
-
-    this.appointmentService
-        .getAppointmentsByHealthOfficer(user.id)
-        .subscribe({
-           next: data => {
-             // keep only approved
-             this.appointments = data.filter(a => a.status.toLowerCase() === 'approved');
-             this.filteredAppointments = [...this.appointments];
-             if (this.filteredAppointments.length) {
-               this.selectPlayer(this.filteredAppointments[0]);
-             }
-           },
-           error: err => console.error('Failed to fetch appointments', err)
-        });
+ ngOnInit(): void {
+  const user = this.authService.getUser();
+  if (!user || !user.id) {
+    alert('❌ Unable to fetch user ID.');
+    return;
   }
+
+  this.appointmentService
+    .getAppointmentsByHealthOfficer(user.id)
+    .subscribe({
+      next: data => {
+        // ✅ Filter and convert UTC to Asia/Colombo
+        this.appointments = data
+          .filter(a => a.status.toLowerCase() === 'approved')
+          .map(a => ({
+            ...a,
+            approved_at: moment.utc(a.approved_at).tz('Asia/Colombo').toDate()
+          }));
+
+          
+      // ✅ Log here to inspect converted dates
+      console.log('Converted appointments:', this.appointments);
+        this.filteredAppointments = [...this.appointments];
+
+        if (this.filteredAppointments.length) {
+          this.selectPlayer(this.filteredAppointments[0]);
+        }
+      },
+      error: err => console.error('Failed to fetch appointments', err)
+    });
+}
+
 
   // fetchAppointments(healthOfficerId: number) {
   //   this.http.get<any>(`http://localhost:5000/api/appointments/${healthOfficerId}/with-user-details`).subscribe({

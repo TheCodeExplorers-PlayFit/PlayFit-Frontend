@@ -201,7 +201,8 @@ export const routes: Routes = [
       { path: 'safety-advice-create', component: SafetyAdviceCreateComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'safety-advice-form/:id', component: SafetyAdviceCreateComponent },
-      { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent }
+      { path: 'safety-advise-readmore/:id', component: SafetyAdviceReadmoreComponent },
+      { path: 'profile',component:ProfileComponent}
 
     ]
   },

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { InjuryService } from '../../../services/injury/injury.service'; // assumes your path
 import { HttpClient } from '@angular/common/http';
 import swal from 'sweetalert';
+import { AuthService } from 'app/services/auth/auth.service';
 
 @Component({
   selector: 'app-record-injuries',
@@ -43,11 +44,13 @@ injuryCause: string[] = [
   'Mechanical Injuries (Repetitive Strain/Overuse)',
   'Psychological and Internal Injuries'
 ];
+  healthOfficerId: any;
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private http: HttpClient,
-    private injuryService: InjuryService
+    private injuryService: InjuryService,
+    private authService: AuthService
   ) {
     this.injuryForm = this.fb.group({
       player_name: ['', Validators.required],
@@ -63,13 +66,23 @@ injuryCause: string[] = [
     });
   }
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.blogId = id;
-      this.fetchPlayerDetails(id);
-    }
+ngOnInit(): void {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (id) {
+    this.blogId = id;
+    this.fetchPlayerDetails(id);
   }
+
+  const user = this.authService.getUser(); // ✅ Get logged-in user
+  if (user && user.id) {
+    this.healthOfficerId = user.id;
+    this.injuryForm.patchValue({ health_officer_id: this.healthOfficerId }); // ✅ Set form field
+  } else {
+    alert('❌ Unable to fetch health officer ID.');
+  }
+}
+
+
 
   fetchPlayerDetails(id: string) {
     this.http.get<any>(`http://localhost:5000/api/appointments/details/${id}`)
@@ -123,7 +136,9 @@ injuryCause: string[] = [
 
       const formValue = {
         ...this.injuryForm.value,
-        medical_files: fileUrls.join(',')
+        medical_files: fileUrls.join(','),
+        healthOfficerId: this.healthOfficerId
+
       };
 
       this.injuryService.createInjury(formValue).subscribe({

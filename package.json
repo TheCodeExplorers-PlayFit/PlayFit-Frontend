@@ -33,6 +33,7 @@
     "jspdf-autotable": "^5.0.2",
     "leaflet": "^1.9.4",
     "leaflet-control-geocoder": "^3.1.0",
+    "moment-timezone": "^0.6.0",
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",
     "sweetalert": "^2.1.2",
