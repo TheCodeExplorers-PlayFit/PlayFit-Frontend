@@ -6,13 +6,11 @@
   padding-left: 250px;
 }
 
-/* Timetable Container: Bigger and lower */
 .timetable-container {
   font-size: 17px;
   padding-top: 50px;
 }
 
-/* Heading */
 .timetable-container h2 {
   text-align: center;
   font-size: 32px;
@@ -20,10 +18,8 @@
   color: #0a0466;
   margin-bottom: 40px;
   text-align: left !important;
-
 }
 
-/* Table styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -46,7 +42,6 @@ td {
   border-bottom: 1px solid #ddd;
 }
 
-/* Book button */
 button.book-btn {
   background-color: #0a0466;
   color: white;
@@ -63,7 +58,22 @@ button.book-btn:hover {
   background-color: #0a0466;
 }
 
-/* Responsive for mobile */
+button.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+button.btn-danger:hover {
+  background-color: #c82333;
+}
+
 @media (max-width: 768px) {
   .timetable-container {
     margin-top: 60px;
@@ -75,12 +85,15 @@ button.book-btn:hover {
     margin-bottom: 30px;
   }
 
-  table, th, td {
+  table,
+  th,
+  td {
     font-size: 14px;
     padding: 12px;
   }
 
-  button.book-btn {
+  button.book-btn,
+  button.btn-danger {
     padding: 8px 18px;
     font-size: 14px;
   }

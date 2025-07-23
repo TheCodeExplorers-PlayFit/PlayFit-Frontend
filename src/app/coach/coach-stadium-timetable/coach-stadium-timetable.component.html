@@ -1,10 +1,11 @@
 <div class="my-4 timetable-container" *ngIf="!loading" style="margin-top: 300px;">
-  <h2 class="mb-4 text-center" style="text-align: left;">Stadium Timetable </h2>
+  <h2 class="mb-4 text-center" style="text-align: left;">Stadium Timetable</h2>
 
   <div *ngIf="error" class="alert alert-danger text-center">
     {{ error }}
   </div>
 
+  <!-- Available Sessions Table -->
   <table *ngIf="timetable.length > 0" class="table table-striped table-hover align-middle">
     <thead class="table-dark">
       <tr>
@@ -40,6 +41,43 @@
 
   <div *ngIf="timetable.length === 0 && !error" class="alert alert-warning text-center">
     No sessions available.
+  </div>
+
+  <!-- Booked Sessions Table -->
+  <h2 class="mb-4 mt-5 text-center" style="text-align: left;">Booked Sessions</h2>
+  <table *ngIf="bookedSessions.length > 0" class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Sport</th>
+        <th scope="col">Time</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let session of bookedSessions">
+        <td>{{ session.session_date }}</td>
+        <td>{{ session.sport_name }}</td>
+        <td>{{ session.start_time }} - {{ session.end_time }}</td>
+        <td>
+          <span class="badge bg-primary">{{ session.status | titlecase }}</span>
+        </td>
+        <td>
+          <button
+            *ngIf="session.showCancelButton"
+            (click)="cancelBooking(session.id)"
+            class="btn btn-danger"
+          >
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="bookedSessions.length === 0 && !error" class="alert alert-warning text-center">
+    No booked sessions.
   </div>
 </div>
 
