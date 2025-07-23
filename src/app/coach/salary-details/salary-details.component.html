@@ -14,16 +14,17 @@
       align-items: center;
       justify-content: center;
     }
-    .salary-center-container {
-      background: #f3f6fa;
-      max-width: 600px;
-      width: 100%;
-      margin: 48px auto;
-      padding: 44px 32px 30px 32px;
-      border-radius: 22px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      border: 1.2px solid #ececff;
-    }
+ .salary-center-container {
+  background: #e8f0fe; /* lighter blue-gray */
+  max-width: 800px;     /* increased max width */
+  width: 100%;
+  margin: 48px auto;
+  padding: 60px 48px 40px 48px; /* increased padding */
+  border-radius: 24px;  /* slightly larger radius */
+  box-shadow: 0 12px 40px rgba(192, 201, 239, 0.16); /* deeper shadow */
+  border: 1.5px solid #3a60ff; /* softer bright blue border */
+}
+
     .salary-title {
       color: #000080;
       font-weight: 700;
@@ -87,7 +88,7 @@
 
     <!-- Title -->
     <h2 class="salary-title">
-      <i class="bi bi-currency-dollar me-2"></i>
+      
       Your Salary Details
     </h2>
 
@@ -117,7 +118,7 @@
           </p>
           <p>
             <span class="salary-label">Total Salary:</span>
-            <span class="salary-amount ms-2">${{ salary.total_salary | number:'1.2-2' }}</span>
+            <span class="salary-amount ms-2">LKR {{ salary.total_salary | number:'1.2-2' }}</span>
           </p>
         </div>
         <!-- PDF Download Button -->

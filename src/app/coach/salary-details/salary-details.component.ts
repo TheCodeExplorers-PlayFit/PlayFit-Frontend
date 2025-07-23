@@ -54,7 +54,7 @@ export class SalaryDetailsComponent implements OnInit {
         body: this.coachSalaries.map(salary => [
           salary.coach_id,
           salary.coach_name || 'N/A',
-          `$${salary.total_salary.toFixed(2)}`
+          `LKR ${salary.total_salary.toFixed(2)}`
         ]),
         theme: 'grid',
         styles: { fontSize: 10, cellPadding: 2 },
