@@ -48,45 +48,32 @@ export class SignInFormCommonComponent {
       return;
     }
 
-    // Log the data being sent to backend
-    console.log('Sending registration data:', this.userData);
+    // Generate verification code here (6-digit)
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Register user and get verification code
-    this.http
-      .post('http://localhost:5000/api/users/register', this.userData)
-      .subscribe({
-        next: (response: any) => {
-          console.log('Registration response:', response);
-          if (response.success) {
-            // Send verification email using EmailJS
-            const templateParams = {
-              to_email: this.userData.email,
-              verification_code: response.verificationCode
-            };
+    // Store code and common data in localStorage for later verification
+    localStorage.setItem('verificationCode', verificationCode);
+    localStorage.setItem('commonData', JSON.stringify(this.userData));
 
-            console.log('EmailJS template params:', templateParams);
+    // Prepare email parameters
+    const templateParams = {
+      to_email: this.userData.email,
+      verification_code: verificationCode
+    };
 
-            emailjs
-              .send('service_3f8csjl', 'template_tjg0tid', templateParams, 'BMcMCkD_jjDt2AEKb')
-              .then((res) => {
-                console.log('Email sent successfully:', res.status, res.text);
-                // Redirect to email verification page
-                this.router.navigate(['/email-verification'], {
-                  state: { email: this.userData.email, commonData: this.userData }
-                });
-              })
-              .catch((err) => {
-                console.error('Failed to send email:', err);
-                alert('Failed to send verification email: ' + (err.text || 'Unknown error'));
-              });
-          } else {
-            alert(response.message || 'Registration failed');
-          }
-        },
-        error: (error) => {
-          console.error('Registration error:', error);
-          alert(error.error?.message || 'Failed to register user. Please try again.');
-        }
+    // Send email using EmailJS
+    emailjs
+      .send('service_3f8csjl', 'template_tjg0tid', templateParams, 'BMcMCkD_jjDt2AEKb')
+      .then((res) => {
+        console.log('Email sent successfully:', res.status, res.text);
+        // Redirect to email verification page
+        this.router.navigate(['/email-verification'], {
+          state: { email: this.userData.email }
+        });
+      })
+      .catch((err) => {
+        console.error('Failed to send email:', err);
+        alert('Failed to send verification email: ' + (err.text || 'Unknown error'));
       });
   }
 }

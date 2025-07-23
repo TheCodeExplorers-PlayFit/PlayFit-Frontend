@@ -33,17 +33,24 @@ export class SignInFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Use history.state instead of navigation extras
     const state = history.state;
     console.log('State received in player form:', state);
 
     if (state && state.commonData) {
       this.commonData = state.commonData;
-      console.log('Common data received:', this.commonData);
+      // Save to localStorage in case user refreshes page
+      localStorage.setItem('commonData', JSON.stringify(this.commonData));
+      console.log('Common data received and saved:', this.commonData);
     } else {
-      console.error('No common data found, redirecting back');
-      // Redirect back to common form if no data is passed
-      this.router.navigate(['/sign-in-form-common']);
+      // Try to load from localStorage as fallback
+      const savedData = localStorage.getItem('commonData');
+      if (savedData) {
+        this.commonData = JSON.parse(savedData);
+        console.log('Common data loaded from localStorage:', this.commonData);
+      } else {
+        console.error('No common data found, redirecting back');
+        this.router.navigate(['/sign-in-form-common']);
+      }
     }
   }
 
@@ -55,39 +62,35 @@ export class SignInFormComponent implements OnInit {
   validateNIC(nic: string): boolean {
     const oldNICPattern = /^\d{9}[vVxX]$/;  // e.g., 911234567V
     const newNICPattern = /^\d{12}$/;       // e.g., 199812345678
-
     return oldNICPattern.test(nic) || newNICPattern.test(nic);
   }
 
-
   onSubmit() {
+    this.errorMessage = '';
+    this.showNICError = false;
+
     console.log('Submit button clicked');
 
-    // Check if all required fields are filled
     if (!this.userData.mobileNumber || !this.userData.age || !this.userData.gender || !this.userData.nic) {
       this.errorMessage = 'Please fill in all required fields';
       console.error('Form validation failed:', this.errorMessage);
       return;
     }
 
-    // NIC Validation
     this.isValidNIC = this.validateNIC(this.userData.nic);
     if (!this.isValidNIC) {
       this.errorMessage = '';
       this.showNICError = true;
       return;
-    } else {
-      this.showNICError = false;
     }
 
-    //terms acception checker
     if (!this.termsAccepted) {
       this.errorMessage = 'Please accept the terms and conditions';
       console.error('Terms not accepted');
       return;
     }
 
-    // Combine common data with player-specific data
+    // Combine common and player-specific data
     const completeUserData = {
       ...this.commonData,
       ...this.userData,
@@ -100,6 +103,11 @@ export class SignInFormComponent implements OnInit {
     this.authService.register(completeUserData).subscribe({
       next: (response) => {
         console.log('Registration successful!', response);
+
+        // Clean up localStorage
+        localStorage.removeItem('commonData');
+        localStorage.removeItem('verificationCode');
+
         this.router.navigate(['/dashboard']);
       },
       error: (error) => {

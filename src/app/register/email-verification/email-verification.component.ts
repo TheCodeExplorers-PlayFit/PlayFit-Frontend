@@ -16,55 +16,61 @@ export class EmailVerificationComponent {
   email: string = '';
   errorMessage: string = '';
   successMessage: string = '';
+
   commonData: any = {};
 
   constructor(private router: Router, private http: HttpClient) {
     const navigation = this.router.getCurrentNavigation();
     this.email = navigation?.extras.state?.['email'] || '';
-    this.commonData = navigation?.extras.state?.['commonData'] || {};
+
+    // Load commonData from localStorage (saved in previous step)
+    const storedCommonData = localStorage.getItem('commonData');
+    if (storedCommonData) {
+      this.commonData = JSON.parse(storedCommonData);
+    } else {
+      // If no data found, redirect back to common form (optional)
+      this.router.navigate(['/sign-in-form-common']);
+    }
   }
 
   verifyCode(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+
     if (!this.verificationCode) {
       this.errorMessage = 'Please enter the verification code';
       return;
     }
 
-    this.http
-      .post('http://localhost:5000/api/users/verify-email', {
-        email: this.email,
-        verificationCode: this.verificationCode
-      })
-      .subscribe({
-        next: (response: any) => {
-          if (response.success) {
-            this.successMessage = response.message;
-            this.errorMessage = '';
-            // Redirect to role-specific form
-            const role = this.commonData.role;
-            switch (role) {
-              case 'player':
-                this.router.navigate(['/sign-in-form'], { state: { commonData: this.commonData } });
-                break;
-              case 'coach':
-                this.router.navigate(['/sign-in-form-coach'], { state: { commonData: this.commonData } });
-                break;
-              case 'stadiumOwner':
-                this.router.navigate(['/sign-in-form-stadium-owner'], { state: { commonData: this.commonData } });
-                break;
-              case 'medicalOfficer':
-                this.router.navigate(['/sign-in-form-medical-officer'], { state: { commonData: this.commonData } });
-                break;
-              default:
-                this.router.navigate(['/role-selection']);
-            }
-          } else {
-            this.errorMessage = response.message;
-          }
-        },
-        error: (error) => {
-          this.errorMessage = error.error.message || 'Failed to verify code';
-        }
-      });
+    // Get verification code saved in localStorage from common form
+    const storedCode = localStorage.getItem('verificationCode');
+
+    if (this.verificationCode === storedCode) {
+      // Success: clear stored verification code (optional)
+      localStorage.removeItem('verificationCode');
+
+      this.successMessage = 'Email verified successfully! Redirecting...';
+
+      // Redirect to role-specific form, passing commonData in state
+      const role = this.commonData.role;
+      switch (role) {
+        case 'player':
+          this.router.navigate(['/sign-in-form'], { state: { commonData: this.commonData } });
+          break;
+        case 'coach':
+          this.router.navigate(['/sign-in-form-coach'], { state: { commonData: this.commonData } });
+          break;
+        case 'stadiumOwner':
+          this.router.navigate(['/sign-in-form-stadium-owner'], { state: { commonData: this.commonData } });
+          break;
+        case 'medicalOfficer':
+          this.router.navigate(['/sign-in-form-medical-officer'], { state: { commonData: this.commonData } });
+          break;
+        default:
+          this.router.navigate(['/role-selection']);
+      }
+    } else {
+      this.errorMessage = 'Invalid verification code';
+    }
   }
 }
