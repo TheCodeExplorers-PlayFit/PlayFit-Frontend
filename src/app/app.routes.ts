@@ -145,7 +145,8 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent},
       { path: 'Player-Health', component: PlayerHealthComponent},
       { path: 'special-offers', component: SpecialOffersComponent },
-      { path: 'private-playing', component: PlayerPrivateSessionsComponent}
+      { path: 'private-playing', component: PlayerPrivateSessionsComponent},
+      { path: 'health-tip23', component: HealthTipsComponent}
     ]
   },
 

@@ -12,6 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-player-health',
@@ -21,6 +22,7 @@ import { AuthService } from '../../services/auth/auth.service';
     MatButtonModule,
     MatDialogModule,
     MatTableModule,
+    RouterModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
