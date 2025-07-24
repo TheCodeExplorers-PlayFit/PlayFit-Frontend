@@ -53,4 +53,10 @@
   ul li:nth-last-child(2) a {
     margin-top: 25px;
   }
+  .sidebar a i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  vertical-align: middle;
+  color:#000080;
+}
   
